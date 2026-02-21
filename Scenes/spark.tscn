@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dupc3juijy6js"]
+
+[node name="spark" type="CharacterBody2D" unique_id=1490817990]

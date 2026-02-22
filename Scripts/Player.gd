@@ -13,8 +13,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if get_meta("pipe_traveling", false):
-		velocity.y += 20
-		move_and_slide()
+		velocity = Vector2.ZERO
 		return
 
 	var input_vector := Vector2.ZERO

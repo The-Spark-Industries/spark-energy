@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://xmhtthntayo2"]
+
+[ext_resource type="Script" path="res://Scripts/PipeEnd.gd" id="1_pipeend"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_entry"]
+radius = 80.0
+
+[node name="PipeEnd" type="Area2D" unique_id=1326468289]
+collision_layer = 0
+script = ExtResource("1_pipeend")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1812727137]
+shape = SubResource("CircleShape2D_entry")
+
+[node name="Prompt" type="Label" parent="." unique_id=193860065]
+visible = false
+offset_left = -40.0
+offset_top = -110.0
+offset_right = -40.0
+offset_bottom = -110.0
+text = "[E] Enter"

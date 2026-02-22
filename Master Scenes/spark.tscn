@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://dupc3juijy6js"]
+[gd_scene format=3 uid="uid://icdmkqnjhtt4"]
 
-[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_ygcql"]
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_bge2m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6piv"]
 size = Vector2(126, 127)
@@ -9,7 +9,7 @@ size = Vector2(126, 127)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=622580897]
 position = Vector2(0, -65)
-texture = ExtResource("1_ygcql")
+texture = ExtResource("1_bge2m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1807555822]
 position = Vector2(-1, -64.5)

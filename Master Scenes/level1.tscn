@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=20 format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_c5erv"]
@@ -55,57 +55,57 @@ radius = 60.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_w3b"]
 radius = 60.0
 
-[node name="Level1" type="Node2D" unique_id=942502985]
+[node name="Level1" type="Node2D"]
 
-[node name="platform" type="StaticBody2D" parent="." unique_id=518215237]
+[node name="platform" type="StaticBody2D" parent="."]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=255790648]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="platform"]
 position = Vector2(-3, 2.999939)
 scale = Vector2(2.0440001, 120.5)
 mesh = SubResource("QuadMesh_6015k")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=393200206]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform"]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=621347879]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(249, 1215)
 script = ExtResource("1_vly50")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1674218678]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(4, -1)
 shape = SubResource("RectangleShape2D_y4dr7")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1801686159]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 position = Vector2(2, 1)
 texture = ExtResource("2_c5erv")
 
-[node name="RoomCamera" type="Camera2D" parent="." unique_id=112233445]
+[node name="RoomCamera" type="Camera2D" parent="."]
 position = Vector2(577, 314)
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("3_roomcam")
 room_size = Vector2(2560, 1440)
 
-[node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
+[node name="WirePath1" type="Node2D" parent="."]
 position = Vector2(482, 1254)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath1" unique_id=1914533349]
+[node name="Path2D" type="Path2D" parent="WirePath1"]
 curve = SubResource("Curve2D_wire1")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D" unique_id=1540735523]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D"]
 rotation = -1.2906986
 
-[node name="EndA" type="Area2D" parent="WirePath1" unique_id=1224226969]
+[node name="EndA" type="Area2D" parent="WirePath1"]
 collision_layer = 0
 script = ExtResource("4_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA" unique_id=632679340]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA"]
 shape = SubResource("CircleShape2D_w1a")
 
-[node name="Prompt" type="Label" parent="WirePath1/EndA" unique_id=1610658516]
+[node name="Prompt" type="Label" parent="WirePath1/EndA"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -114,17 +114,17 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath1" unique_id=399773820]
+[node name="EndB" type="Area2D" parent="WirePath1"]
 position = Vector2(500, 0)
 collision_layer = 0
 script = ExtResource("4_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB" unique_id=1370721803]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB"]
 position = Vector2(-14, 0)
 shape = SubResource("CircleShape2D_w1b")
 
-[node name="Prompt" type="Label" parent="WirePath1/EndB" unique_id=219402107]
+[node name="Prompt" type="Label" parent="WirePath1/EndB"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -133,27 +133,27 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WirePath2" type="Node2D" parent="." unique_id=803649606]
+[node name="WirePath2" type="Node2D" parent="."]
 position = Vector2(1182, 1254)
 script = ExtResource("5_wirepath")
 travel_duration = 0.9
 
-[node name="Path2D" type="Path2D" parent="WirePath2" unique_id=935722371]
+[node name="Path2D" type="Path2D" parent="WirePath2"]
 material = SubResource("CanvasItemMaterial_y4dr7")
 scale = Vector2(1, 0.26)
 curve = SubResource("Curve2D_wire2")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D" unique_id=916204336]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D"]
 rotation = -0.9496912
 
-[node name="EndA" type="Area2D" parent="WirePath2" unique_id=24166145]
+[node name="EndA" type="Area2D" parent="WirePath2"]
 collision_layer = 0
 script = ExtResource("4_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA" unique_id=1434689858]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA"]
 shape = SubResource("CircleShape2D_w2a")
 
-[node name="Prompt" type="Label" parent="WirePath2/EndA" unique_id=630067167]
+[node name="Prompt" type="Label" parent="WirePath2/EndA"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -162,16 +162,16 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath2" unique_id=717603220]
+[node name="EndB" type="Area2D" parent="WirePath2"]
 position = Vector2(800, 0)
 collision_layer = 0
 script = ExtResource("4_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB" unique_id=466548320]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB"]
 shape = SubResource("CircleShape2D_w2b")
 
-[node name="Prompt" type="Label" parent="WirePath2/EndB" unique_id=1087398264]
+[node name="Prompt" type="Label" parent="WirePath2/EndB"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -180,29 +180,29 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WirePath3" type="Node2D" parent="." unique_id=892851883]
+[node name="WirePath3" type="Node2D" parent="."]
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")
 travel_duration = 0.5
 
-[node name="Path2D" type="Path2D" parent="WirePath3" unique_id=220896766]
+[node name="Path2D" type="Path2D" parent="WirePath3"]
 position = Vector2(-349, 14.999981)
 scale = Vector2(1.114618, 0.22846451)
 curve = SubResource("Curve2D_wire3")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D" unique_id=984871875]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D"]
 rotation = -1.2933193
 
-[node name="EndA" type="Area2D" parent="WirePath3" unique_id=234660747]
+[node name="EndA" type="Area2D" parent="WirePath3"]
 position = Vector2(-345, 2)
 collision_layer = 0
 script = ExtResource("4_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA" unique_id=185025073]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA"]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_w3a")
 
-[node name="Prompt" type="Label" parent="WirePath3/EndA" unique_id=295407904]
+[node name="Prompt" type="Label" parent="WirePath3/EndA"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -211,16 +211,16 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath3" unique_id=2068291243]
+[node name="EndB" type="Area2D" parent="WirePath3"]
 position = Vector2(321, -5)
 collision_layer = 0
 script = ExtResource("4_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=1932163670]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB"]
 shape = SubResource("CircleShape2D_w3b")
 
-[node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=80575714]
+[node name="Prompt" type="Label" parent="WirePath3/EndB"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0

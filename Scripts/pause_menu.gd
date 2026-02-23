@@ -3,7 +3,6 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#get_tree.pause()
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -12,7 +11,9 @@ func _process(delta: float) -> void:
 
 
 func _on_resume_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().paused = false
+	visible = false
+	#Switch scenes
 
 
 func _on_options_pressed() -> void:
@@ -20,4 +21,5 @@ func _on_options_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Master Scenes/titleScreen.tscn")

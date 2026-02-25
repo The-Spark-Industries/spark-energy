@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://wirepath_scene"]
+[gd_scene format=3 uid="uid://bt4fwl72y1ini"]
 
-[ext_resource type="Script" path="res://Scripts/WirePath.gd" id="1_wirepath"]
-[ext_resource type="Script" path="res://Scripts/WireEnd.gd" id="2_wireend"]
+[ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="1_wirepath"]
+[ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="2_wireend"]
 
 [sub_resource type="Curve2D" id="Curve2D_default"]
 _data = {
@@ -15,26 +15,23 @@ radius = 60.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_b"]
 radius = 60.0
 
-[node name="WirePath" type="Node2D"]
+[node name="WirePath" type="Node2D" unique_id=441371782]
 script = ExtResource("1_wirepath")
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="Path2D" type="Path2D" parent="." unique_id=1803617814]
 curve = SubResource("Curve2D_default")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-progress_ratio = 0.0
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" unique_id=2020003528]
+rotation = -0.8960554
 
-[node name="EndA" type="Area2D" parent="."]
-position = Vector2(0, 0)
+[node name="EndA" type="Area2D" parent="." unique_id=402726993]
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("2_wireend")
-is_start = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EndA"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndA" unique_id=909695712]
 shape = SubResource("CircleShape2D_a")
 
-[node name="Prompt" type="Label" parent="EndA"]
+[node name="Prompt" type="Label" parent="EndA" unique_id=652963611]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -42,17 +39,16 @@ offset_right = 60.0
 offset_bottom = -70.0
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="."]
+[node name="EndB" type="Area2D" parent="." unique_id=1236223172]
 position = Vector2(400, 0)
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("2_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EndB"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndB" unique_id=2065418904]
 shape = SubResource("CircleShape2D_b")
 
-[node name="Prompt" type="Label" parent="EndB"]
+[node name="Prompt" type="Label" parent="EndB" unique_id=2005885054]
 visible = false
 offset_left = -40.0
 offset_top = -90.0

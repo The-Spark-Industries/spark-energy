@@ -53,4 +53,56 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 79
 text = "Start"
 
+[node name="optionsMenu" type="Control" parent="." unique_id=959929399]
+anchors_preset = 0
+offset_right = 1148.0
+offset_bottom = 647.0
+
+[node name="blackBox" type="ColorRect" parent="optionsMenu" unique_id=1912377119]
+layout_mode = 0
+offset_left = -1206.0
+offset_top = -766.0
+offset_right = -46.0
+offset_bottom = -115.0
+scale = Vector2(4, 4)
+color = Color(0, 0, 0, 1)
+
+[node name="optionsTitle" type="Label" parent="optionsMenu" unique_id=877339324]
+layout_mode = 0
+offset_left = 429.0
+offset_top = 94.0
+offset_right = 691.0
+offset_bottom = 187.0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 68
+text = "Options"
+
+[node name="volume" type="Label" parent="optionsMenu" unique_id=1642481558]
+layout_mode = 0
+offset_left = 509.0
+offset_top = 308.0
+offset_right = 568.0
+offset_bottom = 331.0
+scale = Vector2(2, 2)
+text = "Volume"
+
+[node name="volumeSlider" type="HSlider" parent="optionsMenu" unique_id=726158269]
+layout_mode = 0
+offset_left = 396.0
+offset_top = 345.0
+offset_right = 734.0
+offset_bottom = 459.0
+step = 0.5
+
+[node name="backButton" type="Button" parent="optionsMenu" unique_id=1752777088]
+layout_mode = 0
+offset_left = 492.0
+offset_top = 429.0
+offset_right = 566.0
+offset_bottom = 477.0
+scale = Vector2(2, 2)
+text = "Back"
+
+[connection signal="pressed" from="VBoxContainer2/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Container/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]

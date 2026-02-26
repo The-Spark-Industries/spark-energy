@@ -13,22 +13,36 @@ grow_vertical = 2
 script = ExtResource("1_pbpjw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2106908940]
-layout_mode = 0
-offset_right = 1136.0
-offset_bottom = 649.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -0.12900001
+anchor_right = 0.5
+offset_left = -568.5
+offset_top = -538.408
+offset_right = 568.5
+offset_bottom = -143.0
+grow_horizontal = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=347848596]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 1
 theme_override_font_sizes/font_size = 68
 text = "PAUSED"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=226805135]
-layout_mode = 0
-offset_left = 436.0
-offset_top = 180.0
-offset_right = 716.0
-offset_bottom = 649.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -386.0
+offset_right = 130.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
@@ -48,6 +62,57 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 38
 text = "Quit"
 
+[node name="optionsMenu" type="Control" parent="." unique_id=2128573208]
+anchors_preset = 0
+offset_right = 1148.0
+offset_bottom = 647.0
+
+[node name="blackBox" type="ColorRect" parent="optionsMenu" unique_id=1913240952]
+layout_mode = 0
+offset_left = -1770.0
+offset_top = -1384.0
+offset_right = -610.0
+offset_bottom = -733.0
+scale = Vector2(4, 4)
+color = Color(0, 0, 0, 1)
+
+[node name="optionsTitle" type="Label" parent="optionsMenu" unique_id=372810817]
+layout_mode = 0
+offset_left = -135.0
+offset_top = -524.0
+offset_right = 127.0
+offset_bottom = -431.0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 68
+text = "Options"
+
+[node name="volume" type="Label" parent="optionsMenu" unique_id=1566470205]
+layout_mode = 0
+offset_left = -55.0
+offset_top = -310.0
+offset_right = 4.0
+offset_bottom = -287.0
+scale = Vector2(2, 2)
+text = "Volume"
+
+[node name="volumeSlider" type="HSlider" parent="optionsMenu" unique_id=1934130321]
+layout_mode = 0
+offset_left = -161.0
+offset_top = -276.0
+offset_right = 177.0
+offset_bottom = -162.0
+step = 0.5
+
+[node name="backButton" type="Button" parent="optionsMenu" unique_id=385867325]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -189.0
+offset_right = 2.0
+offset_bottom = -141.0
+scale = Vector2(2, 2)
+text = "Back"
+
 [connection signal="pressed" from="VBoxContainer2/resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer2/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="VBoxContainer2/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]

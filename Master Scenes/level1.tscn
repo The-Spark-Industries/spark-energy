@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
-[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_c5erv"]
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="2_nuwp2"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="4_wireend"]
@@ -16,7 +16,7 @@ size = Vector2(2000, 1)
 size = Vector2(4096, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
-size = Vector2(125, 123)
+size = Vector2(16, 56)
 
 [sub_resource type="Curve2D" id="Curve2D_wire1"]
 _data = {
@@ -63,33 +63,19 @@ position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=8104759]
-position = Vector2(-3, 2.999939)
 scale = Vector2(2.0440001, 120.5)
 mesh = SubResource("QuadMesh_6015k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
-position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_4hvuo")
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
-position = Vector2(249, 1215)
-script = ExtResource("1_vly50")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
-position = Vector2(4, -1)
-shape = SubResource("RectangleShape2D_y4dr7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=648467936]
-position = Vector2(2, 1)
-texture = ExtResource("2_c5erv")
 
 [node name="RoomCamera" type="Camera2D" parent="." unique_id=1812731569]
 position = Vector2(577, 314)
-zoom = Vector2(0.5, 0.5)
 script = ExtResource("3_roomcam")
-room_size = Vector2(2560, 1440)
+camera_targets_path = NodePath("../CameraPoints")
 
 [node name="pauseMenu" parent="RoomCamera" unique_id=1118913350 instance=ExtResource("4_nuwp2")]
+visible = false
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -100,6 +86,34 @@ offset_bottom = 340.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(1.2, 1.2)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
+position = Vector2(406, 1156)
+script = ExtResource("1_vly50")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_y4dr7")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=648467936]
+texture = ExtResource("2_nuwp2")
+
+[node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
+position = Vector2(-1099, 1007)
+
+[node name="Node2D5" type="Node2D" parent="CameraPoints" unique_id=1681594411]
+position = Vector2(4000, 0)
+
+[node name="Node2D4" type="Node2D" parent="CameraPoints" unique_id=1813217306]
+position = Vector2(3000, 0)
+
+[node name="Node2D3" type="Node2D" parent="CameraPoints" unique_id=1282915343]
+position = Vector2(2000, 0)
+
+[node name="Node2D2" type="Node2D" parent="CameraPoints" unique_id=609835357]
+position = Vector2(1000, 0)
+
+[node name="Node2D" type="Node2D" parent="CameraPoints" unique_id=1172714710]
 
 [node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
 position = Vector2(482, 1254)
@@ -231,6 +245,7 @@ script = ExtResource("4_wireend")
 is_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=261022935]
+position = Vector2(-45, 15)
 shape = SubResource("CircleShape2D_w3b")
 
 [node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=1550603915]

@@ -1,17 +1,16 @@
 extends CharacterBody2D
 
-# --- Movement Tuning (Imported from Reference) ---
 @export var SPEED := 30400.0
-@export var JUMP_VELOCITY := -42000.0
-@export var START_GRAVITY := 1700.0
+@export var JUMP_VELOCITY := -100000.0
+@export var START_GRAVITY := 3000.0
 @export var COYOTE_TIME_MS := 140 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
 @export var JUMP_CUT_MULTIPLIER := 0.4
 @export var AIR_HANG_MULTIPLIER := 0.95
-@export var AIR_HANG_THRESHOLD := 50.0
+@export var AIR_HANG_THRESHOLD := 10.0
 @export var Y_SMOOTHING := 0.8
 @export var AIR_X_SMOOTHING := 0.10
-@export var MAX_FALL_SPEED := 25000.0
+@export var MAX_FALL_SPEED := 55000.0
 
 # --- State & Internal Variables ---
 enum States { IDLE, RUN, JUMP, AIR, DEAD }
@@ -21,6 +20,7 @@ var prev_velocity := Vector2.ZERO
 var last_floor_msec := 0
 var last_jump_queue_msec := 0
 var current_gravity := START_GRAVITY
+var has_boots := false
 
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
@@ -46,7 +46,6 @@ func _physics_process(delta: float) -> void:
 		state = States.AIR
 		if sprite: sprite.play("fall")
 
-	# --- State Machine ---
 	match state:
 		States.JUMP:
 			velocity.y = JUMP_VELOCITY * delta
@@ -135,6 +134,10 @@ func _on_pipe_entered(pipe_end: Node) -> void:
 
 func _on_pipe_exited(pipe_end: Node) -> void:
 	_pipes_inside.erase(pipe_end)
+
+func _on_water_touch() -> void:
+	print("player died")
+	die()
 
 func die():
 	state = States.DEAD

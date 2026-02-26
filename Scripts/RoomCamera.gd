@@ -4,7 +4,7 @@ extends Camera2D
 
 @export var player_path: NodePath = NodePath("../CharacterBody2D")
 
-@export var room_size: Vector2 = Vector2(1024.0, 1024.0)
+@export var room_size: Vector2 = Vector2(960.0, 540.0)
 
 @export var transition_duration: float = 0.45
 

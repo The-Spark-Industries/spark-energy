@@ -31,6 +31,7 @@ var _pipes_inside: Array[Node] = []
 func _ready() -> void:
 	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
+	Global.set_checkpoint(global_position)
 
 func _physics_process(delta: float) -> void:
 	if get_meta("pipe_traveling", false):
@@ -136,9 +137,18 @@ func _on_pipe_entered(pipe_end: Node) -> void:
 func _on_pipe_exited(pipe_end: Node) -> void:
 	_pipes_inside.erase(pipe_end)
 
-func die():
+func die() -> void:
 	state = States.DEAD
 	velocity = Vector2.ZERO
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")
+	get_tree().create_timer(0.8).timeout.connect(_respawn, CONNECT_ONE_SHOT)
+
+func _respawn() -> void:
+	global_position = Global.last_checkpoint_position
+	velocity = Vector2.ZERO
+	state = States.IDLE
+	current_gravity = START_GRAVITY
+	if sprite:
+		sprite.play("idle")

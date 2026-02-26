@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://u8w5e8g3euut"]
 
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_j3ay2"]
+
 [node name="gameInterface" type="Control" unique_id=2083672228]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +9,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1717566387]
+layout_mode = 0
+offset_right = 34.0
+offset_bottom = 9.0
+columns = 15
+
+[node name="Button" type="Button" parent="GridContainer" unique_id=1306053666]
+layout_mode = 2
+icon = ExtResource("1_j3ay2")
+
+[node name="Button2" type="Button" parent="GridContainer" unique_id=817545553]
+layout_mode = 2
+icon = ExtResource("1_j3ay2")
+
+[node name="Button3" type="Button" parent="GridContainer" unique_id=1506755236]
+layout_mode = 2
+icon = ExtResource("1_j3ay2")

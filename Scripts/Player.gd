@@ -1,77 +1,144 @@
 extends CharacterBody2D
 
-const SPEED         := 400
-const JUMP_VELOCITY := -600
+# --- Movement Tuning (Imported from Reference) ---
+@export var SPEED := 30400.0
+@export var JUMP_VELOCITY := -42000.0
+@export var START_GRAVITY := 1700.0
+@export var COYOTE_TIME_MS := 140 # in ms
+@export var JUMP_BUFFER_MS := 100 # in ms
+@export var JUMP_CUT_MULTIPLIER := 0.4
+@export var AIR_HANG_MULTIPLIER := 0.95
+@export var AIR_HANG_THRESHOLD := 50.0
+@export var Y_SMOOTHING := 0.8
+@export var AIR_X_SMOOTHING := 0.10
+@export var MAX_FALL_SPEED := 25000.0
 
-# Stack for wire player is currently hovering, allows for multiple wires
+# --- State & Internal Variables ---
+enum States { IDLE, RUN, JUMP, AIR, DEAD }
+var state: States = States.AIR
+
+var prev_velocity := Vector2.ZERO
+var last_floor_msec := 0
+var last_jump_queue_msec := 0
+var current_gravity := START_GRAVITY
+
+# Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
 
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animPlayer: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
 	set_meta("pipe_traveling", false)
+	set_meta("tag", "player")
 
-
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
 		return
 
-	var input_vector := Vector2.ZERO
-
-	input_vector.x = Input.get_action_strength("ui_right") \
-				   - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") \
-				   - Input.get_action_strength("ui_up")
-
-	if Input.is_action_pressed("move_left"):
-		input_vector.x = -1
-	elif Input.is_action_pressed("move_right"):
-		input_vector.x = 1
-	if Input.is_action_pressed("move_up"):
-		input_vector.y = -1
-	elif Input.is_action_pressed("move_down"):
-		input_vector.y = 1
-
-	var joy := Vector2(
-		Input.get_joy_axis(0, JOY_AXIS_LEFT_X),
-		Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
-	)
-	if joy.length() > 0.1:
-		input_vector = joy
-
-	input_vector = input_vector.normalized()
-	velocity.x   = input_vector.x * SPEED
-
-	# ── Jump ──────────────────────────────────────────────────────────────────
+	var direction = Input.get_axis("ui_left", "ui_right")
+	
+	# Update Floor/Coyote Timing
 	if is_on_floor():
-		if Input.is_action_just_pressed("jump") \
-		or Input.is_action_just_pressed("move_up") \
-		or Input.is_action_just_pressed("ui_up"):
-			velocity.y = JUMP_VELOCITY
+		last_floor_msec = Time.get_ticks_msec()
+	elif state != States.JUMP and state != States.AIR and state != States.DEAD:
+		state = States.AIR
+		if sprite: sprite.play("fall")
 
-	velocity.y += 20  # gravity
+	# --- State Machine ---
+	match state:
+		States.JUMP:
+			velocity.y = JUMP_VELOCITY * delta
+			if sprite: sprite.play("jump")
+			if animPlayer:
+				animPlayer.stop()
+				animPlayer.play("jump")
+			state = States.AIR
+
+		States.AIR:
+			if is_on_floor():
+				state = States.IDLE
+				if animPlayer: animPlayer.play("land")
+			
+			# Variable Jump Height [cite: 6]
+			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+				velocity.y *= JUMP_CUT_MULTIPLIER
+			
+			_apply_run_logic(direction, delta)
+			# Air X Smoothing
+			velocity.x = lerp(prev_velocity.x, velocity.x, AIR_X_SMOOTHING)
+			
+			# Jump Input (with Coyote Time)
+			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
+				if Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
+					state = States.JUMP
+				else:
+					last_jump_queue_msec = Time.get_ticks_msec()
+			
+			# Gravity & Air Hang Peak Logic
+			velocity.y += current_gravity * delta
+			if abs(velocity.y) < AIR_HANG_THRESHOLD:
+				current_gravity *= AIR_HANG_MULTIPLIER
+			else:
+				current_gravity = START_GRAVITY
+
+		States.IDLE:
+			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
+				state = States.JUMP
+			else:
+				velocity.x = 0
+				if sprite:
+					sprite.scale.x = 1
+					sprite.play("idle")
+				if direction != 0:
+					state = States.RUN
+
+		States.RUN:
+			if sprite: sprite.play("run")
+			_apply_run_logic(direction, delta)
+			
+			if direction == 0:
+				state = States.IDLE
+			# Ensure jump works during run too
+			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
+				state = States.JUMP
+
+	# Final Smoothing and Terminal Velocity
+	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
+	velocity.y = min(velocity.y, MAX_FALL_SPEED * delta)
+	
+	prev_velocity = velocity
 	move_and_slide()
 
-	# Wire transport
+	# Wire transport [cite: 7]
 	if Input.is_action_just_pressed("interact"):
 		var active := _active_pipe()
 		if active and active.has_method("transport"):
 			active.transport(self)
 
-#WireEnd callbacks 
+func _apply_run_logic(direction: float, delta: float) -> void:
+	velocity.x = SPEED * direction * delta
+	if direction != 0 and sprite:
+		sprite.flip_h = direction < 0
 
-## Returns the currently active WireEnd (the most recently entered), or null.
+# --- Wire/Pipe Callbacks [cite: 7, 8] ---
+
 func _active_pipe() -> Node:
 	if _pipes_inside.is_empty():
 		return null
 	return _pipes_inside.back()
 
-
-## Appends to the stack 
 func _on_pipe_entered(pipe_end: Node) -> void:
 	if pipe_end not in _pipes_inside:
 		_pipes_inside.append(pipe_end)
 
-## Only removes one specific wire — all other overlapping wires stay active.
 func _on_pipe_exited(pipe_end: Node) -> void:
 	_pipes_inside.erase(pipe_end)
+
+func die():
+	state = States.DEAD
+	velocity = Vector2.ZERO
+	if sprite:
+		sprite.stop()
+		sprite.play("dead")

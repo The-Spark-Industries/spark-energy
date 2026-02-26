@@ -18,7 +18,7 @@ config/name="Spark's Energy Quest"
 run/main_scene="uid://cajr8gi261a7b"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
-<<<<<<<HEADrun/main_scene="uid://c812w5iknq1es"
+run/main_scene="uid://c812w5iknq1es"
 
 [autoload]
 

@@ -25,6 +25,16 @@ var current_gravity := START_GRAVITY
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
 
+## When true, the player can walk on water and will have a short grace period before dying.
+@export var can_walk_on_water: bool = false
+## How long the player can be on water before dying when can_walk_on_water is true (seconds).
+@export var water_grace_duration: float = 0.5
+
+var _water_overlap_count: int = 0
+var _water_death_timer: Timer
+## Tracks whether the water-walk grace has been used this life (one touch allowed per respawn).
+var _water_walk_used: bool = false
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animPlayer: AnimationPlayer = $AnimationPlayer
 
@@ -32,6 +42,12 @@ func _ready() -> void:
 	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
 	Global.set_checkpoint(global_position)
+
+	_water_death_timer = Timer.new()
+	_water_death_timer.one_shot = true
+	_water_death_timer.wait_time = water_grace_duration
+	_water_death_timer.timeout.connect(_on_water_death_timeout)
+	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
 	if get_meta("pipe_traveling", false):
@@ -137,6 +153,30 @@ func _on_pipe_entered(pipe_end: Node) -> void:
 func _on_pipe_exited(pipe_end: Node) -> void:
 	_pipes_inside.erase(pipe_end)
 
+func entered_water() -> void:
+	if state == States.DEAD:
+		return
+
+	_water_overlap_count += 1
+
+	if _water_overlap_count == 1:
+		if can_walk_on_water and not _water_walk_used:
+			_water_walk_used = true
+			_water_death_timer.wait_time = water_grace_duration
+			_water_death_timer.start()
+		else:
+			die()
+
+func exited_water() -> void:
+	if _water_overlap_count > 0:
+		_water_overlap_count -= 1
+
+	if _water_overlap_count == 0 and _water_death_timer:
+		_water_death_timer.stop()
+
+func _on_water_death_timeout() -> void:
+	die()
+
 func die() -> void:
 	state = States.DEAD
 	velocity = Vector2.ZERO
@@ -150,5 +190,9 @@ func _respawn() -> void:
 	velocity = Vector2.ZERO
 	state = States.IDLE
 	current_gravity = START_GRAVITY
+	_water_overlap_count = 0
+	_water_walk_used = false
+	if _water_death_timer and _water_death_timer.time_left > 0.0:
+		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")

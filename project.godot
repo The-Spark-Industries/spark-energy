@@ -15,10 +15,9 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Spark's Energy Quest"
-run/main_scene="uid://cajr8gi261a7b"
+run/main_scene="uid://c812w5iknq1es"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
-run/main_scene="uid://c812w5iknq1es"
 
 [autoload]
 

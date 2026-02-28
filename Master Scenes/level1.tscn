@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="4_wireend"]
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
-[ext_resource type="PackedScene" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
+[ext_resource type="PackedScene" uid="uid://5ao3osj84mxr" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
@@ -15,7 +15,7 @@
 size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
-size = Vector2(4096, 120)
+size = Vector2(4092, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(125, 123)
@@ -65,17 +65,17 @@ position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=8104759]
-position = Vector2(-3, 2.999939)
 scale = Vector2(2.0440001, 120.5)
 mesh = SubResource("QuadMesh_6015k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
-position = Vector2(0, 5)
+position = Vector2(2, 0)
 shape = SubResource("RectangleShape2D_4hvuo")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
 position = Vector2(249, 1215)
 script = ExtResource("1_vly50")
+can_walk_on_water = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
 position = Vector2(4, -1)
@@ -246,7 +246,7 @@ theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
 [node name="WaterBlock" parent="." unique_id=1311997150 instance=ExtResource("7_rgorn")]
-position = Vector2(-748, 1239)
+position = Vector2(-1287, 1341)
 
 [node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
-position = Vector2(-188, 1223)
+position = Vector2(-192, 1229)

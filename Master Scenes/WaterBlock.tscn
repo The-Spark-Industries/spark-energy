@@ -1,18 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://water_block"]
+[gd_scene format=3 uid="uid://5ao3osj84mxr"]
 
-[ext_resource type="Script" path="res://Scripts/Water.gd" id="1_water"]
+[ext_resource type="Script" uid="uid://dbek8lg73pv7o" path="res://Scripts/Water.gd" id="1_water"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_water"]
 size = Vector2(192, 96)
 
-[node name="WaterBlock" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_surface"]
+size = Vector2(192, 14)
+
+[node name="WaterBlock" type="Area2D" unique_id=1305812998]
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("1_water")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=973394304]
 shape = SubResource("RectangleShape2D_water")
 
-[node name="Visual" type="Polygon2D" parent="."]
+[node name="Visual" type="Polygon2D" parent="." unique_id=1302277483]
 color = Color(0.2, 0.5, 0.9, 0.75)
 polygon = PackedVector2Array(-96, -48, 96, -48, 96, 48, -96, 48)
+
+[node name="Surface" type="StaticBody2D" parent="." unique_id=976903253]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface" unique_id=1796004855]
+position = Vector2(0, -39)
+shape = SubResource("RectangleShape2D_surface")
+one_way_collision = true

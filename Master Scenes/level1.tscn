@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="4_wireend"]
+[ext_resource type="PackedScene" uid="uid://u8w5e8g3euut" path="res://Master Scenes/gameInterface.tscn" id="5_rgorn"]
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]

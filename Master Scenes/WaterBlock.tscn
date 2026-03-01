@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://5ao3osj84mxr"]
+[gd_scene format=3 uid="uid://dgy5vnulqv524"]
 
-[ext_resource type="Script" uid="uid://dbek8lg73pv7o" path="res://Scripts/Water.gd" id="1_water"]
+[ext_resource type="Script" path="res://Scripts/Water.gd" id="1_water"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_water"]
 size = Vector2(192, 96)

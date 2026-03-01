@@ -15,4 +15,3 @@ func _on_body_entered(body: Node2D) -> void:
 		body.can_walk_on_water = true
 
 	queue_free()
-

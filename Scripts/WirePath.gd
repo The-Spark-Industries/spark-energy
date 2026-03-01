@@ -1,7 +1,8 @@
 extends Node2D
 class_name WirePath
 
-@export var travel_duration: float = 0.6
+## Wire travel speed in pixels per second (approx.).
+@export var travel_speed: float = 800.0
 
 ## Offset applied at the exit endpoint so the player doesn't overlap it.
 @export var exit_offset: Vector2 = Vector2(0.0, -80.0)
@@ -13,6 +14,7 @@ class_name WirePath
 # ── Internal refs (set automatically) ─────────────────────────────────────────
 
 var _path_follow: PathFollow2D = null
+var _path_length: float = 0.0
 var _end_a: Node = null        # WireEnd at progress=0 (start)
 var _end_b: Node = null        # WireEnd at progress=1 (end)
 var _traveling_player: CharacterBody2D = null  # non-null while traveling
@@ -37,6 +39,11 @@ func _ready() -> void:
 
 	_path_follow.rotates = false
 	_path_follow.loop = false
+
+	# Cache total path length so we can convert speed (pixels/sec) into duration.
+	var path2d := _path_follow.get_parent() as Path2D
+	if path2d and path2d.curve:
+		_path_length = path2d.curve.get_baked_length()
 
 func _process(_delta: float) -> void:
 	if _traveling_player and _path_follow:
@@ -87,13 +94,26 @@ func begin_travel(player: CharacterBody2D, from_end: Node) -> bool:
 	player.global_position = _path_follow.global_position
 
 	# Tween the path follower's progress_ratio from start → end.
+	# Duration is derived from path length and desired travel_speed so
+	# movement speed is (approximately) constant regardless of wire length.
 	if _tween and _tween.is_running():
 		_tween.kill()
 
 	_tween = create_tween()
 	_tween.set_trans(_idx_to_trans(travel_curve))
 	_tween.set_ease(Tween.EASE_IN_OUT)
-	_tween.tween_property(_path_follow, "progress_ratio", end_progress, travel_duration)
+
+	var duration: float = 0.0
+	var progress_delta: float = abs(end_progress - start_progress)
+
+	if travel_speed > 0.0 and _path_length > 0.0 and progress_delta > 0.0:
+		var distance: float = _path_length * progress_delta
+		duration = distance / travel_speed
+
+	if duration <= 0.0:
+		duration = 0.01
+
+	_tween.tween_property(_path_follow, "progress_ratio", end_progress, duration)
 
 	await _tween.finished
 

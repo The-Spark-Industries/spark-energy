@@ -4,12 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="2_nuwp2"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
-[ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="4_wireend"]
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
-[ext_resource type="PackedScene" uid="uid://5ao3osj84mxr" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
+[ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
-[ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
+[ext_resource type="PackedScene" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 

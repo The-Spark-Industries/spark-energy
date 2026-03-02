@@ -1,16 +1,16 @@
 extends CharacterBody2D
 
-@export var SPEED := 30400.0
-@export var JUMP_VELOCITY := -100000.0
-@export var START_GRAVITY := 3000.0
+@export var SPEED := 40000.0
+@export var JUMP_VELOCITY := -160000.0
+@export var START_GRAVITY := 9000.0
 @export var COYOTE_TIME_MS := 140 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
 @export var JUMP_CUT_MULTIPLIER := 0.4
 @export var AIR_HANG_MULTIPLIER := 0.95
-@export var AIR_HANG_THRESHOLD := 10.0
+@export var AIR_HANG_THRESHOLD := 5.0
 @export var Y_SMOOTHING := 0.8
 @export var AIR_X_SMOOTHING := 0.10
-@export var MAX_FALL_SPEED := 55000.0
+@export var MAX_FALL_SPEED := 60000.0
 
 # --- State & Internal Variables ---
 enum States { IDLE, RUN, JUMP, AIR, DEAD }
@@ -122,7 +122,7 @@ func _physics_process(delta: float) -> void:
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
-	velocity.y = min(velocity.y, MAX_FALL_SPEED * delta)
+	velocity.y = min(velocity.y, MAX_FALL_SPEED)
 	
 	prev_velocity = velocity
 	move_and_slide()

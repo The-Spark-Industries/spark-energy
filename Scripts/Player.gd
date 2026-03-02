@@ -28,7 +28,7 @@ var _pipes_inside: Array[Node] = []
 ## When true, the player can walk on water and will have a short grace period before dying.
 @export var can_walk_on_water: bool = false
 ## How long the player can be on water before dying when can_walk_on_water is true (seconds).
-@export var water_grace_duration: float = 0.5
+@export var water_grace_duration: float = 0.2
 
 var _water_overlap_count: int = 0
 var _water_death_timer: Timer
@@ -59,6 +59,9 @@ func _physics_process(delta: float) -> void:
 	# Update Floor/Coyote Timing
 	if is_on_floor():
 		last_floor_msec = Time.get_ticks_msec()
+		# Reset water walk grace only when touching a non-water platform
+		if _is_on_solid_ground():
+			_water_walk_used = false
 	elif state != States.JUMP and state != States.AIR and state != States.DEAD:
 		state = States.AIR
 		if sprite: sprite.play("fall")
@@ -138,6 +141,22 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 	velocity.x = SPEED * direction * delta
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0
+
+func _is_on_solid_ground() -> bool:
+	if not is_on_floor():
+		return false
+	
+	# Check the last collision from move_and_slide
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# If we're colliding with a StaticBody2D that's a child of an Area2D (water block),
+		# then we're on water, not solid ground
+		if collider and collider.get_parent() and collider.get_parent() is Area2D:
+			return false
+	
+	return true
 
 # --- Wire/Pipe Callbacks [cite: 7, 8] ---
 

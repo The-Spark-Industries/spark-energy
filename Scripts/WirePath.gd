@@ -61,6 +61,9 @@ func get_other_end(wire_end: Node) -> Node:
 		return _end_b
 	return _end_a
 
+func get_path_follow() -> PathFollow2D:
+	return _path_follow
+
 func begin_travel(player: CharacterBody2D, from_end: Node) -> bool:
 	if _busy:
 		return false

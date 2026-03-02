@@ -32,6 +32,9 @@ func transport(player: CharacterBody2D) -> bool:
 		return false
 	return await _wire_path.begin_travel(player, self)
 
+func get_wire_path() -> Node:
+	return _wire_path
+
 
 func _on_body_entered(body: Node2D) -> void:
 	if not (body is CharacterBody2D):

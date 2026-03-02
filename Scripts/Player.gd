@@ -14,7 +14,7 @@ extends CharacterBody2D
 @export var MAX_FALL_SPEED := 25000.0
 
 # --- State & Internal Variables ---
-enum States { IDLE, RUN, JUMP, AIR, DEAD }
+enum States { IDLE, RUN, JUMP, AIR, DEAD, WIRE }
 var state: States = States.AIR
 
 var prev_velocity := Vector2.ZERO
@@ -24,6 +24,20 @@ var current_gravity := START_GRAVITY
 
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
+
+# Wire travel state tracking
+var _current_wire_path: Node = null
+var _wire_rotation: float = 0.0
+
+## When true, the player can walk on water and will have a short grace period before dying.
+@export var can_walk_on_water: bool = false
+## How long the player can be on water before dying when can_walk_on_water is true (seconds).
+@export var water_grace_duration: float = 0.5
+
+var _water_overlap_count: int = 0
+var _water_death_timer: Timer
+## Tracks whether the water-walk grace has been used this life (one touch allowed per respawn).
+var _water_walk_used: bool = false
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animPlayer: AnimationPlayer = $AnimationPlayer
@@ -35,19 +49,38 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
-		return
+		if state != States.WIRE:
+			state = States.WIRE
 
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	# Update Floor/Coyote Timing
 	if is_on_floor():
 		last_floor_msec = Time.get_ticks_msec()
-	elif state != States.JUMP and state != States.AIR and state != States.DEAD:
+	elif state != States.JUMP and state != States.AIR and state != States.DEAD and state != States.WIRE:
 		state = States.AIR
 		if sprite: sprite.play("fall")
 
 	# --- State Machine ---
 	match state:
+		States.WIRE:
+			# Wire state - sprite rotation is handled in wire path update
+			if sprite:
+				# Only start the animation if it's not already playing
+				if sprite.animation != "wire" or not sprite.is_playing():
+					sprite.play("wire")
+				sprite.rotation = _wire_rotation
+			if animPlayer:
+				if not animPlayer.is_playing() or animPlayer.current_animation != "wire":
+					if animPlayer.has_animation("wire"):
+						animPlayer.play("wire")
+			# Exit wire state if no longer traveling
+			if not get_meta("pipe_traveling", false):
+				state = States.AIR
+				_current_wire_path = null
+				if sprite:
+					sprite.rotation = 0.0
+
 		States.JUMP:
 			velocity.y = JUMP_VELOCITY * delta
 			if sprite: sprite.play("jump")
@@ -110,6 +143,10 @@ func _physics_process(delta: float) -> void:
 	
 	prev_velocity = velocity
 	move_and_slide()
+	
+	# Update wire rotation if in WIRE state
+	if state == States.WIRE:
+		_update_wire_rotation()
 
 	# Wire transport [cite: 7]
 	if Input.is_action_just_pressed("interact"):
@@ -122,6 +159,32 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0
 
+func _update_wire_rotation() -> void:
+	"""Calculate and update sprite rotation to follow wire path direction."""
+	if not _current_wire_path or not _current_wire_path.has_method("get_path_follow"):
+		return
+	
+	var path_follow = _current_wire_path.get_path_follow()
+	if not path_follow:
+		return
+	
+	var path2d = path_follow.get_parent() as Path2D
+	if not path2d or not path2d.curve:
+		return
+	
+	var current_progress = path_follow.progress_ratio
+	var sample_distance = 0.01  # Small offset to sample tangent
+	var next_progress = clamp(current_progress + sample_distance, 0.0, 1.0)
+	
+	var current_pos = path2d.curve.sample_baked(current_progress * path2d.curve.get_baked_length())
+	var next_pos = path2d.curve.sample_baked(next_progress * path2d.curve.get_baked_length())
+	
+	var direction = (next_pos - current_pos).normalized()
+	_wire_rotation = direction.angle()
+	
+	if sprite:
+		sprite.rotation = _wire_rotation
+
 # --- Wire/Pipe Callbacks [cite: 7, 8] ---
 
 func _active_pipe() -> Node:
@@ -132,6 +195,12 @@ func _active_pipe() -> Node:
 func _on_pipe_entered(pipe_end: Node) -> void:
 	if pipe_end not in _pipes_inside:
 		_pipes_inside.append(pipe_end)
+
+		# Track the wire path when entering
+		if pipe_end.has_method("get_wire_path"):
+			var wire_path = pipe_end.get_wire_path()
+			if wire_path:
+				_current_wire_path = wire_path
 
 func _on_pipe_exited(pipe_end: Node) -> void:
 	_pipes_inside.erase(pipe_end)

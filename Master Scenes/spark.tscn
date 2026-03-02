@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6piv"]
 size = Vector2(126, 127)
 
-[node name="spark" type="CharacterBody2D" unique_id=1490817990]
+[node name="spark" type="CharacterBody2D" unique_id=1490817990 groups=["player"]]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=622580897]
 position = Vector2(0, -65)

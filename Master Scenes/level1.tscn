@@ -1,10 +1,15 @@
 [gd_scene format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
-[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_c5erv"]
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="2_nuwp2"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
+[ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="4_wireend"]
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
+[ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
+[ext_resource type="PackedScene" uid="uid://5ao3osj84mxr" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
+[ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
+[ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -12,10 +17,10 @@
 size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
-size = Vector2(4096, 120)
+size = Vector2(4092, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
-size = Vector2(125, 123)
+size = Vector2(16, 56)
 
 [sub_resource type="Curve2D" id="Curve2D_wire1"]
 _data = {
@@ -62,33 +67,60 @@ position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=8104759]
-position = Vector2(-3, 2.999939)
 scale = Vector2(2.0440001, 120.5)
 mesh = SubResource("QuadMesh_6015k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
-position = Vector2(0, 5)
+position = Vector2(2, 0)
 shape = SubResource("RectangleShape2D_4hvuo")
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
-position = Vector2(249, 1215)
-script = ExtResource("1_vly50")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
-position = Vector2(4, -1)
-shape = SubResource("RectangleShape2D_y4dr7")
-
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=648467936]
-position = Vector2(2, 1)
-texture = ExtResource("2_c5erv")
 
 [node name="RoomCamera" type="Camera2D" parent="." unique_id=1812731569]
 position = Vector2(577, 314)
-zoom = Vector2(0.5, 0.5)
 script = ExtResource("3_roomcam")
-room_size = Vector2(2560, 1440)
+camera_targets_path = NodePath("../CameraPoints")
 
-[node name="WirePath1" type="Node2D" parent="." unique_id=1245366134]
+[node name="pauseMenu" parent="RoomCamera" unique_id=1118913350 instance=ExtResource("4_nuwp2")]
+visible = false
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 3.0
+offset_top = 340.0
+offset_right = 3.0
+offset_bottom = 340.0
+grow_horizontal = 1
+grow_vertical = 1
+scale = Vector2(1.2, 1.2)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
+position = Vector2(406, 1156)
+script = ExtResource("1_vly50")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_y4dr7")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=648467936]
+texture = ExtResource("2_nuwp2")
+
+[node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
+position = Vector2(-1099, 1007)
+
+[node name="Node2D5" type="Node2D" parent="CameraPoints" unique_id=1681594411]
+position = Vector2(4000, 0)
+
+[node name="Node2D4" type="Node2D" parent="CameraPoints" unique_id=1813217306]
+position = Vector2(3000, 0)
+
+[node name="Node2D3" type="Node2D" parent="CameraPoints" unique_id=1282915343]
+position = Vector2(2000, 0)
+
+[node name="Node2D2" type="Node2D" parent="CameraPoints" unique_id=609835357]
+position = Vector2(1000, 0)
+
+[node name="Node2D" type="Node2D" parent="CameraPoints" unique_id=1172714710]
+
+[node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
 position = Vector2(482, 1254)
 script = ExtResource("5_wirepath")
 
@@ -100,7 +132,7 @@ rotation = -1.2906986
 
 [node name="EndA" type="Area2D" parent="WirePath1" unique_id=1221913779]
 collision_layer = 0
-script = ExtResource("4_wireend")
+script = ExtResource("6_wireend")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA" unique_id=1295475477]
 shape = SubResource("CircleShape2D_w1a")
@@ -117,7 +149,7 @@ text = "[E] Enter Wire"
 [node name="EndB" type="Area2D" parent="WirePath1" unique_id=1079659657]
 position = Vector2(500, 0)
 collision_layer = 0
-script = ExtResource("4_wireend")
+script = ExtResource("6_wireend")
 is_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB" unique_id=906745439]
@@ -136,7 +168,6 @@ text = "[E] Enter Wire"
 [node name="WirePath2" type="Node2D" parent="." unique_id=916138111]
 position = Vector2(1182, 1254)
 script = ExtResource("5_wirepath")
-travel_duration = 0.9
 
 [node name="Path2D" type="Path2D" parent="WirePath2" unique_id=999994171]
 material = SubResource("CanvasItemMaterial_y4dr7")
@@ -148,7 +179,7 @@ rotation = -0.9496912
 
 [node name="EndA" type="Area2D" parent="WirePath2" unique_id=1109308881]
 collision_layer = 0
-script = ExtResource("4_wireend")
+script = ExtResource("6_wireend")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA" unique_id=1036708283]
 shape = SubResource("CircleShape2D_w2a")
@@ -165,7 +196,7 @@ text = "[E] Enter Wire"
 [node name="EndB" type="Area2D" parent="WirePath2" unique_id=525046066]
 position = Vector2(800, 0)
 collision_layer = 0
-script = ExtResource("4_wireend")
+script = ExtResource("6_wireend")
 is_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB" unique_id=99447628]
@@ -183,7 +214,6 @@ text = "[E] Enter Wire"
 [node name="WirePath3" type="Node2D" parent="." unique_id=1094322965]
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")
-travel_duration = 0.5
 
 [node name="Path2D" type="Path2D" parent="WirePath3" unique_id=1222895979]
 position = Vector2(-349, 14.999981)
@@ -196,7 +226,7 @@ rotation = -1.2933193
 [node name="EndA" type="Area2D" parent="WirePath3" unique_id=1349027901]
 position = Vector2(-345, 2)
 collision_layer = 0
-script = ExtResource("4_wireend")
+script = ExtResource("6_wireend")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA" unique_id=267454114]
 position = Vector2(-2, 0)
@@ -214,10 +244,11 @@ text = "[E] Enter Wire"
 [node name="EndB" type="Area2D" parent="WirePath3" unique_id=512753618]
 position = Vector2(321, -5)
 collision_layer = 0
-script = ExtResource("4_wireend")
+script = ExtResource("6_wireend")
 is_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=261022935]
+position = Vector2(-45, 15)
 shape = SubResource("CircleShape2D_w3b")
 
 [node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=1550603915]
@@ -228,3 +259,12 @@ offset_right = 60.0
 offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
+
+[node name="WaterBlock" parent="." unique_id=1311997150 instance=ExtResource("7_rgorn")]
+position = Vector2(-1287, 1341)
+
+[node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
+position = Vector2(-192, 1229)
+
+[node name="WaterShoes" parent="." unique_id=1326362754 instance=ExtResource("9_gdrb5")]
+position = Vector2(-248, 1232)

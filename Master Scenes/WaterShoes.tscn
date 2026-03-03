@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://g5lflum2cu2t"]
 
 [ext_resource type="Script" uid="uid://uy4ge4ox5n34" path="res://Scripts/WaterShoes.gd" id="1_water_shoes"]
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_rhftb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_water_shoes"]
 size = Vector2(32, 32)
@@ -12,3 +13,8 @@ script = ExtResource("1_water_shoes")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1854260101]
 shape = SubResource("RectangleShape2D_water_shoes")
 debug_color = Color(0, 0, 0, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819224295]
+position = Vector2(7.1525574e-07, 7.1525574e-07)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_rhftb")

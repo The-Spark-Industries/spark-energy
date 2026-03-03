@@ -7,10 +7,10 @@ size = Vector2(126, 127)
 
 [node name="spark" type="CharacterBody2D" unique_id=1490817990 groups=["player"]]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=622580897]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=622580897 groups=["player"]]
 position = Vector2(0, -65)
 texture = ExtResource("1_bge2m")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1807555822]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1807555822 groups=["player"]]
 position = Vector2(-1, -64.5)
 shape = SubResource("RectangleShape2D_y6piv")

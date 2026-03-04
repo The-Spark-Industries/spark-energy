@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=31 format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="2_nuwp2"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://5ao3osj84mxr" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
+[ext_resource type="Shader" uid="uid://cnt8mrlrc00ji" path="res://Level 1/Level 1 Art Assets/Shaders/WaterFall2.gdshader" id="11_aqaee"]
 [ext_resource type="Shader" uid="uid://blfxpyl8w6jjv" path="res://Level 1/Level 1 Art Assets/Shaders/WaterFall.gdshader" id="11_l37wp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
@@ -61,20 +62,31 @@ radius = 60.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_w3b"]
 radius = 60.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqaee"]
-shader = ExtResource("11_l37wp")
-shader_parameter/distortion_strength = 0.05000000074506
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1yw1p"]
+shader = ExtResource("11_aqaee")
+shader_parameter/distortion_strength = 0.018
 shader_parameter/u_mouse = Vector2(0, 0)
 shader_parameter/u_resolution = Vector2(1280, 720)
-shader_parameter/background_alpha = 0.46000002185
-shader_parameter/tint_color = Color(0.20002729, 0.39182138, 1, 1)
-shader_parameter/opacity = 1.0
+shader_parameter/background_alpha = 0.5
+shader_parameter/tint_color = Color(0.15, 0.45, 1, 1)
+shader_parameter/opacity = 0.6
+shader_parameter/flow_speed = 1.8
+shader_parameter/foam_brightness = 0.4
 
 [sub_resource type="Gradient" id="Gradient_l37wp"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_aqaee"]
 gradient = SubResource("Gradient_l37wp")
 fill_to = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l8ajp"]
+shader = ExtResource("11_l37wp")
+shader_parameter/distortion_strength = 0.008
+shader_parameter/u_mouse = Vector2(0, 0)
+shader_parameter/u_resolution = Vector2(1280, 720)
+shader_parameter/background_alpha = 0.0
+shader_parameter/tint_color = Color(0.1, 0.4, 1, 1)
+shader_parameter/opacity = 0.8
 
 [node name="Level1" type="Node2D"]
 
@@ -297,13 +309,26 @@ scale = Vector2(1.5, 1.5)
 
 [node name="ColorRect" type="ColorRect" parent="Water Features"]
 z_index = 5
-material = SubResource("ShaderMaterial_aqaee")
+material = SubResource("ShaderMaterial_1yw1p")
 offset_left = 794.0
 offset_top = 491.0
 offset_right = 886.0
 offset_bottom = 1442.0
 
-[node name="PointLight2D" type="PointLight2D" parent="Water Features/ColorRect"]
-position = Vector2(43.00002, 473.50003)
+[node name="PointLight2D2" type="PointLight2D" parent="Water Features/ColorRect"]
+position = Vector2(325, 494)
+scale = Vector2(1.5624994, 14.734376)
+texture = SubResource("GradientTexture2D_aqaee")
+
+[node name="ColorRect2" type="ColorRect" parent="Water Features"]
+z_index = 5
+material = SubResource("ShaderMaterial_l8ajp")
+offset_left = 1076.0
+offset_top = 503.0
+offset_right = 1168.0
+offset_bottom = 1454.0
+
+[node name="PointLight2D" type="PointLight2D" parent="Water Features/ColorRect2"]
+position = Vector2(-235.99995, 481.00003)
 scale = Vector2(1.5624994, 14.734376)
 texture = SubResource("GradientTexture2D_aqaee")

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=29 format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="2_nuwp2"]
@@ -7,9 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
-[ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
+[ext_resource type="PackedScene" uid="uid://5ao3osj84mxr" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
+[ext_resource type="Shader" uid="uid://blfxpyl8w6jjv" path="res://Level 1/Level 1 Art Assets/Shaders/WaterFall.gdshader" id="11_l37wp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -60,26 +61,41 @@ radius = 60.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_w3b"]
 radius = 60.0
 
-[node name="Level1" type="Node2D" unique_id=320706740]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqaee"]
+shader = ExtResource("11_l37wp")
+shader_parameter/distortion_strength = 0.05000000074506
+shader_parameter/u_mouse = Vector2(0, 0)
+shader_parameter/u_resolution = Vector2(1280, 720)
+shader_parameter/background_alpha = 0.46000002185
+shader_parameter/tint_color = Color(0.20002729, 0.39182138, 1, 1)
+shader_parameter/opacity = 1.0
 
-[node name="platform" type="StaticBody2D" parent="." unique_id=1844586003]
+[sub_resource type="Gradient" id="Gradient_l37wp"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_aqaee"]
+gradient = SubResource("Gradient_l37wp")
+fill_to = Vector2(1, 1)
+
+[node name="Level1" type="Node2D"]
+
+[node name="platform" type="StaticBody2D" parent="."]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=8104759]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="platform"]
 scale = Vector2(2.0440001, 120.5)
 mesh = SubResource("QuadMesh_6015k")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform"]
 position = Vector2(2, 0)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="RoomCamera" type="Camera2D" parent="." unique_id=1812731569]
+[node name="RoomCamera" type="Camera2D" parent="."]
 position = Vector2(577, 314)
 script = ExtResource("3_roomcam")
 camera_targets_path = NodePath("../CameraPoints")
 
-[node name="pauseMenu" parent="RoomCamera" unique_id=1118913350 instance=ExtResource("4_nuwp2")]
+[node name="pauseMenu" parent="RoomCamera" instance=ExtResource("4_nuwp2")]
 visible = false
 anchors_preset = 0
 anchor_right = 0.0
@@ -92,59 +108,59 @@ grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(1.2, 1.2)
 
-[node name="gameInterface" parent="RoomCamera" unique_id=2083672228 instance=ExtResource("3_303fj")]
+[node name="gameInterface" parent="RoomCamera" instance=ExtResource("3_303fj")]
 offset_left = -555.0
 offset_top = -307.0
 offset_right = -555.0
 offset_bottom = -307.0
 scale = Vector2(0.5, 0.5)
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(406, 1156)
 script = ExtResource("1_vly50")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(-1, 2)
 shape = SubResource("RectangleShape2D_y4dr7")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=648467936]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 texture = ExtResource("2_nuwp2")
 
-[node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
+[node name="CameraPoints" type="Node2D" parent="."]
 position = Vector2(-1099, 1007)
 
-[node name="Node2D5" type="Node2D" parent="CameraPoints" unique_id=1681594411]
+[node name="Node2D5" type="Node2D" parent="CameraPoints"]
 position = Vector2(4000, 0)
 
-[node name="Node2D4" type="Node2D" parent="CameraPoints" unique_id=1813217306]
+[node name="Node2D4" type="Node2D" parent="CameraPoints"]
 position = Vector2(3000, 0)
 
-[node name="Node2D3" type="Node2D" parent="CameraPoints" unique_id=1282915343]
+[node name="Node2D3" type="Node2D" parent="CameraPoints"]
 position = Vector2(2000, 0)
 
-[node name="Node2D2" type="Node2D" parent="CameraPoints" unique_id=609835357]
+[node name="Node2D2" type="Node2D" parent="CameraPoints"]
 position = Vector2(1000, 0)
 
-[node name="Node2D" type="Node2D" parent="CameraPoints" unique_id=1172714710]
+[node name="Node2D" type="Node2D" parent="CameraPoints"]
 
-[node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
+[node name="WirePath1" type="Node2D" parent="."]
 position = Vector2(482, 1254)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath1" unique_id=1211272085]
+[node name="Path2D" type="Path2D" parent="WirePath1"]
 curve = SubResource("Curve2D_wire1")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D" unique_id=432903862]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D"]
 rotation = -1.2906986
 
-[node name="EndA" type="Area2D" parent="WirePath1" unique_id=1221913779]
+[node name="EndA" type="Area2D" parent="WirePath1"]
 collision_layer = 0
 script = ExtResource("6_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA" unique_id=1295475477]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA"]
 shape = SubResource("CircleShape2D_w1a")
 
-[node name="Prompt" type="Label" parent="WirePath1/EndA" unique_id=1691917041]
+[node name="Prompt" type="Label" parent="WirePath1/EndA"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -153,17 +169,17 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath1" unique_id=1079659657]
+[node name="EndB" type="Area2D" parent="WirePath1"]
 position = Vector2(500, 0)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB" unique_id=906745439]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB"]
 position = Vector2(-14, 0)
 shape = SubResource("CircleShape2D_w1b")
 
-[node name="Prompt" type="Label" parent="WirePath1/EndB" unique_id=2057939934]
+[node name="Prompt" type="Label" parent="WirePath1/EndB"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -172,26 +188,26 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WirePath2" type="Node2D" parent="." unique_id=916138111]
+[node name="WirePath2" type="Node2D" parent="."]
 position = Vector2(1182, 1254)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath2" unique_id=999994171]
+[node name="Path2D" type="Path2D" parent="WirePath2"]
 material = SubResource("CanvasItemMaterial_y4dr7")
 scale = Vector2(1, 0.26)
 curve = SubResource("Curve2D_wire2")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D" unique_id=586326500]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D"]
 rotation = -0.9496912
 
-[node name="EndA" type="Area2D" parent="WirePath2" unique_id=1109308881]
+[node name="EndA" type="Area2D" parent="WirePath2"]
 collision_layer = 0
 script = ExtResource("6_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA" unique_id=1036708283]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA"]
 shape = SubResource("CircleShape2D_w2a")
 
-[node name="Prompt" type="Label" parent="WirePath2/EndA" unique_id=888101419]
+[node name="Prompt" type="Label" parent="WirePath2/EndA"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -200,16 +216,16 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath2" unique_id=525046066]
+[node name="EndB" type="Area2D" parent="WirePath2"]
 position = Vector2(800, 0)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB" unique_id=99447628]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB"]
 shape = SubResource("CircleShape2D_w2b")
 
-[node name="Prompt" type="Label" parent="WirePath2/EndB" unique_id=1590455286]
+[node name="Prompt" type="Label" parent="WirePath2/EndB"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -218,28 +234,28 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WirePath3" type="Node2D" parent="." unique_id=1094322965]
+[node name="WirePath3" type="Node2D" parent="."]
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath3" unique_id=1222895979]
+[node name="Path2D" type="Path2D" parent="WirePath3"]
 position = Vector2(-349, 14.999981)
 scale = Vector2(1.114618, 0.22846451)
 curve = SubResource("Curve2D_wire3")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D" unique_id=834413157]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D"]
 rotation = -1.2933193
 
-[node name="EndA" type="Area2D" parent="WirePath3" unique_id=1349027901]
+[node name="EndA" type="Area2D" parent="WirePath3"]
 position = Vector2(-345, 2)
 collision_layer = 0
 script = ExtResource("6_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA" unique_id=267454114]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA"]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_w3a")
 
-[node name="Prompt" type="Label" parent="WirePath3/EndA" unique_id=424495009]
+[node name="Prompt" type="Label" parent="WirePath3/EndA"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -248,17 +264,17 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath3" unique_id=512753618]
+[node name="EndB" type="Area2D" parent="WirePath3"]
 position = Vector2(321, -5)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=261022935]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB"]
 position = Vector2(-45, 15)
 shape = SubResource("CircleShape2D_w3b")
 
-[node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=1550603915]
+[node name="Prompt" type="Label" parent="WirePath3/EndB"]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -267,12 +283,27 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WaterBlock" parent="." unique_id=1311997150 instance=ExtResource("7_rgorn")]
+[node name="WaterBlock" parent="." instance=ExtResource("7_rgorn")]
 position = Vector2(-1287, 1341)
 
-[node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
+[node name="Checkpoint" parent="." instance=ExtResource("8_tiul6")]
 position = Vector2(-192, 1229)
 
-[node name="WaterShoes" parent="." unique_id=1326362754 instance=ExtResource("9_gdrb5")]
+[node name="WaterShoes" parent="." instance=ExtResource("9_gdrb5")]
 position = Vector2(1065, 1269)
 scale = Vector2(1.5, 1.5)
+
+[node name="Water Features" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Water Features"]
+z_index = 5
+material = SubResource("ShaderMaterial_aqaee")
+offset_left = 794.0
+offset_top = 491.0
+offset_right = 886.0
+offset_bottom = 1442.0
+
+[node name="PointLight2D" type="PointLight2D" parent="Water Features/ColorRect"]
+position = Vector2(43.00002, 473.50003)
+scale = Vector2(1.5624994, 14.734376)
+texture = SubResource("GradientTexture2D_aqaee")

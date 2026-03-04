@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=33 format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="2_nuwp2"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 [ext_resource type="Shader" uid="uid://cnt8mrlrc00ji" path="res://Level 1/Level 1 Art Assets/Shaders/WaterFall2.gdshader" id="11_aqaee"]
 [ext_resource type="Shader" uid="uid://blfxpyl8w6jjv" path="res://Level 1/Level 1 Art Assets/Shaders/WaterFall.gdshader" id="11_l37wp"]
+[ext_resource type="Shader" uid="uid://do4e3k2vwro2w" path="res://Level 1/Level 1 Art Assets/Shaders/Water3333.gdshader" id="13_1yw1p"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -87,6 +88,11 @@ shader_parameter/u_resolution = Vector2(1280, 720)
 shader_parameter/background_alpha = 0.0
 shader_parameter/tint_color = Color(0.1, 0.4, 1, 1)
 shader_parameter/opacity = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xxqs"]
+shader = ExtResource("13_1yw1p")
+shader_parameter/water_tint_colour = Color(0, 0, 0, 1)
+shader_parameter/water_droplet_colour = Color(0, 0, 0, 1)
 
 [node name="Level1" type="Node2D"]
 
@@ -332,3 +338,10 @@ offset_bottom = 1454.0
 position = Vector2(-235.99995, 481.00003)
 scale = Vector2(1.5624994, 14.734376)
 texture = SubResource("GradientTexture2D_aqaee")
+
+[node name="ColorRect3" type="ColorRect" parent="Water Features"]
+material = SubResource("ShaderMaterial_6xxqs")
+offset_left = 1348.0
+offset_top = 505.0
+offset_right = 1469.0
+offset_bottom = 1413.0

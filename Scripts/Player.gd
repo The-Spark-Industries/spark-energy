@@ -1,11 +1,12 @@
 extends CharacterBody2D
 
 @export var SPEED := 40000.0
-@export var JUMP_VELOCITY := -160000.0
-@export var START_GRAVITY := 9000.0
+@export var JUMP_VELOCITY := -120000.0
+@export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 140 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
 @export var JUMP_CUT_MULTIPLIER := 0.4
+@export var JUMP_ASCENT_SLOWDOWN := 0.9
 @export var AIR_HANG_MULTIPLIER := 0.95
 @export var AIR_HANG_THRESHOLD := 5.0
 @export var Y_SMOOTHING := 0.8
@@ -65,7 +66,7 @@ func _physics_process(delta: float) -> void:
 
 	match state:
 		States.JUMP:
-			velocity.y = JUMP_VELOCITY * delta
+			velocity.y = JUMP_VELOCITY * JUMP_ASCENT_SLOWDOWN * delta
 			if sprite: sprite.play("jump")
 			if animPlayer:
 				animPlayer.stop()
@@ -93,7 +94,10 @@ func _physics_process(delta: float) -> void:
 					last_jump_queue_msec = Time.get_ticks_msec()
 			
 			# Gravity & Air Hang Peak Logic
-			velocity.y += current_gravity * delta
+			var gravity_to_apply := current_gravity
+			if velocity.y < 0.0:
+				gravity_to_apply *= JUMP_ASCENT_SLOWDOWN
+			velocity.y += gravity_to_apply * delta
 			if abs(velocity.y) < AIR_HANG_THRESHOLD:
 				current_gravity *= AIR_HANG_MULTIPLIER
 			else:

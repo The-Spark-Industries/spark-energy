@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
+[ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -276,3 +277,6 @@ position = Vector2(-192, 1229)
 [node name="WaterShoes" parent="." unique_id=1326362754 instance=ExtResource("9_gdrb5")]
 position = Vector2(1065, 1269)
 scale = Vector2(1.5, 1.5)
+
+[node name="Map" parent="." unique_id=974593840 instance=ExtResource("11_l37wp")]
+position = Vector2(754, 1278)

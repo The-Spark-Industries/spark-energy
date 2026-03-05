@@ -8,6 +8,9 @@ extends Camera2D
 @export var camera_targets_group: StringName = &"camera_points"
 
 @export var player_path: NodePath = NodePath("../CharacterBody2D")
+
+@export var room_size: Vector2 = Vector2(960.0, 540.0)
+
 @export var transition_duration: float = 0.45
 @export_enum("Linear:0", "EaseIn:1", "EaseOut:2", "EaseInOut:3") \
 		var transition_ease: int = 3

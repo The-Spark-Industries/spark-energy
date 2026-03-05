@@ -17,7 +17,7 @@
 size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
-size = Vector2(4092, 120)
+size = Vector2(4285.7153, 105)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(16, 56)
@@ -67,11 +67,80 @@ position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=8104759]
-scale = Vector2(2.0440001, 120.5)
+position = Vector2(0, -9.124987)
+scale = Vector2(2.0440001, 102.25002)
 mesh = SubResource("QuadMesh_6015k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
-position = Vector2(2, 0)
+position = Vector2(2, -7.5)
+shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="platform2" type="StaticBody2D" parent="." unique_id=745345215]
+position = Vector2(1850, 1250)
+
+[node name="ColorRect" type="ColorRect" parent="platform2" unique_id=1421301210]
+offset_left = -150.0
+offset_top = -20.0
+offset_right = 150.0
+offset_bottom = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform2" unique_id=1207154522]
+scale = Vector2(0.07, 0.33)
+shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="platform3" type="StaticBody2D" parent="." unique_id=92259894]
+position = Vector2(1463, 1036)
+
+[node name="ColorRect" type="ColorRect" parent="platform3" unique_id=1344914548]
+offset_left = -120.0
+offset_top = -20.0
+offset_right = 120.0
+offset_bottom = 20.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform3" unique_id=5874413]
+position = Vector2(-0.00012207031, 0)
+scale = Vector2(0.058, 0.33)
+shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="platform4" type="StaticBody2D" parent="." unique_id=971863778]
+position = Vector2(1886, 886)
+
+[node name="ColorRect" type="ColorRect" parent="platform4" unique_id=828980364]
+offset_left = -140.0
+offset_top = -20.0
+offset_right = 140.0
+offset_bottom = 20.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform4" unique_id=1341421279]
+scale = Vector2(0.068, 0.33)
+shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="platform5" type="StaticBody2D" parent="." unique_id=134805761]
+position = Vector2(2650, 850)
+
+[node name="ColorRect" type="ColorRect" parent="platform5" unique_id=1975155509]
+offset_left = -188.0
+offset_top = -20.0
+offset_right = 188.0
+offset_bottom = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform5" unique_id=2062761595]
+scale = Vector2(0.088, 0.33)
+shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="platform6" type="StaticBody2D" parent="." unique_id=1233659104]
+position = Vector2(2950, 750)
+
+[node name="ColorRect" type="ColorRect" parent="platform6" unique_id=1631438526]
+offset_left = -150.0
+offset_top = -20.0
+offset_right = 150.0
+offset_bottom = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform6" unique_id=740267975]
+scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
 [node name="RoomCamera" type="Camera2D" parent="." unique_id=1812731569]
@@ -111,7 +180,7 @@ shape = SubResource("RectangleShape2D_y4dr7")
 texture = ExtResource("2_nuwp2")
 
 [node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
-position = Vector2(-1099, 1007)
+position = Vector2(-1099, 1050)
 
 [node name="Node2D5" type="Node2D" parent="CameraPoints" unique_id=1681594411]
 position = Vector2(4000, 0)

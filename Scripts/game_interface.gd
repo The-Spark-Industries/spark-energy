@@ -4,6 +4,8 @@ extends Control
 @onready var shoestexture= preload("res://icon.svg")
 var inventorycounter: int= 0
 
+var maptrigger= false
+var shoestrigger= false
 
 #var icons_dictionary: Dictionary = {
 	#0 : maptexture,
@@ -43,3 +45,9 @@ func _process(delta: float) -> void:
 		%Icon.visible = true
 		%Icon.texture = icons_array[inventorycounter]
 		#%Icon.texture =load("res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png")
+
+
+	if (Global.inventory == ["Map", "WaterShoes"] and shoestrigger==false):
+		shoestrigger=true
+		%Icon.texture = icons_array[1]
+		inventorycounter=1

@@ -328,7 +328,7 @@ theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
 [node name="WaterBlock" parent="." unique_id=1311997150 instance=ExtResource("7_rgorn")]
-position = Vector2(-1287, 1341)
+position = Vector2(-1287, 1342)
 
 [node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
 position = Vector2(-192, 1229)

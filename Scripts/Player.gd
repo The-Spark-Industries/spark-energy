@@ -37,7 +37,7 @@ var _water_death_timer: Timer
 var _water_walk_used: bool = false
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var animPlayer: AnimationPlayer = $AnimationPlayer
+@onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
 	set_meta("pipe_traveling", false)

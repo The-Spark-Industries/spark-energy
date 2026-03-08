@@ -8,10 +8,12 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.get_meta("tag", "") != "player":
+
 		return
 
 	# Safely set the flag on the player script, if it exists.
 	if "can_walk_on_water" in body:
 		body.can_walk_on_water = true
 
+	Global.add_item_to_inventory("WaterShoes")
 	queue_free()

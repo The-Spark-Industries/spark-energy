@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://u8w5e8g3euut"]
 
+[ext_resource type="Script" uid="uid://dls3n76f3qgr2" path="res://Scripts/game_interface.gd" id="1_bhmpg"]
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_j3ay2"]
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="3_4qk6w"]
 
 [node name="gameInterface" type="Control" unique_id=2083672228]
 layout_mode = 3
@@ -9,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bhmpg")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1717566387]
 layout_mode = 0
@@ -16,14 +19,23 @@ offset_right = 34.0
 offset_bottom = 9.0
 columns = 15
 
-[node name="Button" type="Button" parent="GridContainer" unique_id=1306053666]
-layout_mode = 2
-icon = ExtResource("1_j3ay2")
+[node name="Icon" type="Sprite2D" parent="GridContainer" unique_id=147067831]
+unique_name_in_owner = true
+position = Vector2(64, 59)
+
+[node name="Icon2" type="Sprite2D" parent="GridContainer" unique_id=1448720405]
+unique_name_in_owner = true
+visible = false
+position = Vector2(58.499996, 56.5)
+scale = Vector2(1.8281251, 2.0833335)
+texture = ExtResource("3_4qk6w")
 
 [node name="Button2" type="Button" parent="GridContainer" unique_id=817545553]
+visible = false
 layout_mode = 2
 icon = ExtResource("1_j3ay2")
 
 [node name="Button3" type="Button" parent="GridContainer" unique_id=1506755236]
+visible = false
 layout_mode = 2
 icon = ExtResource("1_j3ay2")

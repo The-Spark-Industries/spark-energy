@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b7oygvq4jaa8g"]
+
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="1_wi61q"]
+[ext_resource type="Script" uid="uid://b4veu86qsyig5" path="res://Scripts/map.gd" id="1_ws4x8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_water_shoes"]
+size = Vector2(32, 32)
+
+[node name="Map" type="Area2D" unique_id=974593840]
+collision_layer = 0
+script = ExtResource("1_ws4x8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1854260101]
+shape = SubResource("RectangleShape2D_water_shoes")
+debug_color = Color(0, 0, 0, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819224295]
+position = Vector2(2.25, -1.3749995)
+scale = Vector2(0.99218756, 0.57916665)
+texture = ExtResource("1_wi61q")

@@ -41,7 +41,15 @@ var _water_walk_used: bool = false
 func _ready() -> void:
 	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
-	Global.set_checkpoint(global_position)
+
+	var scene_path := ""
+	if get_tree().current_scene:
+		scene_path = get_tree().current_scene.scene_file_path
+
+	if Global.has_checkpoint_for_scene(scene_path):
+		global_position = Global.last_checkpoint_position
+	else:
+		Global.set_checkpoint(global_position, scene_path)
 
 	_water_death_timer = Timer.new()
 	_water_death_timer.one_shot = true

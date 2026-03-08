@@ -1,17 +1,17 @@
 extends CharacterBody2D
 
-# --- Movement Tuning (Imported from Reference) ---
-@export var SPEED := 30400.0
-@export var JUMP_VELOCITY := -42000.0
-@export var START_GRAVITY := 1700.0
+@export var SPEED := 40000.0
+@export var JUMP_VELOCITY := -120000.0
+@export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 140 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
 @export var JUMP_CUT_MULTIPLIER := 0.4
+@export var JUMP_ASCENT_SLOWDOWN := 0.9
 @export var AIR_HANG_MULTIPLIER := 0.95
-@export var AIR_HANG_THRESHOLD := 50.0
+@export var AIR_HANG_THRESHOLD := 5.0
 @export var Y_SMOOTHING := 0.8
 @export var AIR_X_SMOOTHING := 0.10
-@export var MAX_FALL_SPEED := 25000.0
+@export var MAX_FALL_SPEED := 60000.0
 
 # --- State & Internal Variables ---
 enum States { IDLE, RUN, JUMP, AIR, DEAD }
@@ -21,6 +21,7 @@ var prev_velocity := Vector2.ZERO
 var last_floor_msec := 0
 var last_jump_queue_msec := 0
 var current_gravity := START_GRAVITY
+var has_boots := false
 
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
@@ -63,10 +64,9 @@ func _physics_process(delta: float) -> void:
 		state = States.AIR
 		if sprite: sprite.play("fall")
 
-	# --- State Machine ---
 	match state:
 		States.JUMP:
-			velocity.y = JUMP_VELOCITY * delta
+			velocity.y = JUMP_VELOCITY * JUMP_ASCENT_SLOWDOWN * delta
 			if sprite: sprite.play("jump")
 			if animPlayer:
 				animPlayer.stop()
@@ -94,7 +94,10 @@ func _physics_process(delta: float) -> void:
 					last_jump_queue_msec = Time.get_ticks_msec()
 			
 			# Gravity & Air Hang Peak Logic
-			velocity.y += current_gravity * delta
+			var gravity_to_apply := current_gravity
+			if velocity.y < 0.0:
+				gravity_to_apply *= JUMP_ASCENT_SLOWDOWN
+			velocity.y += gravity_to_apply * delta
 			if abs(velocity.y) < AIR_HANG_THRESHOLD:
 				current_gravity *= AIR_HANG_MULTIPLIER
 			else:
@@ -123,7 +126,7 @@ func _physics_process(delta: float) -> void:
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
-	velocity.y = min(velocity.y, MAX_FALL_SPEED * delta)
+	velocity.y = min(velocity.y, MAX_FALL_SPEED)
 	
 	prev_velocity = velocity
 	move_and_slide()

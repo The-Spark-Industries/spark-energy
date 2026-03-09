@@ -4,7 +4,7 @@ var _room_camera: Camera2D
 var _ordered_room_nodes: Array[Node2D] = []
 
 @onready var _inventory_icon: Sprite2D = %Icon
-@onready var _map_popup: CanvasLayer = get_node_or_null("MapPopup") as CanvasLayer
+@onready var _map_popup: Control = get_node_or_null("MapPopup") as Control
 
 func _ready() -> void:
 	_inventory_icon.visible = Global.inventory.size() > 0

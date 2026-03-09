@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dls3n76f3qgr2" path="res://Scripts/game_interface.gd" id="1_bhmpg"]
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_j3ay2"]
-[ext_resource type="PackedScene" path="res://Master Scenes/mapPopup.tscn" id="3_map_popup"]
+[ext_resource type="PackedScene" uid="uid://bnlt6jtra2jyf" path="res://Master Scenes/mapPopup.tscn" id="3_map_popup"]
 
 [node name="gameInterface" type="Control" unique_id=2083672228]
 layout_mode = 3
@@ -34,5 +34,5 @@ visible = false
 layout_mode = 2
 icon = ExtResource("1_j3ay2")
 
-[node name="MapPopup" parent="." instance=ExtResource("3_map_popup")]
+[node name="MapPopup" parent="." unique_id=1246319699 instance=ExtResource("3_map_popup")]
 unique_name_in_owner = true

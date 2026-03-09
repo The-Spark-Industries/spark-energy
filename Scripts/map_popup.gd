@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 const MAP_ROWS := 5
 const MAP_COLS := 5
@@ -8,6 +8,7 @@ const MAP_BACKGROUND_COLOR := Color(0.0, 0.0, 0.0, 0.55)
 const MAP_PANEL_COLOR := Color(0.08, 0.08, 0.08, 0.9)
 const MAP_ROOM_COLOR := Color(0.25, 0.25, 0.25, 1.0)
 const MAP_ACTIVE_ROOM_COLOR := Color(0.95, 0.85, 0.2, 1.0)
+const MAP_CELL_SIZE := Vector2(150.0, 87.5)
 
 @onready var _map_backdrop: ColorRect = get_node_or_null("MapBackdrop") as ColorRect
 @onready var _map_panel: Panel = get_node_or_null("MapBackdrop/MapPanel") as Panel
@@ -77,7 +78,7 @@ func _build_grid_cells() -> void:
 
 	for _i in range(TOTAL_ROOMS):
 		var cell := ColorRect.new()
-		cell.custom_minimum_size = Vector2(95.0, 54.0)
+		cell.custom_minimum_size = MAP_CELL_SIZE
 		cell.color = MAP_ROOM_COLOR
 		cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_map_grid.add_child(cell)

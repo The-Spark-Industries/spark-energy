@@ -4,9 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://u8w5e8g3euut" path="res://Master Scenes/gameInterface.tscn" id="3_303fj"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
-
 [ext_resource type="Texture2D" uid="uid://rlt32q36o2la" path="res://1_Main Character Assets/Spark Assets/Spark Animations/spark.png" id="5_l37wp"]
-
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
 [ext_resource type="Texture2D" uid="uid://c22qdf1xpvi54" path="res://1_Main Character Assets/Spark Assets/Spark Animations/jumping_spark.png" id="6_aqaee"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
@@ -21,7 +19,7 @@
 size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
-size = Vector2(4285.7153, 105)
+size = Vector2(4188.8574, 105)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(15, 52)
@@ -264,7 +262,7 @@ scale = Vector2(2.0440001, 102.25002)
 mesh = SubResource("QuadMesh_6015k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
-position = Vector2(2, -7.5)
+position = Vector2(50.428833, -7.5)
 shape = SubResource("RectangleShape2D_4hvuo")
 
 [node name="platform2" type="StaticBody2D" parent="." unique_id=745345215]

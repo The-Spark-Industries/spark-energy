@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dqprixyr8ldey"]
+
+[ext_resource type="Script" path="res://Scripts/map_popup.gd" id="1_map_popup"]
+
+[node name="MapPopup" type="Control" unique_id=1249499103]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_map_popup")
+
+[node name="MapBackdrop" type="ColorRect" parent="." unique_id=1841744125]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MapPanel" type="Panel" parent="MapBackdrop" unique_id=2050577351]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -474.0
+offset_top = -315.0
+offset_right = 475.0
+offset_bottom = 315.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MapCenter" type="CenterContainer" parent="MapBackdrop/MapPanel" unique_id=1341001724]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapGrid" type="GridContainer" parent="MapBackdrop/MapPanel/MapCenter" unique_id=1127470762]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 5

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dls3n76f3qgr2" path="res://Scripts/game_interface.gd" id="1_bhmpg"]
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_j3ay2"]
 [ext_resource type="PackedScene" uid="uid://bnlt6jtra2jyf" path="res://Master Scenes/mapPopup.tscn" id="3_map_popup"]
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="3_4qk6w"]
 
 [node name="gameInterface" type="Control" unique_id=2083672228]
 layout_mode = 3
@@ -22,7 +23,13 @@ columns = 15
 [node name="Icon" type="Sprite2D" parent="GridContainer" unique_id=147067831]
 unique_name_in_owner = true
 position = Vector2(64, 59)
-texture = ExtResource("1_j3ay2")
+
+[node name="Icon2" type="Sprite2D" parent="GridContainer" unique_id=1448720405]
+unique_name_in_owner = true
+visible = false
+position = Vector2(58.499996, 56.5)
+scale = Vector2(1.8281251, 2.0833335)
+texture = ExtResource("3_4qk6w")
 
 [node name="Button2" type="Button" parent="GridContainer" unique_id=817545553]
 visible = false

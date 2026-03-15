@@ -11,10 +11,92 @@ collision_layer = 0
 script = ExtResource("1_ws4x8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1854260101]
+unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_water_shoes")
 debug_color = Color(0, 0, 0, 0.41960785)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819224295]
+unique_name_in_owner = true
 position = Vector2(2.25, -1.3749995)
 scale = Vector2(0.99218756, 0.57916665)
 texture = ExtResource("1_wi61q")
+
+[node name="notif" type="Control" parent="." unique_id=664901686]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -169.0
+offset_top = -365.0
+offset_right = 221.0
+offset_bottom = -253.0
+size_flags_horizontal = 0
+
+[node name="ColorRect" type="ColorRect" parent="notif" unique_id=1326643812]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.092334494
+anchor_top = -0.24066387
+anchor_right = 0.092334494
+anchor_bottom = -0.24066387
+offset_left = -13.0
+offset_top = -55.0
+offset_right = 182.0
+offset_bottom = 63.0
+scale = Vector2(3, 3)
+metadata/_edit_use_anchors_ = true
+
+[node name="description" type="Label" parent="notif" unique_id=1915433488]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.18717949
+anchor_top = 0.5
+anchor_right = 1.6051282
+anchor_bottom = 0.53125
+offset_left = 22.0
+offset_top = -18.5
+offset_right = 179.0
+offset_bottom = 32.5
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "With a map, you can figure out where you are in the power plant."
+metadata/_edit_use_anchors_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="notif" unique_id=1130521630]
+position = Vector2(59, 50)
+scale = Vector2(0.8, 0.466)
+texture = ExtResource("1_wi61q")
+
+[node name="Title" type="Label" parent="notif" unique_id=1689661460]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -156.0
+offset_right = -1.0
+offset_bottom = -53.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 75
+text = "Map"
+
+[node name="ok" type="Button" parent="notif" unique_id=759325762]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.55128205
+anchor_top = 1.2767857
+anchor_right = 0.55128205
+anchor_bottom = 1.2767857
+offset_left = 66.0
+offset_top = 28.0
+offset_right = 97.0
+offset_bottom = 59.0
+scale = Vector2(2, 2)
+text = "OK"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="notif/ok" to="." method="_on_ok_pressed"]

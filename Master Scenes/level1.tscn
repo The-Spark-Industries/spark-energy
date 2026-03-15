@@ -279,4 +279,11 @@ position = Vector2(1065, 1269)
 scale = Vector2(1.5, 1.5)
 
 [node name="Map" parent="." unique_id=974593840 instance=ExtResource("11_l37wp")]
+unique_name_in_owner = true
 position = Vector2(754, 1278)
+
+[node name="notif" parent="Map" index="2" unique_id=664901686]
+process_mode = 3
+visible = true
+
+[editable path="Map"]

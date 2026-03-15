@@ -1,9 +1,6 @@
 [gd_scene format=3 uid="uid://bnlt6jtra2jyf"]
 
 [ext_resource type="Script" uid="uid://cgnsyii0rpty2" path="res://Scripts/map_popup.gd" id="1_map_popup"]
-[gd_scene format=3 uid="uid://dqprixyr8ldey"]
-
-[ext_resource type="Script" path="res://Scripts/map_popup.gd" id="1_map_popup"]
 
 [node name="MapPopup" type="Control" unique_id=1249499103]
 layout_mode = 3

@@ -109,3 +109,9 @@ func _int_to_ease(idx: int) -> Tween.EaseType:
 		2:  return Tween.EASE_OUT
 		3:  return Tween.EASE_IN_OUT
 		_:  return Tween.EASE_IN_OUT
+
+func get_current_target() -> Node2D:
+	return _current_target
+
+func get_camera_targets() -> Array[Node2D]:
+	return _targets.duplicate()

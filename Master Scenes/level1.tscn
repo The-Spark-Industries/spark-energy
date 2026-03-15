@@ -352,10 +352,10 @@ grow_vertical = 1
 scale = Vector2(1.2, 1.2)
 
 [node name="gameInterface" parent="RoomCamera" unique_id=2083672228 instance=ExtResource("3_303fj")]
-offset_left = -555.0
-offset_top = -307.0
-offset_right = -555.0
-offset_bottom = -307.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = -1.0
+offset_bottom = -1.0
 scale = Vector2(0.5, 0.5)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
@@ -373,19 +373,79 @@ animation = &"jump"
 [node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
 position = Vector2(-1099, 1050)
 
-[node name="Node2D5" type="Node2D" parent="CameraPoints" unique_id=1681594411]
-position = Vector2(4000, 0)
+[node name="Room_0_0" type="Node2D" parent="CameraPoints" unique_id=697253879]
 
-[node name="Node2D4" type="Node2D" parent="CameraPoints" unique_id=1813217306]
-position = Vector2(3000, 0)
-
-[node name="Node2D3" type="Node2D" parent="CameraPoints" unique_id=1282915343]
-position = Vector2(2000, 0)
-
-[node name="Node2D2" type="Node2D" parent="CameraPoints" unique_id=609835357]
+[node name="Room_0_1" type="Node2D" parent="CameraPoints" unique_id=1155560918]
 position = Vector2(1000, 0)
 
-[node name="Node2D" type="Node2D" parent="CameraPoints" unique_id=1172714710]
+[node name="Room_0_2" type="Node2D" parent="CameraPoints" unique_id=1392805412]
+position = Vector2(2000, 0)
+
+[node name="Room_0_3" type="Node2D" parent="CameraPoints" unique_id=100174834]
+position = Vector2(3000, 0)
+
+[node name="Room_0_4" type="Node2D" parent="CameraPoints" unique_id=1657203684]
+position = Vector2(4000, 0)
+
+[node name="Room_1_0" type="Node2D" parent="CameraPoints" unique_id=1912298782]
+position = Vector2(0, 600)
+
+[node name="Room_1_1" type="Node2D" parent="CameraPoints" unique_id=502162458]
+position = Vector2(1000, 600)
+
+[node name="Room_1_2" type="Node2D" parent="CameraPoints" unique_id=1543666515]
+position = Vector2(2000, 600)
+
+[node name="Room_1_3" type="Node2D" parent="CameraPoints" unique_id=1688043101]
+position = Vector2(3000, 600)
+
+[node name="Room_1_4" type="Node2D" parent="CameraPoints" unique_id=1994861453]
+position = Vector2(4000, 600)
+
+[node name="Room_2_0" type="Node2D" parent="CameraPoints" unique_id=1919962837]
+position = Vector2(0, 1200)
+
+[node name="Room_2_1" type="Node2D" parent="CameraPoints" unique_id=1904769222]
+position = Vector2(1000, 1200)
+
+[node name="Room_2_2" type="Node2D" parent="CameraPoints" unique_id=262305620]
+position = Vector2(2000, 1200)
+
+[node name="Room_2_3" type="Node2D" parent="CameraPoints" unique_id=80117181]
+position = Vector2(3000, 1200)
+
+[node name="Room_2_4" type="Node2D" parent="CameraPoints" unique_id=1486081301]
+position = Vector2(4000, 1200)
+
+[node name="Room_3_0" type="Node2D" parent="CameraPoints" unique_id=876326285]
+position = Vector2(0, 1800)
+
+[node name="Room_3_1" type="Node2D" parent="CameraPoints" unique_id=28634516]
+position = Vector2(1000, 1800)
+
+[node name="Room_3_2" type="Node2D" parent="CameraPoints" unique_id=798432118]
+position = Vector2(2000, 1800)
+
+[node name="Room_3_3" type="Node2D" parent="CameraPoints" unique_id=2041901714]
+position = Vector2(3000, 1800)
+
+[node name="Room_3_4" type="Node2D" parent="CameraPoints" unique_id=227884753]
+position = Vector2(4000, 1800)
+
+[node name="Room_4_0" type="Node2D" parent="CameraPoints" unique_id=680348713]
+position = Vector2(0, 2400)
+
+[node name="Room_4_1" type="Node2D" parent="CameraPoints" unique_id=1011269222]
+position = Vector2(1000, 2400)
+
+[node name="Room_4_2" type="Node2D" parent="CameraPoints" unique_id=645539716]
+position = Vector2(2000, 2400)
+
+[node name="Room_4_3" type="Node2D" parent="CameraPoints" unique_id=334918482]
+position = Vector2(3000, 2400)
+
+[node name="Room_4_4" type="Node2D" parent="CameraPoints" unique_id=2000218893]
+position = Vector2(4000, 2400)
 
 [node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
 position = Vector2(482, 1254)
@@ -528,7 +588,7 @@ theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
 [node name="WaterBlock" parent="." unique_id=1311997150 instance=ExtResource("7_rgorn")]
-position = Vector2(-1287, 1341)
+position = Vector2(-1287, 1342)
 
 [node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
 position = Vector2(-192, 1229)

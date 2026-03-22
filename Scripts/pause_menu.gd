@@ -5,12 +5,14 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = false
+	_bring_to_front()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause"):
 		if (get_tree().paused==false ):
+			_bring_to_front()
 			get_tree().paused= true
 			oM.visible =false
 			visible=true
@@ -18,6 +20,12 @@ func _input(event: InputEvent) -> void:
 			get_tree().paused= false
 			visible=false
 			oM.visible =false
+
+
+func _bring_to_front() -> void:
+	var parent_node := get_parent()
+	if parent_node:
+		parent_node.move_child(self, parent_node.get_child_count() - 1)
 
 
 func _on_resume_pressed() -> void:

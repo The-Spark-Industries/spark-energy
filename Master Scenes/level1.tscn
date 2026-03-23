@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 [ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
+[ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -602,3 +603,6 @@ position = Vector2(754, 1278)
 
 [node name="Checkpoint2" parent="." unique_id=256465831 instance=ExtResource("8_tiul6")]
 position = Vector2(623, 1245)
+
+[node name="PipePuzzleTerminal" parent="." unique_id=1934063769 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(807, 1228)

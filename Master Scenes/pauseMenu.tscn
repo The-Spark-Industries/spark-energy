@@ -13,6 +13,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pbpjw")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1909889208]
+layout_mode = 0
+offset_left = -2288.0
+offset_top = -2446.0
+offset_right = 5012.0
+offset_bottom = 1038.0
+color = Color(0, 0, 0, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2106908940]
 layout_mode = 1
 anchors_preset = -1
@@ -25,7 +33,7 @@ offset_right = 568.5
 offset_bottom = -143.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=347848596]
+[node name="paused" type="Label" parent="VBoxContainer" unique_id=347848596]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -64,7 +72,6 @@ theme_override_font_sizes/font_size = 38
 text = "Quit"
 
 [node name="optionsMenu" type="Control" parent="." unique_id=2128573208]
-visible = false
 anchors_preset = 0
 offset_right = 1148.0
 offset_bottom = 647.0
@@ -94,7 +101,7 @@ offset_left = -55.0
 offset_top = -310.0
 offset_right = 4.0
 offset_bottom = -287.0
-scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 32
 text = "Volume"
 
 [node name="volumeSlider" type="HSlider" parent="optionsMenu" unique_id=1934130321]

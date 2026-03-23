@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cajr8gi261a7b"]
 
 [ext_resource type="Script" uid="uid://buq37mcyld3m5" path="res://Scripts/title_screen.gd" id="1_qcgwx"]
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_ppmyv"]
 
 [node name="titleScreen" type="Control" unique_id=101879355]
 layout_mode = 3
@@ -10,6 +11,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qcgwx")
+
+[node name="LogoOption1" type="Sprite2D" parent="." unique_id=767443607]
+position = Vector2(473.5, 260.625)
+scale = Vector2(6.5859375, 1.4628906)
+texture = ExtResource("2_ppmyv")
+
+[node name="LogoOption2" type="Label" parent="." unique_id=1502954281]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 63.0
+offset_right = 920.0
+offset_bottom = 201.0
+theme_override_font_sizes/font_size = 76
+text = "SPARK'S ENERGY QUEST"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=800570624]
 layout_mode = 1
@@ -32,13 +47,13 @@ text = "Options"
 
 [node name="Container" type="Container" parent="." unique_id=60781399]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.287
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -91.0
-offset_top = 163.0
+offset_top = 210.02
 offset_right = 151.0
 offset_bottom = 226.0
 grow_horizontal = 2
@@ -54,6 +69,7 @@ theme_override_font_sizes/font_size = 79
 text = "Start"
 
 [node name="optionsMenu" type="Control" parent="." unique_id=959929399]
+visible = false
 anchors_preset = 0
 offset_right = 1148.0
 offset_bottom = 647.0

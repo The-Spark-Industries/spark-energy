@@ -21,3 +21,12 @@ func _on_options_pressed() -> void:
 
 func _on_back_button_pressed() -> void:
 		titleoptionsmenu.visible =false 
+
+
+func _on_check_button_pressed() -> void:
+	if (Global.turboMode ==false):
+		Global.turboMode = true
+		print (Global.turboMode)
+	elif (Global.turboMode ==true):
+		Global.turboMode = false
+		print (Global.turboMode)

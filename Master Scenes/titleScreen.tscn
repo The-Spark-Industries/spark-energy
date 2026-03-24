@@ -69,56 +69,93 @@ theme_override_font_sizes/font_size = 79
 text = "Start"
 
 [node name="optionsMenu" type="Control" parent="." unique_id=959929399]
-visible = false
 anchors_preset = 0
 offset_right = 1148.0
 offset_bottom = 647.0
 
 [node name="blackBox" type="ColorRect" parent="optionsMenu" unique_id=1912377119]
 layout_mode = 0
-offset_left = -1206.0
-offset_top = -766.0
-offset_right = -46.0
-offset_bottom = -115.0
+offset_left = -1234.0
+offset_top = -787.0
+offset_right = -74.0
+offset_bottom = -136.0
 scale = Vector2(4, 4)
 color = Color(0, 0, 0, 1)
 
 [node name="optionsTitle" type="Label" parent="optionsMenu" unique_id=877339324]
 layout_mode = 0
-offset_left = 429.0
-offset_top = 94.0
-offset_right = 691.0
-offset_bottom = 187.0
+offset_left = 344.0
+offset_top = 3.0
+offset_right = 606.0
+offset_bottom = 96.0
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 68
 text = "Options"
 
 [node name="volume" type="Label" parent="optionsMenu" unique_id=1642481558]
 layout_mode = 0
-offset_left = 509.0
-offset_top = 308.0
-offset_right = 568.0
-offset_bottom = 331.0
-scale = Vector2(2, 2)
-text = "Volume"
+offset_left = 412.0
+offset_top = 133.0
+offset_right = 530.0
+offset_bottom = 260.0
+text = "Master Volume
 
-[node name="volumeSlider" type="HSlider" parent="optionsMenu" unique_id=726158269]
+
+Music Volume
+
+
+Sound Volume"
+
+[node name="volumeSlider1" type="HSlider" parent="optionsMenu" unique_id=726158269]
 layout_mode = 0
-offset_left = 396.0
-offset_top = 345.0
-offset_right = 734.0
-offset_bottom = 459.0
+offset_left = 358.0
+offset_top = 157.0
+offset_right = 576.0
+offset_bottom = 205.0
+step = 0.5
+
+[node name="volumeSlider2" type="HSlider" parent="optionsMenu" unique_id=72017600]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 310.0
+offset_right = 575.0
+offset_bottom = 350.0
+step = 0.5
+
+[node name="volumeSlider3" type="HSlider" parent="optionsMenu" unique_id=1078846003]
+layout_mode = 0
+offset_left = 357.0
+offset_top = 227.0
+offset_right = 578.0
+offset_bottom = 291.0
 step = 0.5
 
 [node name="backButton" type="Button" parent="optionsMenu" unique_id=1752777088]
 layout_mode = 0
-offset_left = 492.0
-offset_top = 429.0
-offset_right = 566.0
-offset_bottom = 477.0
+offset_left = 387.0
+offset_top = 460.0
+offset_right = 455.0
+offset_bottom = 491.0
 scale = Vector2(2, 2)
 text = "Back"
+
+[node name="Turbo" type="Label" parent="optionsMenu" unique_id=1663577638]
+layout_mode = 0
+offset_left = 347.0
+offset_top = 372.0
+offset_right = 597.0
+offset_bottom = 395.0
+text = "Turbo Mode (Instant wire travel)"
+
+[node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=1115889954]
+layout_mode = 0
+offset_left = 398.00003
+offset_top = 402.0
+offset_right = 443.20004
+offset_bottom = 426.0
+scale = Vector2(2.5, 2.5)
 
 [connection signal="pressed" from="VBoxContainer2/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Container/VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="optionsMenu/CheckButton" to="." method="_on_check_button_pressed"]

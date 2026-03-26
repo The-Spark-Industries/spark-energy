@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-@export var SPEED := 39000.0
+@export var SPEED := 36000.0
 @export var JUMP_VELOCITY := -110000.0
 @export var START_GRAVITY := 6000.0
-@export var COYOTE_TIME_MS := 140 # in ms
+@export var COYOTE_TIME_MS := 100 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
 @export var JUMP_CUT_MULTIPLIER := 0.4
 @export var JUMP_ASCENT_SLOWDOWN := 0.9
@@ -16,6 +16,7 @@ extends CharacterBody2D
 @export var GROUND_ACCEL := 4000.0
 @export var GROUND_DECEL := 10000.0
 @export var AIR_DECEL := 4500.0
+@export var AIR_COAST_DECEL := 1200.0
 @export var AIR_TURN_ACCEL := 3500.0
 
 # --- State & Internal Variables ---
@@ -28,6 +29,7 @@ var last_jump_queue_msec := 0
 var current_gravity := START_GRAVITY
 var has_boots := false
 var _jump_arc_active := false
+var _coyote_jump_available := false
 
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
@@ -74,6 +76,7 @@ func _physics_process(delta: float) -> void:
 	# Update Floor/Coyote Timing
 	if is_on_floor():
 		last_floor_msec = Time.get_ticks_msec()
+		_coyote_jump_available = true
 	elif state != States.JUMP and state != States.AIR and state != States.DEAD:
 		state = States.AIR
 		if sprite: sprite.play("fall")
@@ -103,8 +106,9 @@ func _physics_process(delta: float) -> void:
 			
 			# Jump Input (with Coyote Time)
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				if Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
+				if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
 					state = States.JUMP
+					_coyote_jump_available = false
 				else:
 					last_jump_queue_msec = Time.get_ticks_msec()
 			
@@ -124,6 +128,8 @@ func _physics_process(delta: float) -> void:
 		States.IDLE:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
 				state = States.JUMP
+				_coyote_jump_available = false
+				last_jump_queue_msec = 0
 			else:
 				_apply_run_logic(direction, delta)
 				if sprite:
@@ -141,6 +147,7 @@ func _physics_process(delta: float) -> void:
 			# Ensure jump works during run too
 			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
 				state = States.JUMP
+				_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
@@ -164,7 +171,7 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 			accel = GROUND_DECEL
 	else:
 		if direction == 0.0:
-			accel = AIR_DECEL
+			accel = AIR_COAST_DECEL
 		elif signf(direction) != signf(velocity.x) and absf(velocity.x) > 0.01:
 			accel = AIR_TURN_ACCEL
 		else:

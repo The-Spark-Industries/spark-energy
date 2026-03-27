@@ -2,6 +2,9 @@ extends Control
 
 @onready var titleoptionsmenu = $optionsMenu
 # Called when the node enters the scene tree for the first time.
+@onready var title_sound= AudioServer.get_bus_index("SFX")
+@onready var title_music=AudioServer.get_bus_index("Music")
+
 func _ready() -> void:
 	titleoptionsmenu.visible =false 
 
@@ -30,3 +33,16 @@ func _on_check_button_pressed() -> void:
 	elif (Global.turboMode ==true):
 		Global.turboMode = false
 		print (Global.turboMode)
+
+
+func _on_master_slider_value_changed(value: float) -> void:
+		AudioServer.set_bus_volume_db(title_sound, linear_to_db(value))
+		AudioServer.set_bus_volume_db(title_music, linear_to_db(value))
+
+
+func _on_music_slider_value_changed(value: float) -> void:
+		AudioServer.set_bus_volume_db(title_music, linear_to_db(value))
+
+
+func _on_sound_slider_value_changed(value: float) -> void:
+		AudioServer.set_bus_volume_db(title_sound, linear_to_db(value))

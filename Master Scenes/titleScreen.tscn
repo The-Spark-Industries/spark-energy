@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://buq37mcyld3m5" path="res://Scripts/title_screen.gd" id="1_qcgwx"]
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_ppmyv"]
+[ext_resource type="AudioStream" uid="uid://cp1r61ccuk3ye" path="res://Assets/Audio/Monkeys%20Spinning%20Monkeys.mp3" id="3_pdvyb"]
 
 [node name="titleScreen" type="Control" unique_id=101879355]
 layout_mode = 3
@@ -106,29 +107,35 @@ Music Volume
 
 Sound Volume"
 
-[node name="volumeSlider1" type="HSlider" parent="optionsMenu" unique_id=726158269]
+[node name="masterSlider" type="HSlider" parent="optionsMenu" unique_id=726158269]
 layout_mode = 0
 offset_left = 358.0
 offset_top = 157.0
 offset_right = 576.0
 offset_bottom = 205.0
-step = 0.5
+max_value = 1.0
+step = 0.01
+value = 1.0
 
-[node name="volumeSlider2" type="HSlider" parent="optionsMenu" unique_id=72017600]
-layout_mode = 0
-offset_left = 356.0
-offset_top = 310.0
-offset_right = 575.0
-offset_bottom = 350.0
-step = 0.5
-
-[node name="volumeSlider3" type="HSlider" parent="optionsMenu" unique_id=1078846003]
+[node name="musicSlider" type="HSlider" parent="optionsMenu" unique_id=1078846003]
 layout_mode = 0
 offset_left = 357.0
 offset_top = 227.0
 offset_right = 578.0
 offset_bottom = 291.0
-step = 0.5
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="soundSlider" type="HSlider" parent="optionsMenu" unique_id=72017600]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 310.0
+offset_right = 575.0
+offset_bottom = 350.0
+max_value = 1.0
+step = 0.01
+value = 1.0
 
 [node name="backButton" type="Button" parent="optionsMenu" unique_id=1752777088]
 layout_mode = 0
@@ -155,7 +162,16 @@ offset_right = 443.20004
 offset_bottom = 426.0
 scale = Vector2(2.5, 2.5)
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=286560476]
+stream = ExtResource("3_pdvyb")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
 [connection signal="pressed" from="VBoxContainer2/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Container/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="value_changed" from="optionsMenu/masterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="optionsMenu/musicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="optionsMenu/soundSlider" to="." method="_on_sound_slider_value_changed"]
 [connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="optionsMenu/CheckButton" to="." method="_on_check_button_pressed"]

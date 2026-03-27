@@ -2,18 +2,29 @@ extends Control
 
 signal completed(success: bool)
 
-const GRID_SIZE := 3
-const CELL_COUNT := GRID_SIZE * GRID_SIZE
-
 const DIR_UP := 0
 const DIR_RIGHT := 1
 const DIR_DOWN := 2
 const DIR_LEFT := 3
 
 const CELL_NORMAL := Color("2f3642")
-const CELL_CURSOR := Color("50627d")
-const CELL_SELECTED := Color("6a4f2a")
+const CELL_CURSOR := Color("4fc9ff")
+const CELL_SELECTED := Color("ffb300")
 const CELL_FLOW := Color("2b6d8a")
+
+@export_group("Visuals")
+@export var ui_font: Font
+@export var ui_text_color: Color = Color(1, 1, 1, 1)
+@export var backdrop_texture: Texture2D
+@export var panel_texture: Texture2D
+@export var cell_texture: Texture2D
+@export var source_texture: Texture2D
+@export var sink_texture: Texture2D
+@export var straight_texture: Texture2D
+@export var corner_texture: Texture2D
+@export var tee_texture: Texture2D
+@export var block_texture: Texture2D
+@export var empty_texture: Texture2D
 
 @onready var _root_panel: PanelContainer = $CenterContainer/PanelContainer
 @onready var _title_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Title
@@ -21,10 +32,12 @@ const CELL_FLOW := Color("2b6d8a")
 @onready var _grid: GridContainer = $CenterContainer/PanelContainer/VBoxContainer/Grid
 @onready var _status_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Footer/Status
 @onready var _send_button: Button = $CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton
+@onready var _backdrop: ColorRect = $Backdrop
 
 var _player: CharacterBody2D = null
 var _cells: Array[PanelContainer] = []
 var _cell_labels: Array[Label] = []
+var _cell_icons: Array[TextureRect] = []
 var _pieces: Array[Dictionary] = []
 var _puzzle: PipePuzzleDefinition = null
 var _grid_size: int = 3
@@ -46,8 +59,8 @@ func _ready() -> void:
 	offset_bottom = 0.0
 	if not _active:
 		visible = false
+	_apply_visual_overrides()
 	_send_button.pressed.connect(_on_send_water_pressed)
-	_build_grid_ui()
 	_reset_puzzle()
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
@@ -120,31 +133,79 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _build_grid_ui() -> void:
-	if _cells.size() > 0:
-		return
+	for child in _grid.get_children():
+		child.queue_free()
 
-	for i in range(CELL_COUNT):
+	_cells.clear()
+	_cell_labels.clear()
+	_cell_icons.clear()
+	_grid.columns = _grid_size
+
+	var separation: int = clampi(10 - ((_grid_size - 3) * 2), 3, 8)
+	_grid.add_theme_constant_override("h_separation", separation)
+	_grid.add_theme_constant_override("v_separation", separation)
+
+	var viewport_size := get_viewport_rect().size
+	var available_grid_width: float = maxf(220.0, viewport_size.x * 0.72)
+	var available_grid_height: float = maxf(220.0, viewport_size.y * 0.45)
+	var cell_size_w: float = (available_grid_width - float(separation * (_grid_size - 1))) / float(_grid_size)
+	var cell_size_h: float = (available_grid_height - float(separation * (_grid_size - 1))) / float(_grid_size)
+	var cell_size: float = clampf(minf(cell_size_w, cell_size_h), 32.0, 96.0)
+
+	var panel_width: float = minf(viewport_size.x * 0.92, maxf(380.0, (cell_size * _grid_size) + 120.0))
+	var panel_height: float = minf(viewport_size.y * 0.92, maxf(360.0, (cell_size * _grid_size) + 240.0))
+	_root_panel.custom_minimum_size = Vector2(panel_width, panel_height)
+
+	var glyph_font_size: int = int(clampf(cell_size * 0.6, 24.0, 62.0))
+
+	for i in range(_grid_size * _grid_size):
 		var cell := PanelContainer.new()
-		cell.custom_minimum_size = Vector2(96, 96)
+		cell.custom_minimum_size = Vector2(cell_size, cell_size)
+		cell.pivot_offset = Vector2(cell_size * 0.5, cell_size * 0.5)
 		cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if cell_texture:
+			cell.add_theme_stylebox_override("panel", _make_texture_stylebox(cell_texture))
+
+		var icon := TextureRect.new()
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon.anchor_right = 1.0
+		icon.anchor_bottom = 1.0
+		icon.offset_left = 6.0
+		icon.offset_top = 6.0
+		icon.offset_right = -6.0
+		icon.offset_bottom = -6.0
+		icon.visible = false
+		cell.add_child(icon)
 
 		var label := Label.new()
+		label.anchor_right = 1.0
+		label.anchor_bottom = 1.0
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", 62)
+		label.add_theme_font_size_override("font_size", glyph_font_size)
+		label.add_theme_color_override("font_color", ui_text_color)
+		if ui_font:
+			label.add_theme_font_override("font", ui_font)
 
 		cell.add_child(label)
 		_grid.add_child(cell)
 		_cells.append(cell)
 		_cell_labels.append(label)
+		_cell_icons.append(icon)
 
 func _reset_puzzle() -> void:
 	if not _puzzle:
 		_puzzle = PipePuzzleDefinition.create_default()
 		_grid_size = _puzzle.grid_size
+	else:
+		_grid_size = _puzzle.grid_size
+
+	_build_grid_ui()
 
 	_pieces.clear()
 	_pieces.resize(_puzzle.pieces.size())
@@ -174,8 +235,8 @@ func _toggle_select() -> void:
 
 func _move_cursor(dx: int, dy: int) -> void:
 	var current := _to_xy(_cursor_index)
-	var nx: int = clampi(current.x + dx, 0, GRID_SIZE - 1)
-	var ny: int = clampi(current.y + dy, 0, GRID_SIZE - 1)
+	var nx: int = clampi(current.x + dx, 0, _grid_size - 1)
+	var ny: int = clampi(current.y + dy, 0, _grid_size - 1)
 	var target_index := _idx(nx, ny)
 
 	if _grabbed_index != -1 and target_index != _grabbed_index:
@@ -247,9 +308,17 @@ func _trace_flow_from_source() -> Array[int]:
 	return visited
 
 func _update_cells(flow_cells: Array[int] = []) -> void:
-	for i in range(CELL_COUNT):
+	for i in range(_pieces.size()):
 		var piece: Dictionary = _pieces[i]
-		_cell_labels[i].text = _glyph_for_piece(piece)
+		var piece_tex := _piece_texture(piece)
+		if piece_tex:
+			_cell_icons[i].texture = piece_tex
+			_cell_icons[i].rotation = _piece_rotation_radians(piece)
+			_cell_icons[i].visible = true
+			_cell_labels[i].text = ""
+		else:
+			_cell_icons[i].visible = false
+			_cell_labels[i].text = _glyph_for_piece(piece)
 
 		var color := CELL_NORMAL
 		if i in flow_cells:
@@ -259,7 +328,16 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 		if i == _grabbed_index:
 			color = CELL_SELECTED
 
-		_cells[i].modulate = color
+		_cells[i].self_modulate = color
+		if i == _grabbed_index:
+			_cells[i].scale = Vector2(1.14, 1.14)
+			_cells[i].z_index = 20
+		elif i == _cursor_index:
+			_cells[i].scale = Vector2(1.06, 1.06)
+			_cells[i].z_index = 10
+		else:
+			_cells[i].scale = Vector2.ONE
+			_cells[i].z_index = 0
 
 func _can_pick(index: int) -> bool:
 	if _pieces[index].get("locked", false):
@@ -306,6 +384,8 @@ func _connectors(piece: Dictionary) -> Array[int]:
 					return [DIR_LEFT, DIR_RIGHT, DIR_DOWN]
 				_:
 					return [DIR_UP, DIR_LEFT, DIR_DOWN]
+		"block":
+			return []
 		_:
 			return []
 
@@ -342,14 +422,16 @@ func _glyph_for_piece(piece: Dictionary) -> String:
 					return "┬"
 				_:
 					return "┤"
+		"block":
+			return "■"
 		_:
 			return "·"
 
 func _idx(x: int, y: int) -> int:
-	return y * GRID_SIZE + x
+	return y * _grid_size + x
 
 func _to_xy(index: int) -> Vector2i:
-	return Vector2i(index % GRID_SIZE, index / GRID_SIZE)
+	return Vector2i(index % _grid_size, index / _grid_size)
 
 func _dir_to_vec(d: int) -> Vector2i:
 	match d:
@@ -364,3 +446,58 @@ func _dir_to_vec(d: int) -> Vector2i:
 
 func _opposite_dir(d: int) -> int:
 	return (d + 2) % 4
+
+func _apply_visual_overrides() -> void:
+	if backdrop_texture:
+		var bg := get_node_or_null("BackdropTexture") as TextureRect
+		if bg == null:
+			bg = TextureRect.new()
+			bg.name = "BackdropTexture"
+			bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			bg.anchor_right = 1.0
+			bg.anchor_bottom = 1.0
+			add_child(bg)
+			move_child(bg, 0)
+		bg.texture = backdrop_texture
+		_backdrop.color = Color(0, 0, 0, 0.35)
+
+	if panel_texture:
+		_root_panel.add_theme_stylebox_override("panel", _make_texture_stylebox(panel_texture))
+
+	var text_controls: Array[Control] = [_title_label, _info_label, _status_label, _send_button]
+	for c in text_controls:
+		c.add_theme_color_override("font_color", ui_text_color)
+		if ui_font:
+			c.add_theme_font_override("font", ui_font)
+
+func _make_texture_stylebox(tex: Texture2D) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = tex
+	return style
+
+func _piece_texture(piece: Dictionary) -> Texture2D:
+	match String(piece.get("kind", "empty")):
+		"source":
+			return source_texture
+		"sink":
+			return sink_texture
+		"straight":
+			return straight_texture
+		"corner":
+			return corner_texture
+		"tee":
+			return tee_texture
+		"block":
+			return block_texture
+		"empty":
+			return empty_texture
+		_:
+			return null
+
+func _piece_rotation_radians(piece: Dictionary) -> float:
+	var kind := String(piece.get("kind", "empty"))
+	if kind == "empty" or kind == "block":
+		return 0.0
+	return float(int(piece.get("rot", 0))) * (PI * 0.5)

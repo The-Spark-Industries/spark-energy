@@ -7,7 +7,7 @@ extends RefCounted
 var grid_size: int = 3
 
 ## Array of piece definitions indexed by [y * grid_size + x].
-## Each piece is: {"kind": "source"/"sink"/"straight"/"corner"/"tee"/"empty", "rot": 0-3, "locked": true/false}
+## Each piece is: {"kind": "source"/"sink"/"straight"/"corner"/"tee"/"block"/"empty", "rot": 0-3, "locked": true/false}
 var pieces: Array[Dictionary] = []
 
 ## (x, y) where water source is located.
@@ -59,11 +59,11 @@ static func create_default() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(3)
 	puzzle.set_piece(0, 1, "source", 0, true)
 	puzzle.set_piece(2, 1, "sink", 0, true)
+	puzzle.set_piece(1, 1, "block", 0, true)
 	puzzle.set_piece(0, 0, "corner", 0)
 	puzzle.set_piece(1, 0, "straight", 1)
 	puzzle.set_piece(2, 0, "corner", 1)
 	puzzle.set_piece(0, 2, "empty")
-	puzzle.set_piece(1, 1, "empty")
 	puzzle.set_piece(1, 2, "straight", 0)
 	puzzle.set_piece(2, 2, "tee", 0)
 	return puzzle
@@ -73,12 +73,12 @@ static func create_puzzle_3x3() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(3)
 	puzzle.set_piece(0, 1, "source", 0, true)
 	puzzle.set_piece(2, 1, "sink", 0, true)
+	puzzle.set_piece(1, 1, "block", 0, true)
 	# Route: down, right, up, right
 	puzzle.set_piece(0, 0, "empty")
 	puzzle.set_piece(1, 0, "corner", 0)
 	puzzle.set_piece(2, 0, "straight", 1)
 	puzzle.set_piece(0, 2, "corner", 2)
-	puzzle.set_piece(1, 1, "tee", 1)
 	puzzle.set_piece(1, 2, "straight", 1)
 	puzzle.set_piece(2, 2, "corner", 3)
 	return puzzle
@@ -90,25 +90,14 @@ static func create_puzzle_4x4() -> PipePuzzleDefinition:
 	puzzle.set_piece(3, 2, "sink", 0, true)
 	puzzle.source_pos = Vector2i(0, 2)
 	puzzle.sink_pos = Vector2i(3, 2)
-	
-	# Create a more complex routing through the middle
-	puzzle.set_piece(0, 0, "corner", 0)
-	puzzle.set_piece(1, 0, "straight", 1)
-	puzzle.set_piece(2, 0, "corner", 1)
-	puzzle.set_piece(3, 0, "empty")
-	
-	puzzle.set_piece(0, 1, "empty")
-	puzzle.set_piece(1, 1, "tee", 0)
-	puzzle.set_piece(2, 1, "straight", 0)
-	puzzle.set_piece(3, 1, "corner", 1)
-	
-	puzzle.set_piece(1, 2, "straight", 1)
-	puzzle.set_piece(2, 2, "corner", 2)
-	
-	puzzle.set_piece(0, 3, "straight", 0)
-	puzzle.set_piece(1, 3, "corner", 3)
-	puzzle.set_piece(2, 3, "straight", 1)
-	puzzle.set_piece(3, 3, "corner", 2)
+
+	# Single valid route: source -> down -> right -> up -> sink.
+	puzzle.set_piece(1, 2, "corner", 2)
+	puzzle.set_piece(1, 3, "corner", 0)
+	puzzle.set_piece(2, 3, "corner", 3)
+	puzzle.set_piece(2, 2, "corner", 1)
+	puzzle.set_piece(1, 1, "block", 0, true)
+	puzzle.set_piece(2, 1, "block", 0, true)
 	
 	return puzzle
 
@@ -119,33 +108,40 @@ static func create_puzzle_5x5() -> PipePuzzleDefinition:
 	puzzle.set_piece(4, 2, "sink", 0, true)
 	puzzle.source_pos = Vector2i(0, 2)
 	puzzle.sink_pos = Vector2i(4, 2)
-	
-	# Complex maze-like routing
-	puzzle.set_piece(0, 0, "corner", 0)
-	puzzle.set_piece(1, 0, "straight", 1)
-	puzzle.set_piece(2, 0, "corner", 1)
-	puzzle.set_piece(3, 0, "tee", 0)
-	puzzle.set_piece(4, 0, "empty")
-	
-	puzzle.set_piece(0, 1, "straight", 0)
-	puzzle.set_piece(1, 1, "tee", 3)
-	puzzle.set_piece(2, 1, "empty")
-	puzzle.set_piece(3, 1, "straight", 0)
-	puzzle.set_piece(4, 1, "corner", 2)
-	
-	puzzle.set_piece(1, 2, "straight", 1)
-	puzzle.set_piece(2, 2, "corner", 2)
-	puzzle.set_piece(3, 2, "straight", 1)
-	
-	puzzle.set_piece(0, 3, "straight", 0)
+
+	# Single valid route with a couple of turns.
+	puzzle.set_piece(1, 2, "corner", 2)
 	puzzle.set_piece(1, 3, "corner", 0)
-	puzzle.set_piece(2, 3, "tee", 2)
-	puzzle.set_piece(3, 3, "straight", 0)
-	puzzle.set_piece(4, 3, "corner", 3)
+	puzzle.set_piece(2, 3, "straight", 1)
+	puzzle.set_piece(3, 3, "corner", 3)
+	puzzle.set_piece(3, 2, "corner", 1)
+	puzzle.set_piece(2, 2, "block", 0, true)
+	puzzle.set_piece(2, 1, "block", 0, true)
+	puzzle.set_piece(2, 4, "block", 0, true)
 	
-	puzzle.set_piece(1, 4, "straight", 1)
-	puzzle.set_piece(2, 4, "straight", 1)
-	puzzle.set_piece(3, 4, "corner", 3)
-	puzzle.set_piece(4, 4, "straight", 0)
-	
+	return puzzle
+
+## Create a unique 6x6 puzzle.
+static func create_puzzle_6x6() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(6)
+	puzzle.set_piece(0, 3, "source", 0, true)
+	puzzle.set_piece(5, 3, "sink", 0, true)
+	puzzle.source_pos = Vector2i(0, 3)
+	puzzle.sink_pos = Vector2i(5, 3)
+
+	# Single valid route that snakes upward and back down.
+	puzzle.set_piece(1, 3, "corner", 3)
+	puzzle.set_piece(1, 2, "straight", 0)
+	puzzle.set_piece(1, 1, "corner", 1)
+	puzzle.set_piece(2, 1, "straight", 1)
+	puzzle.set_piece(3, 1, "straight", 1)
+	puzzle.set_piece(4, 1, "corner", 2)
+	puzzle.set_piece(4, 2, "straight", 0)
+	puzzle.set_piece(4, 3, "corner", 0)
+	puzzle.set_piece(2, 3, "block", 0, true)
+	puzzle.set_piece(3, 3, "block", 0, true)
+	puzzle.set_piece(2, 2, "block", 0, true)
+	puzzle.set_piece(3, 2, "block", 0, true)
+	puzzle.set_piece(3, 4, "block", 0, true)
+
 	return puzzle

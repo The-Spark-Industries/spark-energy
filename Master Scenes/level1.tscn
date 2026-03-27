@@ -606,3 +606,18 @@ position = Vector2(623, 1245)
 
 [node name="PipePuzzleTerminal" parent="." unique_id=1934063769 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(807, 1228)
+
+[node name="PipePuzzleTerminal4x4" parent="." unique_id=1091472253 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(951, 1228)
+puzzle_layout = 2
+moving_platform_path = NodePath("../platform2")
+platform_move_distance = 180.0
+platform_move_duration = 1.6
+
+[node name="PipePuzzleTerminal5x5" parent="." unique_id=204821337 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1095, 1228)
+puzzle_layout = 3
+
+[node name="PipePuzzleTerminal6x6" parent="." unique_id=1513677062 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1239, 1228)
+puzzle_layout = 4

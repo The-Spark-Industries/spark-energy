@@ -45,3 +45,15 @@ func _on_quit_pressed() -> void:
 
 func _on_back_button_pressed() -> void:
 	oM.visible=false
+
+
+
+
+
+func _on_check_button_pressed() -> void:
+	if (Global.turboMode ==false):
+		Global.turboMode = true
+		print (Global.turboMode)
+	elif (Global.turboMode ==true):
+		Global.turboMode = false
+		print (Global.turboMode)

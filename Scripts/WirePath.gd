@@ -48,8 +48,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _traveling_player and _path_follow:
 		_traveling_player.global_position = _path_follow.global_position
-
-
+	
+	
+	
 func register_end(wire_end: Node, is_start: bool) -> void:
 	if is_start:
 		_end_a = wire_end
@@ -108,7 +109,14 @@ func begin_travel(player: CharacterBody2D, from_end: Node) -> bool:
 
 	if travel_speed > 0.0 and _path_length > 0.0 and progress_delta > 0.0:
 		var distance: float = _path_length * progress_delta
+		# Turbo Mode functionality: (from Atharv)
+		if (Global.turboMode==true):
+			travel_speed= 99999.0
+		if (Global.turboMode ==false):
+			travel_speed= 800.0
 		duration = distance / travel_speed
+		
+		
 
 	if duration <= 0.0:
 		duration = 0.01

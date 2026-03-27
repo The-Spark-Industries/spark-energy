@@ -12,6 +12,9 @@ var has_saved_checkpoint: bool = false
 var inventory: Array = []
 var max_inventory_size= 100
 
+
+var turboMode: bool = false
+
 func _ready() -> void:
 	load_game()
 

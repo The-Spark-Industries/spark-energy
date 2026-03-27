@@ -13,6 +13,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pbpjw")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1909889208]
+layout_mode = 0
+offset_left = -2288.0
+offset_top = -2446.0
+offset_right = 5012.0
+offset_bottom = 1038.0
+color = Color(0, 0, 0, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2106908940]
 layout_mode = 1
 anchors_preset = -1
@@ -25,7 +33,7 @@ offset_right = 568.5
 offset_bottom = -143.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=347848596]
+[node name="paused" type="Label" parent="VBoxContainer" unique_id=347848596]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -64,10 +72,10 @@ theme_override_font_sizes/font_size = 38
 text = "Quit"
 
 [node name="optionsMenu" type="Control" parent="." unique_id=2128573208]
-visible = false
 anchors_preset = 0
+offset_top = 32.0
 offset_right = 1148.0
-offset_bottom = 647.0
+offset_bottom = 679.0
 
 [node name="blackBox" type="ColorRect" parent="optionsMenu" unique_id=1913240952]
 layout_mode = 0
@@ -81,40 +89,80 @@ color = Color(0, 0, 0, 1)
 [node name="optionsTitle" type="Label" parent="optionsMenu" unique_id=372810817]
 layout_mode = 0
 offset_left = -135.0
-offset_top = -524.0
+offset_top = -547.0
 offset_right = 127.0
-offset_bottom = -431.0
+offset_bottom = -454.0
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 68
 text = "Options"
 
-[node name="volume" type="Label" parent="optionsMenu" unique_id=1566470205]
-layout_mode = 0
-offset_left = -55.0
-offset_top = -310.0
-offset_right = 4.0
-offset_bottom = -287.0
-scale = Vector2(2, 2)
-text = "Volume"
-
-[node name="volumeSlider" type="HSlider" parent="optionsMenu" unique_id=1934130321]
-layout_mode = 0
-offset_left = -161.0
-offset_top = -276.0
-offset_right = 177.0
-offset_bottom = -162.0
-step = 0.5
-
 [node name="backButton" type="Button" parent="optionsMenu" unique_id=385867325]
 layout_mode = 0
-offset_left = -72.0
-offset_top = -189.0
-offset_right = 2.0
-offset_bottom = -141.0
-scale = Vector2(2, 2)
+offset_left = -46.0
+offset_top = -134.0
+offset_right = 1.870964
+offset_bottom = -106.0
+scale = Vector2(1.5, 1.5)
+theme_override_font_sizes/font_size = 14
 text = "Back"
+
+[node name="volume2" type="Label" parent="optionsMenu" unique_id=1011110503]
+layout_mode = 0
+offset_left = -59.0
+offset_top = -446.0
+offset_right = 59.0
+offset_bottom = -267.0
+text = "Master Volume
+
+
+Music Volume
+
+
+Sound Volume"
+
+[node name="volumeSlider1" type="HSlider" parent="optionsMenu" unique_id=1625656700]
+layout_mode = 0
+offset_left = -113.0
+offset_top = -422.0
+offset_right = 105.0
+offset_bottom = -374.0
+step = 0.5
+
+[node name="volumeSlider2" type="HSlider" parent="optionsMenu" unique_id=1640901608]
+layout_mode = 0
+offset_left = -115.0
+offset_top = -269.0
+offset_right = 104.0
+offset_bottom = -229.0
+step = 0.5
+
+[node name="volumeSlider3" type="HSlider" parent="optionsMenu" unique_id=1712575343]
+layout_mode = 0
+offset_left = -114.0
+offset_top = -352.0
+offset_right = 107.0
+offset_bottom = -288.0
+step = 0.5
+
+[node name="Turbo" type="Label" parent="optionsMenu" unique_id=809414930]
+layout_mode = 0
+offset_left = -124.0
+offset_top = -219.0
+offset_right = 126.0
+offset_bottom = -196.0
+text = "Turbo Mode (Instant wire travel)"
+
+[node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=1779928246]
+layout_mode = 0
+offset_left = -74.0
+offset_top = -198.00002
+offset_right = -28.799988
+offset_bottom = -174.00002
+scale = Vector2(2.5, 2.5)
 
 [connection signal="pressed" from="VBoxContainer2/resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer2/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="VBoxContainer2/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="optionsMenu/CheckButton" to="." method="_on_check_button_pressed"]
+[connection signal="toggled" from="optionsMenu/CheckButton" to="." method="_on_check_button_toggled"]

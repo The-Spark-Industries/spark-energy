@@ -1,8 +1,9 @@
-[gd_scene format=3 uid="uid://bnlt6jtra2jyf"]
+[gd_scene format=3 uid="uid://dqprixyr8ldey"]
 
-[ext_resource type="Script" uid="uid://cgnsyii0rpty2" path="res://Scripts/map_popup.gd" id="1_map_popup"]
+[ext_resource type="Script" path="res://Scripts/map_popup.gd" id="1_map_popup"]
 
 [node name="MapPopup" type="Control" unique_id=1249499103]
+z_index = 1
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_map_popup")

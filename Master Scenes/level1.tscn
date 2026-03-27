@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 [ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
+[ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
+[ext_resource type="PackedScene" uid="uid://bc55kv6xl3pwx" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -602,3 +604,15 @@ position = Vector2(754, 1278)
 
 [node name="Checkpoint2" parent="." unique_id=256465831 instance=ExtResource("8_tiul6")]
 position = Vector2(623, 1245)
+
+[node name="Lever" parent="." unique_id=1287015382 instance=ExtResource("13_1yw1p")]
+position = Vector2(2185, 1213)
+
+[node name="Lever2" parent="." unique_id=1349069128 instance=ExtResource("13_1yw1p")]
+position = Vector2(2417, 1213)
+
+[node name="button" parent="." unique_id=208578503 instance=ExtResource("14_l8ajp")]
+position = Vector2(1629, 1208)
+
+[node name="button2" parent="." unique_id=223548872 instance=ExtResource("14_l8ajp")]
+position = Vector2(1493, 1208)

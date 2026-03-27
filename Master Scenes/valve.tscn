@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://br7s6cj6avyw"]
+
+[ext_resource type="Script" uid="uid://b8e6wesihkqf8" path="res://Scripts/valve.gd" id="1_00y70"]
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_b5cws"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_00y70"]
+size = Vector2(157, 216)
+
+[node name="Valve" type="Area2D" unique_id=1564924551]
+script = ExtResource("1_00y70")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1465036527]
+texture = ExtResource("1_b5cws")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=844345559]
+position = Vector2(-7.5, -41)
+shape = SubResource("RectangleShape2D_00y70")

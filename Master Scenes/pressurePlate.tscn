@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b3yhb37j1c51y"]
+
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_4uor8"]
+
+[node name="PressurePlate" type="Area2D" unique_id=446670835]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1312803927]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1587906054]
+position = Vector2(2, -10)
+scale = Vector2(1, 0.1484375)
+texture = ExtResource("1_4uor8")

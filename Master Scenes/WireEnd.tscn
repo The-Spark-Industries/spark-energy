@@ -1,19 +1,23 @@
-[gd_scene format=3 uid="uid://wireend_scene"]
+[gd_scene format=3 uid="uid://r3ot8no1wstd"]
 
-[ext_resource type="Script" path="res://Scripts/WireEnd.gd" id="1_wireend"]
+[ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="1_wireend"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_entry"]
 radius = 60.0
 
-[node name="WireEnd" type="Area2D"]
-script = ExtResource("1_wireend")
+[node name="WireEnd" type="Area2D" unique_id=1052659174]
 collision_layer = 0
-collision_mask = 1
+script = ExtResource("1_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=791072452]
 shape = SubResource("CircleShape2D_entry")
 
-[node name="Prompt" type="Label" parent="."]
-position = Vector2(-40, -90)
-text = "[E] Enter Wire"
+[node name="Prompt" type="Label" parent="." unique_id=607477563]
 visible = false
+offset_left = -40.0
+offset_top = -90.0
+offset_right = -40.0
+offset_bottom = -90.0
+text = "[E] Enter Wire"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

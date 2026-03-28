@@ -128,7 +128,6 @@ static func create_puzzle_6x6() -> PipePuzzleDefinition:
 	puzzle.source_pos = Vector2i(0, 3)
 	puzzle.sink_pos = Vector2i(5, 3)
 
-	# Single valid route that snakes upward and back down.
 	puzzle.set_piece(1, 3, "corner", 3)
 	puzzle.set_piece(1, 2, "straight", 0)
 	puzzle.set_piece(1, 1, "corner", 1)
@@ -142,5 +141,81 @@ static func create_puzzle_6x6() -> PipePuzzleDefinition:
 	puzzle.set_piece(2, 2, "block", 0, true)
 	puzzle.set_piece(3, 2, "block", 0, true)
 	puzzle.set_piece(3, 4, "block", 0, true)
+
+	return puzzle
+
+## Create an alternate 6x6 puzzle.
+static func create_puzzle_6x6_b() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(6)
+	puzzle.set_piece(0, 2, "source", 0, true)
+	puzzle.set_piece(5, 2, "sink", 0, true)
+	puzzle.source_pos = Vector2i(0, 2)
+	puzzle.sink_pos = Vector2i(5, 2)
+
+	# Route: right -> down -> right -> up -> right
+	puzzle.set_piece(1, 2, "corner", 2)
+	puzzle.set_piece(1, 3, "corner", 0)
+	puzzle.set_piece(2, 3, "straight", 1)
+	puzzle.set_piece(3, 3, "corner", 3)
+	puzzle.set_piece(3, 2, "corner", 1)
+	puzzle.set_piece(4, 2, "straight", 1)
+
+	puzzle.set_piece(2, 2, "block", 0, true)
+	puzzle.set_piece(2, 1, "block", 0, true)
+	puzzle.set_piece(3, 1, "block", 0, true)
+	puzzle.set_piece(4, 3, "block", 0, true)
+
+	return puzzle
+
+## Create a unique 7x7 puzzle.
+static func create_puzzle_7x7() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(7)
+	puzzle.set_piece(0, 3, "source", 0, true)
+	puzzle.set_piece(6, 3, "sink", 0, true)
+	puzzle.source_pos = Vector2i(0, 3)
+	puzzle.sink_pos = Vector2i(6, 3)
+
+	puzzle.set_piece(1, 3, "corner", 3)
+	puzzle.set_piece(1, 2, "straight", 0)
+	puzzle.set_piece(1, 1, "corner", 1)
+	puzzle.set_piece(2, 1, "straight", 1)
+	puzzle.set_piece(3, 1, "straight", 1)
+	puzzle.set_piece(4, 1, "straight", 1)
+	puzzle.set_piece(5, 1, "corner", 2)
+	puzzle.set_piece(5, 2, "straight", 0)
+	puzzle.set_piece(5, 3, "corner", 0)
+	puzzle.set_piece(2, 3, "block", 0, true)
+	puzzle.set_piece(3, 3, "block", 0, true)
+	puzzle.set_piece(4, 3, "block", 0, true)
+	puzzle.set_piece(2, 2, "block", 0, true)
+	puzzle.set_piece(3, 2, "block", 0, true)
+	puzzle.set_piece(4, 2, "block", 0, true)
+	puzzle.set_piece(3, 4, "block", 0, true)
+
+	return puzzle
+
+## Create an alternate 7x7 puzzle.
+static func create_puzzle_7x7_b() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(7)
+	puzzle.set_piece(0, 4, "source", 0, true)
+	puzzle.set_piece(6, 4, "sink", 0, true)
+	puzzle.source_pos = Vector2i(0, 4)
+	puzzle.sink_pos = Vector2i(6, 4)
+
+	# Route: right -> up -> right -> down -> right
+	puzzle.set_piece(1, 4, "corner", 3)
+	puzzle.set_piece(1, 3, "corner", 1)
+	puzzle.set_piece(2, 3, "straight", 1)
+	puzzle.set_piece(3, 3, "straight", 1)
+	puzzle.set_piece(4, 3, "corner", 2)
+	puzzle.set_piece(4, 4, "corner", 0)
+	puzzle.set_piece(5, 4, "straight", 1)
+
+	puzzle.set_piece(2, 4, "block", 0, true)
+	puzzle.set_piece(3, 4, "block", 0, true)
+	puzzle.set_piece(2, 2, "block", 0, true)
+	puzzle.set_piece(3, 2, "block", 0, true)
+	puzzle.set_piece(4, 2, "block", 0, true)
+	puzzle.set_piece(4, 5, "block", 0, true)
 
 	return puzzle

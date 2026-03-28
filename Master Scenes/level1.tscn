@@ -661,3 +661,7 @@ puzzle_layout = 3
 [node name="PipePuzzleTerminal6x6" parent="." unique_id=1513677062 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(2044, 1171)
 puzzle_layout = 4
+
+[node name="PipePuzzleTerminal7x7" parent="." unique_id=1359468427 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1383, 1228)
+puzzle_layout = 5

@@ -46,6 +46,7 @@ var _cursor_index: int = 0
 var _grabbed_index: int = -1
 var _active: bool = false
 var _solved: bool = false
+var _control_mode: int = 0  # 0: normal, 1: move-only, 2: rotate-only
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
@@ -68,13 +69,16 @@ func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	if _puzzle:
 		_grid_size = _puzzle.grid_size
 
+func set_control_mode(mode: int) -> void:
+	_control_mode = clampi(mode, 0, 2)
+
 func open_for_player(player: CharacterBody2D) -> void:
 	_player = player
 	_active = true
 	_solved = false
 	visible = true
 	call_deferred("_ensure_visible_on_top")
-	_status_label.text = "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
+	_status_label.text = _controls_hint_text()
 	if not _puzzle:
 		_puzzle = PipePuzzleDefinition.create_default()
 		_grid_size = _puzzle.grid_size
@@ -102,17 +106,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("ui_accept"):
-		_toggle_select()
+		if _can_move_pieces():
+			_toggle_select()
 		get_viewport().set_input_as_handled()
 		return
 
 	if event.is_action_pressed("q"):
-		_rotate_at_selection(-1)
+		if _can_rotate_pieces():
+			_rotate_at_selection(-1)
 		get_viewport().set_input_as_handled()
 		return
 
 	if event.is_action_pressed("e"):
-		_rotate_at_selection(1)
+		if _can_rotate_pieces():
+			_rotate_at_selection(1)
 		get_viewport().set_input_as_handled()
 		return
 
@@ -220,6 +227,7 @@ func _reset_puzzle() -> void:
 	_cursor_index = _idx(center_x, center_y)
 	_grabbed_index = -1
 	_info_label.text = "Build a connected pipe route from source to drain."
+	_status_label.text = _controls_hint_text()
 	_update_cells()
 
 func _toggle_select() -> void:
@@ -239,7 +247,7 @@ func _move_cursor(dx: int, dy: int) -> void:
 	var ny: int = clampi(current.y + dy, 0, _grid_size - 1)
 	var target_index := _idx(nx, ny)
 
-	if _grabbed_index != -1 and target_index != _grabbed_index:
+	if _can_move_pieces() and _grabbed_index != -1 and target_index != _grabbed_index:
 		if _pieces[target_index].get("locked", false):
 			return
 		var moved_piece := _pieces[_grabbed_index]
@@ -251,6 +259,9 @@ func _move_cursor(dx: int, dy: int) -> void:
 	_update_cells()
 
 func _rotate_at_selection(dir: int) -> void:
+	if not _can_rotate_pieces():
+		return
+
 	var idx := _cursor_index
 	if _grabbed_index != -1:
 		idx = _grabbed_index
@@ -263,6 +274,21 @@ func _rotate_at_selection(dir: int) -> void:
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
 	_status_label.text = "Rotated piece."
 	_update_cells()
+
+func _can_move_pieces() -> bool:
+	return _control_mode != 2
+
+func _can_rotate_pieces() -> bool:
+	return _control_mode != 1
+
+func _controls_hint_text() -> String:
+	match _control_mode:
+		1:
+			return "WASD: Move  Enter: Pick/Drop  Rotation disabled"
+		2:
+			return "WASD: Cursor  Q/E: Rotate  Piece moving disabled"
+		_:
+			return "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
 
 func _on_send_water_pressed() -> void:
 	if not _active:

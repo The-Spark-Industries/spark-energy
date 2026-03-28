@@ -96,7 +96,6 @@ static func create_puzzle_4x4() -> PipePuzzleDefinition:
 	puzzle.set_piece(1, 3, "corner", 0)
 	puzzle.set_piece(2, 3, "corner", 3)
 	puzzle.set_piece(2, 2, "corner", 1)
-	puzzle.set_piece(1, 1, "block", 0, true)
 	puzzle.set_piece(2, 1, "block", 0, true)
 	
 	return puzzle

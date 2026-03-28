@@ -1,31 +1,38 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://ctu446b65pai6"]
 
-[ext_resource type="Script" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
+[ext_resource type="Script" uid="uid://cmoblano7wpdw" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_range"]
 radius = 68.0
 
-[node name="PipePuzzleTerminal" type="Area2D"]
+[node name="PipePuzzleTerminal" type="Area2D" unique_id=2059207433]
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("1_terminal_script")
+water_stream_path = NodePath("SolvedWaterStream")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482101810]
 shape = SubResource("CircleShape2D_range")
 
-[node name="TerminalSprite" type="ColorRect" parent="."]
+[node name="TerminalSprite" type="ColorRect" parent="." unique_id=1649227641]
 offset_left = -42.0
 offset_top = -70.0
 offset_right = 42.0
 offset_bottom = 24.0
 color = Color(0.239216, 0.321569, 0.396078, 1)
 
-[node name="Prompt" type="Label" parent="."]
+[node name="Prompt" type="Label" parent="." unique_id=888163643]
 visible = false
 offset_left = -140.0
 offset_top = -122.0
 offset_right = 140.0
 offset_bottom = -92.0
 theme_override_font_sizes/font_size = 32
-horizontal_alignment = 1
 text = "[E] Pipe Control"
+horizontal_alignment = 1
+
+[node name="SolvedWaterStream" type="Line2D" parent="." unique_id=1727436921]
+visible = false
+position = Vector2(36, -10)
+points = PackedVector2Array(0, 0, 55, 12, 110, 34)
+width = 9.0
+default_color = Color(0.211765, 0.682353, 0.905882, 1)

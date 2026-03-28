@@ -1,12 +1,23 @@
 extends Area2D
 
+signal puzzle_solved(terminal: Node)
+
 @export var minigame_scene: PackedScene = preload("res://Master Scenes/PipeMinigame.tscn")
 @export var puzzle_definition: Dictionary = {}  # Serializable puzzle; auto-populate with default if empty.
 @export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6") var puzzle_layout: int = 0
+@export_enum("Normal", "Move Only", "Rotate Only") var control_mode: int = 0
 @export_group("Solved Platform Motion")
 @export var moving_platform_path: NodePath
 @export var platform_move_distance: float = 140.0
 @export var platform_move_duration: float = 1.4
+@export_group("Solved Water Flow")
+@export var water_stream_path: NodePath
+@export var water_wheel_path: NodePath
+@export var water_to_wheel_delay: float = 0.25
+@export var wheel_spin_time_per_turn: float = 0.6
+@export_group("Solved Linked Object")
+@export var linked_object_path: NodePath
+@export var linked_object_method: StringName = &"on_terminal_solved"
 
 var _bodies_inside: Array[Node] = []
 var _ui_layer: CanvasLayer = null
@@ -15,6 +26,7 @@ var _solved: bool = false
 var _puzzle: PipePuzzleDefinition = null
 var _randomized_once: bool = false
 var _platform_motion_started: bool = false
+var _wheel_spin_started: bool = false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -67,6 +79,8 @@ func interact(player: CharacterBody2D) -> bool:
 
 	if _minigame.has_method("set_puzzle"):
 		_minigame.call("set_puzzle", _puzzle)
+	if _minigame.has_method("set_control_mode"):
+		_minigame.call("set_control_mode", control_mode)
 
 	if _minigame.has_method("open_for_player"):
 		_minigame.call("open_for_player", player)
@@ -79,7 +93,77 @@ func _on_minigame_completed(success: bool) -> void:
 		_solved = true
 		if has_node("Prompt"):
 			$Prompt.text = "Solved"
+		_notify_linked_object_on_solve()
+		_start_connected_water_flow()
 		_start_platform_motion_if_needed()
+
+func _notify_linked_object_on_solve() -> void:
+	puzzle_solved.emit(self)
+
+	if String(linked_object_path).is_empty():
+		return
+
+	var linked := get_node_or_null(linked_object_path)
+	if linked == null:
+		push_warning("PipePuzzleTerminal: linked_object_path not found.")
+		return
+
+	if not String(linked_object_method).is_empty() and linked.has_method(String(linked_object_method)):
+		linked.call(String(linked_object_method), self)
+		return
+
+	# Fallback names for convenience.
+	if linked.has_method("start_water_dispense"):
+		linked.call("start_water_dispense", self)
+	elif linked.has_method("activate"):
+		linked.call("activate", self)
+	elif linked.has_method("trigger"):
+		linked.call("trigger", self)
+
+func _start_connected_water_flow() -> void:
+	if not String(water_stream_path).is_empty():
+		var stream_node := get_node_or_null(water_stream_path)
+		_set_flow_visual_active(stream_node, true)
+
+	if not String(water_wheel_path).is_empty():
+		if water_to_wheel_delay > 0.0:
+			await get_tree().create_timer(water_to_wheel_delay).timeout
+		_start_wheel_spin(get_node_or_null(water_wheel_path))
+
+func _set_flow_visual_active(node: Node, active: bool) -> void:
+	if node == null:
+		return
+
+	if node is CanvasItem:
+		(node as CanvasItem).visible = active
+
+	# Supports GPUParticles2D/CPUParticles2D if a particle stream node is used.
+	if node is GPUParticles2D:
+		(node as GPUParticles2D).emitting = active
+	elif node is CPUParticles2D:
+		(node as CPUParticles2D).emitting = active
+
+	# Supports an AnimationPlayer child named FlowAnimation for custom visuals.
+	if node.has_node("FlowAnimation"):
+		var flow_anim := node.get_node("FlowAnimation") as AnimationPlayer
+		if flow_anim:
+			if active:
+				if flow_anim.has_animation("default"):
+					flow_anim.play("default")
+			else:
+				flow_anim.stop()
+
+func _start_wheel_spin(node: Node) -> void:
+	if _wheel_spin_started:
+		return
+	var wheel := node as Node2D
+	if wheel == null:
+		return
+
+	_wheel_spin_started = true
+	var tween := create_tween()
+	tween.set_loops()
+	tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 
 func _on_body_entered(body: Node2D) -> void:
 	if not (body is CharacterBody2D):

@@ -12,7 +12,8 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 [ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
-[ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
+[ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
+[ext_resource type="Script" uid="uid://xjji1j1ek8nr" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -20,7 +21,7 @@
 size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
-size = Vector2(4188.8574, 105)
+size = Vector2(7771.429, 105)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(15, 52)
@@ -270,12 +271,13 @@ shape = SubResource("RectangleShape2D_4hvuo")
 position = Vector2(1850, 1250)
 
 [node name="ColorRect" type="ColorRect" parent="platform2" unique_id=1421301210]
-offset_left = -150.0
+offset_left = -279.0
 offset_top = -20.0
-offset_right = 150.0
+offset_right = 264.0
 offset_bottom = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform2" unique_id=1207154522]
+position = Vector2(-7.000122, 0)
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
@@ -605,19 +607,57 @@ position = Vector2(754, 1278)
 position = Vector2(623, 1245)
 
 [node name="PipePuzzleTerminal" parent="." unique_id=1934063769 instance=ExtResource("12_pipe_terminal")]
-position = Vector2(807, 1228)
+position = Vector2(1612, 1171)
 
 [node name="PipePuzzleTerminal4x4" parent="." unique_id=1091472253 instance=ExtResource("12_pipe_terminal")]
-position = Vector2(951, 1228)
+position = Vector2(1756, 1171)
 puzzle_layout = 2
 moving_platform_path = NodePath("../platform2")
 platform_move_distance = 180.0
 platform_move_duration = 1.6
+water_stream_path = NodePath("")
+linked_object_path = NodePath("../WaterDispenser4x4")
+
+[node name="WaterDispenser4x4" type="Node2D" parent="." unique_id=1204487711]
+position = Vector2(2206, 1131)
+script = ExtResource("13_terminal_dispenser")
+stream_node_path = NodePath("../WaterStream")
+wheel_node_path = NodePath("WaterWheel")
+
+[node name="WaterWheel" type="Node2D" parent="WaterDispenser4x4" unique_id=808061606]
+position = Vector2(118, 95)
+
+[node name="WheelBody" type="Polygon2D" parent="WaterDispenser4x4/WaterWheel" unique_id=76129062]
+color = Color(0.25098, 0.321569, 0.439216, 1)
+polygon = PackedVector2Array(72, 0, 66, 30, 50, 50, 30, 66, 0, 72, -30, 66, -50, 50, -66, 30, -72, 0, -66, -30, -50, -50, -30, -66, 0, -72, 30, -66, 50, -50, 66, -30)
+
+[node name="WheelSpokeH" type="ColorRect" parent="WaterDispenser4x4/WaterWheel" unique_id=908822044]
+offset_left = -58.0
+offset_top = -5.0
+offset_right = 58.0
+offset_bottom = 5.0
+color = Color(0.807843, 0.866667, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WheelSpokeV" type="ColorRect" parent="WaterDispenser4x4/WaterWheel" unique_id=1923998912]
+offset_left = -5.0
+offset_top = -58.0
+offset_right = 5.0
+offset_bottom = 58.0
+color = Color(0.807843, 0.866667, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WaterStream" type="Line2D" parent="." unique_id=1568926204]
+position = Vector2(2208.4033, 1133.2307)
+scale = Vector2(0.82258064, 0.6923077)
+points = PackedVector2Array(0, 0, 66, 18, 99.14307, 30.237427, 131, 42, 168, 86)
+width = 9.0
+default_color = Color(0.211765, 0.682353, 0.905882, 1)
 
 [node name="PipePuzzleTerminal5x5" parent="." unique_id=204821337 instance=ExtResource("12_pipe_terminal")]
-position = Vector2(1095, 1228)
+position = Vector2(1900, 1171)
 puzzle_layout = 3
 
 [node name="PipePuzzleTerminal6x6" parent="." unique_id=1513677062 instance=ExtResource("12_pipe_terminal")]
-position = Vector2(1239, 1228)
+position = Vector2(2044, 1171)
 puzzle_layout = 4

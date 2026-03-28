@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
 [ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
 [ext_resource type="PackedScene" uid="uid://bc55kv6xl3pwx" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
+[ext_resource type="PackedScene" uid="uid://br7s6cj6avyw" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
+[ext_resource type="PackedScene" uid="uid://b3yhb37j1c51y" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -616,3 +618,9 @@ position = Vector2(1629, 1208)
 
 [node name="button2" parent="." unique_id=223548872 instance=ExtResource("14_l8ajp")]
 position = Vector2(1493, 1208)
+
+[node name="Valve" parent="." unique_id=1564924551 instance=ExtResource("15_6xxqs")]
+position = Vector2(2799, 1228)
+
+[node name="PressurePlate" parent="." unique_id=446670835 instance=ExtResource("16_wnyvq")]
+position = Vector2(2631, 1293)

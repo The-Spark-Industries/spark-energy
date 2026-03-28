@@ -1,12 +1,37 @@
 [gd_scene format=3 uid="uid://b3yhb37j1c51y"]
 
-[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_4uor8"]
+[ext_resource type="Script" uid="uid://2spdbie3lubs" path="res://Scripts/pressure_plate.gd" id="1_4uor8"]
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_vfnln"]
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="3_71swu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aesoq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vfnln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_71swu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vfnln"]
+size = Vector2(125, 18)
 
 [node name="PressurePlate" type="Area2D" unique_id=446670835]
+script = ExtResource("1_4uor8")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1312803927]
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1587906054]
+[node name="pressurePlateSprites" type="AnimatedSprite2D" parent="." unique_id=24121763]
 position = Vector2(2, -10)
 scale = Vector2(1, 0.1484375)
-texture = ExtResource("1_4uor8")
+sprite_frames = SubResource("SpriteFrames_aesoq")
+
+[node name="pressurePlateCollision" type="CollisionShape2D" parent="." unique_id=1312803927]
+position = Vector2(1.5, -10)
+shape = SubResource("RectangleShape2D_vfnln")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

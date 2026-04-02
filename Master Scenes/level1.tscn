@@ -244,7 +244,7 @@ radius = 60.0
 
 [sub_resource type="Curve2D" id="Curve2D_wire3"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -196.13083, 7.6503296, 196.13083, -7.6503296, 270, -267, 0, -2.705841, 0, 2.705841, 602, 0)
+"points": PackedVector2Array(0, 0, 0, 0, -102.06317, -1602.3557, -2.343979, -1317.2405, 2.343979, 1317.2405, -99.46838, 7506.2314, 0, -2.705841, 0, 2.705841, -3272.9424, 8572.743)
 }
 point_count = 3
 
@@ -337,6 +337,21 @@ offset_bottom = 20.0
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
+[node name="platform7" type="StaticBody2D" parent="." unique_id=862374896]
+position = Vector2(-2582, -1759)
+
+[node name="ColorRect" type="ColorRect" parent="platform7" unique_id=706733411]
+offset_left = -138.0
+offset_top = -36.0
+offset_right = 142.0
+offset_bottom = 4.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform7" unique_id=146413867]
+position = Vector2(-1, -18)
+scale = Vector2(0.068, 0.33)
+shape = SubResource("RectangleShape2D_4hvuo")
+
 [node name="RoomCamera" type="Camera2D" parent="." unique_id=1812731569]
 position = Vector2(577, 314)
 script = ExtResource("3_roomcam")
@@ -392,70 +407,90 @@ position = Vector2(3000, 0)
 position = Vector2(4000, 0)
 
 [node name="Room_1_0" type="Node2D" parent="CameraPoints" unique_id=1912298782]
-position = Vector2(0, 600)
+position = Vector2(0, -699)
 
 [node name="Room_1_1" type="Node2D" parent="CameraPoints" unique_id=502162458]
-position = Vector2(1000, 600)
+position = Vector2(1000, -699)
 
 [node name="Room_1_2" type="Node2D" parent="CameraPoints" unique_id=1543666515]
-position = Vector2(2000, 600)
+position = Vector2(2000, -699)
 
 [node name="Room_1_3" type="Node2D" parent="CameraPoints" unique_id=1688043101]
-position = Vector2(3000, 600)
+position = Vector2(3000, -699)
 
 [node name="Room_1_4" type="Node2D" parent="CameraPoints" unique_id=1994861453]
-position = Vector2(4000, 600)
+position = Vector2(4000, -699)
 
 [node name="Room_2_0" type="Node2D" parent="CameraPoints" unique_id=1919962837]
-position = Vector2(0, 1200)
+position = Vector2(0, -1614)
 
 [node name="Room_2_1" type="Node2D" parent="CameraPoints" unique_id=1904769222]
-position = Vector2(1000, 1200)
+position = Vector2(1000, -1614)
 
 [node name="Room_2_2" type="Node2D" parent="CameraPoints" unique_id=262305620]
-position = Vector2(2000, 1200)
+position = Vector2(2000, -1614)
 
 [node name="Room_2_3" type="Node2D" parent="CameraPoints" unique_id=80117181]
-position = Vector2(3000, 1200)
+position = Vector2(3000, -1614)
 
 [node name="Room_2_4" type="Node2D" parent="CameraPoints" unique_id=1486081301]
-position = Vector2(4000, 1200)
+position = Vector2(4000, -1614)
 
 [node name="Room_3_0" type="Node2D" parent="CameraPoints" unique_id=876326285]
-position = Vector2(0, 1800)
+position = Vector2(8, -2306)
+
+[node name="Room_3_5" type="Node2D" parent="CameraPoints" unique_id=945523917]
+position = Vector2(-952, -2315)
+
+[node name="Room_3_6" type="Node2D" parent="CameraPoints" unique_id=1928832200]
+position = Vector2(-1571, -2321)
+
+[node name="Room_3_7" type="Node2D" parent="CameraPoints" unique_id=199463956]
+position = Vector2(-2105, -2321)
+
+[node name="Room_4_6" type="Node2D" parent="CameraPoints" unique_id=905166078]
+position = Vector2(-1571, -2964)
+
+[node name="Room_4_7" type="Node2D" parent="CameraPoints" unique_id=471942723]
+position = Vector2(-2105, -2964)
 
 [node name="Room_3_1" type="Node2D" parent="CameraPoints" unique_id=28634516]
-position = Vector2(1000, 1800)
+position = Vector2(1008, -2306)
 
 [node name="Room_3_2" type="Node2D" parent="CameraPoints" unique_id=798432118]
-position = Vector2(2000, 1800)
+position = Vector2(2008, -2306)
 
 [node name="Room_3_3" type="Node2D" parent="CameraPoints" unique_id=2041901714]
-position = Vector2(3000, 1800)
+position = Vector2(3008, -2306)
 
 [node name="Room_3_4" type="Node2D" parent="CameraPoints" unique_id=227884753]
-position = Vector2(4000, 1800)
+position = Vector2(4008, -2306)
 
 [node name="Room_4_0" type="Node2D" parent="CameraPoints" unique_id=680348713]
-position = Vector2(0, 2400)
+position = Vector2(-15, -2952)
+
+[node name="Room_4_5" type="Node2D" parent="CameraPoints" unique_id=379312542]
+position = Vector2(-955, -2967)
 
 [node name="Room_4_1" type="Node2D" parent="CameraPoints" unique_id=1011269222]
-position = Vector2(1000, 2400)
+position = Vector2(985, -2952)
 
 [node name="Room_4_2" type="Node2D" parent="CameraPoints" unique_id=645539716]
-position = Vector2(2000, 2400)
+position = Vector2(1985, -2952)
 
 [node name="Room_4_3" type="Node2D" parent="CameraPoints" unique_id=334918482]
-position = Vector2(3000, 2400)
+position = Vector2(2985, -2952)
 
 [node name="Room_4_4" type="Node2D" parent="CameraPoints" unique_id=2000218893]
-position = Vector2(4000, 2400)
+position = Vector2(3985, -2952)
 
 [node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
 position = Vector2(482, 1254)
 script = ExtResource("5_wirepath")
 
 [node name="Path2D" type="Path2D" parent="WirePath1" unique_id=1211272085]
+position = Vector2(0, -32)
+scale = Vector2(0.608, 0.8881119)
 curve = SubResource("Curve2D_wire1")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D" unique_id=432903862]
@@ -478,13 +513,13 @@ theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
 [node name="EndB" type="Area2D" parent="WirePath1" unique_id=1079659657]
-position = Vector2(500, 0)
+position = Vector2(456, -5)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB" unique_id=906745439]
-position = Vector2(-14, 0)
+position = Vector2(-154, -35)
 shape = SubResource("CircleShape2D_w1b")
 
 [node name="Prompt" type="Label" parent="WirePath1/EndB" unique_id=2057939934]
@@ -502,7 +537,8 @@ script = ExtResource("5_wirepath")
 
 [node name="Path2D" type="Path2D" parent="WirePath2" unique_id=999994171]
 material = SubResource("CanvasItemMaterial_y4dr7")
-scale = Vector2(1, 0.26)
+position = Vector2(97, -11.9999895)
+scale = Vector2(0.87875, 0.21200003)
 curve = SubResource("Curve2D_wire2")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D" unique_id=586326500]
@@ -513,6 +549,7 @@ collision_layer = 0
 script = ExtResource("6_wireend")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA" unique_id=1036708283]
+position = Vector2(109, -15)
 shape = SubResource("CircleShape2D_w2a")
 
 [node name="Prompt" type="Label" parent="WirePath2/EndA" unique_id=888101419]
@@ -545,22 +582,25 @@ text = "[E] Enter Wire"
 [node name="WirePath3" type="Node2D" parent="." unique_id=1094322965]
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")
+travel_speed = 2000.0
+travel_curve = 1
 
 [node name="Path2D" type="Path2D" parent="WirePath3" unique_id=1222895979]
-position = Vector2(-349, 14.999981)
-scale = Vector2(1.114618, 0.22846451)
+position = Vector2(1298, -492.30792)
+scale = Vector2(1.1561463, -0.31223285)
 curve = SubResource("Curve2D_wire3")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D" unique_id=834413157]
-rotation = -1.2933193
+position = Vector2(-102.06317, -1602.3557)
+rotation = 1.5707642
 
 [node name="EndA" type="Area2D" parent="WirePath3" unique_id=1349027901]
-position = Vector2(-345, 2)
+position = Vector2(1191, -17)
 collision_layer = 0
 script = ExtResource("6_wireend")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA" unique_id=267454114]
-position = Vector2(-2, 0)
+position = Vector2(-22, 10)
 shape = SubResource("CircleShape2D_w3a")
 
 [node name="Prompt" type="Label" parent="WirePath3/EndA" unique_id=424495009]
@@ -573,13 +613,13 @@ theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
 [node name="EndB" type="Area2D" parent="WirePath3" unique_id=512753618]
-position = Vector2(321, -5)
+position = Vector2(-2481, -3140)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=261022935]
-position = Vector2(-45, 15)
+position = Vector2(-3, 2)
 shape = SubResource("CircleShape2D_w3b")
 
 [node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=1550603915]

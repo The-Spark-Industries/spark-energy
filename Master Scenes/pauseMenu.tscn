@@ -111,14 +111,27 @@ layout_mode = 0
 offset_left = -59.0
 offset_top = -446.0
 offset_right = 59.0
-offset_bottom = -267.0
+offset_bottom = -397.0
 text = "Master Volume
+"
 
+[node name="volume3" type="Label" parent="optionsMenu" unique_id=135754434]
+layout_mode = 0
+offset_left = -59.0
+offset_top = -369.0
+offset_right = 59.0
+offset_bottom = -320.0
+text = "Music Volume
+"
 
-Music Volume
-
-
-Sound Volume"
+[node name="volume4" type="Label" parent="optionsMenu" unique_id=1431358799]
+layout_mode = 0
+offset_left = -59.0
+offset_top = -299.0
+offset_right = 59.0
+offset_bottom = -250.0
+text = "Sound Volume
+"
 
 [node name="volumeSlider1" type="HSlider" parent="optionsMenu" unique_id=1625656700]
 layout_mode = 0

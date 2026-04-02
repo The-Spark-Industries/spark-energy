@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b3wrn5c1q8iuw"]
 
+[ext_resource type="Theme" uid="uid://10csgeduuha5" path="res://Assets/Visual/Receipt.tres" id="1_4owrd"]
 [ext_resource type="Script" uid="uid://bmpuw06uuxgix" path="res://Scripts/pause_menu.gd" id="1_pbpjw"]
 
 [node name="pauseMenu" type="Control" unique_id=1118913350]
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_4owrd")
 script = ExtResource("1_pbpjw")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1909889208]

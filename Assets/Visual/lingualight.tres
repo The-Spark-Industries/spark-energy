@@ -3,7 +3,6 @@
 [ext_resource type="FontFile" uid="uid://b0m06fdvnsfg3" path="res://Assets/Visual/Lingua Light.otf" id="1_u1w56"]
 
 [resource]
-default_font = ExtResource("1_u1w56")
 /colors/white = Color(1, 1, 1, 1)
 /constants/a = 0
 /font_sizes/_24 = 24

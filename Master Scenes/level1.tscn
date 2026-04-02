@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
 [ext_resource type="Texture2D" uid="uid://c22qdf1xpvi54" path="res://1_Main Character Assets/Spark Assets/Spark Animations/jumping_spark.png" id="6_aqaee"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
-[ext_resource type="Script" uid="uid://bygr2ybvvksib" path="res://Master Scenes/playercamera.gd" id="7_naso3"]
+[ext_resource type="Script" uid="uid://bygr2ybvvksib" path="res://Scripts/playercamera.gd" id="7_naso3"]
 [ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]

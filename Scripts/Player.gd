@@ -48,6 +48,7 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
+	#Global.wiremode= false
 	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
 
@@ -69,7 +70,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
+		Global.wiremode=true
+	
 		return
+	else :
+		Global.wiremode=false
+
+
 
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
@@ -189,10 +196,12 @@ func _active_pipe() -> Node:
 	return _pipes_inside.back()
 
 func _on_pipe_entered(pipe_end: Node) -> void:
+	#Global.wiremode= true
 	if pipe_end not in _pipes_inside:
 		_pipes_inside.append(pipe_end)
 
 func _on_pipe_exited(pipe_end: Node) -> void:
+	#Global.wiremode= false
 	_pipes_inside.erase(pipe_end)
 
 func entered_water() -> void:

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c812w5iknq1es"]
 
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_21y3i"]
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="PackedScene" uid="uid://u8w5e8g3euut" path="res://Master Scenes/gameInterface.tscn" id="3_303fj"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
@@ -8,6 +9,7 @@
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="5_wirepath"]
 [ext_resource type="Texture2D" uid="uid://c22qdf1xpvi54" path="res://1_Main Character Assets/Spark Assets/Spark Animations/jumping_spark.png" id="6_aqaee"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
+[ext_resource type="Script" uid="uid://bygr2ybvvksib" path="res://Master Scenes/playercamera.gd" id="7_naso3"]
 [ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
@@ -256,6 +258,12 @@ radius = 60.0
 
 [node name="Level1" type="Node2D" unique_id=320706740]
 
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=710869245]
+texture_repeat = 2
+position = Vector2(63.000244, -407.99997)
+scale = Vector2(45.625, 26.28125)
+texture = ExtResource("1_21y3i")
+
 [node name="platform" type="StaticBody2D" parent="." unique_id=1844586003]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
@@ -388,6 +396,12 @@ shape = SubResource("RectangleShape2D_y4dr7")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1417613721]
 sprite_frames = SubResource("SpriteFrames_g77rh")
 animation = &"jump"
+
+[node name="playercamera" type="Camera2D" parent="CharacterBody2D" unique_id=1358423822]
+position = Vector2(6, -55)
+enabled = false
+zoom = Vector2(1.2, 1.2)
+script = ExtResource("7_naso3")
 
 [node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
 position = Vector2(-1099, 1050)

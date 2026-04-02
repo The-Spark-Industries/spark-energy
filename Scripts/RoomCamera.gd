@@ -26,6 +26,7 @@ var _current_target: Node2D
 var _tween: Tween
 
 func _ready() -> void:
+	self.enabled=true
 	position_smoothing_enabled = false
 	drag_horizontal_enabled = false
 	drag_vertical_enabled = false
@@ -41,6 +42,12 @@ func _ready() -> void:
 		_current_target = _closest_target_to(_player.global_position)
 		if _current_target:
 			global_position = _current_target.global_position
+
+func _process(delta: float) -> void:
+	if (Global.wiremode==false):
+		self.enabled= true
+	if (Global.wiremode==true):
+		self.enabled= false
 
 func _physics_process(_delta: float) -> void:
 	if not _player or _targets.is_empty():
@@ -85,6 +92,7 @@ func _transition_to(target_pos: Vector2) -> void:
 	_tween.set_trans(_int_to_trans(transition_trans))
 	_tween.set_ease(_int_to_ease(transition_ease))
 	_tween.tween_property(self, "global_position", target_pos, transition_duration)
+	_tween.set_speed_scale(1.25)
 
 func _int_to_trans(idx: int) -> Tween.TransitionType:
 	match idx:

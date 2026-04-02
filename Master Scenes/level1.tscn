@@ -260,8 +260,8 @@ radius = 60.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=710869245]
 texture_repeat = 2
-position = Vector2(63.000244, -407.99997)
-scale = Vector2(45.625, 26.28125)
+position = Vector2(-202.5, -405.5)
+scale = Vector2(49.77344, 26.320313)
 texture = ExtResource("1_21y3i")
 
 [node name="platform" type="StaticBody2D" parent="." unique_id=1844586003]

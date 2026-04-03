@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=62 format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
 [ext_resource type="PackedScene" uid="uid://di4iaa6p2dr7f" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
 [ext_resource type="Shader" uid="uid://kgc1nussu3wu" path="res://Level 1/Level 1 Art Assets/Shaders/FallingWater.gdshader" id="21_g77rh"]
+[ext_resource type="Shader" uid="uid://cudwhx57lsypv" path="res://Level 1/Level 1 Art Assets/Shaders/StillWater.gdshader" id="21_wqik4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -289,6 +290,35 @@ shader_parameter/reflection_distortion = 0.012
 shader_parameter/reflection_pixel_snap = 4.0
 shader_parameter/bg_distortion_strength = 0.58
 shader_parameter/bg_distortion_scale = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m1dw6"]
+shader = ExtResource("21_wqik4")
+shader_parameter/liquid_level = 0.5
+shader_parameter/liquid_color = Color(0.2, 0.4, 0.9, 0.8)
+shader_parameter/wave_amplitude = 0.02
+shader_parameter/wave_frequency = 1.0
+shader_parameter/wave_speed = 0.3
+shader_parameter/gravity_angle = 0.0
+shader_parameter/gravity_direction = Vector2(0, 1)
+shader_parameter/shine_intensity = 0.3
+shader_parameter/add_bubble = true
+shader_parameter/bubble_scale = 10.0
+shader_parameter/bubble_speed = 0.07
+shader_parameter/speck_pixel_size = 3.0
+shader_parameter/speck_density = 0.4
+shader_parameter/speck_brightness = 0.15
+shader_parameter/speck_dark_brightness = -0.08
+shader_parameter/speck_drift_speed = 0.03
+shader_parameter/speck_shimmer_speed = 0.15
+shader_parameter/edge_darken = 0.45
+shader_parameter/edge_width = 0.12
+shader_parameter/edge_color = Color(0.08, 0.15, 0.4, 1)
+shader_parameter/edge_noise_scale = 25.0
+shader_parameter/edge_noise_strength = 0.06
+shader_parameter/reflection_strength = 1.0
+shader_parameter/reflection_distortion = 0.112
+shader_parameter/reflection_fade = 0.5
+shader_parameter/reflection_pixel_snap = 4.0
 
 [node name="Level1" type="Node2D"]
 
@@ -682,6 +712,12 @@ position = Vector2(3039, -195)
 [node name="FloorBlock106" parent="FloorBlocks/room4" instance=ExtResource("17_naso3")]
 position = Vector2(3071, -163)
 
+[node name="FloorBlock108" parent="FloorBlocks/room4" instance=ExtResource("17_naso3")]
+position = Vector2(3071, -131)
+
+[node name="FloorBlock109" parent="FloorBlocks/room4" instance=ExtResource("17_naso3")]
+position = Vector2(3102.92, -131)
+
 [node name="FloorBlock107" parent="FloorBlocks/room4" instance=ExtResource("17_naso3")]
 position = Vector2(3103, -163)
 
@@ -750,6 +786,9 @@ position = Vector2(1184, -323)
 
 [node name="FloorBlock36" parent="FloorBlocks/room2" instance=ExtResource("17_naso3")]
 position = Vector2(1248, -323)
+
+[node name="FloorBlock56" parent="FloorBlocks/room2" instance=ExtResource("17_naso3")]
+position = Vector2(1248, -290.92)
 
 [node name="FloorBlock37" parent="FloorBlocks/room2" instance=ExtResource("17_naso3")]
 position = Vector2(1216, -323)
@@ -1258,6 +1297,7 @@ position = Vector2(951, 61)
 [node name="Waterfalls" type="Node" parent="."]
 
 [node name="ColorRect3" type="ColorRect" parent="Waterfalls"]
+z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 1663.0
 offset_top = -1010.0
@@ -1265,6 +1305,7 @@ offset_right = 1695.0
 offset_bottom = 3003.158
 
 [node name="ColorRect2" type="ColorRect" parent="Waterfalls"]
+z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 1120.0
 offset_top = -999.0
@@ -1286,3 +1327,26 @@ offset_left = 2657.0
 offset_top = -703.0
 offset_right = 2689.0
 offset_bottom = 536.0
+
+[node name="Still Water" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Still Water"]
+material = SubResource("ShaderMaterial_m1dw6")
+offset_left = 2879.0
+offset_top = 366.0
+offset_right = 3888.0
+offset_bottom = 483.0
+
+[node name="ColorRect3" type="ColorRect" parent="Still Water"]
+material = SubResource("ShaderMaterial_m1dw6")
+offset_left = 1909.0
+offset_top = -244.0
+offset_right = 3070.0
+offset_bottom = -95.0
+
+[node name="ColorRect2" type="ColorRect" parent="Still Water"]
+material = SubResource("ShaderMaterial_m1dw6")
+offset_left = 849.0
+offset_top = 367.0
+offset_right = 2879.0
+offset_bottom = 484.0

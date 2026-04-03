@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
+[ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
 [ext_resource type="PackedScene" uid="uid://u8w5e8g3euut" path="res://Master Scenes/gameInterface.tscn" id="3_303fj"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
@@ -25,6 +26,9 @@ size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
 size = Vector2(4188.8574, 105)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_deathbox"]
+size = Vector2(3232, 85)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(15, 52)
@@ -269,6 +273,15 @@ mesh = SubResource("QuadMesh_6015k")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
 position = Vector2(50.428833, -7.5)
 shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="DeathBox" type="Area2D" parent="." unique_id=1130952234]
+position = Vector2(1000, 1710)
+collision_layer = 0
+script = ExtResource("2_deathbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBox" unique_id=349997511]
+position = Vector2(612, -1788.5)
+shape = SubResource("RectangleShape2D_deathbox")
 
 [node name="platform2" type="StaticBody2D" parent="." unique_id=745345215]
 position = Vector2(1850, 1250)
@@ -830,7 +843,7 @@ position = Vector2(0, 32)
 position = Vector2(0, 64)
 
 [node name="FloorBlock91" parent="FloorBlocks/room1" unique_id=392144185 instance=ExtResource("17_naso3")]
-position = Vector2(960, -79)
+position = Vector2(960, -96)
 
 [node name="room3" type="Node2D" parent="FloorBlocks" unique_id=363656365]
 position = Vector2(0, 197)

@@ -606,7 +606,7 @@ position = Vector2(2497, -322)
 position = Vector2(480, 203)
 
 [node name="Room_7" type="Node2D" parent="camera_points" unique_id=2039052048]
-position = Vector2(1440, 203)
+position = Vector2(1439, 203)
 
 [node name="Room_6" type="Node2D" parent="camera_points" unique_id=619519527]
 position = Vector2(2399, 203)
@@ -618,7 +618,7 @@ position = Vector2(3359, 203)
 position = Vector2(480, -369)
 
 [node name="Room_2" type="Node2D" parent="camera_points" unique_id=1155560918]
-position = Vector2(1440, -369)
+position = Vector2(1439, -369)
 
 [node name="Room_3" type="Node2D" parent="camera_points" unique_id=1392805412]
 position = Vector2(2399, -369)
@@ -1082,9 +1082,6 @@ position = Vector2(3647, 610)
 [node name="FloorBlock56" parent="FloorBlocks/room5" unique_id=1609256896 instance=ExtResource("17_naso3")]
 position = Vector2(3647, 98)
 
-[node name="FloorBlock91" parent="FloorBlocks/room5" unique_id=1654815979 instance=ExtResource("17_naso3")]
-position = Vector2(2385, 406)
-
 [node name="FloorBlock93" parent="FloorBlocks/room5" unique_id=262077035 instance=ExtResource("17_naso3")]
 position = Vector2(3583, 610)
 
@@ -1170,31 +1167,28 @@ position = Vector2(2527, 317)
 position = Vector2(2271, 317)
 
 [node name="waterWheelRoom9" parent="." unique_id=1067178807 instance=ExtResource("19_8ifkh")]
-position = Vector2(2039, 317)
+position = Vector2(2015, 317)
 
 [node name="FloorBlock51" parent="." unique_id=7892029 instance=ExtResource("17_naso3")]
-position = Vector2(1943, 253)
+position = Vector2(1919, 253)
 
 [node name="FloorBlock52" parent="." unique_id=1175761570 instance=ExtResource("17_naso3")]
-position = Vector2(1911, 253)
+position = Vector2(1887, 253)
 
 [node name="FloorBlock53" parent="." unique_id=818192111 instance=ExtResource("17_naso3")]
-position = Vector2(1879, 285)
+position = Vector2(1855, 285)
 
 [node name="FloorBlock54" parent="." unique_id=1300765879 instance=ExtResource("17_naso3")]
-position = Vector2(1847, 317)
+position = Vector2(1823, 317)
 
 [node name="FloorBlock55" parent="." unique_id=1404212699 instance=ExtResource("17_naso3")]
-position = Vector2(1815, 349)
-
-[node name="FloorBlock56" parent="." unique_id=1980725777 instance=ExtResource("17_naso3")]
-position = Vector2(1783, 349)
+position = Vector2(1791, 349)
 
 [node name="FloorBlock57" parent="." unique_id=1191873300 instance=ExtResource("17_naso3")]
-position = Vector2(1751, 381)
+position = Vector2(1759, 381)
 
 [node name="FloorBlock58" parent="." unique_id=503585785 instance=ExtResource("17_naso3")]
-position = Vector2(1719, 413)
+position = Vector2(1727, 381)
 
 [node name="waterFallRoom2" parent="." unique_id=216903372 instance=ExtResource("20_xe1pu")]
 position = Vector2(1120, -515)
@@ -1204,16 +1198,16 @@ position = Vector2(1663, -675)
 scale = Vector2(1, 0.228)
 
 [node name="waterWheelRoom10" parent="." unique_id=1053887134 instance=ExtResource("19_8ifkh")]
-position = Vector2(1431, 317)
+position = Vector2(1463, 317)
 
 [node name="FloorBlock59" parent="." unique_id=1632445253 instance=ExtResource("17_naso3")]
-position = Vector2(1495, 61)
-
-[node name="FloorBlock60" parent="." unique_id=743664667 instance=ExtResource("17_naso3")]
 position = Vector2(1463, 61)
 
-[node name="FloorBlock61" parent="." unique_id=1510189345 instance=ExtResource("17_naso3")]
+[node name="FloorBlock60" parent="." unique_id=743664667 instance=ExtResource("17_naso3")]
 position = Vector2(1431, 61)
+
+[node name="FloorBlock61" parent="." unique_id=1510189345 instance=ExtResource("17_naso3")]
+position = Vector2(1399, 61)
 
 [node name="FloorBlock62" parent="." unique_id=1990119767 instance=ExtResource("17_naso3")]
 position = Vector2(1271, 413)
@@ -1225,10 +1219,16 @@ position = Vector2(1239, 413)
 position = Vector2(1207, 413)
 
 [node name="FloorBlock33" parent="." unique_id=1254795949 instance=ExtResource("17_naso3")]
-position = Vector2(983, 61)
+position = Vector2(991, 61)
 
 [node name="FloorBlock34" parent="." unique_id=40534834 instance=ExtResource("17_naso3")]
-position = Vector2(1015, 61)
+position = Vector2(1023, 61)
 
 [node name="FloorBlock35" parent="." unique_id=1916463871 instance=ExtResource("17_naso3")]
-position = Vector2(951, 61)
+position = Vector2(959, 61)
+
+[node name="Checkpoint7" parent="." unique_id=531094517 instance=ExtResource("8_tiul6")]
+position = Vector2(1885, 219)
+
+[node name="FloorBlock56" parent="." unique_id=1078892833 instance=ExtResource("17_naso3")]
+position = Vector2(1919, 285)

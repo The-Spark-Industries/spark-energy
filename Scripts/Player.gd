@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var SPEED := 36000.0
-@export var JUMP_VELOCITY := -110000.0
+@export var SPEED := 25000.0
+@export var JUMP_VELOCITY := -75000.0
 @export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 100 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
@@ -16,7 +16,7 @@ extends CharacterBody2D
 @export var GROUND_ACCEL := 4000.0
 @export var GROUND_DECEL := 10000.0
 @export var AIR_DECEL := 4500.0
-@export var AIR_COAST_DECEL := 1200.0
+@export var AIR_COAST_DECEL := 1400.0
 @export var AIR_TURN_ACCEL := 3500.0
 
 # --- State & Internal Variables ---
@@ -225,7 +225,7 @@ func die() -> void:
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")
-	get_tree().create_timer(0.8).timeout.connect(_respawn, CONNECT_ONE_SHOT)
+	get_tree().create_timer(0.2).timeout.connect(_respawn, CONNECT_ONE_SHOT)
 
 func _respawn() -> void:
 	global_position = Global.last_checkpoint_position

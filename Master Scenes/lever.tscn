@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://wflvrv4ubxgo"]
+
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_ybjgq"]
+[ext_resource type="Script" uid="uid://c56c0c5ch2qux" path="res://Scripts/lever.gd" id="1_yg5hk"]
+[ext_resource type="Texture2D" uid="uid://bbcour4btu45" path="res://1_Main Character Assets/Spark Assets/Spark Sprites/spark2.png" id="3_oqdeu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yg5hk"]
+size = Vector2(147, 148)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ybjgq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ybjgq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_oqdeu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
+[node name="Lever" type="Area2D" unique_id=1287015382]
+script = ExtResource("1_yg5hk")
+
+[node name="leverCollision" type="CollisionShape2D" parent="." unique_id=1833193169]
+position = Vector2(0.5, -2)
+shape = SubResource("RectangleShape2D_yg5hk")
+
+[node name="leverSprites" type="AnimatedSprite2D" parent="." unique_id=1874664651]
+sprite_frames = SubResource("SpriteFrames_ybjgq")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -1,17 +1,23 @@
 extends CharacterBody2D
 
-@export var SPEED := 40000.0
-@export var JUMP_VELOCITY := -120000.0
+@export var SPEED := 36000.0
+@export var JUMP_VELOCITY := -110000.0
 @export var START_GRAVITY := 6000.0
-@export var COYOTE_TIME_MS := 140 # in ms
+@export var COYOTE_TIME_MS := 100 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
 @export var JUMP_CUT_MULTIPLIER := 0.4
 @export var JUMP_ASCENT_SLOWDOWN := 0.9
+@export var JUMP_DURATION_MULTIPLIER := 1.05
 @export var AIR_HANG_MULTIPLIER := 0.95
 @export var AIR_HANG_THRESHOLD := 5.0
 @export var Y_SMOOTHING := 0.8
 @export var AIR_X_SMOOTHING := 0.10
 @export var MAX_FALL_SPEED := 60000.0
+@export var GROUND_ACCEL := 4000.0
+@export var GROUND_DECEL := 10000.0
+@export var AIR_DECEL := 4500.0
+@export var AIR_COAST_DECEL := 1200.0
+@export var AIR_TURN_ACCEL := 3500.0
 
 # --- State & Internal Variables ---
 enum States { IDLE, RUN, JUMP, AIR, DEAD }
@@ -22,6 +28,8 @@ var last_floor_msec := 0
 var last_jump_queue_msec := 0
 var current_gravity := START_GRAVITY
 var has_boots := false
+var _jump_arc_active := false
+var _coyote_jump_available := false
 
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
@@ -69,13 +77,16 @@ func _physics_process(delta: float) -> void:
 	# Update Floor/Coyote Timing
 	if is_on_floor():
 		last_floor_msec = Time.get_ticks_msec()
+		_coyote_jump_available = true
 	elif state != States.JUMP and state != States.AIR and state != States.DEAD:
 		state = States.AIR
 		if sprite: sprite.play("fall")
 
 	match state:
 		States.JUMP:
-			velocity.y = JUMP_VELOCITY * JUMP_ASCENT_SLOWDOWN * delta
+			var jump_time_scale := maxf(JUMP_DURATION_MULTIPLIER, 0.01)
+			_jump_arc_active = true
+			velocity.y = (JUMP_VELOCITY * JUMP_ASCENT_SLOWDOWN / jump_time_scale) * delta
 			if sprite: sprite.play("jump")
 			if animPlayer:
 				animPlayer.stop()
@@ -85,6 +96,7 @@ func _physics_process(delta: float) -> void:
 		States.AIR:
 			if is_on_floor():
 				state = States.IDLE
+				_jump_arc_active = false
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
@@ -92,18 +104,20 @@ func _physics_process(delta: float) -> void:
 				velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
-			# Air X Smoothing
-			velocity.x = lerp(prev_velocity.x, velocity.x, AIR_X_SMOOTHING)
 			
 			# Jump Input (with Coyote Time)
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				if Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
+				if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
 					state = States.JUMP
+					_coyote_jump_available = false
 				else:
 					last_jump_queue_msec = Time.get_ticks_msec()
 			
 			# Gravity & Air Hang Peak Logic
 			var gravity_to_apply := current_gravity
+			if _jump_arc_active:
+				var jump_time_scale := maxf(JUMP_DURATION_MULTIPLIER, 0.01)
+				gravity_to_apply /= jump_time_scale * jump_time_scale
 			if velocity.y < 0.0:
 				gravity_to_apply *= JUMP_ASCENT_SLOWDOWN
 			velocity.y += gravity_to_apply * delta
@@ -115,8 +129,10 @@ func _physics_process(delta: float) -> void:
 		States.IDLE:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
 				state = States.JUMP
+				_coyote_jump_available = false
+				last_jump_queue_msec = 0
 			else:
-				velocity.x = 0
+				_apply_run_logic(direction, delta)
 				if sprite:
 					sprite.scale.x = 1
 					sprite.play("idle")
@@ -132,6 +148,7 @@ func _physics_process(delta: float) -> void:
 			# Ensure jump works during run too
 			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
 				state = States.JUMP
+				_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
@@ -152,7 +169,21 @@ func _physics_process(delta: float) -> void:
 			active.transport(self)
 
 func _apply_run_logic(direction: float, delta: float) -> void:
-	velocity.x = SPEED * direction * delta
+	var target_speed := SPEED * direction * delta
+	var accel := GROUND_ACCEL
+
+	if is_on_floor():
+		if direction == 0.0:
+			accel = GROUND_DECEL
+	else:
+		if direction == 0.0:
+			accel = AIR_COAST_DECEL
+		elif signf(direction) != signf(velocity.x) and absf(velocity.x) > 0.01:
+			accel = AIR_TURN_ACCEL
+		else:
+			accel = GROUND_ACCEL
+
+	velocity.x = move_toward(velocity.x, target_speed, accel * delta)
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0
 
@@ -218,6 +249,7 @@ func _respawn() -> void:
 	global_position = Global.last_checkpoint_position
 	velocity = Vector2.ZERO
 	state = States.IDLE
+	_jump_arc_active = false
 	current_gravity = START_GRAVITY
 	_water_overlap_count = 0
 	_water_walk_used = false

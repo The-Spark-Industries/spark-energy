@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://br7s6cj6avyw"]
+
+[ext_resource type="Script" uid="uid://b8e6wesihkqf8" path="res://Scripts/valve.gd" id="1_00y70"]
+[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_b5cws"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_00y70"]
+size = Vector2(157, 216)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_00y70"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_b5cws")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_b5cws")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_b5cws")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_b5cws")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_b5cws")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
+[node name="Valve" type="Area2D" unique_id=1564924551]
+script = ExtResource("1_00y70")
+
+[node name="valveCollision" type="CollisionShape2D" parent="." unique_id=844345559]
+position = Vector2(-7.5, -41)
+shape = SubResource("RectangleShape2D_00y70")
+
+[node name="valveSprites" type="AnimatedSprite2D" parent="." unique_id=1605781803]
+sprite_frames = SubResource("SpriteFrames_00y70")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

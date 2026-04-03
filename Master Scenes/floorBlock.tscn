@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://vi688nohxxfl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ynkai"]
+size = Vector2(32, 32)
+
+[node name="FloorBlock" type="Node2D" unique_id=1347350038]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=527701631]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=774390441]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_ynkai")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=8263816]
+offset_right = 32.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 1)

@@ -10,13 +10,12 @@
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
 [ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
-[ext_resource type="PackedScene" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
-[ext_resource type="PackedScene" path="res://Master Scenes/map.tscn" id="11_l37wp"]
-[ext_resource type="PackedScene" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
-[ext_resource type="PackedScene" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
-[ext_resource type="PackedScene" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
-[ext_resource type="PackedScene" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
-[ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
+[ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
+[ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
+[ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
+[ext_resource type="PackedScene" uid="uid://bc55kv6xl3pwx" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
+[ext_resource type="PackedScene" uid="uid://br7s6cj6avyw" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
+[ext_resource type="PackedScene" uid="uid://b3yhb37j1c51y" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -364,7 +363,7 @@ offset_bottom = -1.0
 scale = Vector2(0.5, 0.5)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
-position = Vector2(10, -226)
+position = Vector2(406, 1156)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
@@ -379,19 +378,78 @@ animation = &"jump"
 position = Vector2(-1099, 1050)
 
 [node name="Room_0_0" type="Node2D" parent="CameraPoints" unique_id=697253879]
-position = Vector2(1579, -1421)
 
 [node name="Room_0_1" type="Node2D" parent="CameraPoints" unique_id=1155560918]
-position = Vector2(2571, -1389)
+position = Vector2(1000, 0)
 
 [node name="Room_0_2" type="Node2D" parent="CameraPoints" unique_id=1392805412]
-position = Vector2(3507, -1389)
+position = Vector2(2000, 0)
 
 [node name="Room_0_3" type="Node2D" parent="CameraPoints" unique_id=100174834]
-position = Vector2(4571, -1389)
+position = Vector2(3000, 0)
 
 [node name="Room_0_4" type="Node2D" parent="CameraPoints" unique_id=1657203684]
-position = Vector2(5571, -1389)
+position = Vector2(4000, 0)
+
+[node name="Room_1_0" type="Node2D" parent="CameraPoints" unique_id=1912298782]
+position = Vector2(0, 600)
+
+[node name="Room_1_1" type="Node2D" parent="CameraPoints" unique_id=502162458]
+position = Vector2(1000, 600)
+
+[node name="Room_1_2" type="Node2D" parent="CameraPoints" unique_id=1543666515]
+position = Vector2(2000, 600)
+
+[node name="Room_1_3" type="Node2D" parent="CameraPoints" unique_id=1688043101]
+position = Vector2(3000, 600)
+
+[node name="Room_1_4" type="Node2D" parent="CameraPoints" unique_id=1994861453]
+position = Vector2(4000, 600)
+
+[node name="Room_2_0" type="Node2D" parent="CameraPoints" unique_id=1919962837]
+position = Vector2(0, 1200)
+
+[node name="Room_2_1" type="Node2D" parent="CameraPoints" unique_id=1904769222]
+position = Vector2(1000, 1200)
+
+[node name="Room_2_2" type="Node2D" parent="CameraPoints" unique_id=262305620]
+position = Vector2(2000, 1200)
+
+[node name="Room_2_3" type="Node2D" parent="CameraPoints" unique_id=80117181]
+position = Vector2(3000, 1200)
+
+[node name="Room_2_4" type="Node2D" parent="CameraPoints" unique_id=1486081301]
+position = Vector2(4000, 1200)
+
+[node name="Room_3_0" type="Node2D" parent="CameraPoints" unique_id=876326285]
+position = Vector2(0, 1800)
+
+[node name="Room_3_1" type="Node2D" parent="CameraPoints" unique_id=28634516]
+position = Vector2(1000, 1800)
+
+[node name="Room_3_2" type="Node2D" parent="CameraPoints" unique_id=798432118]
+position = Vector2(2000, 1800)
+
+[node name="Room_3_3" type="Node2D" parent="CameraPoints" unique_id=2041901714]
+position = Vector2(3000, 1800)
+
+[node name="Room_3_4" type="Node2D" parent="CameraPoints" unique_id=227884753]
+position = Vector2(4000, 1800)
+
+[node name="Room_4_0" type="Node2D" parent="CameraPoints" unique_id=680348713]
+position = Vector2(0, 2400)
+
+[node name="Room_4_1" type="Node2D" parent="CameraPoints" unique_id=1011269222]
+position = Vector2(1000, 2400)
+
+[node name="Room_4_2" type="Node2D" parent="CameraPoints" unique_id=645539716]
+position = Vector2(2000, 2400)
+
+[node name="Room_4_3" type="Node2D" parent="CameraPoints" unique_id=334918482]
+position = Vector2(3000, 2400)
+
+[node name="Room_4_4" type="Node2D" parent="CameraPoints" unique_id=2000218893]
+position = Vector2(4000, 2400)
 
 [node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
 position = Vector2(482, 1254)
@@ -537,7 +595,7 @@ text = "[E] Enter Wire"
 position = Vector2(-1287, 1342)
 
 [node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
-position = Vector2(32, -229)
+position = Vector2(-192, 1229)
 
 [node name="WaterShoes" parent="." unique_id=1326362754 instance=ExtResource("9_gdrb5")]
 position = Vector2(1065, 1269)
@@ -547,7 +605,7 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(754, 1278)
 
 [node name="Checkpoint2" parent="." unique_id=256465831 instance=ExtResource("8_tiul6")]
-position = Vector2(1025, -328)
+position = Vector2(623, 1245)
 
 [node name="Lever" parent="." unique_id=1287015382 instance=ExtResource("13_1yw1p")]
 position = Vector2(2185, 1213)
@@ -566,325 +624,3 @@ position = Vector2(2799, 1228)
 
 [node name="PressurePlate" parent="." unique_id=446670835 instance=ExtResource("16_wnyvq")]
 position = Vector2(2631, 1293)
-
-[node name="FloorBlocks" type="Node2D" parent="." unique_id=1348514540]
-position = Vector2(0, -197)
-
-[node name="room4" type="Node2D" parent="FloorBlocks" unique_id=297259994]
-position = Vector2(0, 197)
-
-[node name="FloorBlock100" parent="FloorBlocks/room4" unique_id=1347350038 instance=ExtResource("17_naso3")]
-position = Vector2(3008, -323)
-
-[node name="FloorBlock101" parent="FloorBlocks/room4" unique_id=1857864747 instance=ExtResource("17_naso3")]
-position = Vector2(3040, -323)
-
-[node name="FloorBlock102" parent="FloorBlocks/room4" unique_id=687943178 instance=ExtResource("17_naso3")]
-position = Vector2(3072, -291)
-
-[node name="FloorBlock103" parent="FloorBlocks/room4" unique_id=498757 instance=ExtResource("17_naso3")]
-position = Vector2(3104, -259)
-
-[node name="FloorBlock104" parent="FloorBlocks/room4" unique_id=735675758 instance=ExtResource("17_naso3")]
-position = Vector2(3104, -227)
-
-[node name="FloorBlock105" parent="FloorBlocks/room4" unique_id=1814273047 instance=ExtResource("17_naso3")]
-position = Vector2(3136, -195)
-
-[node name="FloorBlock106" parent="FloorBlocks/room4" unique_id=604824399 instance=ExtResource("17_naso3")]
-position = Vector2(3168, -163)
-
-[node name="FloorBlock107" parent="FloorBlocks/room4" unique_id=973787948 instance=ExtResource("17_naso3")]
-position = Vector2(3200, -163)
-
-[node name="room2" type="Node2D" parent="FloorBlocks" unique_id=1373327002]
-position = Vector2(0, 197)
-
-[node name="FloorBlock31" parent="FloorBlocks/room2" unique_id=1781393041 instance=ExtResource("17_naso3")]
-position = Vector2(992, -293)
-
-[node name="FloorBlock32" parent="FloorBlocks/room2" unique_id=1300634149 instance=ExtResource("17_naso3")]
-position = Vector2(1024, -293)
-
-[node name="FloorBlock33" parent="FloorBlocks/room2" unique_id=1829659208 instance=ExtResource("17_naso3")]
-position = Vector2(1056, -293)
-
-[node name="FloorBlock34" parent="FloorBlocks/room2" unique_id=21078014 instance=ExtResource("17_naso3")]
-position = Vector2(1088, -293)
-
-[node name="FloorBlock35" parent="FloorBlocks/room2" unique_id=1548230188 instance=ExtResource("17_naso3")]
-position = Vector2(1216, -323)
-
-[node name="FloorBlock36" parent="FloorBlocks/room2" unique_id=1669958209 instance=ExtResource("17_naso3")]
-position = Vector2(1280, -323)
-
-[node name="FloorBlock37" parent="FloorBlocks/room2" unique_id=2015402125 instance=ExtResource("17_naso3")]
-position = Vector2(1248, -323)
-
-[node name="FloorBlock41" parent="FloorBlocks/room2" unique_id=937766256 instance=ExtResource("17_naso3")]
-position = Vector2(1407, -355)
-
-[node name="FloorBlock42" parent="FloorBlocks/room2" unique_id=1132011097 instance=ExtResource("17_naso3")]
-position = Vector2(1471, -355)
-
-[node name="FloorBlock43" parent="FloorBlocks/room2" unique_id=317001061 instance=ExtResource("17_naso3")]
-position = Vector2(1439, -355)
-
-[node name="FloorBlock44" parent="FloorBlocks/room2" unique_id=1171780690 instance=ExtResource("17_naso3")]
-position = Vector2(1407, -387)
-
-[node name="FloorBlock45" parent="FloorBlocks/room2" unique_id=386935201 instance=ExtResource("17_naso3")]
-position = Vector2(1471, -387)
-
-[node name="FloorBlock46" parent="FloorBlocks/room2" unique_id=15712759 instance=ExtResource("17_naso3")]
-position = Vector2(1439, -387)
-
-[node name="FloorBlock38" parent="FloorBlocks/room2" unique_id=2063267433 instance=ExtResource("17_naso3")]
-position = Vector2(1503, -355)
-
-[node name="FloorBlock39" parent="FloorBlocks/room2" unique_id=1536077589 instance=ExtResource("17_naso3")]
-position = Vector2(1567, -355)
-
-[node name="FloorBlock40" parent="FloorBlocks/room2" unique_id=234437406 instance=ExtResource("17_naso3")]
-position = Vector2(1535, -355)
-
-[node name="FloorBlock47" parent="FloorBlocks/room2" unique_id=447897977 instance=ExtResource("17_naso3")]
-position = Vector2(1503, -387)
-
-[node name="FloorBlock48" parent="FloorBlocks/room2" unique_id=223168910 instance=ExtResource("17_naso3")]
-position = Vector2(1567, -387)
-
-[node name="FloorBlock49" parent="FloorBlocks/room2" unique_id=1063522400 instance=ExtResource("17_naso3")]
-position = Vector2(1535, -387)
-
-[node name="FloorBlock50" parent="FloorBlocks/room2" unique_id=1298284935 instance=ExtResource("17_naso3")]
-position = Vector2(1631, -355)
-
-[node name="FloorBlock51" parent="FloorBlocks/room2" unique_id=1928734456 instance=ExtResource("17_naso3")]
-position = Vector2(1599, -355)
-
-[node name="FloorBlock52" parent="FloorBlocks/room2" unique_id=650931062 instance=ExtResource("17_naso3")]
-position = Vector2(1631, -387)
-
-[node name="FloorBlock53" parent="FloorBlocks/room2" unique_id=1104237920 instance=ExtResource("17_naso3")]
-position = Vector2(1599, -387)
-
-[node name="FloorBlock58" parent="FloorBlocks/room2" unique_id=1241794953 instance=ExtResource("17_naso3")]
-position = Vector2(1823, -419)
-
-[node name="FloorBlock59" parent="FloorBlocks/room2" unique_id=1447683067 instance=ExtResource("17_naso3")]
-position = Vector2(1791, -419)
-
-[node name="FloorBlock60" parent="FloorBlocks/room2" unique_id=960113385 instance=ExtResource("17_naso3")]
-position = Vector2(1855, -419)
-
-[node name="FloorBlock61" parent="FloorBlocks/room2" unique_id=908887062 instance=ExtResource("17_naso3")]
-position = Vector2(1855, -451)
-
-[node name="FloorBlock62" parent="FloorBlocks/room2" unique_id=1082720764 instance=ExtResource("17_naso3")]
-position = Vector2(1887, -451)
-
-[node name="FloorBlock54" parent="FloorBlocks/room2" unique_id=728392064 instance=ExtResource("17_naso3")]
-position = Vector2(1919, -483)
-
-[node name="FloorBlock55" parent="FloorBlocks/room2" unique_id=986171712 instance=ExtResource("17_naso3")]
-position = Vector2(1887, -483)
-
-[node name="FloorBlock63" parent="FloorBlocks/room2" unique_id=33592453 instance=ExtResource("17_naso3")]
-position = Vector2(1983, -483)
-
-[node name="FloorBlock64" parent="FloorBlocks/room2" unique_id=117641979 instance=ExtResource("17_naso3")]
-position = Vector2(2047, -483)
-
-[node name="FloorBlock65" parent="FloorBlocks/room2" unique_id=590529125 instance=ExtResource("17_naso3")]
-position = Vector2(2015, -483)
-
-[node name="FloorBlock66" parent="FloorBlocks/room2" unique_id=1441051735 instance=ExtResource("17_naso3")]
-position = Vector2(2047, -451)
-
-[node name="FloorBlock69" parent="FloorBlocks/room2" unique_id=1423475571 instance=ExtResource("17_naso3")]
-position = Vector2(2015, -195)
-
-[node name="FloorBlock70" parent="FloorBlocks/room2" unique_id=1170369762 instance=ExtResource("17_naso3")]
-position = Vector2(1983, -195)
-
-[node name="FloorBlock71" parent="FloorBlocks/room2" unique_id=1811895015 instance=ExtResource("17_naso3")]
-position = Vector2(2079, -195)
-
-[node name="FloorBlock72" parent="FloorBlocks/room2" unique_id=1268688207 instance=ExtResource("17_naso3")]
-position = Vector2(2047, -195)
-
-[node name="FloorBlock73" parent="FloorBlocks/room2" unique_id=1813447103 instance=ExtResource("17_naso3")]
-position = Vector2(1919, -195)
-
-[node name="FloorBlock74" parent="FloorBlocks/room2" unique_id=650942956 instance=ExtResource("17_naso3")]
-position = Vector2(1887, -195)
-
-[node name="FloorBlock77" parent="FloorBlocks/room2" unique_id=1764316097 instance=ExtResource("17_naso3")]
-position = Vector2(1855, -195)
-
-[node name="FloorBlock83" parent="FloorBlocks/room2" unique_id=599518501 instance=ExtResource("17_naso3")]
-position = Vector2(1567, -195)
-
-[node name="FloorBlock84" parent="FloorBlocks/room2" unique_id=2053429288 instance=ExtResource("17_naso3")]
-position = Vector2(1535, -195)
-
-[node name="FloorBlock87" parent="FloorBlocks/room2" unique_id=1919172174 instance=ExtResource("17_naso3")]
-position = Vector2(1503, -195)
-
-[node name="room1" type="Node2D" parent="FloorBlocks" unique_id=666808633]
-
-[node name="FloorBlock2" parent="FloorBlocks/room1" unique_id=1560636917 instance=ExtResource("17_naso3")]
-
-[node name="FloorBlock" parent="FloorBlocks/room1" unique_id=508790132 instance=ExtResource("17_naso3")]
-position = Vector2(32, 0)
-
-[node name="FloorBlock3" parent="FloorBlocks/room1" unique_id=1032302711 instance=ExtResource("17_naso3")]
-position = Vector2(64, 0)
-
-[node name="FloorBlock4" parent="FloorBlocks/room1" unique_id=1045331735 instance=ExtResource("17_naso3")]
-position = Vector2(96, 0)
-
-[node name="FloorBlock5" parent="FloorBlocks/room1" unique_id=403161250 instance=ExtResource("17_naso3")]
-position = Vector2(128, 0)
-
-[node name="FloorBlock6" parent="FloorBlocks/room1" unique_id=815621720 instance=ExtResource("17_naso3")]
-position = Vector2(160, 0)
-
-[node name="FloorBlock7" parent="FloorBlocks/room1" unique_id=1689700223 instance=ExtResource("17_naso3")]
-position = Vector2(192, 0)
-
-[node name="FloorBlock8" parent="FloorBlocks/room1" unique_id=1452885598 instance=ExtResource("17_naso3")]
-position = Vector2(224, 0)
-
-[node name="FloorBlock9" parent="FloorBlocks/room1" unique_id=464607130 instance=ExtResource("17_naso3")]
-position = Vector2(256, 0)
-
-[node name="FloorBlock10" parent="FloorBlocks/room1" unique_id=2012458558 instance=ExtResource("17_naso3")]
-position = Vector2(288, 0)
-
-[node name="FloorBlock11" parent="FloorBlocks/room1" unique_id=2032415918 instance=ExtResource("17_naso3")]
-position = Vector2(320, 0)
-
-[node name="FloorBlock12" parent="FloorBlocks/room1" unique_id=1360081625 instance=ExtResource("17_naso3")]
-position = Vector2(352, 0)
-
-[node name="FloorBlock13" parent="FloorBlocks/room1" unique_id=2132602608 instance=ExtResource("17_naso3")]
-position = Vector2(384, 0)
-
-[node name="FloorBlock14" parent="FloorBlocks/room1" unique_id=1270798787 instance=ExtResource("17_naso3")]
-position = Vector2(416, 0)
-
-[node name="FloorBlock15" parent="FloorBlocks/room1" unique_id=492310368 instance=ExtResource("17_naso3")]
-position = Vector2(448, 0)
-
-[node name="FloorBlock16" parent="FloorBlocks/room1" unique_id=721083989 instance=ExtResource("17_naso3")]
-position = Vector2(480, 0)
-
-[node name="FloorBlock17" parent="FloorBlocks/room1" unique_id=1529497192 instance=ExtResource("17_naso3")]
-position = Vector2(512, -32)
-
-[node name="FloorBlock18" parent="FloorBlocks/room1" unique_id=1472296443 instance=ExtResource("17_naso3")]
-position = Vector2(544, -32)
-
-[node name="FloorBlock19" parent="FloorBlocks/room1" unique_id=2002019675 instance=ExtResource("17_naso3")]
-position = Vector2(576, -32)
-
-[node name="FloorBlock20" parent="FloorBlocks/room1" unique_id=1590323232 instance=ExtResource("17_naso3")]
-position = Vector2(608, -32)
-
-[node name="FloorBlock21" parent="FloorBlocks/room1" unique_id=909284836 instance=ExtResource("17_naso3")]
-position = Vector2(640, -32)
-
-[node name="FloorBlock22" parent="FloorBlocks/room1" unique_id=1185004903 instance=ExtResource("17_naso3")]
-position = Vector2(672, -64)
-
-[node name="FloorBlock23" parent="FloorBlocks/room1" unique_id=583211050 instance=ExtResource("17_naso3")]
-position = Vector2(704, -64)
-
-[node name="FloorBlock24" parent="FloorBlocks/room1" unique_id=421234268 instance=ExtResource("17_naso3")]
-position = Vector2(736, -64)
-
-[node name="FloorBlock25" parent="FloorBlocks/room1" unique_id=448693954 instance=ExtResource("17_naso3")]
-position = Vector2(768, -64)
-
-[node name="FloorBlock26" parent="FloorBlocks/room1" unique_id=1020745068 instance=ExtResource("17_naso3")]
-position = Vector2(800, -64)
-
-[node name="FloorBlock27" parent="FloorBlocks/room1" unique_id=859678385 instance=ExtResource("17_naso3")]
-position = Vector2(832, -96)
-
-[node name="FloorBlock28" parent="FloorBlocks/room1" unique_id=2058298196 instance=ExtResource("17_naso3")]
-position = Vector2(864, -96)
-
-[node name="FloorBlock29" parent="FloorBlocks/room1" unique_id=1915656851 instance=ExtResource("17_naso3")]
-position = Vector2(896, -96)
-
-[node name="FloorBlock30" parent="FloorBlocks/room1" unique_id=1977694765 instance=ExtResource("17_naso3")]
-position = Vector2(928, -96)
-
-[node name="FloorBlock67" parent="FloorBlocks/room1" unique_id=1146082124 instance=ExtResource("17_naso3")]
-position = Vector2(0, 32)
-
-[node name="FloorBlock68" parent="FloorBlocks/room1" unique_id=917734260 instance=ExtResource("17_naso3")]
-position = Vector2(0, 64)
-
-[node name="FloorBlock91" parent="FloorBlocks/room1" unique_id=392144185 instance=ExtResource("17_naso3")]
-position = Vector2(960, -79)
-
-[node name="room3" type="Node2D" parent="FloorBlocks" unique_id=363656365]
-position = Vector2(0, 197)
-
-[node name="FloorBlock78" parent="FloorBlocks/room3" unique_id=481189529 instance=ExtResource("17_naso3")]
-position = Vector2(2207, -227)
-
-[node name="FloorBlock82" parent="FloorBlocks/room3" unique_id=1171159313 instance=ExtResource("17_naso3")]
-position = Vector2(2175, -195)
-
-[node name="FloorBlock79" parent="FloorBlocks/room3" unique_id=484928531 instance=ExtResource("17_naso3")]
-position = Vector2(2239, -227)
-
-[node name="FloorBlock80" parent="FloorBlocks/room3" unique_id=440390237 instance=ExtResource("17_naso3")]
-position = Vector2(2271, -259)
-
-[node name="FloorBlock81" parent="FloorBlocks/room3" unique_id=1003851263 instance=ExtResource("17_naso3")]
-position = Vector2(2303, -291)
-
-[node name="FloorBlock85" parent="FloorBlocks/room3" unique_id=418119355 instance=ExtResource("17_naso3")]
-position = Vector2(2399, -323)
-
-[node name="FloorBlock86" parent="FloorBlocks/room3" unique_id=710792007 instance=ExtResource("17_naso3")]
-position = Vector2(2367, -323)
-
-[node name="FloorBlock88" parent="FloorBlocks/room3" unique_id=10762108 instance=ExtResource("17_naso3")]
-position = Vector2(2463, -323)
-
-[node name="FloorBlock89" parent="FloorBlocks/room3" unique_id=2098885874 instance=ExtResource("17_naso3")]
-position = Vector2(2431, -323)
-
-[node name="FloorBlock90" parent="FloorBlocks/room3" unique_id=694461330 instance=ExtResource("17_naso3")]
-position = Vector2(2335, -323)
-
-[node name="FloorBlock87" parent="FloorBlocks/room3" unique_id=458732465 instance=ExtResource("17_naso3")]
-position = Vector2(2847, -323)
-
-[node name="FloorBlock93" parent="FloorBlocks/room3" unique_id=837810464 instance=ExtResource("17_naso3")]
-position = Vector2(2815, -323)
-
-[node name="FloorBlock94" parent="FloorBlocks/room3" unique_id=2073166113 instance=ExtResource("17_naso3")]
-position = Vector2(2911, -323)
-
-[node name="FloorBlock95" parent="FloorBlocks/room3" unique_id=309874888 instance=ExtResource("17_naso3")]
-position = Vector2(2879, -323)
-
-[node name="FloorBlock96" parent="FloorBlocks/room3" unique_id=2036173372 instance=ExtResource("17_naso3")]
-position = Vector2(2783, -323)
-
-[node name="FloorBlock98" parent="FloorBlocks/room3" unique_id=631499136 instance=ExtResource("17_naso3")]
-position = Vector2(2943, -323)
-
-[node name="FloorBlock31" parent="." unique_id=435396026 instance=ExtResource("17_naso3")]
-position = Vector2(992, -261)
-
-[node name="FloorBlock30" parent="." unique_id=451920609 instance=ExtResource("17_naso3")]
-position = Vector2(928, -261)

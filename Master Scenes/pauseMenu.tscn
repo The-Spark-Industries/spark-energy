@@ -161,19 +161,47 @@ step = 0.5
 
 [node name="Turbo" type="Label" parent="optionsMenu" unique_id=809414930]
 layout_mode = 0
-offset_left = -124.0
-offset_top = -219.0
-offset_right = 126.0
-offset_bottom = -196.0
+offset_left = -11.0
+offset_top = -445.0
+offset_right = 239.0
+offset_bottom = -422.0
 text = "Turbo Mode (Instant wire travel)"
 
 [node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=1779928246]
 layout_mode = 0
-offset_left = -74.0
-offset_top = -198.00002
-offset_right = -28.799988
-offset_bottom = -174.00002
+offset_left = 38.999992
+offset_top = -424.0
+offset_right = 84.200005
+offset_bottom = -400.0
 scale = Vector2(2.5, 2.5)
+
+[node name="TextMode" type="Label" parent="optionsMenu" unique_id=954676590]
+layout_mode = 0
+offset_left = 42.0
+offset_top = -357.0
+offset_right = 124.0
+offset_bottom = -308.0
+text = "Text Mode
+"
+
+[node name="TextModeButton" type="OptionButton" parent="optionsMenu" unique_id=1821456973]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.064
+anchor_top = -0.509
+anchor_right = 0.064
+anchor_bottom = -0.509
+offset_left = -34.472
+offset_top = 4.322998
+offset_right = 49.528
+offset_bottom = 35.322998
+item_count = 3
+popup/item_0/text = "Classic"
+popup/item_0/id = 0
+popup/item_1/text = "Light"
+popup/item_1/id = 1
+popup/item_2/text = "Pixel"
+popup/item_2/id = 2
 
 [connection signal="pressed" from="VBoxContainer2/resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer2/options" to="." method="_on_options_pressed"]

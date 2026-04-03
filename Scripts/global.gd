@@ -13,6 +13,9 @@ var inventory: Array = []
 var max_inventory_size= 100
 
 var wiremode: bool = false
+
+var fontChoice: int= 0
+
 var turboMode: bool = false
 
 func _ready() -> void:

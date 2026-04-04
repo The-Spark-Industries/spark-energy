@@ -33,6 +33,7 @@ var _coyote_jump_available := false
 
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
+var _interactables_inside: Array[Node] = []
 
 ## When true, the player can walk on water and will have a short grace period before dying.
 @export var can_walk_on_water: bool = false
@@ -158,6 +159,11 @@ func _physics_process(delta: float) -> void:
 
 	# Wire transport [cite: 7]
 	if Input.is_action_just_pressed("interact"):
+		var active_interactable := _active_interactable()
+		if active_interactable and active_interactable.has_method("interact"):
+			if active_interactable.interact(self):
+				return
+
 		var active := _active_pipe()
 		if active and active.has_method("transport"):
 			active.transport(self)
@@ -188,12 +194,24 @@ func _active_pipe() -> Node:
 		return null
 	return _pipes_inside.back()
 
+func _active_interactable() -> Node:
+	if _interactables_inside.is_empty():
+		return null
+	return _interactables_inside.back()
+
 func _on_pipe_entered(pipe_end: Node) -> void:
 	if pipe_end not in _pipes_inside:
 		_pipes_inside.append(pipe_end)
 
 func _on_pipe_exited(pipe_end: Node) -> void:
 	_pipes_inside.erase(pipe_end)
+
+func _on_interactable_entered(interactable: Node) -> void:
+	if interactable not in _interactables_inside:
+		_interactables_inside.append(interactable)
+
+func _on_interactable_exited(interactable: Node) -> void:
+	_interactables_inside.erase(interactable)
 
 func entered_water() -> void:
 	if state == States.DEAD:

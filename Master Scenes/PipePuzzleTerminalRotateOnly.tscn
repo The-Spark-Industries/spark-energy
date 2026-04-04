@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="1_base_terminal"]
 
-[node name="PipePuzzleTerminalMoveOnly" instance=ExtResource("1_base_terminal")]
-control_mode = 1
+[node name="PipePuzzleTerminalRotateOnly" instance=ExtResource("1_base_terminal")]
+control_mode = 2
 
 [node name="Prompt" parent="." index="2"]
-text = "[E] Pipe Control (Move Only)"
+text = "[E] Pipe Control (Rotate Only)"

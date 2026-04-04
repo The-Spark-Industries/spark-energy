@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://bwg80bs2f7m1g"]
+[gd_scene format=3 uid="uid://ctu446b65pai6"]
 
-[ext_resource type="Script" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
+[ext_resource type="Script" uid="uid://cmoblano7wpdw" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_range"]
 radius = 68.0

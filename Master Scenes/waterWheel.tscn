@@ -1,19 +1,25 @@
-[gd_scene format=3 uid="uid://di4iaa6p2dr7f"]
+[gd_scene format=3 uid="uid://cry8t43cly03v"]
+
+[ext_resource type="Script" path="res://Scripts/water_wheel.gd" id="1_gd0dq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0er8s"]
 size = Vector2(32, 32)
 
 [node name="Node2D" type="Node2D" unique_id=488124887]
+script = ExtResource("1_gd0dq")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=231638042]
+position = Vector2(-1.1920929e-07, 1.1920929e-07)
 scale = Vector2(5, 5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=602406680]
-position = Vector2(16, 16)
+position = Vector2(7.748604e-07, 2.2351742e-06)
 shape = SubResource("RectangleShape2D_0er8s")
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=1866004177]
-offset_right = 32.0
-offset_bottom = 32.0
+offset_left = -16.000002
+offset_top = -16.000002
+offset_right = 15.999998
+offset_bottom = 15.999998
 color = Color(1, 0, 0, 1)
 metadata/_edit_use_anchors_ = true

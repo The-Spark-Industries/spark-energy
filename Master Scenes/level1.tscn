@@ -13,20 +13,25 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 [ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
+[ext_resource type="PackedScene" uid="uid://bwg80bs2f7m1g" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 [ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
+[ext_resource type="Script" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
 [ext_resource type="PackedScene" uid="uid://bc55kv6xl3pwx" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
 [ext_resource type="PackedScene" uid="uid://br7s6cj6avyw" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
 [ext_resource type="PackedScene" uid="uid://b3yhb37j1c51y" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
 [ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
-[ext_resource type="PackedScene" uid="uid://di4iaa6p2dr7f" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
-[ext_resource type="Shader" uid="uid://cudwhx57lsypv" path="res://Level 1/Level 1 Art Assets/Shaders/StillWater.gdshader" id="21_0xmx1"]
+[ext_resource type="PackedScene" uid="uid://cry8t43cly03v" uid="uid://di4iaa6p2dr7f" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
+[ext_resource type="Shader" uid="uid://kgc1nussu3wu" uid="uid://cudwhx57lsypv" path="res://Level 1/Level 1 Art Assets/Shaders/StillWater.gdshader" id="21_0xmx1"]
 [ext_resource type="Shader" uid="uid://kgc1nussu3wu" path="res://Level 1/Level 1 Art Assets/Shaders/FallingWater.gdshader" id="21_g77rh"]
 [ext_resource type="PackedScene" uid="uid://ccps2ncl5hby4" path="res://Master Scenes/waterPuzzleBox.tscn" id="21_wqik4"]
+[ext_resource type="PackedScene" uid="uid://cknx1i8d6ojmr" path="res://Master Scenes/PipeMinigame.tscn" id="22_pipe_minigame"]
+[ext_resource type="PackedScene" uid="uid://bpgi2odea3xpc" path="res://Master Scenes/risingDoor.tscn" id="25_2rbmd"]
+[ext_resource type="PackedScene" uid="uid://mjfjbsvaubj2" path="res://Master Scenes/risingPlatform.tscn" id="26_211ka"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
-size = Vector2(4188.8574, 105)
+size = Vector2(7771.429, 105)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_deathbox"]
 size = Vector2(3718.5, 5)
@@ -349,17 +354,18 @@ shader_parameter/reflection_pixel_snap = 4.0
 
 [node name="Level1" type="Node2D"]
 
-[node name="platform2" type="StaticBody2D" parent="."]
+[node name="platformPuzzle2" type="StaticBody2D" parent="." unique_id=280777254]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
-[node name="ColorRect" type="ColorRect" parent="platform2"]
-offset_left = -150.0
+[node name="ColorRect" type="ColorRect" parent="platformPuzzle2" unique_id=1121192211]
+offset_left = -279.0
 offset_top = -20.0
-offset_right = 150.0
+offset_right = 264.0
 offset_bottom = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platformPuzzle2" unique_id=2046770390]
+position = Vector2(-7.000122, 0)
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
@@ -622,6 +628,126 @@ position = Vector2(754, 1278)
 
 [node name="Checkpoint2" parent="." instance=ExtResource("8_tiul6")]
 position = Vector2(993, -328)
+
+[node name="PipePuzzleTerminal" parent="." unique_id=1934063769 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1612, 1171)
+
+[node name="PipePuzzleTerminal4x4" parent="." unique_id=1091472253 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1756, 1171)
+puzzle_layout = 2
+moving_platform_path = NodePath("../platformPuzzle2")
+platform_move_distance = 180.0
+platform_move_duration = 1.6
+water_stream_path = NodePath("")
+linked_object_path = NodePath("../WaterDispenser4x4")
+
+[node name="WaterDispenser4x4" type="Node2D" parent="." unique_id=1204487711]
+position = Vector2(2206, 1131)
+script = ExtResource("13_terminal_dispenser")
+stream_node_path = NodePath("../WaterStream")
+wheel_node_path = NodePath("WaterWheel")
+
+[node name="WaterWheel" type="Node2D" parent="WaterDispenser4x4" unique_id=808061606]
+position = Vector2(118, 95)
+
+[node name="WheelBody" type="Polygon2D" parent="WaterDispenser4x4/WaterWheel" unique_id=76129062]
+color = Color(0.25098, 0.321569, 0.439216, 1)
+polygon = PackedVector2Array(72, 0, 66, 30, 50, 50, 30, 66, 0, 72, -30, 66, -50, 50, -66, 30, -72, 0, -66, -30, -50, -50, -30, -66, 0, -72, 30, -66, 50, -50, 66, -30)
+
+[node name="WheelSpokeH" type="ColorRect" parent="WaterDispenser4x4/WaterWheel" unique_id=908822044]
+offset_left = -58.0
+offset_top = -5.0
+offset_right = 58.0
+offset_bottom = 5.0
+color = Color(0.807843, 0.866667, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WheelSpokeV" type="ColorRect" parent="WaterDispenser4x4/WaterWheel" unique_id=1923998912]
+offset_left = -5.0
+offset_top = -58.0
+offset_right = 5.0
+offset_bottom = 58.0
+color = Color(0.807843, 0.866667, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WaterStream" type="Line2D" parent="." unique_id=1568926204]
+position = Vector2(2208.4033, 1133.2307)
+scale = Vector2(0.82258064, 0.6923077)
+points = PackedVector2Array(0, 0, 66, 18, 99.14307, 30.237427, 131, 42, 168, 86)
+width = 9.0
+default_color = Color(0.211765, 0.682353, 0.905882, 1)
+
+[node name="PipePuzzleTerminal5x5" parent="." unique_id=204821337 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1900, 1171)
+puzzle_layout = 3
+
+[node name="PipePuzzleTerminal6x6" parent="." unique_id=1513677062 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(2044, 1171)
+puzzle_layout = 4
+
+[node name="PipePuzzleTerminal7x7" parent="." unique_id=1359468427 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1383, 1228)
+puzzle_layout = 5
+
+[node name="PipePuzzleTerminal" parent="." unique_id=1934063769 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1612, 1171)
+
+[node name="PipePuzzleTerminal4x4" parent="." unique_id=1091472253 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1756, 1171)
+puzzle_layout = 2
+moving_platform_path = NodePath("../platformPuzzle2")
+platform_move_distance = 180.0
+platform_move_duration = 1.6
+water_stream_path = NodePath("")
+linked_object_path = NodePath("../WaterDispenser4x4")
+
+[node name="WaterDispenser4x4" type="Node2D" parent="." unique_id=1204487711]
+position = Vector2(2206, 1131)
+script = ExtResource("13_terminal_dispenser")
+stream_node_path = NodePath("../WaterStream")
+wheel_node_path = NodePath("WaterWheel")
+
+[node name="WaterWheel" type="Node2D" parent="WaterDispenser4x4" unique_id=808061606]
+position = Vector2(118, 95)
+
+[node name="WheelBody" type="Polygon2D" parent="WaterDispenser4x4/WaterWheel" unique_id=76129062]
+color = Color(0.25098, 0.321569, 0.439216, 1)
+polygon = PackedVector2Array(72, 0, 66, 30, 50, 50, 30, 66, 0, 72, -30, 66, -50, 50, -66, 30, -72, 0, -66, -30, -50, -50, -30, -66, 0, -72, 30, -66, 50, -50, 66, -30)
+
+[node name="WheelSpokeH" type="ColorRect" parent="WaterDispenser4x4/WaterWheel" unique_id=908822044]
+offset_left = -58.0
+offset_top = -5.0
+offset_right = 58.0
+offset_bottom = 5.0
+color = Color(0.807843, 0.866667, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WheelSpokeV" type="ColorRect" parent="WaterDispenser4x4/WaterWheel" unique_id=1923998912]
+offset_left = -5.0
+offset_top = -58.0
+offset_right = 5.0
+offset_bottom = 58.0
+color = Color(0.807843, 0.866667, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WaterStream" type="Line2D" parent="." unique_id=1568926204]
+position = Vector2(2208.4033, 1133.2307)
+scale = Vector2(0.82258064, 0.6923077)
+points = PackedVector2Array(0, 0, 66, 18, 99.14307, 30.237427, 131, 42, 168, 86)
+width = 9.0
+default_color = Color(0.211765, 0.682353, 0.905882, 1)
+
+[node name="PipePuzzleTerminal5x5" parent="." unique_id=204821337 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1900, 1171)
+puzzle_layout = 3
+
+[node name="PipePuzzleTerminal6x6" parent="." unique_id=1513677062 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(2044, 1171)
+puzzle_layout = 4
+
+[node name="PipePuzzleTerminal7x7" parent="." unique_id=1359468427 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(1383, 1228)
+puzzle_layout = 5
 
 [node name="Lever" parent="." instance=ExtResource("13_1yw1p")]
 position = Vector2(2185, 1213)
@@ -1250,14 +1376,17 @@ position = Vector2(2751, 317)
 [node name="Checkpoint6" parent="." instance=ExtResource("8_tiul6")]
 position = Vector2(2844, 249)
 
-[node name="waterWheelRoom7" parent="." instance=ExtResource("19_8ifkh")]
-position = Vector2(2527, 317)
+[node name="waterWheelRoom7" parent="." unique_id=211334717 instance=ExtResource("19_8ifkh")]
+position = Vector2(2607, 397.00003)
+enable_oscillation = true
 
-[node name="waterWheelRoom8" parent="." instance=ExtResource("19_8ifkh")]
-position = Vector2(2271, 317)
+[node name="waterWheelRoom8" parent="." unique_id=147028734 instance=ExtResource("19_8ifkh")]
+position = Vector2(2351, 397)
+enable_oscillation = true
 
-[node name="waterWheelRoom9" parent="." instance=ExtResource("19_8ifkh")]
-position = Vector2(2015, 317)
+[node name="waterWheelRoom9" parent="." unique_id=2019184456 instance=ExtResource("19_8ifkh")]
+position = Vector2(2095, 397)
+enable_oscillation = true
 
 [node name="FloorBlock51" parent="." instance=ExtResource("17_naso3")]
 position = Vector2(1919, 253)
@@ -1286,23 +1415,14 @@ position = Vector2(1719, 413)
 [node name="waterWheelRoom10" parent="." instance=ExtResource("19_8ifkh")]
 position = Vector2(1431, 317)
 
-[node name="FloorBlock59" parent="." instance=ExtResource("17_naso3")]
-position = Vector2(1495, 61)
+[node name="FloorBlock59" parent="." unique_id=1632445253 instance=ExtResource("17_naso3")]
+position = Vector2(1471, 61)
 
-[node name="FloorBlock60" parent="." instance=ExtResource("17_naso3")]
-position = Vector2(1463, 61)
+[node name="FloorBlock60" parent="." unique_id=743664667 instance=ExtResource("17_naso3")]
+position = Vector2(1439, 61)
 
-[node name="FloorBlock61" parent="." instance=ExtResource("17_naso3")]
-position = Vector2(1431, 61)
-
-[node name="FloorBlock62" parent="." instance=ExtResource("17_naso3")]
-position = Vector2(1271, 413)
-
-[node name="FloorBlock64" parent="." instance=ExtResource("17_naso3")]
-position = Vector2(1239, 413)
-
-[node name="FloorBlock65" parent="." instance=ExtResource("17_naso3")]
-position = Vector2(1207, 413)
+[node name="FloorBlock61" parent="." unique_id=1510189345 instance=ExtResource("17_naso3")]
+position = Vector2(1407, 61)
 
 [node name="FloorBlock33" parent="." instance=ExtResource("17_naso3")]
 position = Vector2(983, 61)
@@ -1350,7 +1470,7 @@ material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 2657.0
 offset_top = -703.0
 offset_right = 2689.0
-offset_bottom = 536.0
+offset_bottom = -98.0
 
 [node name="Standing Water" type="Node" parent="Water"]
 
@@ -1375,10 +1495,99 @@ position = Vector2(-1779.277, 0)
 scale = Vector2(1.7831324, 0.99999994)
 polygon = PackedVector2Array(2274.804, 250, 2436, 250, 2438, 304, 2272, 305)
 
-[node name="Node2D" parent="." instance=ExtResource("21_wqik4")]
+[node name="waterPuzzleLevel1" type="Node2D" parent="." unique_id=1667404002]
+position = Vector2(0, 32)
+
+[node name="waterPuzzle1" parent="waterPuzzleLevel1" unique_id=343158608 instance=ExtResource("21_wqik4")]
 position = Vector2(3391, -707)
 scale = Vector2(0.84, 0.84)
 
-[node name="Node2D2" parent="." instance=ExtResource("21_wqik4")]
-position = Vector2(1527, -194.00002)
-scale = Vector2(0.84, 0.69)
+[node name="PipeMinigame1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=1848814361 instance=ExtResource("22_pipe_minigame")]
+offset_left = 64.28613
+offset_top = 103.57141
+offset_right = 416.28613
+offset_bottom = 455.5714
+embedded_mode = true
+metadata/_edit_use_anchors_ = true
+
+[node name="PipePuzzleTerminal1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=1409912221 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(145.23792, 545.2382)
+puzzle_layout = 3
+water_stream_path = NodePath("../PuzzleWaterStream1")
+water_wheel_path = NodePath("../waterWheelPuzzle1")
+wheel_spin_time_per_turn = 0.8
+solved_rise_target_path = NodePath("../doorPuzzle1")
+solved_rise_distance = 96.0
+embedded_minigame_path = NodePath("../PipeMinigame1")
+
+[node name="PuzzleWaterStream1" type="ColorRect" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=919202113]
+visible = false
+material = SubResource("ShaderMaterial_0xmx1")
+offset_top = 415.47623
+offset_right = 32.0
+offset_bottom = 792.8572
+
+[node name="waterWheelPuzzle1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=870392331 instance=ExtResource("19_8ifkh")]
+position = Vector2(-57.14319, 820.2382)
+scale = Vector2(1.19, 1.19)
+
+[node name="doorPuzzle1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=337325096 instance=ExtResource("25_2rbmd")]
+position = Vector2(-419.04785, 1028.5713)
+scale = Vector2(1.1904762, 1.1904762)
+
+[node name="waterPuzzle2" parent="waterPuzzleLevel1" unique_id=1069932278 instance=ExtResource("21_wqik4")]
+position = Vector2(1535, -89.99999)
+scale = Vector2(0.65, 0.534)
+
+[node name="PipeMinigame2" parent="waterPuzzleLevel1/waterPuzzle2" unique_id=1457826447 instance=ExtResource("22_pipe_minigame")]
+offset_left = 153.57141
+offset_top = 212.58768
+offset_right = 416.66675
+offset_bottom = 489.3992
+embedded_mode = true
+metadata/_edit_use_anchors_ = true
+
+[node name="PipePuzzleTerminal2" parent="waterPuzzleLevel1/waterPuzzle2" unique_id=839207915 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(386.15356, 674.157)
+puzzle_layout = 3
+water_stream_path = NodePath("../PuzzleWaterStream2")
+water_wheel_path = NodePath("../waterWheelPuzzle2")
+wheel_spin_time_per_turn = 4.0
+solved_rise_target_path = NodePath("../platformPuzzle2")
+solved_rise_distance = 640.0
+solved_rise_duration = 7.0
+embedded_minigame_path = NodePath("../PipeMinigame2")
+
+[node name="PuzzleWaterStream2" type="ColorRect" parent="waterPuzzleLevel1/waterPuzzle2" unique_id=1077195204]
+visible = false
+material = SubResource("ShaderMaterial_0xmx1")
+offset_top = 415.73038
+offset_right = 32.0
+offset_bottom = 715.73035
+metadata/_edit_use_anchors_ = true
+
+[node name="waterWheelPuzzle2" parent="waterPuzzleLevel1/waterPuzzle2" unique_id=1053887134 instance=ExtResource("19_8ifkh")]
+position = Vector2(-73.8457, 852.05994)
+scale = Vector2(1.5384616, 1.8726592)
+
+[node name="platformPuzzle2" parent="waterPuzzleLevel1/waterPuzzle2" unique_id=1301307828 instance=ExtResource("26_211ka")]
+position = Vector2(-541.5383, 880.1498)
+scale = Vector2(1.5384616, 1.8726592)
+
+[node name="Checkpoint7" parent="." unique_id=1438935705 instance=ExtResource("8_tiul6")]
+position = Vector2(1886, 220)
+
+[node name="waterWheelRoom11" parent="." unique_id=488124887 instance=ExtResource("19_8ifkh")]
+position = Vector2(2511, -243)
+
+[node name="FloorBlock62" parent="." unique_id=1347350038 instance=ExtResource("17_naso3")]
+position = Vector2(1664, 317)
+
+[node name="FloorBlock64" parent="." unique_id=1346055524 instance=ExtResource("17_naso3")]
+position = Vector2(1919, 285)
+
+[node name="FloorBlock65" parent="." unique_id=1204148566 instance=ExtResource("17_naso3")]
+position = Vector2(2847, 317)
+
+[node name="FloorBlock66" parent="." unique_id=1998525608 instance=ExtResource("17_naso3")]
+position = Vector2(959, 93)

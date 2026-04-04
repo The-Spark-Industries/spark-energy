@@ -14,7 +14,7 @@ var max_inventory_size= 100
 
 var wiremode: bool = false
 
-var fontChoice: int= 0
+var fontChoice: int
 
 var turboMode: bool = false
 
@@ -99,7 +99,6 @@ func add_item_to_inventory(item:String):
 			return
 	if (inventory.size() < max_inventory_size):
 		inventory.append(item)
-		print(inventory)
 	else:
 		print("Your inventory is full!")
 				

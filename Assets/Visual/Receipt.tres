@@ -1,8 +1,0 @@
-[gd_resource type="Theme" format=3 uid="uid://10csgeduuha5"]
-
-[ext_resource type="FontFile" uid="uid://5deap1n3coev" path="res://Assets/Visual/Receipt Narrow.otf" id="1_cofyb"]
-
-[resource]
-/colors/white = Color(1, 1, 1, 1)
-/font_sizes/_24 = 24
-/fonts/Receipt = ExtResource("1_cofyb")

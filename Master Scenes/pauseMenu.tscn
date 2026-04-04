@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b3wrn5c1q8iuw"]
 
 [ext_resource type="Script" uid="uid://bmpuw06uuxgix" path="res://Scripts/pause_menu.gd" id="1_pbpjw"]
+[ext_resource type="Theme" uid="uid://60rj30lepwcb" path="res://Assets/Visual/Lingua.tres" id="2_4owrd"]
 
 [node name="pauseMenu" type="Control" unique_id=1118913350]
 process_mode = 3
@@ -37,6 +38,7 @@ grow_horizontal = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
+theme = ExtResource("2_4owrd")
 theme_override_font_sizes/font_size = 54
 text = "PAUSED"
 

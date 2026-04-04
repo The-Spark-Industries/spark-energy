@@ -7,7 +7,7 @@ extends Control
 
 func _ready() -> void:
 	titleoptionsmenu.visible =false 
-	self.theme=load("res://Assets/Visual/lingualight.tres")
+	self.theme=load("res://Assets/Visual/Lingua.tres")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

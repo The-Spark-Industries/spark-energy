@@ -4,7 +4,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.theme=load("res://Assets/Visual/lingualight.tres")
+	self.theme=load("res://Assets/Visual/Lingua.tres")
 	
 	visible = false
 	_bring_to_front()

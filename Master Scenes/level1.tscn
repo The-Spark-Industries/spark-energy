@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
-[ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
+[ext_resource type="Script" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
 [ext_resource type="PackedScene" uid="uid://u8w5e8g3euut" path="res://Master Scenes/gameInterface.tscn" id="3_303fj"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
@@ -17,15 +17,12 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
 [ext_resource type="PackedScene" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
 [ext_resource type="PackedScene" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
-[ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
-[ext_resource type="PackedScene" uid="uid://di4iaa6p2dr7f" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
+[ext_resource type="PackedScene" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
+[ext_resource type="PackedScene" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
 [ext_resource type="Shader" path="res://Level 1/Level 1 Art Assets/Shaders/FallingWater.gdshader" id="21_g77rh"]
-[ext_resource type="Shader" path="res://Level 1/Level 1 Art Assets/Shaders/StillWater.gdshader" id="21_wqik4"]
+[ext_resource type="PackedScene" uid="uid://ccps2ncl5hby4" path="res://Master Scenes/waterPuzzleBox.tscn" id="21_wqik4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_6015k"]
-size = Vector2(2000, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
 size = Vector2(4188.8574, 105)
@@ -291,62 +288,11 @@ shader_parameter/reflection_pixel_snap = 4.0
 shader_parameter/bg_distortion_strength = 0.58
 shader_parameter/bg_distortion_scale = 10.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m1dw6"]
-shader = ExtResource("21_wqik4")
-shader_parameter/liquid_level = 0.5
-shader_parameter/liquid_color = Color(0.2, 0.4, 0.9, 0.8)
-shader_parameter/wave_amplitude = 0.02
-shader_parameter/wave_frequency = 1.0
-shader_parameter/wave_speed = 0.3
-shader_parameter/gravity_angle = 0.0
-shader_parameter/gravity_direction = Vector2(0, 1)
-shader_parameter/shine_intensity = 0.3
-shader_parameter/add_bubble = true
-shader_parameter/bubble_scale = 10.0
-shader_parameter/bubble_speed = 0.07
-shader_parameter/speck_pixel_size = 3.0
-shader_parameter/speck_density = 0.4
-shader_parameter/speck_brightness = 0.15
-shader_parameter/speck_dark_brightness = -0.08
-shader_parameter/speck_drift_speed = 0.03
-shader_parameter/speck_shimmer_speed = 0.15
-shader_parameter/edge_darken = 0.45
-shader_parameter/edge_width = 0.12
-shader_parameter/edge_color = Color(0.08, 0.15, 0.4, 1)
-shader_parameter/edge_noise_scale = 25.0
-shader_parameter/edge_noise_strength = 0.06
-shader_parameter/reflection_strength = 1.0
-shader_parameter/reflection_distortion = 0.112
-shader_parameter/reflection_fade = 0.5
-shader_parameter/reflection_pixel_snap = 4.0
-
 [node name="Level1" type="Node2D" unique_id=197728882]
 
-[node name="platform" type="StaticBody2D" parent="." unique_id=280777254]
-[node name="platform" type="StaticBody2D" parent="." unique_id=280777254]
+[node name="platform2" type="StaticBody2D" parent="." unique_id=280777254]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=1892290806]
-position = Vector2(0, -9.124987)
-scale = Vector2(2.0440001, 102.25002)
-mesh = SubResource("QuadMesh_6015k")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=1729500722]
-position = Vector2(50.428833, -7.5)
-shape = SubResource("RectangleShape2D_4hvuo")
-
-[node name="DeathBox" type="Area2D" parent="." unique_id=482350000]
-position = Vector2(1000, 1710)
-collision_layer = 0
-script = ExtResource("2_deathbox")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBox" unique_id=458883368]
-position = Vector2(823.5, -1802.5)
-shape = SubResource("RectangleShape2D_deathbox")
-
-[node name="platform2" type="StaticBody2D" parent="." unique_id=248183183]
-position = Vector2(1850, 1250)
 
 [node name="ColorRect" type="ColorRect" parent="platform2" unique_id=1121192211]
 offset_left = -150.0
@@ -358,8 +304,17 @@ offset_bottom = 20.0
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform3" type="StaticBody2D" parent="." unique_id=1524391828]
-position = Vector2(1463, 1036)
+[node name="DeathBox" type="Area2D" parent="." unique_id=482350000]
+position = Vector2(1000, 1710)
+collision_layer = 0
+script = ExtResource("2_deathbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBox" unique_id=458883368]
+position = Vector2(823.5, -1802.5)
+shape = SubResource("RectangleShape2D_deathbox")
+
+[node name="platform3" type="StaticBody2D" parent="." unique_id=248183183]
+position = Vector2(1850, 1250)
 
 [node name="ColorRect" type="ColorRect" parent="platform3" unique_id=1450768320]
 offset_left = -120.0
@@ -373,8 +328,8 @@ position = Vector2(-0.00012207031, 0)
 scale = Vector2(0.058, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform4" type="StaticBody2D" parent="." unique_id=1649148743]
-position = Vector2(1886, 886)
+[node name="platform4" type="StaticBody2D" parent="." unique_id=1524391828]
+position = Vector2(1463, 1036)
 
 [node name="ColorRect" type="ColorRect" parent="platform4" unique_id=1308768430]
 offset_left = -140.0
@@ -387,8 +342,8 @@ metadata/_edit_use_anchors_ = true
 scale = Vector2(0.068, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform5" type="StaticBody2D" parent="." unique_id=936274223]
-position = Vector2(2650, 850)
+[node name="platform5" type="StaticBody2D" parent="." unique_id=1649148743]
+position = Vector2(1886, 886)
 
 [node name="ColorRect" type="ColorRect" parent="platform5" unique_id=1595711020]
 offset_left = -188.0
@@ -400,8 +355,8 @@ offset_bottom = 20.0
 scale = Vector2(0.088, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform6" type="StaticBody2D" parent="." unique_id=1694558680]
-position = Vector2(2950, 750)
+[node name="platform6" type="StaticBody2D" parent="." unique_id=936274223]
+position = Vector2(2650, 850)
 
 [node name="ColorRect" type="ColorRect" parent="platform6" unique_id=849364467]
 offset_left = -150.0
@@ -412,6 +367,9 @@ offset_bottom = 20.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platform6" unique_id=1303712080]
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
+
+[node name="platform7" type="StaticBody2D" parent="." unique_id=1694558680]
+position = Vector2(2950, 750)
 
 [node name="RoomCamera" type="Camera2D" parent="." unique_id=1484959379]
 position = Vector2(-620, -316)
@@ -713,7 +671,7 @@ position = Vector2(3039, -195)
 [node name="FloorBlock106" parent="FloorBlocks/room4" unique_id=1637786913 instance=ExtResource("17_naso3")]
 position = Vector2(3071, -163)
 
-[node name="FloorBlock107" parent="FloorBlocks/room4" instance=ExtResource("17_naso3")]
+[node name="FloorBlock107" parent="FloorBlocks/room4" unique_id=144271226 instance=ExtResource("17_naso3")]
 position = Vector2(3103, -163)
 
 [node name="FloorBlock98" parent="FloorBlocks/room4" unique_id=2056292315 instance=ExtResource("17_naso3")]
@@ -782,7 +740,7 @@ position = Vector2(1184, -323)
 [node name="FloorBlock36" parent="FloorBlocks/room2" unique_id=610958276 instance=ExtResource("17_naso3")]
 position = Vector2(1248, -323)
 
-[node name="FloorBlock37" parent="FloorBlocks/room2" instance=ExtResource("17_naso3")]
+[node name="FloorBlock37" parent="FloorBlocks/room2" unique_id=765030243 instance=ExtResource("17_naso3")]
 position = Vector2(1216, -323)
 
 [node name="FloorBlock41" parent="FloorBlocks/room2" unique_id=2091323691 instance=ExtResource("17_naso3")]
@@ -867,33 +825,43 @@ position = Vector2(1951, -483)
 position = Vector2(1983, -451)
 
 [node name="FloorBlock69" parent="FloorBlocks/room2" unique_id=1900692606 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1951, -195)
 
 [node name="FloorBlock70" parent="FloorBlocks/room2" unique_id=225670620 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1919, -195)
 
 [node name="FloorBlock71" parent="FloorBlocks/room2" unique_id=1475437919 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(2015, -195)
 
 [node name="FloorBlock72" parent="FloorBlocks/room2" unique_id=1983216567 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1983, -195)
 
 [node name="FloorBlock73" parent="FloorBlocks/room2" unique_id=1545319013 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1887, -195)
 
 [node name="FloorBlock74" parent="FloorBlocks/room2" unique_id=1653038745 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1855, -195)
 
 [node name="FloorBlock77" parent="FloorBlocks/room2" unique_id=1656268199 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1823, -195)
 
 [node name="FloorBlock83" parent="FloorBlocks/room2" unique_id=1420995060 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1567, -195)
 
 [node name="FloorBlock84" parent="FloorBlocks/room2" unique_id=2026053618 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1535, -195)
 
 [node name="FloorBlock87" parent="FloorBlocks/room2" unique_id=1706962656 instance=ExtResource("17_naso3")]
+z_index = 1
 position = Vector2(1503, -195)
 
 [node name="room1" type="Node2D" parent="FloorBlocks" unique_id=1469556768]
@@ -1286,16 +1254,21 @@ position = Vector2(1015, 61)
 [node name="FloorBlock35" parent="." unique_id=290394429 instance=ExtResource("17_naso3")]
 position = Vector2(951, 61)
 
+[node name="TileMap" type="TileMap" parent="." unique_id=1827696203]
+position = Vector2(3391, -163)
+format = 2
+
 [node name="Waterfalls" type="Node" parent="." unique_id=706209213]
 
-[node name="ColorRect3" type="ColorRect" parent="Waterfalls"]
+[node name="ColorRect3" type="ColorRect" parent="Waterfalls" unique_id=1158962066]
+z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 1663.0
 offset_top = -1010.0
 offset_right = 1695.0
-offset_bottom = 3003.158
+offset_bottom = -174.0
 
-[node name="ColorRect2" type="ColorRect" parent="Waterfalls"]
+[node name="ColorRect2" type="ColorRect" parent="Waterfalls" unique_id=269033224]
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 1120.0
 offset_top = -999.0
@@ -1317,3 +1290,11 @@ offset_left = 2657.0
 offset_top = -703.0
 offset_right = 2689.0
 offset_bottom = 536.0
+
+[node name="Node2D" parent="." unique_id=343158608 instance=ExtResource("21_wqik4")]
+position = Vector2(3391, -707)
+scale = Vector2(0.84, 0.84)
+
+[node name="Node2D2" parent="." unique_id=1069932278 instance=ExtResource("21_wqik4")]
+position = Vector2(1527, -194.00002)
+scale = Vector2(0.84, 0.69)

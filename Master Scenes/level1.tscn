@@ -323,6 +323,7 @@ shader_parameter/reflection_pixel_snap = 4.0
 [node name="Level1" type="Node2D" unique_id=197728882]
 
 [node name="platform" type="StaticBody2D" parent="." unique_id=280777254]
+[node name="platform" type="StaticBody2D" parent="." unique_id=280777254]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
@@ -712,19 +713,7 @@ position = Vector2(3039, -195)
 [node name="FloorBlock106" parent="FloorBlocks/room4" unique_id=1637786913 instance=ExtResource("17_naso3")]
 position = Vector2(3071, -163)
 
-[node name="FloorBlock108" parent="FloorBlocks/room4" unique_id=3504816 instance=ExtResource("17_naso3")]
-position = Vector2(3071, -131)
-
-[node name="FloorBlock109" parent="FloorBlocks/room4" unique_id=2076588025 instance=ExtResource("17_naso3")]
-position = Vector2(3102.92, -131)
-
-[node name="FloorBlock110" parent="FloorBlocks/room4" unique_id=1459683637 instance=ExtResource("17_naso3")]
-position = Vector2(3071, -131)
-
-[node name="FloorBlock111" parent="FloorBlocks/room4" unique_id=457240143 instance=ExtResource("17_naso3")]
-position = Vector2(3102.92, -131)
-
-[node name="FloorBlock107" parent="FloorBlocks/room4" unique_id=1848577071 instance=ExtResource("17_naso3")]
+[node name="FloorBlock107" parent="FloorBlocks/room4" instance=ExtResource("17_naso3")]
 position = Vector2(3103, -163)
 
 [node name="FloorBlock98" parent="FloorBlocks/room4" unique_id=2056292315 instance=ExtResource("17_naso3")]
@@ -793,13 +782,7 @@ position = Vector2(1184, -323)
 [node name="FloorBlock36" parent="FloorBlocks/room2" unique_id=610958276 instance=ExtResource("17_naso3")]
 position = Vector2(1248, -323)
 
-[node name="FloorBlock56" parent="FloorBlocks/room2" unique_id=5564732 instance=ExtResource("17_naso3")]
-position = Vector2(1248, -290.92)
-
-[node name="FloorBlock57" parent="FloorBlocks/room2" unique_id=1328515062 instance=ExtResource("17_naso3")]
-position = Vector2(1248, -290.92)
-
-[node name="FloorBlock37" parent="FloorBlocks/room2" unique_id=348106202 instance=ExtResource("17_naso3")]
+[node name="FloorBlock37" parent="FloorBlocks/room2" instance=ExtResource("17_naso3")]
 position = Vector2(1216, -323)
 
 [node name="FloorBlock41" parent="FloorBlocks/room2" unique_id=2091323691 instance=ExtResource("17_naso3")]
@@ -1305,16 +1288,14 @@ position = Vector2(951, 61)
 
 [node name="Waterfalls" type="Node" parent="." unique_id=706209213]
 
-[node name="ColorRect3" type="ColorRect" parent="Waterfalls" unique_id=888666131]
-z_index = -1
+[node name="ColorRect3" type="ColorRect" parent="Waterfalls"]
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 1663.0
 offset_top = -1010.0
 offset_right = 1695.0
 offset_bottom = 3003.158
 
-[node name="ColorRect2" type="ColorRect" parent="Waterfalls" unique_id=709395491]
-z_index = -1
+[node name="ColorRect2" type="ColorRect" parent="Waterfalls"]
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 1120.0
 offset_top = -999.0
@@ -1336,32 +1317,3 @@ offset_left = 2657.0
 offset_top = -703.0
 offset_right = 2689.0
 offset_bottom = 536.0
-
-[node name="Still Water" type="Node" parent="." unique_id=822792814]
-
-[node name="ColorRect" type="ColorRect" parent="Still Water" unique_id=42017059]
-material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 2879.0
-offset_top = 366.0
-offset_right = 3888.0
-offset_bottom = 483.0
-
-[node name="ColorRect3" type="ColorRect" parent="Still Water" unique_id=612479135]
-material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 1909.0
-offset_top = -244.0
-offset_right = 3070.0
-offset_bottom = -95.0
-
-[node name="ColorRect2" type="ColorRect" parent="Still Water" unique_id=1711987747]
-material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 849.0
-offset_top = 367.0
-offset_right = 2879.0
-offset_bottom = 484.0
-
-[node name="FloorBlock71" parent="." unique_id=1347350038 instance=ExtResource("17_naso3")]
-position = Vector2(2015, -163)
-
-[node name="FloorBlock72" parent="." unique_id=130046176 instance=ExtResource("17_naso3")]
-position = Vector2(2015, -133)

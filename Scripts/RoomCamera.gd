@@ -46,7 +46,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if (Global.wiremode==false):
 		self.enabled= true
-	if (Global.wiremode==true):
+	if (Global.wiremode==true and (Global.turboMode==false)):
 		self.enabled= false
 
 func _physics_process(_delta: float) -> void:

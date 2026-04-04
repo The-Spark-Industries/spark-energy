@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
+[ext_resource type="Script" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
 [ext_resource type="PackedScene" uid="uid://u8w5e8g3euut" path="res://Master Scenes/gameInterface.tscn" id="3_303fj"]
 [ext_resource type="Script" uid="uid://hxb45dpv1eq5" path="res://Scripts/RoomCamera.gd" id="3_roomcam"]
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="4_nuwp2"]
@@ -10,22 +11,26 @@
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="6_wireend"]
 [ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
-[ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
-[ext_resource type="PackedScene" uid="uid://b7oygvq4jaa8g" path="res://Master Scenes/map.tscn" id="11_l37wp"]
-[ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
-[ext_resource type="PackedScene" uid="uid://bc55kv6xl3pwx" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
-[ext_resource type="PackedScene" uid="uid://br7s6cj6avyw" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
-[ext_resource type="PackedScene" uid="uid://b3yhb37j1c51y" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
+[ext_resource type="PackedScene" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
+[ext_resource type="PackedScene" path="res://Master Scenes/map.tscn" id="11_l37wp"]
+[ext_resource type="PackedScene" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
+[ext_resource type="PackedScene" path="res://Master Scenes/button.tscn" id="14_l8ajp"]
+[ext_resource type="PackedScene" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
+[ext_resource type="PackedScene" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
+[ext_resource type="PackedScene" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
+[ext_resource type="PackedScene" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
+[ext_resource type="Shader" path="res://Level 1/Level 1 Art Assets/Shaders/FallingWater.gdshader" id="21_g77rh"]
+[ext_resource type="PackedScene" uid="uid://ccps2ncl5hby4" path="res://Master Scenes/waterPuzzleBox.tscn" id="21_wqik4"]
 [ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 [ext_resource type="Script" uid="uid://xjji1j1ek8nr" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_6015k"]
-size = Vector2(2000, 1)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hvuo"]
 size = Vector2(7771.429, 105)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_deathbox"]
+size = Vector2(3718.5, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(15, 52)
@@ -256,96 +261,124 @@ radius = 60.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_w3b"]
 radius = 60.0
 
-[node name="Level1" type="Node2D" unique_id=320706740]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0xmx1"]
+shader = ExtResource("21_g77rh")
+shader_parameter/liquid_color = Color(0.2, 0.4, 0.9, 0.8)
+shader_parameter/flow_speed = 0.65
+shader_parameter/flow_streak_scale = 12.0
+shader_parameter/flow_streak_intensity = 0.12
+shader_parameter/flow_wobble = 0.005
+shader_parameter/flow_wobble_speed = 0.25
+shader_parameter/shine_intensity = 0.08
+shader_parameter/add_bubble = true
+shader_parameter/bubble_scale = 10.0
+shader_parameter/bubble_speed = 0.4
+shader_parameter/speck_pixel_size = 3.0
+shader_parameter/speck_density = 0.4
+shader_parameter/speck_brightness = 0.15
+shader_parameter/speck_dark_brightness = -0.08
+shader_parameter/speck_drift_speed = 0.025
+shader_parameter/speck_shimmer_speed = 0.12
+shader_parameter/edge_darken = 0.45
+shader_parameter/edge_width = 0.12
+shader_parameter/edge_color = Color(0.08, 0.15, 0.4, 1)
+shader_parameter/edge_noise_scale = 25.0
+shader_parameter/edge_noise_strength = 0.06
+shader_parameter/reflection_strength = 0.15
+shader_parameter/reflection_distortion = 0.012
+shader_parameter/reflection_pixel_snap = 4.0
+shader_parameter/bg_distortion_strength = 0.58
+shader_parameter/bg_distortion_scale = 10.0
 
-[node name="platform" type="StaticBody2D" parent="." unique_id=1844586003]
+[node name="Level1" type="Node2D" unique_id=197728882]
+
+[node name="platform2" type="StaticBody2D" parent="." unique_id=280777254]
 position = Vector2(853, 1353)
 physics_material_override = SubResource("PhysicsMaterial_lyd6k")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="platform" unique_id=8104759]
-position = Vector2(0, -9.124987)
-scale = Vector2(2.0440001, 102.25002)
-mesh = SubResource("QuadMesh_6015k")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=483602300]
-position = Vector2(50.428833, -7.5)
-shape = SubResource("RectangleShape2D_4hvuo")
-
-[node name="platform2" type="StaticBody2D" parent="." unique_id=745345215]
-position = Vector2(1850, 1250)
-
-[node name="ColorRect" type="ColorRect" parent="platform2" unique_id=1421301210]
+[node name="ColorRect" type="ColorRect" parent="platform2" unique_id=1121192211]
 offset_left = -279.0
 offset_top = -20.0
 offset_right = 264.0
 offset_bottom = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform2" unique_id=1207154522]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform2" unique_id=2046770390]
 position = Vector2(-7.000122, 0)
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform3" type="StaticBody2D" parent="." unique_id=92259894]
-position = Vector2(1463, 1036)
+[node name="DeathBox" type="Area2D" parent="." unique_id=482350000]
+position = Vector2(1000, 1710)
+collision_layer = 0
+script = ExtResource("2_deathbox")
 
-[node name="ColorRect" type="ColorRect" parent="platform3" unique_id=1344914548]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBox" unique_id=458883368]
+position = Vector2(823.5, -1802.5)
+shape = SubResource("RectangleShape2D_deathbox")
+
+[node name="platform3" type="StaticBody2D" parent="." unique_id=248183183]
+position = Vector2(1850, 1250)
+
+[node name="ColorRect" type="ColorRect" parent="platform3" unique_id=1450768320]
 offset_left = -120.0
 offset_top = -20.0
 offset_right = 120.0
 offset_bottom = 20.0
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform3" unique_id=5874413]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform3" unique_id=196255998]
 position = Vector2(-0.00012207031, 0)
 scale = Vector2(0.058, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform4" type="StaticBody2D" parent="." unique_id=971863778]
-position = Vector2(1886, 886)
+[node name="platform4" type="StaticBody2D" parent="." unique_id=1524391828]
+position = Vector2(1463, 1036)
 
-[node name="ColorRect" type="ColorRect" parent="platform4" unique_id=828980364]
+[node name="ColorRect" type="ColorRect" parent="platform4" unique_id=1308768430]
 offset_left = -140.0
 offset_top = -20.0
 offset_right = 140.0
 offset_bottom = 20.0
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform4" unique_id=1341421279]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform4" unique_id=1964328361]
 scale = Vector2(0.068, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform5" type="StaticBody2D" parent="." unique_id=134805761]
-position = Vector2(2650, 850)
+[node name="platform5" type="StaticBody2D" parent="." unique_id=1649148743]
+position = Vector2(1886, 886)
 
-[node name="ColorRect" type="ColorRect" parent="platform5" unique_id=1975155509]
+[node name="ColorRect" type="ColorRect" parent="platform5" unique_id=1595711020]
 offset_left = -188.0
 offset_top = -20.0
 offset_right = 188.0
 offset_bottom = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform5" unique_id=2062761595]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform5" unique_id=1249835560]
 scale = Vector2(0.088, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="platform6" type="StaticBody2D" parent="." unique_id=1233659104]
-position = Vector2(2950, 750)
+[node name="platform6" type="StaticBody2D" parent="." unique_id=936274223]
+position = Vector2(2650, 850)
 
-[node name="ColorRect" type="ColorRect" parent="platform6" unique_id=1631438526]
+[node name="ColorRect" type="ColorRect" parent="platform6" unique_id=849364467]
 offset_left = -150.0
 offset_top = -20.0
 offset_right = 150.0
 offset_bottom = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform6" unique_id=740267975]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform6" unique_id=1303712080]
 scale = Vector2(0.07, 0.33)
 shape = SubResource("RectangleShape2D_4hvuo")
 
-[node name="RoomCamera" type="Camera2D" parent="." unique_id=1812731569]
-position = Vector2(577, 314)
-script = ExtResource("3_roomcam")
-camera_targets_path = NodePath("../CameraPoints")
+[node name="platform7" type="StaticBody2D" parent="." unique_id=1694558680]
+position = Vector2(2950, 750)
 
-[node name="pauseMenu" parent="RoomCamera" unique_id=1118913350 instance=ExtResource("4_nuwp2")]
+[node name="RoomCamera" type="Camera2D" parent="." unique_id=1484959379]
+position = Vector2(-620, -316)
+script = ExtResource("3_roomcam")
+
+[node name="pauseMenu" parent="RoomCamera" unique_id=1700252838 instance=ExtResource("4_nuwp2")]
 visible = false
 anchors_preset = 0
 anchor_right = 0.0
@@ -358,120 +391,44 @@ grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(1.2, 1.2)
 
-[node name="gameInterface" parent="RoomCamera" unique_id=2083672228 instance=ExtResource("3_303fj")]
+[node name="gameInterface" parent="RoomCamera" unique_id=845988227 instance=ExtResource("3_303fj")]
 offset_left = -1.0
 offset_top = -1.0
 offset_right = -1.0
 offset_bottom = -1.0
 scale = Vector2(0.5, 0.5)
+metadata/_edit_use_anchors_ = true
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1023514506]
-position = Vector2(406, 1156)
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1847210924]
+position = Vector2(10, -226)
 script = ExtResource("1_vly50")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=159246419]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1209865786]
 position = Vector2(-2.5, 3)
 shape = SubResource("RectangleShape2D_y4dr7")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1417613721]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=940161349]
 sprite_frames = SubResource("SpriteFrames_g77rh")
 animation = &"jump"
 
-[node name="CameraPoints" type="Node2D" parent="." unique_id=672961212]
-position = Vector2(-1099, 1050)
-
-[node name="Room_0_0" type="Node2D" parent="CameraPoints" unique_id=697253879]
-
-[node name="Room_0_1" type="Node2D" parent="CameraPoints" unique_id=1155560918]
-position = Vector2(1000, 0)
-
-[node name="Room_0_2" type="Node2D" parent="CameraPoints" unique_id=1392805412]
-position = Vector2(2000, 0)
-
-[node name="Room_0_3" type="Node2D" parent="CameraPoints" unique_id=100174834]
-position = Vector2(3000, 0)
-
-[node name="Room_0_4" type="Node2D" parent="CameraPoints" unique_id=1657203684]
-position = Vector2(4000, 0)
-
-[node name="Room_1_0" type="Node2D" parent="CameraPoints" unique_id=1912298782]
-position = Vector2(0, 600)
-
-[node name="Room_1_1" type="Node2D" parent="CameraPoints" unique_id=502162458]
-position = Vector2(1000, 600)
-
-[node name="Room_1_2" type="Node2D" parent="CameraPoints" unique_id=1543666515]
-position = Vector2(2000, 600)
-
-[node name="Room_1_3" type="Node2D" parent="CameraPoints" unique_id=1688043101]
-position = Vector2(3000, 600)
-
-[node name="Room_1_4" type="Node2D" parent="CameraPoints" unique_id=1994861453]
-position = Vector2(4000, 600)
-
-[node name="Room_2_0" type="Node2D" parent="CameraPoints" unique_id=1919962837]
-position = Vector2(0, 1200)
-
-[node name="Room_2_1" type="Node2D" parent="CameraPoints" unique_id=1904769222]
-position = Vector2(1000, 1200)
-
-[node name="Room_2_2" type="Node2D" parent="CameraPoints" unique_id=262305620]
-position = Vector2(2000, 1200)
-
-[node name="Room_2_3" type="Node2D" parent="CameraPoints" unique_id=80117181]
-position = Vector2(3000, 1200)
-
-[node name="Room_2_4" type="Node2D" parent="CameraPoints" unique_id=1486081301]
-position = Vector2(4000, 1200)
-
-[node name="Room_3_0" type="Node2D" parent="CameraPoints" unique_id=876326285]
-position = Vector2(0, 1800)
-
-[node name="Room_3_1" type="Node2D" parent="CameraPoints" unique_id=28634516]
-position = Vector2(1000, 1800)
-
-[node name="Room_3_2" type="Node2D" parent="CameraPoints" unique_id=798432118]
-position = Vector2(2000, 1800)
-
-[node name="Room_3_3" type="Node2D" parent="CameraPoints" unique_id=2041901714]
-position = Vector2(3000, 1800)
-
-[node name="Room_3_4" type="Node2D" parent="CameraPoints" unique_id=227884753]
-position = Vector2(4000, 1800)
-
-[node name="Room_4_0" type="Node2D" parent="CameraPoints" unique_id=680348713]
-position = Vector2(0, 2400)
-
-[node name="Room_4_1" type="Node2D" parent="CameraPoints" unique_id=1011269222]
-position = Vector2(1000, 2400)
-
-[node name="Room_4_2" type="Node2D" parent="CameraPoints" unique_id=645539716]
-position = Vector2(2000, 2400)
-
-[node name="Room_4_3" type="Node2D" parent="CameraPoints" unique_id=334918482]
-position = Vector2(3000, 2400)
-
-[node name="Room_4_4" type="Node2D" parent="CameraPoints" unique_id=2000218893]
-position = Vector2(4000, 2400)
-
-[node name="WirePath1" type="Node2D" parent="." unique_id=1125744823]
+[node name="WirePath1" type="Node2D" parent="." unique_id=1742003937]
 position = Vector2(482, 1254)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath1" unique_id=1211272085]
+[node name="Path2D" type="Path2D" parent="WirePath1" unique_id=435844053]
 curve = SubResource("Curve2D_wire1")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D" unique_id=432903862]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath1/Path2D" unique_id=434554930]
 rotation = -1.2906986
 
-[node name="EndA" type="Area2D" parent="WirePath1" unique_id=1221913779]
+[node name="EndA" type="Area2D" parent="WirePath1" unique_id=1689347646]
 collision_layer = 0
 script = ExtResource("6_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA" unique_id=1295475477]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndA" unique_id=791150949]
 shape = SubResource("CircleShape2D_w1a")
 
-[node name="Prompt" type="Label" parent="WirePath1/EndA" unique_id=1691917041]
+[node name="Prompt" type="Label" parent="WirePath1/EndA" unique_id=150550167]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -480,17 +437,17 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath1" unique_id=1079659657]
+[node name="EndB" type="Area2D" parent="WirePath1" unique_id=267936342]
 position = Vector2(500, 0)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB" unique_id=906745439]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath1/EndB" unique_id=337121329]
 position = Vector2(-14, 0)
 shape = SubResource("CircleShape2D_w1b")
 
-[node name="Prompt" type="Label" parent="WirePath1/EndB" unique_id=2057939934]
+[node name="Prompt" type="Label" parent="WirePath1/EndB" unique_id=2114189114]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -499,26 +456,26 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WirePath2" type="Node2D" parent="." unique_id=916138111]
+[node name="WirePath2" type="Node2D" parent="." unique_id=1357310000]
 position = Vector2(1182, 1254)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath2" unique_id=999994171]
+[node name="Path2D" type="Path2D" parent="WirePath2" unique_id=520852347]
 material = SubResource("CanvasItemMaterial_y4dr7")
 scale = Vector2(1, 0.26)
 curve = SubResource("Curve2D_wire2")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D" unique_id=586326500]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath2/Path2D" unique_id=1180247614]
 rotation = -0.9496912
 
-[node name="EndA" type="Area2D" parent="WirePath2" unique_id=1109308881]
+[node name="EndA" type="Area2D" parent="WirePath2" unique_id=15043628]
 collision_layer = 0
 script = ExtResource("6_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA" unique_id=1036708283]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndA" unique_id=838200706]
 shape = SubResource("CircleShape2D_w2a")
 
-[node name="Prompt" type="Label" parent="WirePath2/EndA" unique_id=888101419]
+[node name="Prompt" type="Label" parent="WirePath2/EndA" unique_id=725858246]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -527,16 +484,16 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath2" unique_id=525046066]
+[node name="EndB" type="Area2D" parent="WirePath2" unique_id=773987147]
 position = Vector2(800, 0)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB" unique_id=99447628]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath2/EndB" unique_id=1250789469]
 shape = SubResource("CircleShape2D_w2b")
 
-[node name="Prompt" type="Label" parent="WirePath2/EndB" unique_id=1590455286]
+[node name="Prompt" type="Label" parent="WirePath2/EndB" unique_id=1602660181]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -545,28 +502,28 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WirePath3" type="Node2D" parent="." unique_id=1094322965]
+[node name="WirePath3" type="Node2D" parent="." unique_id=1174107418]
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")
 
-[node name="Path2D" type="Path2D" parent="WirePath3" unique_id=1222895979]
+[node name="Path2D" type="Path2D" parent="WirePath3" unique_id=545838687]
 position = Vector2(-349, 14.999981)
 scale = Vector2(1.114618, 0.22846451)
 curve = SubResource("Curve2D_wire3")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D" unique_id=834413157]
+[node name="PathFollow2D" type="PathFollow2D" parent="WirePath3/Path2D" unique_id=1875729553]
 rotation = -1.2933193
 
-[node name="EndA" type="Area2D" parent="WirePath3" unique_id=1349027901]
+[node name="EndA" type="Area2D" parent="WirePath3" unique_id=2080831817]
 position = Vector2(-345, 2)
 collision_layer = 0
 script = ExtResource("6_wireend")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA" unique_id=267454114]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndA" unique_id=1758563074]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_w3a")
 
-[node name="Prompt" type="Label" parent="WirePath3/EndA" unique_id=424495009]
+[node name="Prompt" type="Label" parent="WirePath3/EndA" unique_id=1478910965]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -575,17 +532,17 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="EndB" type="Area2D" parent="WirePath3" unique_id=512753618]
+[node name="EndB" type="Area2D" parent="WirePath3" unique_id=112455699]
 position = Vector2(321, -5)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=261022935]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WirePath3/EndB" unique_id=1044324497]
 position = Vector2(-45, 15)
 shape = SubResource("CircleShape2D_w3b")
 
-[node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=1550603915]
+[node name="Prompt" type="Label" parent="WirePath3/EndB" unique_id=952194200]
 visible = false
 offset_left = -40.0
 offset_top = -90.0
@@ -594,21 +551,21 @@ offset_bottom = -70.0
 theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
-[node name="WaterBlock" parent="." unique_id=1311997150 instance=ExtResource("7_rgorn")]
+[node name="WaterBlock" parent="." unique_id=318669235 instance=ExtResource("7_rgorn")]
 position = Vector2(-1287, 1342)
 
-[node name="Checkpoint" parent="." unique_id=1705835190 instance=ExtResource("8_tiul6")]
-position = Vector2(-192, 1229)
+[node name="Checkpoint" parent="." unique_id=1298335914 instance=ExtResource("8_tiul6")]
+position = Vector2(32, -229)
 
-[node name="WaterShoes" parent="." unique_id=1326362754 instance=ExtResource("9_gdrb5")]
+[node name="WaterShoes" parent="." unique_id=322835924 instance=ExtResource("9_gdrb5")]
 position = Vector2(1065, 1269)
 scale = Vector2(1.5, 1.5)
 
-[node name="Map" parent="." unique_id=974593840 instance=ExtResource("11_l37wp")]
+[node name="Map" parent="." unique_id=2027093164 instance=ExtResource("11_l37wp")]
 position = Vector2(754, 1278)
 
-[node name="Checkpoint2" parent="." unique_id=256465831 instance=ExtResource("8_tiul6")]
-position = Vector2(623, 1245)
+[node name="Checkpoint2" parent="." unique_id=963265769 instance=ExtResource("8_tiul6")]
+position = Vector2(993, -328)
 
 [node name="PipePuzzleTerminal" parent="." unique_id=1934063769 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(1612, 1171)
@@ -670,20 +627,737 @@ puzzle_layout = 4
 position = Vector2(1383, 1228)
 puzzle_layout = 5
 
-[node name="Lever" parent="." unique_id=1287015382 instance=ExtResource("13_1yw1p")]
+[node name="Lever" parent="." unique_id=1031852019 instance=ExtResource("13_1yw1p")]
 position = Vector2(2185, 1213)
 
-[node name="Lever2" parent="." unique_id=1349069128 instance=ExtResource("13_1yw1p")]
+[node name="Lever2" parent="." unique_id=72656418 instance=ExtResource("13_1yw1p")]
 position = Vector2(2417, 1213)
 
-[node name="button" parent="." unique_id=208578503 instance=ExtResource("14_l8ajp")]
+[node name="button" parent="." unique_id=1605563680 instance=ExtResource("14_l8ajp")]
 position = Vector2(1629, 1208)
 
-[node name="button2" parent="." unique_id=223548872 instance=ExtResource("14_l8ajp")]
+[node name="button2" parent="." unique_id=1819081438 instance=ExtResource("14_l8ajp")]
 position = Vector2(1493, 1208)
 
-[node name="Valve" parent="." unique_id=1564924551 instance=ExtResource("15_6xxqs")]
+[node name="Valve" parent="." unique_id=915818400 instance=ExtResource("15_6xxqs")]
 position = Vector2(2799, 1228)
 
-[node name="PressurePlate" parent="." unique_id=446670835 instance=ExtResource("16_wnyvq")]
+[node name="PressurePlate" parent="." unique_id=1722757236 instance=ExtResource("16_wnyvq")]
 position = Vector2(2631, 1293)
+
+[node name="FloorBlock31" parent="." unique_id=373669891 instance=ExtResource("17_naso3")]
+position = Vector2(960, -261)
+
+[node name="FloorBlock30" parent="." unique_id=1298890750 instance=ExtResource("17_naso3")]
+position = Vector2(928, -261)
+
+[node name="FloorBlock101" parent="." unique_id=191145543 instance=ExtResource("17_naso3")]
+position = Vector2(2847, -291)
+
+[node name="FloorBlock63" parent="." unique_id=577830736 instance=ExtResource("17_naso3")]
+position = Vector2(1919, -451)
+
+[node name="FloorBlock102" parent="." unique_id=1817219277 instance=ExtResource("17_naso3")]
+position = Vector2(2879, -291)
+
+[node name="Checkpoint3" parent="." unique_id=286712607 instance=ExtResource("8_tiul6")]
+position = Vector2(1979, -519)
+
+[node name="Checkpoint4" parent="." unique_id=1877483304 instance=ExtResource("8_tiul6")]
+position = Vector2(2938, -363)
+
+[node name="FloorBlock85" parent="." unique_id=2005136349 instance=ExtResource("17_naso3")]
+position = Vector2(2561, -322)
+
+[node name="FloorBlock86" parent="." unique_id=788522837 instance=ExtResource("17_naso3")]
+position = Vector2(2529, -322)
+
+[node name="FloorBlock88" parent="." unique_id=1758595954 instance=ExtResource("17_naso3")]
+position = Vector2(2625, -322)
+
+[node name="FloorBlock89" parent="." unique_id=1000574125 instance=ExtResource("17_naso3")]
+position = Vector2(2593, -322)
+
+[node name="FloorBlock90" parent="." unique_id=236592259 instance=ExtResource("17_naso3")]
+position = Vector2(2497, -322)
+
+[node name="camera_points" type="Node2D" parent="." unique_id=1182781472]
+
+[node name="Room_8" type="Node2D" parent="camera_points" unique_id=526299335]
+position = Vector2(480, 203)
+
+[node name="Room_7" type="Node2D" parent="camera_points" unique_id=2039052048]
+position = Vector2(1439, 203)
+
+[node name="Room_6" type="Node2D" parent="camera_points" unique_id=2120092113]
+position = Vector2(2399, 203)
+
+[node name="Room_5" type="Node2D" parent="camera_points" unique_id=637333973]
+position = Vector2(3359, 203)
+
+[node name="Room_1" type="Node2D" parent="camera_points" unique_id=458807198]
+position = Vector2(480, -371)
+
+[node name="Room_2" type="Node2D" parent="camera_points" unique_id=354662589]
+position = Vector2(1439, -371)
+
+[node name="Room_3" type="Node2D" parent="camera_points" unique_id=1242221874]
+position = Vector2(2399, -371)
+
+[node name="Room_4" type="Node2D" parent="camera_points" unique_id=2008714246]
+position = Vector2(3359, -370)
+
+[node name="FloorBlocks" type="Node2D" parent="." unique_id=471960637]
+position = Vector2(0, -197)
+
+[node name="room4" type="Node2D" parent="FloorBlocks" unique_id=636218396]
+position = Vector2(0, 197)
+
+[node name="FloorBlock100" parent="FloorBlocks/room4" unique_id=1707698198 instance=ExtResource("17_naso3")]
+position = Vector2(2911, -323)
+
+[node name="FloorBlock101" parent="FloorBlocks/room4" unique_id=1628176599 instance=ExtResource("17_naso3")]
+position = Vector2(2943, -323)
+
+[node name="FloorBlock102" parent="FloorBlocks/room4" unique_id=738809948 instance=ExtResource("17_naso3")]
+position = Vector2(2975, -291)
+
+[node name="FloorBlock103" parent="FloorBlocks/room4" unique_id=1603604414 instance=ExtResource("17_naso3")]
+position = Vector2(3007, -259)
+
+[node name="FloorBlock104" parent="FloorBlocks/room4" unique_id=1687299966 instance=ExtResource("17_naso3")]
+position = Vector2(3007, -227)
+
+[node name="FloorBlock105" parent="FloorBlocks/room4" unique_id=1056130289 instance=ExtResource("17_naso3")]
+position = Vector2(3039, -195)
+
+[node name="FloorBlock106" parent="FloorBlocks/room4" unique_id=1637786913 instance=ExtResource("17_naso3")]
+position = Vector2(3071, -163)
+
+[node name="FloorBlock107" parent="FloorBlocks/room4" unique_id=144271226 instance=ExtResource("17_naso3")]
+position = Vector2(3103, -163)
+
+[node name="FloorBlock98" parent="FloorBlocks/room4" unique_id=2056292315 instance=ExtResource("17_naso3")]
+position = Vector2(2879, -323)
+
+[node name="FloorBlock44" parent="FloorBlocks/room4" unique_id=2083737979 instance=ExtResource("17_naso3")]
+position = Vector2(3135, -131)
+
+[node name="FloorBlock45" parent="FloorBlocks/room4" unique_id=2100705427 instance=ExtResource("17_naso3")]
+position = Vector2(3199, -131)
+
+[node name="FloorBlock46" parent="FloorBlocks/room4" unique_id=2061549874 instance=ExtResource("17_naso3")]
+position = Vector2(3167, -131)
+
+[node name="FloorBlock47" parent="FloorBlocks/room4" unique_id=1891026035 instance=ExtResource("17_naso3")]
+position = Vector2(3231, -131)
+
+[node name="FloorBlock48" parent="FloorBlocks/room4" unique_id=1394261867 instance=ExtResource("17_naso3")]
+position = Vector2(3295, -131)
+
+[node name="FloorBlock49" parent="FloorBlocks/room4" unique_id=1828279794 instance=ExtResource("17_naso3")]
+position = Vector2(3263, -131)
+
+[node name="FloorBlock52" parent="FloorBlocks/room4" unique_id=193898272 instance=ExtResource("17_naso3")]
+position = Vector2(3359, -131)
+
+[node name="FloorBlock53" parent="FloorBlocks/room4" unique_id=1692242244 instance=ExtResource("17_naso3")]
+position = Vector2(3327, -131)
+
+[node name="FloorBlock50" parent="FloorBlocks/room4" unique_id=527888795 instance=ExtResource("17_naso3")]
+position = Vector2(3455, -131)
+
+[node name="FloorBlock51" parent="FloorBlocks/room4" unique_id=599025494 instance=ExtResource("17_naso3")]
+position = Vector2(3519, -131)
+
+[node name="FloorBlock54" parent="FloorBlocks/room4" unique_id=823996993 instance=ExtResource("17_naso3")]
+position = Vector2(3487, -131)
+
+[node name="FloorBlock55" parent="FloorBlocks/room4" unique_id=826800710 instance=ExtResource("17_naso3")]
+position = Vector2(3551, -131)
+
+[node name="FloorBlock56" parent="FloorBlocks/room4" unique_id=2142256035 instance=ExtResource("17_naso3")]
+position = Vector2(3615, -131)
+
+[node name="FloorBlock57" parent="FloorBlocks/room4" unique_id=2117303957 instance=ExtResource("17_naso3")]
+position = Vector2(3583, -131)
+
+[node name="room2" type="Node2D" parent="FloorBlocks" unique_id=435453311]
+position = Vector2(0, 197)
+
+[node name="FloorBlock31" parent="FloorBlocks/room2" unique_id=2085785033 instance=ExtResource("17_naso3")]
+position = Vector2(960, -293)
+
+[node name="FloorBlock32" parent="FloorBlocks/room2" unique_id=597713954 instance=ExtResource("17_naso3")]
+position = Vector2(992, -293)
+
+[node name="FloorBlock33" parent="FloorBlocks/room2" unique_id=550940765 instance=ExtResource("17_naso3")]
+position = Vector2(1024, -293)
+
+[node name="FloorBlock34" parent="FloorBlocks/room2" unique_id=1692524382 instance=ExtResource("17_naso3")]
+position = Vector2(1056, -293)
+
+[node name="FloorBlock35" parent="FloorBlocks/room2" unique_id=135470946 instance=ExtResource("17_naso3")]
+position = Vector2(1184, -323)
+
+[node name="FloorBlock36" parent="FloorBlocks/room2" unique_id=610958276 instance=ExtResource("17_naso3")]
+position = Vector2(1248, -323)
+
+[node name="FloorBlock37" parent="FloorBlocks/room2" unique_id=765030243 instance=ExtResource("17_naso3")]
+position = Vector2(1216, -323)
+
+[node name="FloorBlock41" parent="FloorBlocks/room2" unique_id=2091323691 instance=ExtResource("17_naso3")]
+position = Vector2(1375, -355)
+
+[node name="FloorBlock42" parent="FloorBlocks/room2" unique_id=462411643 instance=ExtResource("17_naso3")]
+position = Vector2(1439, -355)
+
+[node name="FloorBlock43" parent="FloorBlocks/room2" unique_id=1012730131 instance=ExtResource("17_naso3")]
+position = Vector2(1407, -355)
+
+[node name="FloorBlock44" parent="FloorBlocks/room2" unique_id=993822445 instance=ExtResource("17_naso3")]
+position = Vector2(1375, -387)
+
+[node name="FloorBlock45" parent="FloorBlocks/room2" unique_id=19598102 instance=ExtResource("17_naso3")]
+position = Vector2(1439, -387)
+
+[node name="FloorBlock46" parent="FloorBlocks/room2" unique_id=777694374 instance=ExtResource("17_naso3")]
+position = Vector2(1407, -387)
+
+[node name="FloorBlock38" parent="FloorBlocks/room2" unique_id=220878302 instance=ExtResource("17_naso3")]
+position = Vector2(1471, -355)
+
+[node name="FloorBlock39" parent="FloorBlocks/room2" unique_id=146070801 instance=ExtResource("17_naso3")]
+position = Vector2(1535, -355)
+
+[node name="FloorBlock40" parent="FloorBlocks/room2" unique_id=820074720 instance=ExtResource("17_naso3")]
+position = Vector2(1503, -355)
+
+[node name="FloorBlock47" parent="FloorBlocks/room2" unique_id=1600425432 instance=ExtResource("17_naso3")]
+position = Vector2(1471, -387)
+
+[node name="FloorBlock48" parent="FloorBlocks/room2" unique_id=1071707480 instance=ExtResource("17_naso3")]
+position = Vector2(1535, -387)
+
+[node name="FloorBlock49" parent="FloorBlocks/room2" unique_id=1989789290 instance=ExtResource("17_naso3")]
+position = Vector2(1503, -387)
+
+[node name="FloorBlock50" parent="FloorBlocks/room2" unique_id=149250261 instance=ExtResource("17_naso3")]
+position = Vector2(1599, -355)
+
+[node name="FloorBlock51" parent="FloorBlocks/room2" unique_id=140693665 instance=ExtResource("17_naso3")]
+position = Vector2(1567, -355)
+
+[node name="FloorBlock52" parent="FloorBlocks/room2" unique_id=728267642 instance=ExtResource("17_naso3")]
+position = Vector2(1599, -387)
+
+[node name="FloorBlock53" parent="FloorBlocks/room2" unique_id=1110885235 instance=ExtResource("17_naso3")]
+position = Vector2(1567, -387)
+
+[node name="FloorBlock58" parent="FloorBlocks/room2" unique_id=1691523034 instance=ExtResource("17_naso3")]
+position = Vector2(1791, -419)
+
+[node name="FloorBlock59" parent="FloorBlocks/room2" unique_id=1243013394 instance=ExtResource("17_naso3")]
+position = Vector2(1759, -419)
+
+[node name="FloorBlock60" parent="FloorBlocks/room2" unique_id=1369999693 instance=ExtResource("17_naso3")]
+position = Vector2(1823, -419)
+
+[node name="FloorBlock61" parent="FloorBlocks/room2" unique_id=580941185 instance=ExtResource("17_naso3")]
+position = Vector2(1823, -451)
+
+[node name="FloorBlock62" parent="FloorBlocks/room2" unique_id=957039439 instance=ExtResource("17_naso3")]
+position = Vector2(1855, -451)
+
+[node name="FloorBlock54" parent="FloorBlocks/room2" unique_id=812354700 instance=ExtResource("17_naso3")]
+position = Vector2(1887, -483)
+
+[node name="FloorBlock55" parent="FloorBlocks/room2" unique_id=1908758256 instance=ExtResource("17_naso3")]
+position = Vector2(1855, -483)
+
+[node name="FloorBlock63" parent="FloorBlocks/room2" unique_id=496134344 instance=ExtResource("17_naso3")]
+position = Vector2(1919, -483)
+
+[node name="FloorBlock64" parent="FloorBlocks/room2" unique_id=39910886 instance=ExtResource("17_naso3")]
+position = Vector2(1983, -483)
+
+[node name="FloorBlock65" parent="FloorBlocks/room2" unique_id=132946841 instance=ExtResource("17_naso3")]
+position = Vector2(1951, -483)
+
+[node name="FloorBlock66" parent="FloorBlocks/room2" unique_id=1479292180 instance=ExtResource("17_naso3")]
+position = Vector2(1983, -451)
+
+[node name="FloorBlock69" parent="FloorBlocks/room2" unique_id=1900692606 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1951, -195)
+
+[node name="FloorBlock70" parent="FloorBlocks/room2" unique_id=225670620 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1919, -195)
+
+[node name="FloorBlock71" parent="FloorBlocks/room2" unique_id=1475437919 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(2015, -195)
+
+[node name="FloorBlock72" parent="FloorBlocks/room2" unique_id=1983216567 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1983, -195)
+
+[node name="FloorBlock73" parent="FloorBlocks/room2" unique_id=1545319013 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1887, -195)
+
+[node name="FloorBlock74" parent="FloorBlocks/room2" unique_id=1653038745 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1855, -195)
+
+[node name="FloorBlock77" parent="FloorBlocks/room2" unique_id=1656268199 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1823, -195)
+
+[node name="FloorBlock83" parent="FloorBlocks/room2" unique_id=1420995060 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1567, -195)
+
+[node name="FloorBlock84" parent="FloorBlocks/room2" unique_id=2026053618 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1535, -195)
+
+[node name="FloorBlock87" parent="FloorBlocks/room2" unique_id=1706962656 instance=ExtResource("17_naso3")]
+z_index = 1
+position = Vector2(1503, -195)
+
+[node name="room1" type="Node2D" parent="FloorBlocks" unique_id=1469556768]
+
+[node name="FloorBlock2" parent="FloorBlocks/room1" unique_id=288775350 instance=ExtResource("17_naso3")]
+
+[node name="FloorBlock" parent="FloorBlocks/room1" unique_id=2132736877 instance=ExtResource("17_naso3")]
+position = Vector2(32, 0)
+
+[node name="FloorBlock3" parent="FloorBlocks/room1" unique_id=1560760667 instance=ExtResource("17_naso3")]
+position = Vector2(64, 0)
+
+[node name="FloorBlock4" parent="FloorBlocks/room1" unique_id=51447038 instance=ExtResource("17_naso3")]
+position = Vector2(96, 0)
+
+[node name="FloorBlock5" parent="FloorBlocks/room1" unique_id=1151044563 instance=ExtResource("17_naso3")]
+position = Vector2(128, 0)
+
+[node name="FloorBlock6" parent="FloorBlocks/room1" unique_id=1662600428 instance=ExtResource("17_naso3")]
+position = Vector2(160, 0)
+
+[node name="FloorBlock7" parent="FloorBlocks/room1" unique_id=11436601 instance=ExtResource("17_naso3")]
+position = Vector2(192, 0)
+
+[node name="FloorBlock8" parent="FloorBlocks/room1" unique_id=1325766310 instance=ExtResource("17_naso3")]
+position = Vector2(224, 0)
+
+[node name="FloorBlock9" parent="FloorBlocks/room1" unique_id=1319269297 instance=ExtResource("17_naso3")]
+position = Vector2(256, 0)
+
+[node name="FloorBlock10" parent="FloorBlocks/room1" unique_id=439617441 instance=ExtResource("17_naso3")]
+position = Vector2(288, 0)
+
+[node name="FloorBlock11" parent="FloorBlocks/room1" unique_id=1081357029 instance=ExtResource("17_naso3")]
+position = Vector2(320, 0)
+
+[node name="FloorBlock12" parent="FloorBlocks/room1" unique_id=304343140 instance=ExtResource("17_naso3")]
+position = Vector2(352, 0)
+
+[node name="FloorBlock13" parent="FloorBlocks/room1" unique_id=1420235777 instance=ExtResource("17_naso3")]
+position = Vector2(384, 0)
+
+[node name="FloorBlock14" parent="FloorBlocks/room1" unique_id=341548723 instance=ExtResource("17_naso3")]
+position = Vector2(416, 0)
+
+[node name="FloorBlock15" parent="FloorBlocks/room1" unique_id=927923683 instance=ExtResource("17_naso3")]
+position = Vector2(448, 0)
+
+[node name="FloorBlock16" parent="FloorBlocks/room1" unique_id=911087319 instance=ExtResource("17_naso3")]
+position = Vector2(480, 0)
+
+[node name="FloorBlock17" parent="FloorBlocks/room1" unique_id=659099254 instance=ExtResource("17_naso3")]
+position = Vector2(512, -32)
+
+[node name="FloorBlock18" parent="FloorBlocks/room1" unique_id=772782365 instance=ExtResource("17_naso3")]
+position = Vector2(544, -32)
+
+[node name="FloorBlock19" parent="FloorBlocks/room1" unique_id=1197112175 instance=ExtResource("17_naso3")]
+position = Vector2(576, -32)
+
+[node name="FloorBlock20" parent="FloorBlocks/room1" unique_id=93338553 instance=ExtResource("17_naso3")]
+position = Vector2(608, -32)
+
+[node name="FloorBlock21" parent="FloorBlocks/room1" unique_id=258922067 instance=ExtResource("17_naso3")]
+position = Vector2(640, -32)
+
+[node name="FloorBlock22" parent="FloorBlocks/room1" unique_id=1726129943 instance=ExtResource("17_naso3")]
+position = Vector2(672, -64)
+
+[node name="FloorBlock23" parent="FloorBlocks/room1" unique_id=802158518 instance=ExtResource("17_naso3")]
+position = Vector2(704, -64)
+
+[node name="FloorBlock24" parent="FloorBlocks/room1" unique_id=2082092967 instance=ExtResource("17_naso3")]
+position = Vector2(736, -64)
+
+[node name="FloorBlock25" parent="FloorBlocks/room1" unique_id=1947608881 instance=ExtResource("17_naso3")]
+position = Vector2(768, -64)
+
+[node name="FloorBlock26" parent="FloorBlocks/room1" unique_id=961563546 instance=ExtResource("17_naso3")]
+position = Vector2(800, -64)
+
+[node name="FloorBlock27" parent="FloorBlocks/room1" unique_id=286460534 instance=ExtResource("17_naso3")]
+position = Vector2(832, -96)
+
+[node name="FloorBlock28" parent="FloorBlocks/room1" unique_id=293914717 instance=ExtResource("17_naso3")]
+position = Vector2(864, -96)
+
+[node name="FloorBlock29" parent="FloorBlocks/room1" unique_id=1129159609 instance=ExtResource("17_naso3")]
+position = Vector2(896, -96)
+
+[node name="FloorBlock30" parent="FloorBlocks/room1" unique_id=946719051 instance=ExtResource("17_naso3")]
+position = Vector2(928, -96)
+
+[node name="FloorBlock67" parent="FloorBlocks/room1" unique_id=1230843756 instance=ExtResource("17_naso3")]
+position = Vector2(0, 32)
+
+[node name="FloorBlock68" parent="FloorBlocks/room1" unique_id=2075531351 instance=ExtResource("17_naso3")]
+position = Vector2(0, 64)
+
+[node name="room3" type="Node2D" parent="FloorBlocks" unique_id=531713100]
+position = Vector2(0, 197)
+
+[node name="FloorBlock78" parent="FloorBlocks/room3" unique_id=1009925910 instance=ExtResource("17_naso3")]
+position = Vector2(2143, -227)
+
+[node name="FloorBlock82" parent="FloorBlocks/room3" unique_id=1910002461 instance=ExtResource("17_naso3")]
+position = Vector2(2111, -195)
+
+[node name="FloorBlock79" parent="FloorBlocks/room3" unique_id=256449334 instance=ExtResource("17_naso3")]
+position = Vector2(2175, -227)
+
+[node name="FloorBlock80" parent="FloorBlocks/room3" unique_id=1910863045 instance=ExtResource("17_naso3")]
+position = Vector2(2207, -259)
+
+[node name="FloorBlock81" parent="FloorBlocks/room3" unique_id=250896267 instance=ExtResource("17_naso3")]
+position = Vector2(2239, -291)
+
+[node name="FloorBlock85" parent="FloorBlocks/room3" unique_id=89114123 instance=ExtResource("17_naso3")]
+position = Vector2(2335, -323)
+
+[node name="FloorBlock86" parent="FloorBlocks/room3" unique_id=1397329472 instance=ExtResource("17_naso3")]
+position = Vector2(2303, -323)
+
+[node name="FloorBlock88" parent="FloorBlocks/room3" unique_id=344790094 instance=ExtResource("17_naso3")]
+position = Vector2(2399, -323)
+
+[node name="FloorBlock89" parent="FloorBlocks/room3" unique_id=1816062587 instance=ExtResource("17_naso3")]
+position = Vector2(2367, -323)
+
+[node name="FloorBlock90" parent="FloorBlocks/room3" unique_id=378440959 instance=ExtResource("17_naso3")]
+position = Vector2(2271, -323)
+
+[node name="FloorBlock87" parent="FloorBlocks/room3" unique_id=224683665 instance=ExtResource("17_naso3")]
+position = Vector2(2783, -323)
+
+[node name="FloorBlock93" parent="FloorBlocks/room3" unique_id=858742014 instance=ExtResource("17_naso3")]
+position = Vector2(2751, -323)
+
+[node name="FloorBlock94" parent="FloorBlocks/room3" unique_id=107188875 instance=ExtResource("17_naso3")]
+position = Vector2(2847, -323)
+
+[node name="FloorBlock95" parent="FloorBlocks/room3" unique_id=1552041209 instance=ExtResource("17_naso3")]
+position = Vector2(2815, -323)
+
+[node name="FloorBlock96" parent="FloorBlocks/room3" unique_id=1331899123 instance=ExtResource("17_naso3")]
+position = Vector2(2719, -323)
+
+[node name="room5" type="Node2D" parent="FloorBlocks" unique_id=1591696658]
+
+[node name="FloorBlock59" parent="FloorBlocks/room5" unique_id=2094598933 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 194)
+
+[node name="FloorBlock60" parent="FloorBlocks/room5" unique_id=1772446433 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 130)
+
+[node name="FloorBlock61" parent="FloorBlocks/room5" unique_id=143945135 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 98)
+
+[node name="FloorBlock62" parent="FloorBlocks/room5" unique_id=1323276105 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 194)
+
+[node name="FloorBlock63" parent="FloorBlocks/room5" unique_id=166597869 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 162)
+
+[node name="FloorBlock64" parent="FloorBlocks/room5" unique_id=872045481 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 226)
+
+[node name="FloorBlock58" parent="FloorBlocks/room5" unique_id=1183929912 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 162)
+
+[node name="FloorBlock57" parent="FloorBlocks/room5" unique_id=1602682237 instance=ExtResource("17_naso3")]
+position = Vector2(3679, 130)
+
+[node name="FloorBlock65" parent="FloorBlocks/room5" unique_id=767825102 instance=ExtResource("17_naso3")]
+position = Vector2(3775, 258)
+
+[node name="FloorBlock66" parent="FloorBlocks/room5" unique_id=301345872 instance=ExtResource("17_naso3")]
+position = Vector2(3679, 258)
+
+[node name="FloorBlock67" parent="FloorBlocks/room5" unique_id=575525011 instance=ExtResource("17_naso3")]
+position = Vector2(3679, 226)
+
+[node name="FloorBlock68" parent="FloorBlocks/room5" unique_id=1429653453 instance=ExtResource("17_naso3")]
+position = Vector2(3679, 290)
+
+[node name="FloorBlock69" parent="FloorBlocks/room5" unique_id=1018567378 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 322)
+
+[node name="FloorBlock70" parent="FloorBlocks/room5" unique_id=853347994 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 322)
+
+[node name="FloorBlock71" parent="FloorBlocks/room5" unique_id=619349360 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 290)
+
+[node name="FloorBlock72" parent="FloorBlocks/room5" unique_id=492238633 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 354)
+
+[node name="FloorBlock73" parent="FloorBlocks/room5" unique_id=72968586 instance=ExtResource("17_naso3")]
+position = Vector2(3775, 386)
+
+[node name="FloorBlock74" parent="FloorBlocks/room5" unique_id=770035704 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 386)
+
+[node name="FloorBlock75" parent="FloorBlocks/room5" unique_id=1777109894 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 354)
+
+[node name="FloorBlock76" parent="FloorBlocks/room5" unique_id=619773827 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 450)
+
+[node name="FloorBlock77" parent="FloorBlocks/room5" unique_id=1219673276 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 418)
+
+[node name="FloorBlock78" parent="FloorBlocks/room5" unique_id=1483154711 instance=ExtResource("17_naso3")]
+position = Vector2(3743, 482)
+
+[node name="FloorBlock79" parent="FloorBlocks/room5" unique_id=102606590 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 418)
+
+[node name="FloorBlock80" parent="FloorBlocks/room5" unique_id=1642545266 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 482)
+
+[node name="FloorBlock81" parent="FloorBlocks/room5" unique_id=759032091 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 450)
+
+[node name="FloorBlock82" parent="FloorBlocks/room5" unique_id=1285215597 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 546)
+
+[node name="FloorBlock83" parent="FloorBlocks/room5" unique_id=1373754008 instance=ExtResource("17_naso3")]
+position = Vector2(3807, 514)
+
+[node name="FloorBlock84" parent="FloorBlocks/room5" unique_id=463726147 instance=ExtResource("17_naso3")]
+position = Vector2(3775, 578)
+
+[node name="FloorBlock85" parent="FloorBlocks/room5" unique_id=232988664 instance=ExtResource("17_naso3")]
+position = Vector2(3743, 578)
+
+[node name="FloorBlock86" parent="FloorBlocks/room5" unique_id=1794735627 instance=ExtResource("17_naso3")]
+position = Vector2(3711, 610)
+
+[node name="FloorBlock87" parent="FloorBlocks/room5" unique_id=640389427 instance=ExtResource("17_naso3")]
+position = Vector2(3679, 610)
+
+[node name="FloorBlock88" parent="FloorBlocks/room5" unique_id=1148954056 instance=ExtResource("17_naso3")]
+position = Vector2(3647, 610)
+
+[node name="FloorBlock56" parent="FloorBlocks/room5" unique_id=311629598 instance=ExtResource("17_naso3")]
+position = Vector2(3647, 98)
+
+[node name="FloorBlock91" parent="FloorBlocks/room5" unique_id=1689812508 instance=ExtResource("17_naso3")]
+position = Vector2(2385, 406)
+
+[node name="FloorBlock93" parent="FloorBlocks/room5" unique_id=152375114 instance=ExtResource("17_naso3")]
+position = Vector2(3583, 610)
+
+[node name="FloorBlock94" parent="FloorBlocks/room5" unique_id=1324580774 instance=ExtResource("17_naso3")]
+position = Vector2(3551, 610)
+
+[node name="FloorBlock95" parent="FloorBlocks/room5" unique_id=1076545953 instance=ExtResource("17_naso3")]
+position = Vector2(3519, 610)
+
+[node name="FloorBlock96" parent="FloorBlocks/room5" unique_id=1633649386 instance=ExtResource("17_naso3")]
+position = Vector2(3423, 610)
+
+[node name="FloorBlock97" parent="FloorBlocks/room5" unique_id=1771463340 instance=ExtResource("17_naso3")]
+position = Vector2(3391, 610)
+
+[node name="FloorBlock98" parent="FloorBlocks/room5" unique_id=1890285176 instance=ExtResource("17_naso3")]
+position = Vector2(3359, 610)
+
+[node name="FloorBlock99" parent="FloorBlocks/room5" unique_id=113609913 instance=ExtResource("17_naso3")]
+position = Vector2(3231, 610)
+
+[node name="FloorBlock100" parent="FloorBlocks/room5" unique_id=933908739 instance=ExtResource("17_naso3")]
+position = Vector2(3199, 610)
+
+[node name="FloorBlock103" parent="FloorBlocks/room5" unique_id=1496834444 instance=ExtResource("17_naso3")]
+position = Vector2(3167, 610)
+
+[node name="FloorBlock104" parent="FloorBlocks/room5" unique_id=2046087004 instance=ExtResource("17_naso3")]
+position = Vector2(3039, 610)
+
+[node name="FloorBlock105" parent="FloorBlocks/room5" unique_id=117577184 instance=ExtResource("17_naso3")]
+position = Vector2(3039, 578)
+
+[node name="FloorBlock106" parent="FloorBlocks/room5" unique_id=1938118177 instance=ExtResource("17_naso3")]
+position = Vector2(3039, 546)
+
+[node name="FloorBlock107" parent="FloorBlocks/room5" unique_id=1350784877 instance=ExtResource("17_naso3")]
+position = Vector2(3007, 546)
+
+[node name="FloorBlock108" parent="FloorBlocks/room5" unique_id=1847424076 instance=ExtResource("17_naso3")]
+position = Vector2(2975, 514)
+
+[node name="FloorBlock109" parent="FloorBlocks/room5" unique_id=2126999525 instance=ExtResource("17_naso3")]
+position = Vector2(2943, 514)
+
+[node name="FloorBlock110" parent="FloorBlocks/room5" unique_id=1038930375 instance=ExtResource("17_naso3")]
+position = Vector2(2911, 482)
+
+[node name="FloorBlock111" parent="FloorBlocks/room5" unique_id=355351308 instance=ExtResource("17_naso3")]
+position = Vector2(2879, 482)
+
+[node name="DeathBox2" type="Area2D" parent="." unique_id=1642354193]
+position = Vector2(1759, 486)
+collision_layer = 0
+script = ExtResource("2_deathbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBox2" unique_id=922326345]
+position = Vector2(35.75, 0)
+shape = SubResource("RectangleShape2D_deathbox")
+
+[node name="Checkpoint5" parent="." unique_id=955380096 instance=ExtResource("8_tiul6")]
+position = Vector2(3703, 373)
+
+[node name="FloorBlock47" parent="." unique_id=1823497933 instance=ExtResource("17_naso3")]
+position = Vector2(2783, 285)
+
+[node name="FloorBlock48" parent="." unique_id=353043228 instance=ExtResource("17_naso3")]
+position = Vector2(2847, 285)
+
+[node name="FloorBlock49" parent="." unique_id=1084554387 instance=ExtResource("17_naso3")]
+position = Vector2(2815, 285)
+
+[node name="FloorBlock50" parent="." unique_id=1926828857 instance=ExtResource("17_naso3")]
+position = Vector2(2751, 317)
+
+[node name="Checkpoint6" parent="." unique_id=951708337 instance=ExtResource("8_tiul6")]
+position = Vector2(2844, 249)
+
+[node name="waterWheelRoom7" parent="." unique_id=211334717 instance=ExtResource("19_8ifkh")]
+position = Vector2(2527, 317)
+
+[node name="waterWheelRoom8" parent="." unique_id=147028734 instance=ExtResource("19_8ifkh")]
+position = Vector2(2271, 317)
+
+[node name="waterWheelRoom9" parent="." unique_id=2019184456 instance=ExtResource("19_8ifkh")]
+position = Vector2(2015, 317)
+
+[node name="FloorBlock51" parent="." unique_id=755244004 instance=ExtResource("17_naso3")]
+position = Vector2(1919, 253)
+
+[node name="FloorBlock52" parent="." unique_id=1175761570 instance=ExtResource("17_naso3")]
+position = Vector2(1911, 253)
+
+[node name="FloorBlock53" parent="." unique_id=818192111 instance=ExtResource("17_naso3")]
+position = Vector2(1879, 285)
+
+[node name="FloorBlock54" parent="." unique_id=1300765879 instance=ExtResource("17_naso3")]
+position = Vector2(1847, 317)
+
+[node name="FloorBlock55" parent="." unique_id=1404212699 instance=ExtResource("17_naso3")]
+position = Vector2(1815, 349)
+
+[node name="FloorBlock56" parent="." unique_id=1980725777 instance=ExtResource("17_naso3")]
+position = Vector2(1783, 349)
+
+[node name="FloorBlock57" parent="." unique_id=1191873300 instance=ExtResource("17_naso3")]
+position = Vector2(1751, 381)
+
+[node name="FloorBlock58" parent="." unique_id=503585785 instance=ExtResource("17_naso3")]
+position = Vector2(1719, 413)
+
+[node name="waterWheelRoom10" parent="." unique_id=1053887134 instance=ExtResource("19_8ifkh")]
+position = Vector2(1431, 317)
+
+[node name="FloorBlock59" parent="." unique_id=1632445253 instance=ExtResource("17_naso3")]
+position = Vector2(1495, 61)
+
+[node name="FloorBlock60" parent="." unique_id=743664667 instance=ExtResource("17_naso3")]
+position = Vector2(1463, 61)
+
+[node name="FloorBlock61" parent="." unique_id=1510189345 instance=ExtResource("17_naso3")]
+position = Vector2(1431, 61)
+
+[node name="FloorBlock62" parent="." unique_id=971324986 instance=ExtResource("17_naso3")]
+position = Vector2(1271, 413)
+
+[node name="FloorBlock64" parent="." unique_id=339513720 instance=ExtResource("17_naso3")]
+position = Vector2(1239, 413)
+
+[node name="FloorBlock65" parent="." unique_id=1974982858 instance=ExtResource("17_naso3")]
+position = Vector2(1207, 413)
+
+[node name="FloorBlock33" parent="." unique_id=1254795949 instance=ExtResource("17_naso3")]
+position = Vector2(983, 61)
+
+[node name="FloorBlock34" parent="." unique_id=40534834 instance=ExtResource("17_naso3")]
+position = Vector2(1015, 61)
+
+[node name="FloorBlock35" parent="." unique_id=290394429 instance=ExtResource("17_naso3")]
+position = Vector2(951, 61)
+
+[node name="TileMap" type="TileMap" parent="." unique_id=1827696203]
+position = Vector2(3391, -163)
+format = 2
+
+[node name="Waterfalls" type="Node" parent="." unique_id=706209213]
+
+[node name="ColorRect3" type="ColorRect" parent="Waterfalls" unique_id=1158962066]
+z_index = -1
+material = SubResource("ShaderMaterial_0xmx1")
+offset_left = 1663.0
+offset_top = -1010.0
+offset_right = 1695.0
+offset_bottom = -174.0
+
+[node name="ColorRect2" type="ColorRect" parent="Waterfalls" unique_id=269033224]
+material = SubResource("ShaderMaterial_0xmx1")
+offset_left = 1120.0
+offset_top = -999.0
+offset_right = 1152.0
+offset_bottom = 2961.5264
+
+[node name="ColorRect4" type="ColorRect" parent="Waterfalls" unique_id=520260714]
+z_index = -1
+material = SubResource("ShaderMaterial_0xmx1")
+offset_left = 2079.0
+offset_top = -1036.0
+offset_right = 2111.0
+offset_bottom = -163.0
+
+[node name="ColorRect5" type="ColorRect" parent="Waterfalls" unique_id=1688549633]
+z_index = -1
+material = SubResource("ShaderMaterial_0xmx1")
+offset_left = 2657.0
+offset_top = -703.0
+offset_right = 2689.0
+offset_bottom = 536.0
+
+[node name="Node2D" parent="." unique_id=343158608 instance=ExtResource("21_wqik4")]
+position = Vector2(3391, -707)
+scale = Vector2(0.84, 0.84)
+
+[node name="Node2D2" parent="." unique_id=1069932278 instance=ExtResource("21_wqik4")]
+position = Vector2(1527, -194.00002)
+scale = Vector2(0.84, 0.69)

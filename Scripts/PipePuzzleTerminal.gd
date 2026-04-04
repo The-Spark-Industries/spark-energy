@@ -4,7 +4,7 @@ signal puzzle_solved(terminal: Node)
 
 @export var minigame_scene: PackedScene = preload("res://Master Scenes/PipeMinigame.tscn")
 @export var puzzle_definition: Dictionary = {}  # Serializable puzzle; auto-populate with default if empty.
-@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7") var puzzle_layout: int = 0
+@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9") var puzzle_layout: int = 0
 @export_enum("Normal", "Move Only", "Rotate Only") var control_mode: int = 0
 @export_group("Solved Platform Motion")
 @export var moving_platform_path: NodePath
@@ -15,6 +15,12 @@ signal puzzle_solved(terminal: Node)
 @export var water_wheel_path: NodePath
 @export var water_to_wheel_delay: float = 0.25
 @export var wheel_spin_time_per_turn: float = 0.6
+@export_group("Solved Rise Motion")
+@export var solved_rise_target_path: NodePath
+@export var solved_rise_distance: float = 0.0
+@export var solved_rise_duration: float = 1.0
+@export_group("Embedded Puzzle Board")
+@export var embedded_minigame_path: NodePath
 @export_group("Solved Linked Object")
 @export var linked_object_path: NodePath
 @export var linked_object_method: StringName = &"on_terminal_solved"
@@ -27,6 +33,7 @@ var _puzzle: PipePuzzleDefinition = null
 var _randomized_once: bool = false
 var _platform_motion_started: bool = false
 var _wheel_spin_started: bool = false
+var _solved_rise_started: bool = false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -46,11 +53,35 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_puzzle_6x6()
 			5:
 				_puzzle = PipePuzzleDefinition.create_puzzle_7x7()
+			6:
+				_puzzle = PipePuzzleDefinition.create_puzzle_9x8()
+			7:
+				_puzzle = PipePuzzleDefinition.create_puzzle_9x9()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
 		puzzle_definition = _puzzle.to_dict()
 	else:
 		_puzzle = PipePuzzleDefinition.from_dict(puzzle_definition)
+
+	# Randomize at level load so puzzle state is ready before any interaction.
+	_randomize_puzzle_first_open()
+
+	# For in-world puzzle boxes, preload the board so the full layout is visible before interaction.
+	if not String(embedded_minigame_path).is_empty():
+		call_deferred("_setup_embedded_preview")
+
+func _setup_embedded_preview() -> void:
+	var embedded := get_node_or_null(embedded_minigame_path) as Control
+	if embedded == null:
+		return
+
+	_minigame = embedded
+	if _minigame.has_method("set_puzzle"):
+		_minigame.call("set_puzzle", _puzzle)
+	if _minigame.has_method("set_control_mode"):
+		_minigame.call("set_control_mode", control_mode)
+	if _minigame.has_signal("completed") and not _minigame.is_connected("completed", _on_minigame_completed):
+		_minigame.connect("completed", _on_minigame_completed)
 
 func interact(player: CharacterBody2D) -> bool:
 	if _solved:
@@ -59,25 +90,30 @@ func interact(player: CharacterBody2D) -> bool:
 			$Prompt.visible = true
 		return false
 
-	_randomize_puzzle_first_open()
-
 	if _minigame == null:
-		if _ui_layer == null:
-			_ui_layer = CanvasLayer.new()
-			_ui_layer.layer = 100
-			get_tree().current_scene.add_child(_ui_layer)
-
-		_minigame = minigame_scene.instantiate() as Control
+		if not String(embedded_minigame_path).is_empty():
+			_minigame = get_node_or_null(embedded_minigame_path) as Control
+			if _minigame == null:
+				push_warning("PipePuzzleTerminal: embedded_minigame_path not found. Overlay fallback disabled for this terminal.")
+				return false
 		if _minigame == null:
-			push_error("PipePuzzleTerminal: failed to instantiate PipeMinigame scene.")
-			return false
+			if _ui_layer == null:
+				_ui_layer = CanvasLayer.new()
+				_ui_layer.layer = 100
+				get_tree().current_scene.add_child(_ui_layer)
 
-		_ui_layer.add_child(_minigame)
-		_ui_layer.move_child(_minigame, _ui_layer.get_child_count() - 1)
-		if _minigame.has_signal("completed"):
-			_minigame.connect("completed", _on_minigame_completed)
+			_minigame = minigame_scene.instantiate() as Control
+			if _minigame == null:
+				push_error("PipePuzzleTerminal: failed to instantiate PipeMinigame scene.")
+				return false
+
+			_ui_layer.add_child(_minigame)
+			_ui_layer.move_child(_minigame, _ui_layer.get_child_count() - 1)
 	elif _ui_layer:
 		_ui_layer.move_child(_minigame, _ui_layer.get_child_count() - 1)
+
+	if _minigame.has_signal("completed") and not _minigame.is_connected("completed", _on_minigame_completed):
+		_minigame.connect("completed", _on_minigame_completed)
 
 	if _minigame.has_method("set_puzzle"):
 		_minigame.call("set_puzzle", _puzzle)
@@ -96,7 +132,8 @@ func _on_minigame_completed(success: bool) -> void:
 		if has_node("Prompt"):
 			$Prompt.text = "Solved"
 		_notify_linked_object_on_solve()
-		_start_connected_water_flow()
+		await _start_connected_water_flow()
+		_start_solved_rise_if_needed()
 		_start_platform_motion_if_needed()
 
 func _notify_linked_object_on_solve() -> void:
@@ -131,6 +168,24 @@ func _start_connected_water_flow() -> void:
 		if water_to_wheel_delay > 0.0:
 			await get_tree().create_timer(water_to_wheel_delay).timeout
 		_start_wheel_spin(get_node_or_null(water_wheel_path))
+
+func _start_solved_rise_if_needed() -> void:
+	if _solved_rise_started:
+		return
+	if String(solved_rise_target_path).is_empty():
+		return
+	if is_zero_approx(solved_rise_distance):
+		return
+
+	var target := get_node_or_null(solved_rise_target_path) as Node2D
+	if target == null:
+		push_warning("PipePuzzleTerminal: solved_rise_target_path not found.")
+		return
+
+	_solved_rise_started = true
+	var start_y := target.position.y
+	var tween := create_tween()
+	tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _set_flow_visual_active(node: Node, active: bool) -> void:
 	if node == null:

@@ -25,6 +25,7 @@ const CELL_FLOW := Color("2b6d8a")
 @export var tee_texture: Texture2D
 @export var block_texture: Texture2D
 @export var empty_texture: Texture2D
+@export var embedded_mode: bool = false
 
 @onready var _root_panel: PanelContainer = $CenterContainer/PanelContainer
 @onready var _title_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Title
@@ -41,6 +42,7 @@ var _cell_icons: Array[TextureRect] = []
 var _pieces: Array[Dictionary] = []
 var _puzzle: PipePuzzleDefinition = null
 var _grid_size: int = 3
+var _grid_height: int = 3
 
 var _cursor_index: int = 0
 var _grabbed_index: int = -1
@@ -50,24 +52,44 @@ var _control_mode: int = 0  # 0: normal, 1: move-only, 2: rotate-only
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	anchor_left = 0.0
-	anchor_top = 0.0
-	anchor_right = 1.0
-	anchor_bottom = 1.0
-	offset_left = 0.0
-	offset_top = 0.0
-	offset_right = 0.0
-	offset_bottom = 0.0
-	if not _active:
+	if embedded_mode:
+		anchor_left = 0.0
+		anchor_top = 0.0
+		anchor_right = 0.0
+		anchor_bottom = 0.0
+		offset_left = 0.0
+		offset_top = 0.0
+		offset_right = size.x
+		offset_bottom = size.y
+	else:
+		anchor_left = 0.0
+		anchor_top = 0.0
+		anchor_right = 1.0
+		anchor_bottom = 1.0
+		offset_left = 0.0
+		offset_top = 0.0
+		offset_right = 0.0
+		offset_bottom = 0.0
+	if not _active and not embedded_mode:
 		visible = false
 	_apply_visual_overrides()
 	_send_button.pressed.connect(_on_send_water_pressed)
+	if embedded_mode:
+		$Backdrop.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
 	_reset_puzzle()
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	_puzzle = puzzle
 	if _puzzle:
-		_grid_size = _puzzle.grid_size
+		_grid_size = _puzzle.grid_width
+		_grid_height = _puzzle.grid_height
+		if is_node_ready():
+			_reset_puzzle()
 
 func set_control_mode(mode: int) -> void:
 	_control_mode = clampi(mode, 0, 2)
@@ -81,13 +103,15 @@ func open_for_player(player: CharacterBody2D) -> void:
 	_status_label.text = _controls_hint_text()
 	if not _puzzle:
 		_puzzle = PipePuzzleDefinition.create_default()
-		_grid_size = _puzzle.grid_size
+		_grid_size = _puzzle.grid_width
+		_grid_height = _puzzle.grid_height
 	_reset_puzzle()
 	get_tree().paused = true
 
 func close_minigame() -> void:
 	_active = false
-	visible = false
+	if not embedded_mode:
+		visible = false
 	_grabbed_index = -1
 	get_tree().paused = false
 
@@ -148,24 +172,31 @@ func _build_grid_ui() -> void:
 	_cell_icons.clear()
 	_grid.columns = _grid_size
 
-	var separation: int = clampi(10 - ((_grid_size - 3) * 2), 3, 8)
+	var separation_basis: int = max(_grid_size, _grid_height)
+	var separation: int = clampi(10 - ((separation_basis - 3) * 2), 3, 8)
+	if embedded_mode:
+		separation = 4
 	_grid.add_theme_constant_override("h_separation", separation)
 	_grid.add_theme_constant_override("v_separation", separation)
 
-	var viewport_size := get_viewport_rect().size
-	var available_grid_width: float = maxf(220.0, viewport_size.x * 0.72)
-	var available_grid_height: float = maxf(220.0, viewport_size.y * 0.45)
-	var cell_size_w: float = (available_grid_width - float(separation * (_grid_size - 1))) / float(_grid_size)
-	var cell_size_h: float = (available_grid_height - float(separation * (_grid_size - 1))) / float(_grid_size)
-	var cell_size: float = clampf(minf(cell_size_w, cell_size_h), 32.0, 96.0)
+	var layout_size := size
+	if layout_size.x <= 0.0 or layout_size.y <= 0.0:
+		layout_size = get_viewport_rect().size
+	var cell_size: float = 64.0 if embedded_mode else clampf(minf(
+		(layout_size.x * 0.72 - float(separation * (_grid_size - 1))) / float(_grid_size),
+		(layout_size.y * 0.45 - float(separation * (_grid_height - 1))) / float(_grid_height)
+	), 32.0, 96.0)
 
-	var panel_width: float = minf(viewport_size.x * 0.92, maxf(380.0, (cell_size * _grid_size) + 120.0))
-	var panel_height: float = minf(viewport_size.y * 0.92, maxf(360.0, (cell_size * _grid_size) + 240.0))
+	var panel_width: float = (cell_size * _grid_size) + float(separation * (_grid_size - 1)) + (16.0 if embedded_mode else 120.0)
+	var panel_height: float = (cell_size * _grid_height) + float(separation * (_grid_height - 1)) + (84.0 if embedded_mode else 240.0)
+	if not embedded_mode:
+		panel_width = minf(layout_size.x * 0.92, maxf(380.0, panel_width))
+		panel_height = minf(layout_size.y * 0.92, maxf(360.0, panel_height))
 	_root_panel.custom_minimum_size = Vector2(panel_width, panel_height)
 
 	var glyph_font_size: int = int(clampf(cell_size * 0.6, 24.0, 62.0))
 
-	for i in range(_grid_size * _grid_size):
+	for i in range(_grid_size * _grid_height):
 		var cell := PanelContainer.new()
 		cell.custom_minimum_size = Vector2(cell_size, cell_size)
 		cell.pivot_offset = Vector2(cell_size * 0.5, cell_size * 0.5)
@@ -208,9 +239,11 @@ func _build_grid_ui() -> void:
 func _reset_puzzle() -> void:
 	if not _puzzle:
 		_puzzle = PipePuzzleDefinition.create_default()
-		_grid_size = _puzzle.grid_size
+		_grid_size = _puzzle.grid_width
+		_grid_height = _puzzle.grid_height
 	else:
-		_grid_size = _puzzle.grid_size
+		_grid_size = _puzzle.grid_width
+		_grid_height = _puzzle.grid_height
 
 	_build_grid_ui()
 
@@ -223,7 +256,7 @@ func _reset_puzzle() -> void:
 
 	# Set cursor to center and start with nothing grabbed.
 	var center_x: int = _grid_size / 2
-	var center_y: int = _grid_size / 2
+	var center_y: int = _grid_height / 2
 	_cursor_index = _idx(center_x, center_y)
 	_grabbed_index = -1
 	_info_label.text = "Build a connected pipe route from source to drain."
@@ -244,7 +277,7 @@ func _toggle_select() -> void:
 func _move_cursor(dx: int, dy: int) -> void:
 	var current := _to_xy(_cursor_index)
 	var nx: int = clampi(current.x + dx, 0, _grid_size - 1)
-	var ny: int = clampi(current.y + dy, 0, _grid_size - 1)
+	var ny: int = clampi(current.y + dy, 0, _grid_height - 1)
 	var target_index := _idx(nx, ny)
 
 	if _can_move_pieces() and _grabbed_index != -1 and target_index != _grabbed_index:
@@ -323,7 +356,7 @@ func _trace_flow_from_source() -> Array[int]:
 
 		for d in connectors:
 			var nxy := Vector2i(cxy.x, cxy.y) + _dir_to_vec(d)
-			if nxy.x < 0 or nxy.x >= _grid_size or nxy.y < 0 or nxy.y >= _grid_size:
+			if nxy.x < 0 or nxy.x >= _grid_size or nxy.y < 0 or nxy.y >= _grid_height:
 				continue
 
 			var nidx := _idx(nxy.x, nxy.y)

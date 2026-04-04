@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bt4fwl72y1ini"]
+[gd_scene format=3 uid="uid://demgqx1vewlkx"]
 
 [ext_resource type="Script" uid="uid://b5agu4nw8ytqn" path="res://Scripts/WirePath.gd" id="1_wirepath"]
 [ext_resource type="Script" uid="uid://bqfwoq83t3tyc" path="res://Scripts/WireEnd.gd" id="2_wireend"]

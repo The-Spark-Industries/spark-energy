@@ -1,0 +1,8 @@
+[gd_resource type="Theme" format=3 uid="uid://bvqgfimcyxpei"]
+
+[ext_resource type="FontFile" path="res://Assets/Visual/Lingua Light.otf" id="1_b4o0v"]
+
+[resource]
+/colors/white = Color(1, 1, 1, 1)
+/font_sizes/_24 = 24
+/fonts/lingualight = ExtResource("1_b4o0v")

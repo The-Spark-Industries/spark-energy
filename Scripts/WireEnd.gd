@@ -10,11 +10,12 @@ class_name WireEnd
 var _wire_path: Node = null          # parent WirePath
 var _bodies_inside: Array = []       # players currently in range
 
+@onready var p= $Prompt	
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-
+	p.theme= load("res://Assets/Visual/Lingua.tres")
 	var parent := get_parent()
 	if parent and parent.has_method("register_end"):
 		_wire_path = parent

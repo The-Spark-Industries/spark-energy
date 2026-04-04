@@ -34,6 +34,11 @@ window/stretch/mode="viewport"
 
 player=""
 
+[gui]
+
+theme/default_font_antialiasing=0
+theme/custom_font="uid://dqkqrofgfdqyp"
+
 [input]
 
 move_left={

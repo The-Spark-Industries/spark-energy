@@ -3,6 +3,7 @@
 [ext_resource type="FontFile" uid="uid://dqkqrofgfdqyp" path="res://Assets/Visual/Lingua Regular.otf" id="1_1fhyr"]
 
 [resource]
+default_font = ExtResource("1_1fhyr")
 /colors/white = Color(1, 1, 1, 1)
 /font_sizes/_24 = 24
 /fonts/lingua = ExtResource("1_1fhyr")

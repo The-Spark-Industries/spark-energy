@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://mjfjbsvaubj2"]
 
+[ext_resource type="Script" uid="uid://dcndpvw5hsbqr" path="res://Scripts/rising_platform.gd" id="1_risingplat"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gmpt8"]
 size = Vector2(96, 32)
 
-[node name="Node2D" type="Node2D" unique_id=1301307828]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hgnv"]
+size = Vector2(96, 32)
+
+[node name="Node2D3" type="Node2D" unique_id=1301307828]
+script = ExtResource("1_risingplat")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1255022640]
 
@@ -15,3 +21,10 @@ shape = SubResource("RectangleShape2D_gmpt8")
 offset_right = 96.0
 offset_bottom = 32.0
 color = Color(0.78039217, 0.6666667, 0.5411765, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1234567890]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126918074]
+position = Vector2(48, 12)
+shape = SubResource("RectangleShape2D_1hgnv")

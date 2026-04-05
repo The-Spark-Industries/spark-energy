@@ -243,7 +243,7 @@ func die() -> void:
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")
-	get_tree().create_timer(0.2).timeout.connect(_respawn, CONNECT_ONE_SHOT)
+	get_tree().create_timer(0.001).timeout.connect(_respawn, CONNECT_ONE_SHOT)
 
 func _respawn() -> void:
 	global_position = Global.last_checkpoint_position

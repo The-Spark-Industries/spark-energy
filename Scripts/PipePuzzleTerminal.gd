@@ -34,6 +34,7 @@ var _randomized_once: bool = false
 var _platform_motion_started: bool = false
 var _wheel_spin_started: bool = false
 var _solved_rise_started: bool = false
+var _rise_tween: Tween = null
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -183,9 +184,43 @@ func _start_solved_rise_if_needed() -> void:
 		return
 
 	_solved_rise_started = true
+	
+	# Wait for player to be on the platform before rising
+	if target.has_method("is_player_on_platform"):
+		# Check if player is currently on platform
+		if target.is_player_on_platform():
+			print("Player already on platform, raising immediately")
+			_raise_platform(target)
+		else:
+			print("Player not on platform, waiting for arrival")
+			# If player not yet on platform, wait for signal
+			if not target.is_connected("player_landed", Callable(self, "_on_player_landed_on_platform")):
+				target.connect("player_landed", Callable(self, "_on_player_landed_on_platform").bind(target))
+			if not target.is_connected("player_left", Callable(self, "_on_player_left_platform")):
+				target.connect("player_left", Callable(self, "_on_player_left_platform").bind(target))
+	else:
+		print("Platform doesn't have is_player_on_platform method, raising immediately")
+		_raise_platform(target)
+
+func _on_player_landed_on_platform(target: Node2D) -> void:
+	print("Signal received: player landed on platform")
+	_raise_platform(target)
+
+func _on_player_left_platform(target: Node2D) -> void:
+	print("Player left platform - stopping rise")
+	# Cancel the rise tween if it's active
+	if _rise_tween and _rise_tween.is_valid():
+		_rise_tween.kill()
+		_rise_tween = null
+
+func _raise_platform(target: Node2D) -> void:
+	print("Raising platform: ", target.name)
+	# Kill any existing tween
+	if _rise_tween and _rise_tween.is_valid():
+		_rise_tween.kill()
 	var start_y := target.position.y
-	var tween := create_tween()
-	tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_rise_tween = create_tween()
+	_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _set_flow_visual_active(node: Node, active: bool) -> void:
 	if node == null:

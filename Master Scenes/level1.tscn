@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=75 format=3 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_21y3i"]
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bpgi2odea3xpc" path="res://Master Scenes/risingDoor.tscn" id="25_2rbmd"]
 [ext_resource type="PackedScene" uid="uid://mjfjbsvaubj2" path="res://Master Scenes/risingPlatform.tscn" id="26_211ka"]
 [ext_resource type="Shader" uid="uid://dt3gisec4b42c" path="res://Level 1/Level 1 Art Assets/Shaders/BGFog.gdshader" id="28_8jiky"]
+[ext_resource type="Texture2D" uid="uid://duqx6x3gblaam" path="res://Level 1/Level 1 Art Assets/Environment/Backgrounds/indutrial.jpg" id="29_21p6t"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -339,6 +340,24 @@ shader_parameter/pixel_size = 4.0
 shader_parameter/cutoff = 0.45
 shader_parameter/layers = 2.0
 shader_parameter/vertical_fade = 0.4
+
+[sub_resource type="Gradient" id="Gradient_21p6t"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bmo44"]
+gradient = SubResource("Gradient_21p6t")
+fill = 1
+fill_from = Vector2(0.49532712, 0.47196263)
+fill_to = Vector2(0.7546729, 0.8224299)
+
+[sub_resource type="Gradient" id="Gradient_bmo44"]
+offsets = PackedFloat32Array(0, 0.29, 0.67333335)
+colors = PackedColorArray(0.19614312, 0.19614306, 0.19614309, 1, 0.2520276, 0.25202766, 0.25202763, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_es5gu"]
+gradient = SubResource("Gradient_bmo44")
+fill_from = Vector2(0.72196263, 0.635514)
+fill_to = Vector2(0.7733645, 0.088785045)
 
 [node name="Level1" type="Node2D"]
 
@@ -1770,3 +1789,45 @@ offset_top = -1376.0
 offset_right = 3859.0
 offset_bottom = 495.0
 color = Color(0.5370113, 0.5370113, 0.5370113, 1)
+
+[node name="Indutrial" type="Sprite2D" parent="."]
+self_modulate = Color(0.24658787, 0.2465879, 0.24658787, 1)
+z_index = -6
+position = Vector2(2928, -45)
+texture = ExtResource("29_21p6t")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.46618086, 0.4661808, 0.4661808, 1)
+
+[node name="Lighting" type="Node" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="Lighting"]
+position = Vector2(3695.9998, 131.00009)
+rotation = 0.58294
+scale = Vector2(5.6926575, 4.6807876)
+energy = 0.75
+texture = SubResource("GradientTexture2D_bmo44")
+texture_scale = 3.2
+
+[node name="PointLight2D2" type="PointLight2D" parent="Lighting"]
+visible = false
+position = Vector2(3212.9998, 420.00006)
+rotation = 0.58294
+scale = Vector2(5.6926575, 4.6807876)
+energy = 0.91
+texture = SubResource("GradientTexture2D_bmo44")
+texture_scale = 1.73
+
+[node name="PointLight2D3" type="PointLight2D" parent="Lighting"]
+visible = false
+position = Vector2(3563, 419.99994)
+rotation = 0.58294
+scale = Vector2(5.6926575, 4.6807876)
+energy = 0.91
+texture = SubResource("GradientTexture2D_bmo44")
+texture_scale = 1.73
+
+[node name="PointLight2D4" type="PointLight2D" parent="Lighting"]
+position = Vector2(2930.25, 453)
+scale = Vector2(28.507809, 1)
+texture = SubResource("GradientTexture2D_es5gu")

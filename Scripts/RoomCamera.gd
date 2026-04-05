@@ -2,7 +2,7 @@ extends Camera2D
 
 ## Assign a node whose children are camera targets (e.g. empty Node2D with child Node2Ds).
 ## Whichever child is closest to the player becomes the camera position.
-@export var camera_targets_path: NodePath = NodePath("")
+@export var camera_targets_path: NodePath = NodePath("../camera_points")
 
 ## If camera_targets_path is empty, nodes in this group are used as targets.
 @export var camera_targets_group: StringName = &"camera_points"

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bjw43a2ap1pii"]
+
+[ext_resource type="PackedScene" uid="uid://bwg80bs2f7m1g" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="1_base_terminal"]
+
+[node name="PipePuzzleTerminalMoveOnly" unique_id=1023495330 instance=ExtResource("1_base_terminal")]
+control_mode = 1
+
+[node name="Prompt" parent="." index="2" unique_id=888163643]
+text = "[E] Pipe Control (Move Only)"

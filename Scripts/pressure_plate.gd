@@ -2,7 +2,7 @@ extends Area2D
 
 
 var readyToPress: bool= false
-#Checks if the player is near the valve
+
 @onready var pressurePlateStatus: int = 0
 #Determines the valve state
 

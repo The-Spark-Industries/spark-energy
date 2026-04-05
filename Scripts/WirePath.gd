@@ -2,7 +2,7 @@ extends Node2D
 class_name WirePath
 
 ## Wire travel speed in pixels per second (approx.).
-@export var travel_speed: float = 800.0
+@export var travel_speed: float = 2400.0
 
 ## Offset applied at the exit endpoint so the player doesn't overlap it.
 @export var exit_offset: Vector2 = Vector2(0.0, -80.0)
@@ -113,7 +113,7 @@ func begin_travel(player: CharacterBody2D, from_end: Node) -> bool:
 		if (Global.turboMode==true):
 			travel_speed= 99999.0
 		if (Global.turboMode ==false):
-			travel_speed= 800.0
+			travel_speed= 2400.0
 		duration = distance / travel_speed
 		
 		

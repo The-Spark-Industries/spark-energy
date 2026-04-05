@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b3wrn5c1q8iuw"]
 
 [ext_resource type="Script" uid="uid://bmpuw06uuxgix" path="res://Scripts/pause_menu.gd" id="1_pbpjw"]
+[ext_resource type="Theme" uid="uid://60rj30lepwcb" path="res://Assets/Visual/Lingua.tres" id="2_4owrd"]
 
 [node name="pauseMenu" type="Control" unique_id=1118913350]
 process_mode = 3
@@ -37,6 +38,7 @@ grow_horizontal = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
+theme = ExtResource("2_4owrd")
 theme_override_font_sizes/font_size = 54
 text = "PAUSED"
 
@@ -108,57 +110,100 @@ text = "Back"
 
 [node name="volume2" type="Label" parent="optionsMenu" unique_id=1011110503]
 layout_mode = 0
-offset_left = -59.0
+offset_left = -259.0
 offset_top = -446.0
-offset_right = 59.0
-offset_bottom = -267.0
+offset_right = -141.0
+offset_bottom = -397.0
 text = "Master Volume
+"
 
+[node name="volume3" type="Label" parent="optionsMenu" unique_id=135754434]
+layout_mode = 0
+offset_left = -259.0
+offset_top = -369.0
+offset_right = -141.0
+offset_bottom = -320.0
+text = "Music Volume
+"
 
-Music Volume
-
-
-Sound Volume"
+[node name="volume4" type="Label" parent="optionsMenu" unique_id=1431358799]
+layout_mode = 0
+offset_left = -259.0
+offset_top = -299.0
+offset_right = -141.0
+offset_bottom = -250.0
+text = "Sound Volume
+"
 
 [node name="volumeSlider1" type="HSlider" parent="optionsMenu" unique_id=1625656700]
 layout_mode = 0
-offset_left = -113.0
+offset_left = -313.0
 offset_top = -422.0
-offset_right = 105.0
+offset_right = -95.0
 offset_bottom = -374.0
 step = 0.5
 
 [node name="volumeSlider2" type="HSlider" parent="optionsMenu" unique_id=1640901608]
 layout_mode = 0
-offset_left = -115.0
+offset_left = -315.0
 offset_top = -269.0
-offset_right = 104.0
+offset_right = -96.0
 offset_bottom = -229.0
 step = 0.5
 
 [node name="volumeSlider3" type="HSlider" parent="optionsMenu" unique_id=1712575343]
 layout_mode = 0
-offset_left = -114.0
+offset_left = -314.0
 offset_top = -352.0
-offset_right = 107.0
+offset_right = -93.0
 offset_bottom = -288.0
 step = 0.5
 
 [node name="Turbo" type="Label" parent="optionsMenu" unique_id=809414930]
 layout_mode = 0
-offset_left = -124.0
-offset_top = -219.0
-offset_right = 126.0
-offset_bottom = -196.0
+offset_left = -11.0
+offset_top = -445.0
+offset_right = 239.0
+offset_bottom = -422.0
 text = "Turbo Mode (Instant wire travel)"
 
 [node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=1779928246]
 layout_mode = 0
-offset_left = -74.0
-offset_top = -198.00002
-offset_right = -28.799988
-offset_bottom = -174.00002
+offset_left = 38.999992
+offset_top = -424.0
+offset_right = 84.200005
+offset_bottom = -400.0
 scale = Vector2(2.5, 2.5)
+
+[node name="TextMode" type="Label" parent="optionsMenu" unique_id=954676590]
+layout_mode = 0
+offset_left = 42.0
+offset_top = -357.0
+offset_right = 124.0
+offset_bottom = -308.0
+text = "Text Mode
+"
+
+[node name="TextModeButton" type="OptionButton" parent="optionsMenu" unique_id=1821456973]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.064
+anchor_top = -0.509
+anchor_right = 0.064
+anchor_bottom = -0.509
+offset_left = -34.472
+offset_top = 4.322998
+offset_right = 49.528
+offset_bottom = 35.322998
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Classic"
+popup/item_0/id = 0
+popup/item_1/text = "Light"
+popup/item_1/id = 1
+popup/item_2/text = "Pixel"
+popup/item_2/id = 2
 
 [connection signal="pressed" from="VBoxContainer2/resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer2/options" to="." method="_on_options_pressed"]
@@ -166,3 +211,5 @@ scale = Vector2(2.5, 2.5)
 [connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="optionsMenu/CheckButton" to="." method="_on_check_button_pressed"]
 [connection signal="toggled" from="optionsMenu/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="item_focused" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_focused"]
+[connection signal="item_selected" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_selected"]

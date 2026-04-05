@@ -4,13 +4,23 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	self.theme=load("res://Assets/Visual/Lingua.tres")
+	
 	visible = false
 	_bring_to_front()
 
+#func _process(delta: float) -> void:
+	#if (Global.fontChoice==0):
+	#	self.theme=load("res://Assets/Visual/Lingua.tres")
+	#if (Global.fontChoice==1):
+	#	self.theme=load("res://Assets/Visual/lingualight.tres")
+	#if (Global.fontChoice==2):
+		#self.theme=load("res://Assets/Visual/Receipt.tres")
+#
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("pause") and (Global.wiremode== false):
 		if (get_tree().paused==false ):
 			_bring_to_front()
 			get_tree().paused= true
@@ -57,3 +67,14 @@ func _on_check_button_pressed() -> void:
 	elif (Global.turboMode ==true):
 		Global.turboMode = false
 		print (Global.turboMode)
+
+
+func _on_text_mode_button_item_selected(index: int) -> void:
+	print(index)
+	#Global.fontChoice=index
+
+
+func _on_text_mode_button_item_focused(index: int) -> void:
+	print(index)
+	#Global.fontChoice=index
+	#print(Global.fontChoice)

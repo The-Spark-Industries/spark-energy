@@ -6,8 +6,18 @@ const SAVE_FILE_PATH := "user://savegame.json"
 var last_checkpoint_position: Vector2 = Vector2.ZERO
 ## Scene path where the last checkpoint was touched.
 var last_checkpoint_scene_path: String = ""
+## Room identifier where the last checkpoint was touched.
+var last_checkpoint_room_id: String = ""
 ## True when there is a checkpoint loaded or set
 var has_saved_checkpoint: bool = false
+
+## Scene -> first checkpoint dictionary.
+## Value format: {"x": float, "y": float, "room_id": String}
+var first_checkpoint_by_scene: Dictionary = {}
+
+## Scene -> room -> checkpoint dictionary.
+## Value format: {"x": float, "y": float}
+var room_checkpoints_by_scene: Dictionary = {}
 
 var inventory: Array = []
 var max_inventory_size= 100
@@ -25,11 +35,20 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		save_game()
 
-func set_checkpoint(pos: Vector2, scene_path: String = "") -> void:
+func set_checkpoint(pos: Vector2, scene_path: String = "", room_id: String = "") -> void:
+	if scene_path == "":
+		scene_path = _current_scene_path()
+
+	if room_id == "":
+		room_id = _room_id_for_world_position(pos)
+
 	last_checkpoint_position = pos
 	if scene_path != "":
 		last_checkpoint_scene_path = scene_path
+	last_checkpoint_room_id = room_id
 	has_saved_checkpoint = true
+	_register_first_checkpoint_if_missing(scene_path, pos, room_id)
+	_register_room_checkpoint(scene_path, room_id, pos)
 	save_game()
 
 func has_checkpoint_for_scene(scene_path: String) -> bool:
@@ -37,14 +56,87 @@ func has_checkpoint_for_scene(scene_path: String) -> bool:
 		return false
 	return last_checkpoint_scene_path == scene_path
 
+func ensure_scene_defaults(scene_path: String, spawn_pos: Vector2, room_id: String = "") -> void:
+	if scene_path == "":
+		scene_path = _current_scene_path()
+
+	if room_id == "":
+		room_id = _room_id_for_world_position(spawn_pos)
+
+	_register_first_checkpoint_if_missing(scene_path, spawn_pos, room_id)
+	_register_room_checkpoint_if_missing(scene_path, room_id, spawn_pos)
+
+	if not has_saved_checkpoint or not has_checkpoint_for_scene(scene_path):
+		last_checkpoint_position = spawn_pos
+		last_checkpoint_scene_path = scene_path
+		last_checkpoint_room_id = room_id
+		has_saved_checkpoint = true
+
+	save_game()
+
+func reset_level_to_first_checkpoint(scene_path: String = "") -> bool:
+	if scene_path == "":
+		scene_path = _current_scene_path()
+
+	if scene_path == "":
+		return false
+
+	var first_data: Dictionary = first_checkpoint_by_scene.get(scene_path, {})
+	if first_data.is_empty():
+		return false
+
+	last_checkpoint_position = Vector2(
+		float(first_data.get("x", 0.0)),
+		float(first_data.get("y", 0.0))
+	)
+	last_checkpoint_scene_path = scene_path
+	last_checkpoint_room_id = String(first_data.get("room_id", ""))
+	has_saved_checkpoint = true
+	save_game()
+	return true
+
+func reset_room_to_checkpoint(scene_path: String = "", room_id: String = "") -> bool:
+	if scene_path == "":
+		scene_path = _current_scene_path()
+
+	if scene_path == "":
+		return false
+
+	if room_id == "":
+		room_id = _current_room_id()
+
+	if room_id == "":
+		return false
+
+	var room_map: Dictionary = room_checkpoints_by_scene.get(scene_path, {})
+	if room_map.is_empty():
+		return false
+
+	var room_data: Dictionary = room_map.get(room_id, {})
+	if room_data.is_empty():
+		return false
+
+	last_checkpoint_position = Vector2(
+		float(room_data.get("x", 0.0)),
+		float(room_data.get("y", 0.0))
+	)
+	last_checkpoint_scene_path = scene_path
+	last_checkpoint_room_id = room_id
+	has_saved_checkpoint = true
+	save_game()
+	return true
+
 func save_game() -> void:
 	var save_data := {
 		"checkpoint": {
 			"x": last_checkpoint_position.x,
 			"y": last_checkpoint_position.y,
 			"scene_path": last_checkpoint_scene_path,
+			"room_id": last_checkpoint_room_id,
 			"has_saved_checkpoint": has_saved_checkpoint
 		},
+		"first_checkpoints": first_checkpoint_by_scene,
+		"room_checkpoints": room_checkpoints_by_scene,
 		"inventory": inventory
 	}
 
@@ -78,11 +170,102 @@ func load_game() -> void:
 		var y: float = float(checkpoint_data.get("y", 0.0))
 		last_checkpoint_position = Vector2(x, y)
 		last_checkpoint_scene_path = String(checkpoint_data.get("scene_path", ""))
+		last_checkpoint_room_id = String(checkpoint_data.get("room_id", ""))
 		has_saved_checkpoint = true
+
+	var loaded_first_checkpoints: Variant = save_data.get("first_checkpoints", first_checkpoint_by_scene)
+	if typeof(loaded_first_checkpoints) == TYPE_DICTIONARY:
+		first_checkpoint_by_scene = loaded_first_checkpoints
+
+	var loaded_room_checkpoints: Variant = save_data.get("room_checkpoints", room_checkpoints_by_scene)
+	if typeof(loaded_room_checkpoints) == TYPE_DICTIONARY:
+		room_checkpoints_by_scene = loaded_room_checkpoints
 
 	var loaded_inventory: Variant = save_data.get("inventory", inventory)
 	if typeof(loaded_inventory) == TYPE_ARRAY:
 		inventory = loaded_inventory
+
+func _register_first_checkpoint_if_missing(scene_path: String, pos: Vector2, room_id: String = "") -> void:
+	if scene_path == "":
+		return
+	if first_checkpoint_by_scene.has(scene_path):
+		return
+
+	first_checkpoint_by_scene[scene_path] = {
+		"x": pos.x,
+		"y": pos.y,
+		"room_id": room_id
+	}
+
+func _register_room_checkpoint(scene_path: String, room_id: String, pos: Vector2) -> void:
+	if scene_path == "" or room_id == "":
+		return
+
+	if not room_checkpoints_by_scene.has(scene_path):
+		room_checkpoints_by_scene[scene_path] = {}
+
+	var room_map: Dictionary = room_checkpoints_by_scene.get(scene_path, {})
+	room_map[room_id] = {
+		"x": pos.x,
+		"y": pos.y
+	}
+	room_checkpoints_by_scene[scene_path] = room_map
+
+func _register_room_checkpoint_if_missing(scene_path: String, room_id: String, pos: Vector2) -> void:
+	if scene_path == "" or room_id == "":
+		return
+
+	if not room_checkpoints_by_scene.has(scene_path):
+		room_checkpoints_by_scene[scene_path] = {}
+
+	var room_map: Dictionary = room_checkpoints_by_scene.get(scene_path, {})
+	if room_map.has(room_id):
+		return
+
+	room_map[room_id] = {
+		"x": pos.x,
+		"y": pos.y
+	}
+	room_checkpoints_by_scene[scene_path] = room_map
+
+func _current_scene_path() -> String:
+	if get_tree() and get_tree().current_scene:
+		return get_tree().current_scene.scene_file_path
+	return ""
+
+func _current_room_id() -> String:
+	if not get_tree() or get_tree().current_scene == null:
+		return ""
+
+	var room_camera := get_tree().current_scene.get_node_or_null("RoomCamera")
+	if room_camera and room_camera.has_method("get_current_target"):
+		var current_target: Node2D = room_camera.call("get_current_target") as Node2D
+		if current_target:
+			return current_target.name
+
+	return ""
+
+func _room_id_for_world_position(world_pos: Vector2) -> String:
+	if not get_tree() or get_tree().current_scene == null:
+		return ""
+
+	var room_camera := get_tree().current_scene.get_node_or_null("RoomCamera")
+	if room_camera and room_camera.has_method("get_camera_targets"):
+		var targets: Array = room_camera.call("get_camera_targets")
+		if not targets.is_empty():
+			var best_target: Node2D = null
+			var best_dist := INF
+			for target in targets:
+				if target is Node2D:
+					var target_node := target as Node2D
+					var dist := world_pos.distance_squared_to(target_node.global_position)
+					if dist < best_dist:
+						best_dist = dist
+						best_target = target_node
+			if best_target:
+				return best_target.name
+
+	return ""
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var SPEED := 25000.0
+@export var SPEED := 15000.0
 @export var JUMP_VELOCITY := -75000.0
 @export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 100 # in ms
@@ -56,11 +56,12 @@ func _ready() -> void:
 	var scene_path := ""
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
+	var room_id := _current_room_id()
 
 	if Global.has_checkpoint_for_scene(scene_path):
 		global_position = Global.last_checkpoint_position
 	else:
-		Global.set_checkpoint(global_position, scene_path)
+		Global.ensure_scene_defaults(scene_path, global_position, room_id)
 
 	_water_death_timer = Timer.new()
 	_water_death_timer.one_shot = true
@@ -266,3 +267,15 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
+
+func _current_room_id() -> String:
+	if not get_tree() or get_tree().current_scene == null:
+		return ""
+
+	var room_camera := get_tree().current_scene.get_node_or_null("RoomCamera")
+	if room_camera and room_camera.has_method("get_current_target"):
+		var current_target: Node2D = room_camera.call("get_current_target") as Node2D
+		if current_target:
+			return current_target.name
+
+	return ""

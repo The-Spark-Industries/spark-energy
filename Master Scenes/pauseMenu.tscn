@@ -169,18 +169,18 @@ text = "Turbo Mode (Instant wire travel)"
 
 [node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=1779928246]
 layout_mode = 0
-offset_left = 38.999992
-offset_top = -424.0
-offset_right = 84.200005
-offset_bottom = -400.0
+offset_left = 255.0
+offset_top = -463.99994
+offset_right = 300.2
+offset_bottom = -439.99994
 scale = Vector2(2.5, 2.5)
 
 [node name="TextMode" type="Label" parent="optionsMenu" unique_id=954676590]
 layout_mode = 0
-offset_left = 42.0
-offset_top = -357.0
-offset_right = 124.0
-offset_bottom = -308.0
+offset_left = -12.0
+offset_top = -405.0
+offset_right = 70.0
+offset_bottom = -356.0
 text = "Text Mode
 "
 
@@ -191,10 +191,10 @@ anchor_left = 0.064
 anchor_top = -0.509
 anchor_right = 0.064
 anchor_bottom = -0.509
-offset_left = -34.472
-offset_top = 4.322998
-offset_right = 49.528
-offset_bottom = 35.322998
+offset_left = 13.528
+offset_top = -75.677
+offset_right = 97.528
+offset_bottom = -44.677002
 selected = 0
 allow_reselect = true
 item_count = 3
@@ -205,6 +205,22 @@ popup/item_1/id = 1
 popup/item_2/text = "Pixel"
 popup/item_2/id = 2
 
+[node name="ResetLevelButton" type="Button" parent="optionsMenu" unique_id=265737187]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -346.0
+offset_right = 130.0
+offset_bottom = -311.0
+text = "Reset Level"
+
+[node name="ResetRoomButton" type="Button" parent="optionsMenu" unique_id=910987079]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -300.0
+offset_right = 130.0
+offset_bottom = -265.0
+text = "Reset Room"
+
 [connection signal="pressed" from="VBoxContainer2/resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer2/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="VBoxContainer2/quit" to="." method="_on_quit_pressed"]
@@ -213,3 +229,5 @@ popup/item_2/id = 2
 [connection signal="toggled" from="optionsMenu/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="item_focused" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_focused"]
 [connection signal="item_selected" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_selected"]
+[connection signal="pressed" from="optionsMenu/ResetLevelButton" to="." method="_on_reset_level_button_pressed"]
+[connection signal="pressed" from="optionsMenu/ResetRoomButton" to="." method="_on_reset_room_button_pressed"]

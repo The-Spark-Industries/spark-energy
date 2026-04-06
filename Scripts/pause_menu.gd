@@ -78,3 +78,38 @@ func _on_text_mode_button_item_focused(index: int) -> void:
 	print(index)
 	#Global.fontChoice=index
 	#print(Global.fontChoice)
+
+func _on_reset_level_button_pressed() -> void:
+	var scene_path := ""
+	if get_tree().current_scene:
+		scene_path = get_tree().current_scene.scene_file_path
+
+	if Global.reset_level_to_first_checkpoint(scene_path):
+		_reload_current_scene()
+
+func _on_reset_room_button_pressed() -> void:
+	var scene_path := ""
+	if get_tree().current_scene:
+		scene_path = get_tree().current_scene.scene_file_path
+
+	var room_id := _current_room_id()
+	if Global.reset_room_to_checkpoint(scene_path, room_id):
+		_reload_current_scene()
+
+func _reload_current_scene() -> void:
+	get_tree().paused = false
+	visible = false
+	oM.visible = false
+	get_tree().reload_current_scene()
+
+func _current_room_id() -> String:
+	if not get_tree() or get_tree().current_scene == null:
+		return ""
+
+	var room_camera := get_tree().current_scene.get_node_or_null("RoomCamera")
+	if room_camera and room_camera.has_method("get_current_target"):
+		var current_target: Node2D = room_camera.call("get_current_target") as Node2D
+		if current_target:
+			return current_target.name
+
+	return ""

@@ -1,8 +1,6 @@
 extends Node
 
 const SAVE_FILE_PATH := "user://savegame.json"
-## Set to false to ignore checkpoint saves/loads and spawn from scene start.
-var checkpoints_enabled: bool = true
 
 ## Last checkpoint position the player touched.
 var last_checkpoint_position: Vector2 = Vector2.ZERO
@@ -20,21 +18,15 @@ var first_checkpoint_by_scene: Dictionary = {}
 ## Scene -> room -> checkpoint dictionary.
 ## Value format: {"x": float, "y": float}
 var room_checkpoints_by_scene: Dictionary = {}
-var laddermode: bool = false
 
 var inventory: Array = []
 var max_inventory_size= 100
 
 var wiremode: bool = false
-var minigame_active: bool = false
 
 var fontChoice: int
 
 var turboMode: bool = false
-
-var tutorialchecker: int = 0
-
-var jumpcounter : int =0
 
 func _ready() -> void:
 	load_game()
@@ -44,9 +36,6 @@ func _notification(what: int) -> void:
 		save_game()
 
 func set_checkpoint(pos: Vector2, scene_path: String = "", room_id: String = "") -> void:
-	if not checkpoints_enabled:
-		return
-
 	if scene_path == "":
 		scene_path = _current_scene_path()
 
@@ -63,9 +52,6 @@ func set_checkpoint(pos: Vector2, scene_path: String = "", room_id: String = "")
 	save_game()
 
 func has_checkpoint_for_scene(scene_path: String) -> bool:
-	if not checkpoints_enabled:
-		return false
-
 	if not has_saved_checkpoint:
 		return false
 	return last_checkpoint_scene_path == scene_path
@@ -80,13 +66,6 @@ func ensure_scene_defaults(scene_path: String, spawn_pos: Vector2, room_id: Stri
 	_register_first_checkpoint_if_missing(scene_path, spawn_pos, room_id)
 	_register_room_checkpoint_if_missing(scene_path, room_id, spawn_pos)
 
-	if not checkpoints_enabled:
-		last_checkpoint_position = spawn_pos
-		last_checkpoint_scene_path = scene_path
-		last_checkpoint_room_id = room_id
-		has_saved_checkpoint = true
-		return
-
 	if not has_saved_checkpoint or not has_checkpoint_for_scene(scene_path):
 		last_checkpoint_position = spawn_pos
 		last_checkpoint_scene_path = scene_path
@@ -96,9 +75,6 @@ func ensure_scene_defaults(scene_path: String, spawn_pos: Vector2, room_id: Stri
 	save_game()
 
 func reset_level_to_first_checkpoint(scene_path: String = "") -> bool:
-	if not checkpoints_enabled:
-		return false
-
 	if scene_path == "":
 		scene_path = _current_scene_path()
 
@@ -120,9 +96,6 @@ func reset_level_to_first_checkpoint(scene_path: String = "") -> bool:
 	return true
 
 func reset_room_to_checkpoint(scene_path: String = "", room_id: String = "") -> bool:
-	if not checkpoints_enabled:
-		return false
-
 	if scene_path == "":
 		scene_path = _current_scene_path()
 
@@ -192,17 +165,13 @@ func load_game() -> void:
 	var save_data: Dictionary = parsed_data
 	var checkpoint_data: Dictionary = save_data.get("checkpoint", {})
 
-	if checkpoints_enabled and checkpoint_data.get("has_saved_checkpoint", false):
+	if checkpoint_data.get("has_saved_checkpoint", false):
 		var x: float = float(checkpoint_data.get("x", 0.0))
 		var y: float = float(checkpoint_data.get("y", 0.0))
 		last_checkpoint_position = Vector2(x, y)
 		last_checkpoint_scene_path = String(checkpoint_data.get("scene_path", ""))
 		last_checkpoint_room_id = String(checkpoint_data.get("room_id", ""))
 		has_saved_checkpoint = true
-	elif not checkpoints_enabled:
-		has_saved_checkpoint = false
-		last_checkpoint_scene_path = ""
-		last_checkpoint_room_id = ""
 
 	var loaded_first_checkpoints: Variant = save_data.get("first_checkpoints", first_checkpoint_by_scene)
 	if typeof(loaded_first_checkpoints) == TYPE_DICTIONARY:
@@ -304,15 +273,15 @@ func _process(delta: float) -> void:
 	pass
 
 
-#func add_item_to_inventory(item:String):
-	#print(inventory)
-	#for i in range(min(inventory.size(),max_inventory_size)):
-		#if (inventory[i]==null):
-		#	inventory[i]=item
+func add_item_to_inventory(item:String):
+	print(inventory)
+	for i in range(min(inventory.size(),max_inventory_size)):
+		if (inventory[i]==null):
+			inventory[i]=item
 			
-		#	return
-	#if (inventory.size() < max_inventory_size):
-	#	inventory.append(item)
-	#else:
-		#print("Your inventory is full!")
-		#		
+			return
+	if (inventory.size() < max_inventory_size):
+		inventory.append(item)
+	else:
+		print("Your inventory is full!")
+				

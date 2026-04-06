@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var SPEED := 17000.0
-@export var JUMP_VELOCITY := -70000.0
+@export var SPEED := 15000.0
+@export var JUMP_VELOCITY := -75000.0
 @export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 100 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
@@ -31,13 +31,6 @@ var has_boots := false
 var _jump_arc_active := false
 var _coyote_jump_available := false
 
-@onready var climbingmode: bool = false
-
-#
-
-#
-
-
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
 var _interactables_inside: Array[Node] = []
@@ -51,32 +44,23 @@ var _water_overlap_count: int = 0
 var _water_death_timer: Timer
 ## Tracks whether the water-walk grace has been used this life (one touch allowed per respawn).
 var _water_walk_used: bool = false
-var _scene_spawn_position: Vector2 = Vector2.ZERO
-
-var just_fell: bool = false
-var just_fell_hard: bool = false
-var just_fell_countdown: float = 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
-	$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
-	Global.tutorialchecker = 0
+	#Global.wiremode= false
+	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
-	floor_snap_length = 24.0
-	floor_stop_on_slope = true
-	platform_on_leave = CharacterBody2D.PLATFORM_ON_LEAVE_ADD_UPWARD_VELOCITY
 
 	var scene_path := ""
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
 	var room_id := _current_room_id()
-	_scene_spawn_position = global_position
 
-	if Global.checkpoints_enabled and Global.has_checkpoint_for_scene(scene_path):
+	if Global.has_checkpoint_for_scene(scene_path):
 		global_position = Global.last_checkpoint_position
-	elif Global.checkpoints_enabled:
+	else:
 		Global.ensure_scene_defaults(scene_path, global_position, room_id)
 
 	_water_death_timer = Timer.new()
@@ -84,97 +68,8 @@ func _ready() -> void:
 	_water_death_timer.wait_time = water_grace_duration
 	_water_death_timer.timeout.connect(_on_water_death_timeout)
 	add_child(_water_death_timer)
-	
-	$AudioListener2D.make_current()
 
 func _physics_process(delta: float) -> void:
-	
-	just_fell_countdown -= delta
-	
-	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:
-		for i in get_slide_collision_count():
-			var collision := get_slide_collision(i)
-			var collider := collision.get_collider()
-			if collision.get_collider() is StaticBody2D and not collider.is_in_group("NotTileMap"):
-				if not $"SparkSFX/HardLandingSFX".playing:
-					$"SparkSFX/HardLandingSFX".play()
-				$BigLandingParticles.restart()
-				just_fell_countdown = 0.2
-				break
-	if is_on_floor() and just_fell and just_fell_countdown <= 0.0:
-		for i in get_slide_collision_count():
-			var collision := get_slide_collision(i)
-			var collider := collision.get_collider()
-			if collision.get_collider() is StaticBody2D and not collider.is_in_group("NotTileMap"):
-				if not $"SparkSFX/LandingSFX".playing:
-					$"SparkSFX/LandingSFX".play()
-				$SmallLandingParticles.restart()
-				just_fell_countdown = 0.2
-				break
-	just_fell = not is_on_floor() and velocity.y > 700
-	just_fell_hard = not is_on_floor() and velocity.y > 1200
-	
-	#fonts for the player prompt
-	if (Global.fontChoice==0):
-		$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
-	if (Global.fontChoice==1):
-		$playerprompt.theme=load("res://Assets/Visual/lingualight.tres")
-	if (Global.fontChoice==2):
-		$playerprompt.theme=load("res://Assets/Visual/Receipt.tres")
-		
-	pass
-
-	#moving the player prompt
-	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
-		if (Global.tutorialchecker == 0):
-			await get_tree().create_timer(3.5).timeout
-			Global.tutorialchecker = 1
-			$playerprompt.text = "Press space or up arrow key to jump"
-	
-	
-	#prompt decider
-	if (Global.tutorialchecker == 0):
-		$playerprompt.text = "  Use arrow keys or a/d to move"
-		
-	if (Global.tutorialchecker == 1):
-		$playerprompt.text = "Press space or up arrow key to jump"
-
-	if (Global.tutorialchecker == 2):
-		$playerprompt.text = "             Press ESC to pause"
-			
-	if (Global.tutorialchecker == 3):
-		#await get_tree().create_timer(0.5).timeout
-		$playerprompt.text = ""
-			
-			
-	if _is_jump_just_pressed() and (Global.tutorialchecker==1):
-		Global.jumpcounter+=1
-
-
-	if (Global.jumpcounter >=3) and (Global.tutorialchecker==1):
-		$playerprompt.text = "             Press ESC to pause"
-		Global.tutorialchecker=2
-	
-	if (Global.laddermode==true):
-		if _is_jump_pressed():
-			current_gravity=0
-			global_position.y -= 5
-			print ("jump")
-		if (Input.is_action_pressed("move_down")):
-			current_gravity=0
-			global_position.y += 5
-		else: 
-			pass
-			#global_position.y +=3
-	else:
-		current_gravity= START_GRAVITY		
-			
-			
-	#if (Global.laddermode==true and climbingmode==true and (not is_on_floor())): 
-		#print ("climbing ready")
-		#global_position.y-=2
-	
-	
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
 		Global.wiremode=true
@@ -185,7 +80,7 @@ func _physics_process(delta: float) -> void:
 
 
 
-	var direction := clampf(Input.get_axis("move_left", "move_right") + Input.get_axis("ui_left", "ui_right"), -1.0, 1.0)
+	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	# Update Floor/Coyote Timing
 	if is_on_floor():
@@ -205,46 +100,27 @@ func _physics_process(delta: float) -> void:
 				animPlayer.stop()
 				animPlayer.play("jump")
 			state = States.AIR
-			$"SparkSFX/WalkingSFX".stop()
 
 		States.AIR:
 			if is_on_floor():
 				state = States.IDLE
 				_jump_arc_active = false
 				if animPlayer: animPlayer.play("land")
-									
+			
 			# Variable Jump Height [cite: 6]
-			if _is_jump_just_released():
-				if (Global.laddermode==false):
-					
-					velocity.y *= JUMP_CUT_MULTIPLIER
+			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+				velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
 			
-			$"SparkSFX/WalkingSFX".stop()
-			
 			# Jump Input (with Coyote Time)
-			if _is_jump_just_pressed():
-				if (Global.laddermode== false):
-					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
-						state = States.JUMP
-						$"SparkSFX/JumpSFX".play()
-						_coyote_jump_available = false
-					else:
-						last_jump_queue_msec = Time.get_ticks_msec()
-				
-				#elif (Global.laddermode== true):
-					#climbingmode=true	
+			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
+				if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
+					state = States.JUMP
+					_coyote_jump_available = false
+				else:
+					last_jump_queue_msec = Time.get_ticks_msec()
 			
-		
-				
-			
-				
-			#if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
-				#if (Global.laddermode==true):
-				#	climbingmode=true
-					
-					
 			# Gravity & Air Hang Peak Logic
 			var gravity_to_apply := current_gravity
 			if _jump_arc_active:
@@ -259,12 +135,10 @@ func _physics_process(delta: float) -> void:
 				current_gravity = START_GRAVITY
 
 		States.IDLE:
-			if _is_jump_just_pressed() or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
-				if (Global.laddermode==false):
-					state = States.JUMP
-					$"SparkSFX/JumpSFX".play()
-					_coyote_jump_available = false
-					last_jump_queue_msec = 0
+			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
+				state = States.JUMP
+				_coyote_jump_available = false
+				last_jump_queue_msec = 0
 			else:
 				_apply_run_logic(direction, delta)
 				if sprite:
@@ -272,31 +146,24 @@ func _physics_process(delta: float) -> void:
 					sprite.play("idle")
 				if direction != 0:
 					state = States.RUN
-			$"SparkSFX/WalkingSFX".stop()
+
 		States.RUN:
 			if sprite: sprite.play("run")
 			_apply_run_logic(direction, delta)
-			if not $"SparkSFX/WalkingSFX".playing:
-				$"SparkSFX/WalkingSFX".play()
 			
 			if direction == 0:
 				state = States.IDLE
 			# Ensure jump works during run too
-			elif _is_jump_just_pressed():
-				if (Global.laddermode == false):
-					state = States.JUMP
-					$"SparkSFX/JumpSFX".play()
-					_coyote_jump_available = false
+			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
+				state = States.JUMP
+				_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
 	velocity.y = min(velocity.y, MAX_FALL_SPEED)
 	
-	
 	prev_velocity = velocity
 	move_and_slide()
-	if not is_on_floor() and get_platform_velocity().y > 0.0:
-		apply_floor_snap()
 
 	# Wire transport [cite: 7]
 	if Input.is_action_just_pressed("interact"):
@@ -323,18 +190,10 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 			accel = AIR_TURN_ACCEL
 		else:
 			accel = GROUND_ACCEL
+
 	velocity.x = move_toward(velocity.x, target_speed, accel * delta)
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0
-
-func _is_jump_pressed() -> bool:
-	return Input.is_action_pressed("jump") or Input.is_action_pressed("ui_up") or Input.is_action_pressed("move_up")
-
-func _is_jump_just_pressed() -> bool:
-	return Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("move_up")
-
-func _is_jump_just_released() -> bool:
-	return Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up") or Input.is_action_just_released("move_up")
 
 # --- Wire/Pipe Callbacks [cite: 7, 8] ---
 
@@ -391,17 +250,13 @@ func _on_water_death_timeout() -> void:
 func die() -> void:
 	state = States.DEAD
 	velocity = Vector2.ZERO
-	$"SparkSFX/DeathSFX".play()
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")
 	get_tree().create_timer(0.001).timeout.connect(_respawn, CONNECT_ONE_SHOT)
 
 func _respawn() -> void:
-	if Global.checkpoints_enabled and Global.has_checkpoint_for_scene(_current_scene_path()):
-		global_position = Global.last_checkpoint_position
-	else:
-		global_position = _scene_spawn_position
+	global_position = Global.last_checkpoint_position
 	velocity = Vector2.ZERO
 	state = States.IDLE
 	_jump_arc_active = false
@@ -412,11 +267,6 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
-
-func _current_scene_path() -> String:
-	if get_tree().current_scene:
-		return get_tree().current_scene.scene_file_path
-	return ""
 
 func _current_room_id() -> String:
 	if not get_tree() or get_tree().current_scene == null:

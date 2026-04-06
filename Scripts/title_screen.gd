@@ -12,7 +12,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if (Global.fontChoice==0):
+		self.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		self.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		self.theme=load("res://Assets/Visual/Receipt.tres")
 
 
 func _on_start_pressed() -> void:
@@ -47,3 +52,15 @@ func _on_music_slider_value_changed(value: float) -> void:
 
 func _on_sound_slider_value_changed(value: float) -> void:
 		AudioServer.set_bus_volume_db(title_sound, linear_to_db(value))
+		
+		
+
+
+
+
+
+
+
+func _on_text_mode_button_item_selected(index: int) -> void:
+	print(index)
+	Global.fontChoice=index

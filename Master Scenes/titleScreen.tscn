@@ -74,93 +74,131 @@ anchors_preset = 0
 offset_right = 1148.0
 offset_bottom = 647.0
 
-[node name="blackBox" type="ColorRect" parent="optionsMenu" unique_id=1912377119]
+[node name="blackBox" type="ColorRect" parent="optionsMenu" unique_id=1145107987]
 layout_mode = 0
-offset_left = -1234.0
-offset_top = -787.0
-offset_right = -74.0
-offset_bottom = -136.0
+offset_left = -1279.0
+offset_top = -765.0
+offset_right = -119.0
+offset_bottom = -114.0
 scale = Vector2(4, 4)
 color = Color(0, 0, 0, 0.8627451)
 
-[node name="optionsTitle" type="Label" parent="optionsMenu" unique_id=877339324]
+[node name="optionsTitle" type="Label" parent="optionsMenu" unique_id=575244403]
 layout_mode = 0
-offset_left = 344.0
-offset_top = 3.0
-offset_right = 606.0
-offset_bottom = 96.0
+offset_left = 356.0
+offset_top = 72.0
+offset_right = 618.0
+offset_bottom = 165.0
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 68
 text = "Options"
 
-[node name="volume" type="Label" parent="optionsMenu" unique_id=1642481558]
+[node name="volume2" type="Label" parent="optionsMenu" unique_id=902862612]
 layout_mode = 0
-offset_left = 412.0
-offset_top = 133.0
-offset_right = 530.0
-offset_bottom = 260.0
+offset_left = 232.0
+offset_top = 173.0
+offset_right = 350.0
+offset_bottom = 222.0
 text = "Master Volume
+"
 
-
-Music Volume
-
-
-Sound Volume"
-
-[node name="masterSlider" type="HSlider" parent="optionsMenu" unique_id=726158269]
+[node name="volume3" type="Label" parent="optionsMenu" unique_id=300481102]
 layout_mode = 0
-offset_left = 358.0
-offset_top = 157.0
-offset_right = 576.0
-offset_bottom = 205.0
-max_value = 1.0
-step = 0.01
-value = 1.0
+offset_left = 232.0
+offset_top = 250.0
+offset_right = 350.0
+offset_bottom = 299.0
+text = "Music Volume
+"
 
-[node name="musicSlider" type="HSlider" parent="optionsMenu" unique_id=1078846003]
+[node name="volume4" type="Label" parent="optionsMenu" unique_id=1149944867]
 layout_mode = 0
-offset_left = 357.0
-offset_top = 227.0
-offset_right = 578.0
-offset_bottom = 291.0
-max_value = 1.0
-step = 0.01
-value = 1.0
+offset_left = 232.0
+offset_top = 320.0
+offset_right = 350.0
+offset_bottom = 369.0
+text = "Sound Volume
+"
 
-[node name="soundSlider" type="HSlider" parent="optionsMenu" unique_id=72017600]
+[node name="masterSlider" type="HSlider" parent="optionsMenu" unique_id=158266631]
 layout_mode = 0
-offset_left = 356.0
-offset_top = 310.0
-offset_right = 575.0
-offset_bottom = 350.0
-max_value = 1.0
-step = 0.01
-value = 1.0
+offset_left = 178.0
+offset_top = 197.0
+offset_right = 396.0
+offset_bottom = 245.0
+step = 0.5
 
-[node name="backButton" type="Button" parent="optionsMenu" unique_id=1752777088]
+[node name="musicSlider" type="HSlider" parent="optionsMenu" unique_id=1914401630]
 layout_mode = 0
-offset_left = 387.0
-offset_top = 460.0
-offset_right = 455.0
-offset_bottom = 491.0
+offset_left = 176.0
+offset_top = 350.0
+offset_right = 395.0
+offset_bottom = 390.0
+step = 0.5
+
+[node name="soundSlider" type="HSlider" parent="optionsMenu" unique_id=817103772]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 267.0
+offset_right = 398.0
+offset_bottom = 331.0
+step = 0.5
+
+[node name="backButton" type="Button" parent="optionsMenu" unique_id=959223534]
+layout_mode = 0
+offset_left = 454.0
+offset_top = 392.0
+offset_right = 490.0
+offset_bottom = 417.0
 scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 12
 text = "Back"
 
-[node name="Turbo" type="Label" parent="optionsMenu" unique_id=1663577638]
+[node name="Turbo" type="Label" parent="optionsMenu" unique_id=691784602]
 layout_mode = 0
-offset_left = 347.0
-offset_top = 372.0
-offset_right = 597.0
-offset_bottom = 395.0
+offset_left = 480.0
+offset_top = 174.0
+offset_right = 730.0
+offset_bottom = 197.0
 text = "Turbo Mode (Instant wire travel)"
 
-[node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=1115889954]
+[node name="CheckButton" type="CheckButton" parent="optionsMenu" unique_id=36921323]
 layout_mode = 0
-offset_left = 398.00003
-offset_top = 402.0
-offset_right = 443.20004
-offset_bottom = 426.0
+offset_left = 529.99994
+offset_top = 194.99994
+offset_right = 575.19995
+offset_bottom = 218.99994
 scale = Vector2(2.5, 2.5)
+
+[node name="TextMode" type="Label" parent="optionsMenu" unique_id=381807243]
+layout_mode = 0
+offset_left = 533.0
+offset_top = 262.0
+offset_right = 615.0
+offset_bottom = 311.0
+text = "Text Mode
+"
+
+[node name="TextModeButton" type="OptionButton" parent="optionsMenu" unique_id=143350600]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.064
+anchor_top = -0.509
+anchor_right = 0.064
+anchor_bottom = -0.509
+offset_left = 456.528
+offset_top = 623.323
+offset_right = 540.528
+offset_bottom = 654.323
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Classic"
+popup/item_0/id = 0
+popup/item_1/text = "Light"
+popup/item_1/id = 1
+popup/item_2/text = "Pixel"
+popup/item_2/id = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=286560476]
 stream = ExtResource("3_pdvyb")
@@ -174,4 +212,4 @@ parameters/looping = true
 [connection signal="value_changed" from="optionsMenu/musicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="optionsMenu/soundSlider" to="." method="_on_sound_slider_value_changed"]
 [connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="optionsMenu/CheckButton" to="." method="_on_check_button_pressed"]
+[connection signal="item_selected" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_selected"]

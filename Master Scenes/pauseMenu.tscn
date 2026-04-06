@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://b3wrn5c1q8iuw"]
 
 [ext_resource type="Script" uid="uid://bmpuw06uuxgix" path="res://Scripts/pause_menu.gd" id="1_pbpjw"]
-[ext_resource type="Theme" uid="uid://60rj30lepwcb" path="res://Assets/Visual/Lingua.tres" id="2_4owrd"]
 
 [node name="pauseMenu" type="Control" unique_id=1118913350]
 process_mode = 3
@@ -38,7 +37,6 @@ grow_horizontal = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
-theme = ExtResource("2_4owrd")
 theme_override_font_sizes/font_size = 54
 text = "PAUSED"
 
@@ -98,16 +96,6 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 68
 text = "Options"
 
-[node name="backButton" type="Button" parent="optionsMenu" unique_id=385867325]
-layout_mode = 0
-offset_left = -46.0
-offset_top = -134.0
-offset_right = 1.870964
-offset_bottom = -106.0
-scale = Vector2(1.5, 1.5)
-theme_override_font_sizes/font_size = 14
-text = "Back"
-
 [node name="volume2" type="Label" parent="optionsMenu" unique_id=1011110503]
 layout_mode = 0
 offset_left = -259.0
@@ -158,6 +146,16 @@ offset_top = -352.0
 offset_right = -93.0
 offset_bottom = -288.0
 step = 0.5
+
+[node name="backButton" type="Button" parent="optionsMenu" unique_id=2000427755]
+layout_mode = 0
+offset_left = -37.0
+offset_top = -227.0
+offset_right = -1.0
+offset_bottom = -202.0
+scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 12
+text = "Back"
 
 [node name="Turbo" type="Label" parent="optionsMenu" unique_id=809414930]
 layout_mode = 0
@@ -211,5 +209,4 @@ popup/item_2/id = 2
 [connection signal="pressed" from="optionsMenu/backButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="optionsMenu/CheckButton" to="." method="_on_check_button_pressed"]
 [connection signal="toggled" from="optionsMenu/CheckButton" to="." method="_on_check_button_toggled"]
-[connection signal="item_focused" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_focused"]
 [connection signal="item_selected" from="optionsMenu/TextModeButton" to="." method="_on_text_mode_button_item_selected"]

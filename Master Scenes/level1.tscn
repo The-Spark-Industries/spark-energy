@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://mjfjbsvaubj2" path="res://Master Scenes/risingPlatform.tscn" id="26_211ka"]
 [ext_resource type="Shader" uid="uid://dt3gisec4b42c" path="res://Level 1/Level 1 Art Assets/Shaders/BGFog.gdshader" id="28_8jiky"]
 [ext_resource type="PackedScene" uid="uid://dl0ajfwikhlfi" path="res://Master Scenes/lilypad.tscn" id="30_bmo44"]
+[ext_resource type="PackedScene" uid="uid://chtwydsi6ua1d" path="res://Master Scenes/ladder.tscn" id="30_es5gu"]
 [ext_resource type="Texture2D" uid="uid://dhdd4ualamvrq" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_128px_by_128px.png" id="31_es5gu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
@@ -427,6 +428,9 @@ fill_from = Vector2(0.72196263, 0.635514)
 fill_to = Vector2(0.7733645, 0.088785045)
 
 [node name="Level1" type="Node2D" unique_id=146730581]
+
+[node name="Ladder" parent="." unique_id=233057672 instance=ExtResource("30_es5gu")]
+position = Vector2(301, -264)
 
 [node name="platformPuzzle2" type="StaticBody2D" parent="." unique_id=2138245100]
 position = Vector2(853, 1353)

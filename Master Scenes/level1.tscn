@@ -231,9 +231,9 @@ animations = [{
 
 [sub_resource type="Curve2D" id="Curve2D_wire3"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -102.06317, -1602.3557, -2.343979, -1317.2405, 2.343979, 1317.2405, -99.46838, 7506.2314, 0, -2.705841, 0, 2.705841, -3622.7085, 8342.667)
+"points": PackedVector2Array(0, 0, 0, 0, -92.9989, -24257.422, 0, 0, 0, 0, -264.35193, -972.35144, 0, 0, 0, 0, -507.9372, 29405.43, 0, 0, 0, 0, -520.7903, 37366.97, 0, 0, 0, 0, -720.50745, 47293.043, 0, 0, 0, 0, -1004.9022, 32007.473, 0, -2.705841, 0, 2.705841, -1008.2189, 119257.09, 0, 0, 0, 2.705841, -888.5863, 123806.55)
 }
-point_count = 3
+point_count = 8
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w3a"]
 radius = 60.0
@@ -633,25 +633,25 @@ position = Vector2(7081, -2310)
 position = Vector2(6058, -2956)
 
 [node name="Room_3_10" type="Node2D" parent="CameraPoints" unique_id=437983183]
-position = Vector2(-952, 131)
+position = Vector2(2693, 206)
 
 [node name="Room_3_11" type="Node2D" parent="CameraPoints" unique_id=845177565]
-position = Vector2(-1571, 125)
+position = Vector2(1967, 169)
 
 [node name="Room_3_12" type="Node2D" parent="CameraPoints" unique_id=843979935]
-position = Vector2(-2105, 125)
+position = Vector2(1540, 200)
 
 [node name="Room_4_10" type="Node2D" parent="CameraPoints" unique_id=84800043]
-position = Vector2(-955, -521)
+position = Vector2(2690, -446)
 
 [node name="Room_4_11" type="Node2D" parent="CameraPoints" unique_id=1064493701]
-position = Vector2(-1571, -518)
+position = Vector2(2074, -443)
 
 [node name="Room_4_9" type="Node2D" parent="CameraPoints" unique_id=396623353]
 position = Vector2(7058, -2956)
 
 [node name="Room_4_12" type="Node2D" parent="." unique_id=1917417851]
-position = Vector2(-3204, 532)
+position = Vector2(441, 607)
 
 [node name="WirePathTopLeft" type="Node2D" parent="." unique_id=1094322965]
 position = Vector2(-114, 1241)
@@ -665,8 +665,8 @@ scale = Vector2(1.0450606, -0.31606245)
 curve = SubResource("Curve2D_wire3")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePathTopLeft/Path2D" unique_id=834413157]
-position = Vector2(-102.06317, -1602.3557)
-rotation = 1.5707642
+position = Vector2(-92.9989, -24257.422)
+rotation = 1.5781552
 
 [node name="EndA" type="Area2D" parent="WirePathTopLeft" unique_id=1349027901]
 position = Vector2(1191, -17)
@@ -717,8 +717,8 @@ scale = Vector2(-1.0371032, -0.3154845)
 curve = SubResource("Curve2D_wire3")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePathTopRight/Path2D" unique_id=1460820890]
-position = Vector2(-102.06317, -1602.3557)
-rotation = 1.5707642
+position = Vector2(-92.9989, -24257.422)
+rotation = 1.5781552
 
 [node name="EndA" type="Area2D" parent="WirePathTopRight" unique_id=627860386]
 position = Vector2(856, -19)
@@ -769,8 +769,8 @@ scale = Vector2(-0.97387296, -0.07240726)
 curve = SubResource("Curve2D_wire3")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePathBottomRight/Path2D" unique_id=783809003]
-position = Vector2(-102.06317, -1602.3557)
-rotation = 1.5707642
+position = Vector2(-92.9989, -24257.422)
+rotation = 1.5781552
 
 [node name="EndA" type="Area2D" parent="WirePathBottomRight" unique_id=1386479073]
 position = Vector2(1069, -14)
@@ -813,16 +813,16 @@ text = "[E] Enter Wire"
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")
 travel_speed = 2000.0
-travel_curve = 1
+travel_curve = 0
 
 [node name="Path2D" type="Path2D" parent="WirePathBottomLeft" unique_id=381895826]
-position = Vector2(1062.7961, -102.589775)
-scale = Vector2(0.9831859, -0.069017135)
+position = Vector2(1067.743, -275.60553)
+scale = Vector2(1.0114303, -0.009671495)
 curve = SubResource("Curve2D_wire3")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="WirePathBottomLeft/Path2D" unique_id=927140571]
-position = Vector2(-102.06317, -1602.3557)
-rotation = 1.5707642
+position = Vector2(-92.9989, -24257.422)
+rotation = 1.5781552
 
 [node name="EndA" type="Area2D" parent="WirePathBottomLeft" unique_id=819362268]
 position = Vector2(964, -16)
@@ -843,7 +843,7 @@ theme_override_font_sizes/font_size = 50
 text = "[E] Enter Wire"
 
 [node name="EndB" type="Area2D" parent="WirePathBottomLeft" unique_id=1911168026]
-position = Vector2(-2473, -684)
+position = Vector2(187, -1488)
 collision_layer = 0
 script = ExtResource("6_wireend")
 is_start = false

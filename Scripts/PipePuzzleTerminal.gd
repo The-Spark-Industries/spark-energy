@@ -218,13 +218,23 @@ func _physics_process(delta: float) -> void:
 	if not _ellipse_motion_started:
 		return
 	if _ellipse_target == null or not is_instance_valid(_ellipse_target):
-		_ellipse_motion_started = false
-		set_physics_process(false)
-		return
+		var fallback_path := solved_ellipse_target_path
+		if String(fallback_path).is_empty():
+			fallback_path = solved_rise_target_path
+		if String(fallback_path).is_empty():
+			_ellipse_motion_started = false
+			set_physics_process(false)
+			return
+		_ellipse_target = get_node_or_null(fallback_path) as Node2D
+		if _ellipse_target == null:
+			_ellipse_motion_started = false
+			set_physics_process(false)
+			return
 
 	var cycle := maxf(solved_ellipse_cycle_duration, 0.01)
 	var direction := -1.0 if solved_ellipse_clockwise else 1.0
 	_ellipse_angle += direction * (TAU / cycle) * delta
+	_ellipse_angle = wrapf(_ellipse_angle, -TAU, TAU)
 	var target_prev := _ellipse_target.global_position
 	var partner_prev := Vector2.ZERO
 	if _ellipse_partner_target != null and is_instance_valid(_ellipse_partner_target):
@@ -356,6 +366,8 @@ func _start_solved_ellipse_if_needed() -> void:
 func _apply_platform_friction(platform: Node2D, delta_motion: Vector2) -> void:
 	if platform == null:
 		return
+	if platform.has_method("get_player_on_platform"):
+		return
 	if is_zero_approx(delta_motion.x) and is_zero_approx(delta_motion.y):
 		return
 
@@ -401,7 +413,9 @@ func _is_player_on_platform_top(player: CharacterBody2D, platform: Node2D) -> bo
 	if player == null or platform == null:
 		return false
 
-	var shape := platform.get_node_or_null("StaticBody2D/CollisionShape2D") as CollisionShape2D
+	var shape := platform.get_node_or_null("PlatformBody/CollisionShape2D") as CollisionShape2D
+	if shape == null:
+		shape = platform.get_node_or_null("StaticBody2D/CollisionShape2D") as CollisionShape2D
 	if shape == null:
 		return false
 	var rect := shape.shape as RectangleShape2D
@@ -436,6 +450,7 @@ func _raise_platform(target: Node2D) -> void:
 		_rise_tween.kill()
 	var start_y := target.position.y
 	_rise_tween = create_tween()
+	_rise_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _set_flow_visual_active(node: Node, active: bool) -> void:
@@ -566,6 +581,8 @@ func _randomize_puzzle_first_open() -> void:
 func _start_platform_motion_if_needed() -> void:
 	if _platform_motion_started:
 		return
+	if solved_motion_type == 1:
+		return
 	if puzzle_layout != 2:
 		return
 	if String(moving_platform_path).is_empty():
@@ -577,6 +594,7 @@ func _start_platform_motion_if_needed() -> void:
 
 	var start_x := platform.position.x
 	var tween := create_tween()
+	tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	tween.set_loops()
 	tween.tween_property(platform, "position:x", start_x + platform_move_distance, platform_move_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(platform, "position:x", start_x - platform_move_distance, platform_move_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)

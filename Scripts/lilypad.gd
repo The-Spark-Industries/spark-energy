@@ -39,7 +39,7 @@ func _start_sink_cycle() -> void:
 
 	sink_cycle_running = true
 	activated = true
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.35).timeout
 	position = original_position + Vector2(0.0, sink_distance)
 	await get_tree().create_timer(3).timeout
 	position = original_position

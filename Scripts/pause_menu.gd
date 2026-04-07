@@ -35,7 +35,7 @@ func _input(event: InputEvent) -> void:
 func _bring_to_front() -> void:
 	var parent_node := get_parent()
 	if parent_node:
-		parent_node.move_child(self, parent_node.get_child_count() - 1)
+		parent_node.call_deferred("move_child", self, parent_node.get_child_count() - 1)
 
 
 func _on_resume_pressed() -> void:

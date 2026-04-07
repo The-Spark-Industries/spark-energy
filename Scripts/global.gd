@@ -18,6 +18,7 @@ var first_checkpoint_by_scene: Dictionary = {}
 ## Scene -> room -> checkpoint dictionary.
 ## Value format: {"x": float, "y": float}
 var room_checkpoints_by_scene: Dictionary = {}
+var laddermode: bool = false
 
 var inventory: Array = []
 var max_inventory_size= 100
@@ -273,15 +274,15 @@ func _process(delta: float) -> void:
 	pass
 
 
-func add_item_to_inventory(item:String):
-	print(inventory)
-	for i in range(min(inventory.size(),max_inventory_size)):
-		if (inventory[i]==null):
-			inventory[i]=item
+#func add_item_to_inventory(item:String):
+	#print(inventory)
+	#for i in range(min(inventory.size(),max_inventory_size)):
+		#if (inventory[i]==null):
+		#	inventory[i]=item
 			
-			return
-	if (inventory.size() < max_inventory_size):
-		inventory.append(item)
-	else:
-		print("Your inventory is full!")
-				
+		#	return
+	#if (inventory.size() < max_inventory_size):
+	#	inventory.append(item)
+	#else:
+		#print("Your inventory is full!")
+		#		

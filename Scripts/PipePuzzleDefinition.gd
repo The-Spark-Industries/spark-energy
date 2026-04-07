@@ -14,6 +14,8 @@ var grid_height: int = 3
 ## Each piece is: {"kind": "source"/"sink"/"straight"/"corner"/"tee"/"block"/"empty", "rot": 0-3, "locked": true/false}
 var pieces: Array[Dictionary] = []
 
+const DEFAULT_DIRT_LEVEL := 0
+
 ## (x, y) where water source is located.
 var source_pos: Vector2i = Vector2i(0, 1)
 
@@ -28,7 +30,7 @@ func _init(_grid_width: int = 3, _grid_height: int = -1) -> void:
 	grid_size = grid_width
 	pieces.resize(grid_width * grid_height)
 	for i in range(pieces.size()):
-		pieces[i] = {"kind": "empty", "rot": 0, "locked": false}
+		pieces[i] = {"kind": "empty", "rot": 0, "locked": false, "dirt_level": DEFAULT_DIRT_LEVEL}
 
 ## Helper: set a piece at grid position (x, y).
 func set_piece(x: int, y: int, kind: String, rot: int = 0, locked: bool = false) -> void:
@@ -36,7 +38,7 @@ func set_piece(x: int, y: int, kind: String, rot: int = 0, locked: bool = false)
 		return
 	var idx := y * grid_width + x
 	if idx >= 0 and idx < pieces.size():
-		pieces[idx] = {"kind": kind, "rot": rot, "locked": locked}
+		pieces[idx] = {"kind": kind, "rot": rot, "locked": locked, "dirt_level": DEFAULT_DIRT_LEVEL}
 
 ## Helper: get a piece by grid position.
 func get_piece(x: int, y: int) -> Dictionary:
@@ -67,7 +69,11 @@ static func from_dict(data: Dictionary) -> PipePuzzleDefinition:
 	puzzle.pieces.resize(width * height)
 	for i in range(puzzle.pieces.size()):
 		if typeof(puzzle.pieces[i]) != TYPE_DICTIONARY:
-			puzzle.pieces[i] = {"kind": "empty", "rot": 0, "locked": false}
+			puzzle.pieces[i] = {"kind": "empty", "rot": 0, "locked": false, "dirt_level": DEFAULT_DIRT_LEVEL}
+			continue
+
+		if not puzzle.pieces[i].has("dirt_level"):
+			puzzle.pieces[i]["dirt_level"] = DEFAULT_DIRT_LEVEL
 	var src_arr = data.get("source_pos", [0, 1])
 	var snk_arr = data.get("sink_pos", [max(0, width - 1), 1])
 	puzzle.source_pos = Vector2i(src_arr[0], src_arr[1])
@@ -106,37 +112,44 @@ static func create_puzzle_3x3() -> PipePuzzleDefinition:
 ## Create a unique 4x4 puzzle.
 static func create_puzzle_4x4() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4)
-	puzzle.set_piece(0, 2, "source", 0, true)
-	puzzle.set_piece(3, 2, "sink", 0, true)
-	puzzle.source_pos = Vector2i(0, 2)
-	puzzle.sink_pos = Vector2i(3, 2)
+	puzzle.source_pos = Vector2i(3, 0)
+	puzzle.sink_pos = Vector2i(0, 3)
 
-	# Single valid route: source -> down -> right -> up -> sink.
-	puzzle.set_piece(1, 2, "corner", 2)
-	puzzle.set_piece(1, 3, "corner", 0)
-	puzzle.set_piece(2, 3, "corner", 3)
-	puzzle.set_piece(2, 2, "corner", 1)
-	puzzle.set_piece(2, 1, "block", 0, true)
+	for y in range(4):
+		for x in range(4):
+			puzzle.set_piece(x, y, "block", 0, true)
+
+	puzzle.set_piece(3, 0, "source", 2, true)
+	puzzle.set_piece(0, 3, "sink", 1, true)
+
+	# Friendly zig-zag path already faces the right way, so no rotation is needed.
+	puzzle.set_piece(2, 0, "corner", 1)
+	puzzle.set_piece(2, 1, "straight", 0)
+	puzzle.set_piece(2, 2, "corner", 3)
+	puzzle.set_piece(1, 2, "straight", 1)
+	puzzle.set_piece(0, 2, "corner", 1)
 	
 	return puzzle
 
 ## Create a unique 5x5 puzzle.
 static func create_puzzle_5x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(5)
-	puzzle.set_piece(0, 2, "source", 0, true)
-	puzzle.set_piece(4, 2, "sink", 0, true)
-	puzzle.source_pos = Vector2i(0, 2)
+	puzzle.source_pos = Vector2i(0, 4)
 	puzzle.sink_pos = Vector2i(4, 2)
 
-	# Single valid route with a couple of turns.
-	puzzle.set_piece(1, 2, "corner", 2)
-	puzzle.set_piece(1, 3, "corner", 0)
-	puzzle.set_piece(2, 3, "straight", 1)
-	puzzle.set_piece(3, 3, "corner", 3)
-	puzzle.set_piece(3, 2, "corner", 1)
-	puzzle.set_piece(2, 2, "block", 0, true)
-	puzzle.set_piece(2, 1, "block", 0, true)
-	puzzle.set_piece(2, 4, "block", 0, true)
+	for y in range(5):
+		for x in range(5):
+			puzzle.set_piece(x, y, "block", 0, true)
+
+	puzzle.set_piece(0, 4, "source", 0, true)
+	puzzle.set_piece(4, 2, "sink", 0, true)
+
+	# Playful snake path already faces the right way, so no rotation is needed.
+	puzzle.set_piece(1, 4, "straight", 1)
+	puzzle.set_piece(2, 4, "corner", 3)
+	puzzle.set_piece(2, 3, "straight", 0)
+	puzzle.set_piece(2, 2, "corner", 1)
+	puzzle.set_piece(3, 2, "straight", 1)
 	
 	return puzzle
 

@@ -11,6 +11,7 @@ const CELL_NORMAL := Color("2f3642")
 const CELL_CURSOR := Color("4fc9ff")
 const CELL_SELECTED := Color("ffb300")
 const CELL_FLOW := Color("2b6d8a")
+const EMBEDDED_CELL_SIZE := 48.0
 
 @export_group("Visuals")
 @export var ui_font: Font
@@ -23,9 +24,25 @@ const CELL_FLOW := Color("2b6d8a")
 @export var straight_texture: Texture2D
 @export var corner_texture: Texture2D
 @export var tee_texture: Texture2D
+@export var straight_textures: Array[Texture2D] = [
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe1_Dirty1.png"),
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe1_Dirty2.png"),
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe1_Dirty3.png")
+]
+@export var corner_textures: Array[Texture2D] = [
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe3_Dirty1.png"),
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe3_Dirty2.png"),
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe3_Dirty3.png")
+]
+@export var tee_textures: Array[Texture2D] = [
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe2_Dirty1.png"),
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe2_Dirty2.png"),
+	preload("res://Level 1/Level 1 Art Assets/Environment/Props/Pipes/Pipe2_Dirty3.png")
+]
 @export var block_texture: Texture2D
 @export var empty_texture: Texture2D
 @export var embedded_mode: bool = false
+@export var embedded_use_glyphs: bool = false
 
 @onready var _root_panel: PanelContainer = $CenterContainer/PanelContainer
 @onready var _title_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Title
@@ -38,7 +55,7 @@ const CELL_FLOW := Color("2b6d8a")
 var _player: CharacterBody2D = null
 var _cells: Array[PanelContainer] = []
 var _cell_labels: Array[Label] = []
-var _cell_icons: Array[TextureRect] = []
+var _cell_icons: Array[Sprite2D] = []
 var _pieces: Array[Dictionary] = []
 var _puzzle: PipePuzzleDefinition = null
 var _grid_size: int = 3
@@ -49,6 +66,11 @@ var _grabbed_index: int = -1
 var _active: bool = false
 var _solved: bool = false
 var _control_mode: int = 0  # 0: normal, 1: move-only, 2: rotate-only
+var _embedded_refresh_pending: bool = false
+var _debug_preview: bool = false
+
+func set_debug_preview(enabled: bool) -> void:
+	_debug_preview = enabled
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
@@ -76,11 +98,19 @@ func _ready() -> void:
 	_send_button.pressed.connect(_on_send_water_pressed)
 	if embedded_mode:
 		$Backdrop.visible = false
+		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
+	if embedded_mode:
+		# Embedded boards must not flash stale/default content.
+		visible = false
+		if _puzzle == null:
+			return
+		_request_embedded_refresh()
+		return
 	_reset_puzzle()
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
@@ -88,13 +118,80 @@ func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	if _puzzle:
 		_grid_size = _puzzle.grid_width
 		_grid_height = _puzzle.grid_height
+	if embedded_mode:
+		visible = false
 		if is_node_ready():
-			_reset_puzzle()
+			_request_embedded_refresh()
+		return
+	if is_node_ready():
+		_reset_puzzle()
 
 func set_control_mode(mode: int) -> void:
 	_control_mode = clampi(mode, 0, 2)
 
+func refresh_embedded_preview() -> void:
+	if not embedded_mode or _puzzle == null:
+		return
+	if not is_node_ready():
+		return
+	_request_embedded_refresh()
+
+func _request_embedded_refresh() -> void:
+	if not embedded_mode or _puzzle == null:
+		return
+	if _embedded_refresh_pending:
+		return
+	_embedded_refresh_pending = true
+	if _debug_preview:
+		print("[PipeMinigame] refresh requested: ", name)
+	call_deferred("_apply_embedded_refresh")
+
+func _apply_embedded_refresh() -> void:
+	_embedded_refresh_pending = false
+	if not embedded_mode or _puzzle == null or not is_node_ready():
+		return
+	_reset_puzzle()
+	var puzzle_signature := get_puzzle_signature()
+	var render_signature := get_render_signature()
+	if _debug_preview:
+		print("[PipeMinigame] apply refresh: ", name, " puzzle_sig=", puzzle_signature.left(120), " render_sig=", render_signature.left(120), " visible=", visible)
+	if puzzle_signature.is_empty() or puzzle_signature != render_signature:
+		await get_tree().process_frame
+		call_deferred("_request_embedded_refresh")
+		return
+	visible = true
+	if _debug_preview:
+		print("[PipeMinigame] preview visible with matched signature: ", name)
+
+func get_puzzle_signature() -> String:
+	if _puzzle == null:
+		return ""
+	return _signature_from_pieces(_puzzle.pieces)
+
+func get_render_signature() -> String:
+	if _pieces.is_empty():
+		return ""
+	return _signature_from_pieces(_pieces)
+
+func _signature_from_pieces(pieces: Array) -> String:
+	if pieces.is_empty():
+		return ""
+	var parts: Array[String] = []
+	parts.resize(pieces.size())
+	for i in range(pieces.size()):
+		var piece: Dictionary = pieces[i]
+		parts[i] = "%s:%s:%s:%s" % [
+			str(piece.get("kind", "")),
+			str(piece.get("rot", 0)),
+			str(piece.get("locked", false)),
+			str(piece.get("dirt_level", 0))
+		]
+	return "|".join(parts)
+
 func open_for_player(player: CharacterBody2D) -> void:
+	if _active:
+		return
+
 	_player = player
 	_active = true
 	_solved = false
@@ -173,16 +270,14 @@ func _build_grid_ui() -> void:
 	_grid.columns = _grid_size
 
 	var separation_basis: int = max(_grid_size, _grid_height)
-	var separation: int = clampi(10 - ((separation_basis - 3) * 2), 3, 8)
-	if embedded_mode:
-		separation = 4
+	var separation: int = 0 if embedded_mode else clampi(10 - ((separation_basis - 3) * 2), 3, 8)
 	_grid.add_theme_constant_override("h_separation", separation)
 	_grid.add_theme_constant_override("v_separation", separation)
 
 	var layout_size := size
 	if layout_size.x <= 0.0 or layout_size.y <= 0.0:
 		layout_size = get_viewport_rect().size
-	var cell_size: float = 64.0 if embedded_mode else clampf(minf(
+	var cell_size: float = EMBEDDED_CELL_SIZE if embedded_mode else clampf(minf(
 		(layout_size.x * 0.72 - float(separation * (_grid_size - 1))) / float(_grid_size),
 		(layout_size.y * 0.45 - float(separation * (_grid_height - 1))) / float(_grid_height)
 	), 32.0, 96.0)
@@ -204,16 +299,10 @@ func _build_grid_ui() -> void:
 		if cell_texture:
 			cell.add_theme_stylebox_override("panel", _make_texture_stylebox(cell_texture))
 
-		var icon := TextureRect.new()
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon.anchor_right = 1.0
-		icon.anchor_bottom = 1.0
-		icon.offset_left = 6.0
-		icon.offset_top = 6.0
-		icon.offset_right = -6.0
-		icon.offset_bottom = -6.0
+		var icon := Sprite2D.new()
+		icon.centered = true
+		icon.position = Vector2(cell_size * 0.5, cell_size * 0.5)
+		icon.scale = Vector2.ONE
 		icon.visible = false
 		cell.add_child(icon)
 
@@ -262,6 +351,8 @@ func _reset_puzzle() -> void:
 	_info_label.text = "Build a connected pipe route from source to drain."
 	_status_label.text = _controls_hint_text()
 	_update_cells()
+	# Re-apply visuals on next frame so TextureRect sizes are valid before rotation pivots are used.
+	call_deferred("_update_cells")
 
 func _toggle_select() -> void:
 	if _grabbed_index == -1:
@@ -369,9 +460,23 @@ func _trace_flow_from_source() -> Array[int]:
 func _update_cells(flow_cells: Array[int] = []) -> void:
 	for i in range(_pieces.size()):
 		var piece: Dictionary = _pieces[i]
-		var piece_tex := _piece_texture(piece)
+		var use_texture := not (embedded_mode and embedded_use_glyphs)
+		var piece_tex: Texture2D = _piece_texture(piece) if use_texture else null
 		if piece_tex:
 			_cell_icons[i].texture = piece_tex
+			var pivot_basis := _cells[i].custom_minimum_size
+			if pivot_basis.x <= 0.0 or pivot_basis.y <= 0.0:
+				pivot_basis = _cells[i].size
+			if pivot_basis.x <= 0.0 or pivot_basis.y <= 0.0:
+				pivot_basis = Vector2(EMBEDDED_CELL_SIZE, EMBEDDED_CELL_SIZE)
+			_cell_icons[i].position = pivot_basis * 0.5
+			var tex_size := piece_tex.get_size()
+			if tex_size.x > 0.0 and tex_size.y > 0.0:
+				var target := Vector2(EMBEDDED_CELL_SIZE, EMBEDDED_CELL_SIZE) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
+				var fit_scale := minf(target.x / tex_size.x, target.y / tex_size.y)
+				_cell_icons[i].scale = Vector2.ONE * fit_scale
+			else:
+				_cell_icons[i].scale = Vector2.ONE
 			_cell_icons[i].rotation = _piece_rotation_radians(piece)
 			_cell_icons[i].visible = true
 			_cell_labels[i].text = ""
@@ -412,13 +517,29 @@ func _make_piece(kind: String, rot: int, locked: bool) -> Dictionary:
 
 func _connectors(piece: Dictionary) -> Array[int]:
 	var kind := String(piece.get("kind", "empty"))
-	var rot := int(piece.get("rot", 0))
+	var rot := posmod(int(piece.get("rot", 0)), 4)
 
 	match kind:
 		"source":
-			return [DIR_RIGHT]
+			match rot:
+				0:
+					return [DIR_RIGHT]
+				1:
+					return [DIR_DOWN]
+				2:
+					return [DIR_LEFT]
+				_:
+					return [DIR_UP]
 		"sink":
-			return [DIR_LEFT]
+			match rot:
+				0:
+					return [DIR_LEFT]
+				1:
+					return [DIR_UP]
+				2:
+					return [DIR_RIGHT]
+				_:
+					return [DIR_DOWN]
 		"straight":
 			if rot % 2 == 0:
 				return [DIR_UP, DIR_DOWN]
@@ -537,17 +658,18 @@ func _make_texture_stylebox(tex: Texture2D) -> StyleBoxTexture:
 	return style
 
 func _piece_texture(piece: Dictionary) -> Texture2D:
+	var dirt_level := int(piece.get("dirt_level", 0))
 	match String(piece.get("kind", "empty")):
 		"source":
 			return source_texture
 		"sink":
 			return sink_texture
 		"straight":
-			return straight_texture
+			return _resolve_variant_texture(straight_textures, dirt_level, straight_texture)
 		"corner":
-			return corner_texture
+			return _resolve_variant_texture(corner_textures, dirt_level, corner_texture)
 		"tee":
-			return tee_texture
+			return _resolve_variant_texture(tee_textures, dirt_level, tee_texture)
 		"block":
 			return block_texture
 		"empty":
@@ -555,8 +677,19 @@ func _piece_texture(piece: Dictionary) -> Texture2D:
 		_:
 			return null
 
+func _resolve_variant_texture(variants: Array[Texture2D], dirt_level: int, fallback: Texture2D) -> Texture2D:
+	if variants.is_empty():
+		return fallback
+	var idx := clampi(dirt_level, 0, variants.size() - 1)
+	if variants[idx] != null:
+		return variants[idx]
+	return fallback
+
 func _piece_rotation_radians(piece: Dictionary) -> float:
 	var kind := String(piece.get("kind", "empty"))
 	if kind == "empty" or kind == "block":
 		return 0.0
+	if kind == "straight":
+		# Pipe1 artwork is authored as horizontal while rot=0 logic is vertical.
+		return float(posmod(int(piece.get("rot", 0)) + 1, 4)) * (PI * 0.5)
 	return float(int(piece.get("rot", 0))) * (PI * 0.5)

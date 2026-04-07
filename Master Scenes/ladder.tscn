@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="1_xfia1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k1sop"]
-size = Vector2(62, 123.5)
+size = Vector2(119, 123.75)
 
 [node name="Ladder" type="Area2D" unique_id=233057672]
 script = ExtResource("1_eux5y")
@@ -13,7 +13,7 @@ script = ExtResource("1_eux5y")
 texture = ExtResource("1_xfia1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1516415531]
-position = Vector2(-2, -1.75)
+position = Vector2(1.5, -1.875)
 shape = SubResource("RectangleShape2D_k1sop")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

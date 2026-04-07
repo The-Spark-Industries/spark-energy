@@ -31,7 +31,7 @@ var has_boots := false
 var _jump_arc_active := false
 var _coyote_jump_available := false
 
-var climbingmode: bool = false
+@onready var climbingmode: bool = false
 
 #
 
@@ -75,9 +75,14 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	if (Global.laddermode==true and climbingmode==true): 
-		global_position.y-=20
+	print (Global.laddermode, climbingmode)
 	
+	if (Global.laddermode==true and climbingmode==true): 
+		print ("climbing ready")
+		current_gravity=0
+		global_position.y-=20
+	else:
+		current_gravity= START_GRAVITY
 	
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
@@ -86,6 +91,8 @@ func _physics_process(delta: float) -> void:
 		return
 	else :
 		Global.wiremode=false
+
+	
 
 
 
@@ -117,7 +124,7 @@ func _physics_process(delta: float) -> void:
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
-			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")) and Global.laddermode==false:
 				velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
@@ -130,8 +137,15 @@ func _physics_process(delta: float) -> void:
 						_coyote_jump_available = false
 					else:
 						last_jump_queue_msec = Time.get_ticks_msec()
-				else:
-					climbingmode=true		
+				
+				elif (Global.laddermode== true):
+					climbingmode=true	
+			
+			if Input.is_action_pressed("jump") or Input.is_action_pressed("ui_up"):
+				if (Global.laddermode==true):
+					climbingmode=true
+			
+				
 			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
 				climbingmode= false
 			# Gravity & Air Hang Peak Logic
@@ -149,9 +163,10 @@ func _physics_process(delta: float) -> void:
 
 		States.IDLE:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
-				state = States.JUMP
-				_coyote_jump_available = false
-				last_jump_queue_msec = 0
+				if (Global.laddermode==false):
+					state = States.JUMP
+					_coyote_jump_available = false
+					last_jump_queue_msec = 0
 			else:
 				_apply_run_logic(direction, delta)
 				if sprite:

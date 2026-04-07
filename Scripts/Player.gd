@@ -54,6 +54,9 @@ var _water_walk_used: bool = false
 
 func _ready() -> void:
 	set_meta("tag", "player")
+	floor_snap_length = 24.0
+	floor_stop_on_slope = true
+	platform_on_leave = CharacterBody2D.PLATFORM_ON_LEAVE_ADD_UPWARD_VELOCITY
 
 	var scene_path := ""
 	if get_tree().current_scene:
@@ -211,6 +214,8 @@ func _physics_process(delta: float) -> void:
 	
 	prev_velocity = velocity
 	move_and_slide()
+	if not is_on_floor() and get_platform_velocity().y > 0.0:
+		apply_floor_snap()
 
 	# Wire transport [cite: 7]
 	if Input.is_action_just_pressed("interact"):

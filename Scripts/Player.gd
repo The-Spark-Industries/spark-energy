@@ -31,6 +31,10 @@ var has_boots := false
 var _jump_arc_active := false
 var _coyote_jump_available := false
 
+var climbingmode: bool = false
+
+#
+
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
 var _interactables_inside: Array[Node] = []
@@ -49,7 +53,7 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
-	#Global.wiremode= false
+	climbingmode=false
 	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
 
@@ -70,6 +74,11 @@ func _ready() -> void:
 	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
+	
+	if (Global.laddermode==true and climbingmode==true): 
+		global_position.y-=20
+	
+	
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
 		Global.wiremode=true
@@ -115,12 +124,16 @@ func _physics_process(delta: float) -> void:
 			
 			# Jump Input (with Coyote Time)
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
-					state = States.JUMP
-					_coyote_jump_available = false
+				if (Global.laddermode== false):
+					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
+						state = States.JUMP
+						_coyote_jump_available = false
+					else:
+						last_jump_queue_msec = Time.get_ticks_msec()
 				else:
-					last_jump_queue_msec = Time.get_ticks_msec()
-			
+					climbingmode=true		
+			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+				climbingmode= false
 			# Gravity & Air Hang Peak Logic
 			var gravity_to_apply := current_gravity
 			if _jump_arc_active:

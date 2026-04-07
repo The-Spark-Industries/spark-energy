@@ -18,6 +18,7 @@ var first_checkpoint_by_scene: Dictionary = {}
 ## Scene -> room -> checkpoint dictionary.
 ## Value format: {"x": float, "y": float}
 var room_checkpoints_by_scene: Dictionary = {}
+var laddermode: bool = true
 
 var inventory: Array = []
 var max_inventory_size= 100

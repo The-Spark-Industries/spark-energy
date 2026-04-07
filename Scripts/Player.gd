@@ -53,7 +53,6 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
-	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
 
 	var scene_path := ""

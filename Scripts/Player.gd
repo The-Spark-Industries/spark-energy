@@ -138,8 +138,8 @@ func _physics_process(delta: float) -> void:
 					else:
 						last_jump_queue_msec = Time.get_ticks_msec()
 				
-				elif (Global.laddermode== true):
-					climbingmode=true	
+				#elif (Global.laddermode== true):
+					#climbingmode=true	
 			
 			if Input.is_action_pressed("jump") or Input.is_action_pressed("ui_up"):
 				if (Global.laddermode==true):

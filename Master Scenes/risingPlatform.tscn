@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://mjfjbsvaubj2"]
+[gd_scene format=3 uid="uid://dviqp60rlqwhw"]
 
-[ext_resource type="Script" uid="uid://dcndpvw5hsbqr" path="res://Scripts/rising_platform.gd" id="1_risingplat"]
+[ext_resource type="Script" path="res://Scripts/rising_platform.gd" id="1_risingplat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gmpt8"]
 size = Vector2(96, 32)
@@ -26,5 +26,5 @@ color = Color(0.78039217, 0.6666667, 0.5411765, 1)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126918074]
-position = Vector2(48, 12)
+position = Vector2(48, 16)
 shape = SubResource("RectangleShape2D_1hgnv")

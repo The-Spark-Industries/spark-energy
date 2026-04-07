@@ -53,7 +53,6 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
-	climbingmode=false
 	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
 
@@ -77,10 +76,15 @@ func _physics_process(delta: float) -> void:
 	
 	print (Global.laddermode, climbingmode)
 	
-	if (Global.laddermode==true and climbingmode==true): 
+	if not is_on_floor() and Global.laddermode:
+		velocity.y += START_GRAVITY * delta
+
+	
+	if (Global.laddermode==false):
+		climbingmode=false
+	if (Global.laddermode==true and climbingmode==true and (not is_on_floor())): 
 		print ("climbing ready")
-		current_gravity=0
-		global_position.y-=20
+		global_position.y-=2
 	else:
 		current_gravity= START_GRAVITY
 	
@@ -124,8 +128,9 @@ func _physics_process(delta: float) -> void:
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
-			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")) and Global.laddermode==false:
-				velocity.y *= JUMP_CUT_MULTIPLIER
+			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")):
+				if (Global.laddermode==false):
+					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
 			
@@ -141,13 +146,15 @@ func _physics_process(delta: float) -> void:
 				#elif (Global.laddermode== true):
 					#climbingmode=true	
 			
-			if Input.is_action_pressed("jump") or Input.is_action_pressed("ui_up"):
-				if (Global.laddermode==true):
-					climbingmode=true
+		
+				
 			
 				
-			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
-				climbingmode= false
+			#if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+				#if (Global.laddermode==true):
+				#	climbingmode=true
+					
+					
 			# Gravity & Air Hang Peak Logic
 			var gravity_to_apply := current_gravity
 			if _jump_arc_active:
@@ -183,8 +190,9 @@ func _physics_process(delta: float) -> void:
 				state = States.IDLE
 			# Ensure jump works during run too
 			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				state = States.JUMP
-				_coyote_jump_available = false
+				if (Global.laddermode == false):
+					state = States.JUMP
+					_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)

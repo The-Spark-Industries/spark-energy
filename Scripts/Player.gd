@@ -76,17 +76,29 @@ func _physics_process(delta: float) -> void:
 	
 	print (Global.laddermode, climbingmode)
 	
-	if not is_on_floor() and Global.laddermode:
-		velocity.y += START_GRAVITY * delta
+	
+	
 
 	
-	if (Global.laddermode==false):
-		climbingmode=false
-	if (Global.laddermode==true and climbingmode==true and (not is_on_floor())): 
-		print ("climbing ready")
-		global_position.y-=2
+	if (Global.laddermode==true):
+		if (Input.is_action_pressed("ui_up") or Input.is_action_pressed("jump")):
+			current_gravity=0
+			global_position.y -= 5
+			print ("jump")
+		if (Input.is_action_pressed("move_down")):
+			current_gravity=0
+			global_position.y += 5
+		else: 
+			pass
+			#global_position.y +=3
 	else:
-		current_gravity= START_GRAVITY
+		current_gravity= START_GRAVITY		
+			
+			
+	#if (Global.laddermode==true and climbingmode==true and (not is_on_floor())): 
+		#print ("climbing ready")
+		#global_position.y-=2
+	
 	
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
@@ -226,7 +238,6 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 			accel = AIR_TURN_ACCEL
 		else:
 			accel = GROUND_ACCEL
-
 	velocity.x = move_toward(velocity.x, target_speed, accel * delta)
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0

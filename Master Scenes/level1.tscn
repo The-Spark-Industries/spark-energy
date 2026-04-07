@@ -34,8 +34,6 @@
 [ext_resource type="Shader" uid="uid://dt3gisec4b42c" path="res://Level 1/Level 1 Art Assets/Shaders/BGFog.gdshader" id="28_8jiky"]
 [ext_resource type="PackedScene" uid="uid://c71uhve82nkku" path="res://Master Scenes/waterPuzzleBox4x4.tscn" id="28_ahjvc"]
 [ext_resource type="Texture2D" uid="uid://d0i0q1w50wn2g" path="res://Master Scenes/rocktest1.png" id="29_c08x5"]
-[ext_resource type="Texture2D" uid="uid://deca2fl43io7k" path="res://Master Scenes/cliff1.png" id="28_dmeoo"]
-[ext_resource type="Texture2D" uid="uid://cw0fk7slmjroy" path="res://Master Scenes/rocktest.png" id="29_1khqv"]
 [ext_resource type="PackedScene" uid="uid://dl0ajfwikhlfi" path="res://Master Scenes/lilypad.tscn" id="30_bmo44"]
 [ext_resource type="PackedScene" uid="uid://chtwydsi6ua1d" path="res://Master Scenes/ladder.tscn" id="30_es5gu"]
 [ext_resource type="Texture2D" uid="uid://ba8lcutyp1vx6" path="res://Master Scenes/cave transition3.png" id="30_m35cp"]
@@ -53,7 +51,7 @@ size = Vector2(7771.429, 105)
 size = Vector2(3794, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
-size = Vector2(15, 52)
+size = Vector2(43.5, 55)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aqaee"]
 atlas = ExtResource("5_l37wp")
@@ -608,6 +606,7 @@ fill_to = Vector2(0.77336454, 0.088785045)
 
 [node name="Ladder" parent="." unique_id=233057672 instance=ExtResource("30_es5gu")]
 position = Vector2(301, -350)
+scale = Vector2(2, 2)
 
 [node name="platformPuzzle2" type="StaticBody2D" parent="." unique_id=2138245100]
 position = Vector2(853, 1353)
@@ -700,7 +699,7 @@ position = Vector2(10, -226)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=141944352]
-position = Vector2(-1, -94)
+position = Vector2(13.25, -95.5)
 shape = SubResource("RectangleShape2D_y4dr7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1979130930]

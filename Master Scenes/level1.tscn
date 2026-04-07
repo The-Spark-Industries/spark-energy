@@ -537,7 +537,7 @@ position = Vector2(-1099, 1050)
 position = Vector2(1000, 0)
 
 [node name="Room_0_2" type="Node2D" parent="CameraPoints" unique_id=1392805412]
-position = Vector2(2000, 0)
+position = Vector2(1905, 117)
 
 [node name="Room_0_3" type="Node2D" parent="CameraPoints" unique_id=100174834]
 position = Vector2(3000, 0)

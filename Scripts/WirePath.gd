@@ -113,7 +113,7 @@ func begin_travel(player: CharacterBody2D, from_end: Node) -> bool:
 		if (Global.turboMode==true):
 			travel_speed= 99999.0
 		if (Global.turboMode ==false):
-			travel_speed= 15000.0
+			travel_speed= 24000.0
 		duration = distance / travel_speed
 		
 		

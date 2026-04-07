@@ -273,15 +273,15 @@ func _process(delta: float) -> void:
 	pass
 
 
-func add_item_to_inventory(item:String):
-	print(inventory)
-	for i in range(min(inventory.size(),max_inventory_size)):
-		if (inventory[i]==null):
-			inventory[i]=item
+#func add_item_to_inventory(item:String):
+	#print(inventory)
+	#for i in range(min(inventory.size(),max_inventory_size)):
+		#if (inventory[i]==null):
+		#	inventory[i]=item
 			
-			return
-	if (inventory.size() < max_inventory_size):
-		inventory.append(item)
-	else:
-		print("Your inventory is full!")
-				
+		#	return
+	#if (inventory.size() < max_inventory_size):
+	#	inventory.append(item)
+	#else:
+		#print("Your inventory is full!")
+		#		

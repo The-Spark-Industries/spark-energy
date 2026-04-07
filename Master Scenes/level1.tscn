@@ -605,7 +605,7 @@ fill_to = Vector2(0.77336454, 0.088785045)
 [node name="Level1" type="Node2D" unique_id=146730581]
 
 [node name="Ladder" parent="." unique_id=233057672 instance=ExtResource("30_es5gu")]
-position = Vector2(301, -350)
+position = Vector2(-394, -632)
 scale = Vector2(2, 2)
 
 [node name="platformPuzzle2" type="StaticBody2D" parent="." unique_id=2138245100]

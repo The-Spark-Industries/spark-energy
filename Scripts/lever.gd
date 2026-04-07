@@ -5,10 +5,21 @@ var readyToPress: bool= false
 @onready var leverstatus: int = 0
 #Determines the on/off state 
 
+@export_group("Lever Actions")
+@export var waterfall_path: NodePath
+@export var lift_target_path: NodePath
+@export var wheel_target_path: NodePath
+@export var lift_pixels: float = 96.0
+@export_range(0.1, 10.0, 0.1) var lift_duration: float = 2.4
+
+var _triggered_once: bool = false
+var _lift_tween: Tween = null
+
 @onready var change= $leverSprites
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	if has_node("Prompt"):
+		$Prompt.visible = false
 
 
 # # Changes the sprite to whatever the lever status is.
@@ -22,15 +33,59 @@ func _input(event: InputEvent) -> void:
 	if (Input.is_action_just_pressed("interact")) and (readyToPress==true):
 		if (leverstatus==0):
 			leverstatus=1
+			_apply_configured_actions()
 		elif (leverstatus==1):
 			leverstatus=0
+
+func _apply_configured_actions() -> void:
+	_trigger_wheel_spin()
+
+	if _triggered_once:
+		return
+
+	if not String(waterfall_path).is_empty():
+		var waterfall := get_node_or_null(waterfall_path) as CanvasItem
+		if waterfall:
+			waterfall.visible = true
+
+	if not String(lift_target_path).is_empty() and not is_zero_approx(lift_pixels):
+		var lift_target := get_node_or_null(lift_target_path) as Node2D
+		if lift_target:
+			if _lift_tween and _lift_tween.is_valid():
+				_lift_tween.kill()
+			_lift_tween = create_tween()
+			_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+	_triggered_once = true
+
+func _trigger_wheel_spin() -> void:
+	var wheel: Node = null
+	if not String(wheel_target_path).is_empty():
+		wheel = get_node_or_null(wheel_target_path)
+
+	if wheel == null:
+		# Fallback for scene variants where the export path was not set.
+		wheel = get_tree().current_scene.get_node_or_null("waterWheelRoom11")
+
+	if wheel == null:
+		return
+
+	if wheel.has_method("start_spin"):
+		wheel.call("start_spin")
+		return
+	if wheel.has_method("_start_spin"):
+		wheel.call("_start_spin")
 		
 
 
 func _on_body_entered(body: Node2D) -> void:
 	if (body is CharacterBody2D):
 		readyToPress= true
+		if has_node("Prompt"):
+			$Prompt.visible = true
 
 func _on_body_exited(body: Node2D) -> void:
 	if (body is CharacterBody2D):
 		readyToPress= false
+		if has_node("Prompt"):
+			$Prompt.visible = false

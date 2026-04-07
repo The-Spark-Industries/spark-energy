@@ -39,7 +39,7 @@ func _ready() -> void:
 	if _targets.is_empty():
 		push_warning("RoomCamera: No camera target nodes found. Add children to the camera_targets_path node, or add nodes to group '%s'." % camera_targets_group)
 	else:
-		_current_target = _closest_target_to(_player.global_position)
+		_current_target = _closest_target_to(_get_player_anchor_position())
 		if _current_target:
 			global_position = _current_target.global_position
 
@@ -53,10 +53,32 @@ func _physics_process(_delta: float) -> void:
 	if not _player or _targets.is_empty():
 		return
 
-	var closest := _closest_target_to(_player.global_position)
+	var closest := _closest_target_to(_get_player_anchor_position())
 	if closest and closest != _current_target:
 		_current_target = closest
 		_transition_to(closest.global_position)
+
+func _get_player_anchor_position() -> Vector2:
+	if not _player:
+		return Vector2.ZERO
+
+	var best_local_bottom := 0.0
+	var found_collision := false
+	for child in _player.get_children():
+		if child is CollisionShape2D:
+			var collision := child as CollisionShape2D
+			if collision.shape == null:
+				continue
+			var shape_rect := collision.shape.get_rect()
+			var local_bottom := collision.position.y + shape_rect.position.y + shape_rect.size.y
+			if not found_collision or local_bottom > best_local_bottom:
+				best_local_bottom = local_bottom
+				found_collision = true
+
+	if found_collision:
+		return _player.to_global(Vector2(0.0, best_local_bottom))
+
+	return _player.global_position
 
 func _refresh_targets() -> void:
 	_targets.clear()

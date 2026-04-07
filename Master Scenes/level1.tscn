@@ -1791,7 +1791,8 @@ position = Vector2(1216, -293)
 texture = ExtResource("26_3pojs")
 
 [node name="Stone" type="Sprite2D" parent="container/Stone" unique_id=321604143]
-position = Vector2(64, 0)
+position = Vector2(69, 0)
+scale = Vector2(1.15625, 1)
 texture = ExtResource("26_3pojs")
 
 [node name="Cliff" type="Sprite2D" parent="container" unique_id=1155998900]

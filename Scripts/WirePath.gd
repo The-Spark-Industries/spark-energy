@@ -48,7 +48,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _traveling_player and _path_follow:
 		_traveling_player.global_position = _path_follow.global_position
-		
 	
 	
 	
@@ -114,7 +113,7 @@ func begin_travel(player: CharacterBody2D, from_end: Node) -> bool:
 		if (Global.turboMode==true):
 			travel_speed= 99999.0
 		if (Global.turboMode ==false):
-			travel_speed= 28000.0
+			travel_speed= 15000.0
 		duration = distance / travel_speed
 		
 		

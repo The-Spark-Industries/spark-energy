@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var SPEED := 15000.0
+@export var SPEED := 20000.0
 @export var JUMP_VELOCITY := -75000.0
 @export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 100 # in ms
@@ -53,8 +53,6 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
-	climbingmode=false
-	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
 
 	var scene_path := ""
@@ -77,12 +75,29 @@ func _physics_process(delta: float) -> void:
 	
 	print (Global.laddermode, climbingmode)
 	
-	if (Global.laddermode==true and climbingmode==true): 
-		print ("climbing ready")
-		current_gravity=0
-		global_position.y-=20
+	
+	
+
+	
+	if (Global.laddermode==true):
+		if (Input.is_action_pressed("ui_up") or Input.is_action_pressed("jump")):
+			current_gravity=0
+			global_position.y -= 5
+			print ("jump")
+		if (Input.is_action_pressed("move_down")):
+			current_gravity=0
+			global_position.y += 5
+		else: 
+			pass
+			#global_position.y +=3
 	else:
-		current_gravity= START_GRAVITY
+		current_gravity= START_GRAVITY		
+			
+			
+	#if (Global.laddermode==true and climbingmode==true and (not is_on_floor())): 
+		#print ("climbing ready")
+		#global_position.y-=2
+	
 	
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
@@ -124,8 +139,9 @@ func _physics_process(delta: float) -> void:
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
-			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")) and Global.laddermode==false:
-				velocity.y *= JUMP_CUT_MULTIPLIER
+			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")):
+				if (Global.laddermode==false):
+					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
 			
@@ -141,13 +157,15 @@ func _physics_process(delta: float) -> void:
 				#elif (Global.laddermode== true):
 					#climbingmode=true	
 			
-			if Input.is_action_pressed("jump") or Input.is_action_pressed("ui_up"):
-				if (Global.laddermode==true):
-					climbingmode=true
+		
+				
 			
 				
-			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
-				climbingmode= false
+			#if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+				#if (Global.laddermode==true):
+				#	climbingmode=true
+					
+					
 			# Gravity & Air Hang Peak Logic
 			var gravity_to_apply := current_gravity
 			if _jump_arc_active:
@@ -183,8 +201,9 @@ func _physics_process(delta: float) -> void:
 				state = States.IDLE
 			# Ensure jump works during run too
 			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				state = States.JUMP
-				_coyote_jump_available = false
+				if (Global.laddermode == false):
+					state = States.JUMP
+					_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
@@ -218,7 +237,6 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 			accel = AIR_TURN_ACCEL
 		else:
 			accel = GROUND_ACCEL
-
 	velocity.x = move_toward(velocity.x, target_speed, accel * delta)
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0

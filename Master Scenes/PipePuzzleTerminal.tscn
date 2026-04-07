@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://ctu446b65pai6"]
 
 [ext_resource type="Script" uid="uid://cmoblano7wpdw" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
+[ext_resource type="Texture2D" uid="uid://g3ol17l1csgd" path="res://Level 1/Level 1 Art Assets/Items/Sprites/TERMINAL.png" id="2_nxd6q"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_range"]
-radius = 68.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nnowx"]
+size = Vector2(45, 67)
 
 [node name="PipePuzzleTerminal" type="Area2D" unique_id=2059207433]
 collision_layer = 0
@@ -11,14 +12,11 @@ script = ExtResource("1_terminal_script")
 water_stream_path = NodePath("SolvedWaterStream")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482101810]
-shape = SubResource("CircleShape2D_range")
+position = Vector2(-0.5, -2.5)
+shape = SubResource("RectangleShape2D_nnowx")
 
-[node name="TerminalSprite" type="ColorRect" parent="." unique_id=1649227641]
-offset_left = -42.0
-offset_top = -70.0
-offset_right = 42.0
-offset_bottom = 24.0
-color = Color(0.239216, 0.321569, 0.396078, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1851894307]
+texture = ExtResource("2_nxd6q")
 
 [node name="Prompt" type="Label" parent="." unique_id=888163643]
 visible = false

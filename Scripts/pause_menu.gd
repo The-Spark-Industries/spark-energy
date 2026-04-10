@@ -9,13 +9,13 @@ func _ready() -> void:
 	visible = false
 	_bring_to_front()
 
-#func _process(delta: float) -> void:
-	#if (Global.fontChoice==0):
-	#	self.theme=load("res://Assets/Visual/Lingua.tres")
-	#if (Global.fontChoice==1):
-	#	self.theme=load("res://Assets/Visual/lingualight.tres")
-	#if (Global.fontChoice==2):
-		#self.theme=load("res://Assets/Visual/Receipt.tres")
+func _process(delta: float) -> void:
+	if (Global.fontChoice==0):
+		self.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		self.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		self.theme=load("res://Assets/Visual/Receipt.tres")
 #
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -113,3 +113,4 @@ func _current_room_id() -> String:
 			return current_target.name
 
 	return ""
+	Global.fontChoice=index

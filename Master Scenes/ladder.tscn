@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cr4eboqqhm68s"]
+
+[ext_resource type="Script" path="res://Master Scenes/ladder.gd" id="1_eux5y"]
+[ext_resource type="Texture2D" uid="uid://c6xiyrwpa2gmo" path="res://Level 1/Level 1 Art Assets/Items/Sprites/ladder.png" id="2_eux5y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k1sop"]
+size = Vector2(29, 32)
+
+[node name="Ladder" type="Area2D" unique_id=233057672]
+script = ExtResource("1_eux5y")
+
+[node name="ladderpiece" type="Sprite2D" parent="." unique_id=589253092]
+texture = ExtResource("2_eux5y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1516415531]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_k1sop")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

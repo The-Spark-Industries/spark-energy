@@ -15,5 +15,4 @@ func _on_body_entered(body: Node2D) -> void:
 	if "can_walk_on_water" in body:
 		body.can_walk_on_water = true
 
-	Global.add_item_to_inventory("WaterShoes")
 	queue_free()

@@ -75,15 +75,9 @@ func _ready() -> void:
 	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
-	
-	print (Global.laddermode, climbingmode)
-	
-	
-	
 
-	
 	if (Global.laddermode==true):
-		if (Input.is_action_pressed("ui_up") or Input.is_action_pressed("jump")):
+		if (Input.is_action_pressed("move_up") or Input.is_action_pressed("jump")):
 			current_gravity=0
 			global_position.y -= 5
 			print ("jump")
@@ -114,7 +108,7 @@ func _physics_process(delta: float) -> void:
 
 
 
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis("move_left", "move_right")
 	
 	# Update Floor/Coyote Timing
 	if is_on_floor():
@@ -132,7 +126,7 @@ func _physics_process(delta: float) -> void:
 			if sprite: sprite.play("jump")
 			if animPlayer:
 				animPlayer.stop()
-				animPlayer.play("jump")
+				animPlayer.plpay("jump")
 			state = States.AIR
 
 		States.AIR:
@@ -142,14 +136,14 @@ func _physics_process(delta: float) -> void:
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
-			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")):
+			if (Input.is_action_just_released("jump") or Input.is_action_just_released("move_up")):
 				if (Global.laddermode==false):
 					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
 			
 			# Jump Input (with Coyote Time)
-			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
+			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("move_up"):
 				if (Global.laddermode== false):
 					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
 						state = States.JUMP
@@ -183,7 +177,7 @@ func _physics_process(delta: float) -> void:
 				current_gravity = START_GRAVITY
 
 		States.IDLE:
-			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
+			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("move_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
 				if (Global.laddermode==false):
 					state = States.JUMP
 					_coyote_jump_available = false
@@ -203,7 +197,7 @@ func _physics_process(delta: float) -> void:
 			if direction == 0:
 				state = States.IDLE
 			# Ensure jump works during run too
-			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
+			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("move_up"):
 				if (Global.laddermode == false):
 					state = States.JUMP
 					_coyote_jump_available = false

@@ -51,7 +51,7 @@ func _on_options_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Master Scenes/titleScreen.tscn")
-
+	#Global.runprompt = true
 
 func _on_back_button_pressed() -> void:
 	oM.visible=false

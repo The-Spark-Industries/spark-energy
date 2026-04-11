@@ -74,6 +74,8 @@ func set_debug_preview(enabled: bool) -> void:
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	self.theme=load("res://Assets/Visual/Lingua.tres")
+
 	if embedded_mode:
 		anchor_left = 0.0
 		anchor_top = 0.0
@@ -112,6 +114,15 @@ func _ready() -> void:
 		_request_embedded_refresh()
 		return
 	_reset_puzzle()
+
+
+func _process(delta: float) -> void:
+	if (Global.fontChoice==0):
+		self.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		self.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		self.theme=load("res://Assets/Visual/Receipt.tres")
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	_puzzle = puzzle

@@ -29,6 +29,10 @@ var fontChoice: int
 
 var turboMode: bool = false
 
+
+var runprompt: bool = true
+
+var jumpprompt: bool = true
 func _ready() -> void:
 	load_game()
 

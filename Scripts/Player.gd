@@ -53,6 +53,7 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
+	$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
 	set_meta("tag", "player")
 	floor_snap_length = 24.0
 	floor_stop_on_slope = true
@@ -75,17 +76,35 @@ func _ready() -> void:
 	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
-	#if (Global.fontChoice==0):
-		#self.theme=load("res://Assets/Visual/Lingua.tres")
-	#if (Global.fontChoice==1):
-		#self.theme=load("res://Assets/Visual/lingualight.tres")
-	#if (Global.fontChoice==2):
-		#self.theme=load("res://Assets/Visual/Receipt.tres")
+	
+	#fonts for the player prompt
+	if (Global.fontChoice==0):
+		$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		$playerprompt.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		$playerprompt.theme=load("res://Assets/Visual/Receipt.tres")
 		
 	pass
 
+	#moving the player prompt
+	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
+		if (Global.runprompt == true):
+			await get_tree().create_timer(4.5).timeout
+			Global.runprompt = false
 	
 	
+	#prompt decider
+	if (Global.runprompt==true):
+		$playerprompt.text = "Use arrow keys or a/d to move"
+		Global.jumpprompt=false
+	else:
+		$playerprompt.text = ""
+		Global.jumpprompt=true
+		
+		
+	if (Global.jumpprompt==true):
+		$playerprompt.text = "Press space or up arrow key to jump"
 	
 
 	
@@ -116,10 +135,6 @@ func _physics_process(delta: float) -> void:
 		return
 	else :
 		Global.wiremode=false
-
-	
-
-
 
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
@@ -192,6 +207,7 @@ func _physics_process(delta: float) -> void:
 		States.IDLE:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
 				if (Global.laddermode==false):
+					Global.jumpprompt = false
 					state = States.JUMP
 					_coyote_jump_available = false
 					last_jump_queue_msec = 0

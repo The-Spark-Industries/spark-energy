@@ -215,12 +215,12 @@ func _on_minigame_completed(success: bool) -> void:
 		_start_platform_motion_if_needed()
 
 func _physics_process(delta: float) -> void:
-	#if (Global.fontChoice==0):
-		#%Prompt.theme=load("res://Assets/Visual/Lingua.tres")
-#	if (Global.fontChoice==1):
-		#%Prompt.theme=load("res://Assets/Visual/lingualight.tres")
-	#if (Global.fontChoice==2):
-		#self.theme=load("res://Assets/Visual/Receipt.tres")
+	if (Global.fontChoice==0):
+		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		$Prompt.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		$Prompt.theme=load("res://Assets/Visual/Receipt.tres")
 
 	
 	if not _ellipse_motion_started:

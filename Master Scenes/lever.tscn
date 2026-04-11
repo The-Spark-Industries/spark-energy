@@ -44,7 +44,7 @@ offset_left = -56.0
 offset_top = -46.0
 offset_right = 56.0
 offset_bottom = -22.0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 32
 text = "e to interact"
 horizontal_alignment = 1
 

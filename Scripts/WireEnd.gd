@@ -34,11 +34,11 @@ func transport(player: CharacterBody2D) -> bool:
 func _process(_delta: float) -> void:
 	
 	if (Global.fontChoice==0):
-		%Prompt.theme=load("res://Assets/Visual/Lingua.tres")
+		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
 	if (Global.fontChoice==1):
-		%Prompt.theme=load("res://Assets/Visual/lingualight.tres")
+		$Prompt.theme=load("res://Assets/Visual/lingualight.tres")
 	if (Global.fontChoice==2):
-		%Prompt.theme=load("res://Assets/Visual/Receipt.tres")
+		$Prompt.theme=load("res://Assets/Visual/Receipt.tres")
 
 
 func _on_body_entered(body: Node2D) -> void:

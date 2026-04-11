@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var SPEED := 25000.0
+@export var SPEED := 20000.0
 @export var JUMP_VELOCITY := -75000.0
 @export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 100 # in ms
@@ -31,8 +31,13 @@ var has_boots := false
 var _jump_arc_active := false
 var _coyote_jump_available := false
 
+@onready var climbingmode: bool = false
+
+#
+
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
+var _interactables_inside: Array[Node] = []
 
 ## When true, the player can walk on water and will have a short grace period before dying.
 @export var can_walk_on_water: bool = false
@@ -48,18 +53,20 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
-	#Global.wiremode= false
-	set_meta("pipe_traveling", false)
 	set_meta("tag", "player")
+	floor_snap_length = 24.0
+	floor_stop_on_slope = true
+	platform_on_leave = CharacterBody2D.PLATFORM_ON_LEAVE_ADD_UPWARD_VELOCITY
 
 	var scene_path := ""
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
+	var room_id := _current_room_id()
 
 	if Global.has_checkpoint_for_scene(scene_path):
 		global_position = Global.last_checkpoint_position
 	else:
-		Global.set_checkpoint(global_position, scene_path)
+		Global.ensure_scene_defaults(scene_path, global_position, room_id)
 
 	_water_death_timer = Timer.new()
 	_water_death_timer.one_shot = true
@@ -68,6 +75,33 @@ func _ready() -> void:
 	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
+	
+	print (Global.laddermode, climbingmode)
+	
+	
+	
+
+	
+	if (Global.laddermode==true):
+		if (Input.is_action_pressed("ui_up") or Input.is_action_pressed("jump")):
+			current_gravity=0
+			global_position.y -= 5
+			print ("jump")
+		if (Input.is_action_pressed("move_down")):
+			current_gravity=0
+			global_position.y += 5
+		else: 
+			pass
+			#global_position.y +=3
+	else:
+		current_gravity= START_GRAVITY		
+			
+			
+	#if (Global.laddermode==true and climbingmode==true and (not is_on_floor())): 
+		#print ("climbing ready")
+		#global_position.y-=2
+	
+	
 	if get_meta("pipe_traveling", false):
 		velocity = Vector2.ZERO
 		Global.wiremode=true
@@ -75,6 +109,8 @@ func _physics_process(delta: float) -> void:
 		return
 	else :
 		Global.wiremode=false
+
+	
 
 
 
@@ -106,19 +142,33 @@ func _physics_process(delta: float) -> void:
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
-			if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
-				velocity.y *= JUMP_CUT_MULTIPLIER
+			if (Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up")):
+				if (Global.laddermode==false):
+					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
 			
 			# Jump Input (with Coyote Time)
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
-					state = States.JUMP
-					_coyote_jump_available = false
-				else:
-					last_jump_queue_msec = Time.get_ticks_msec()
+				if (Global.laddermode== false):
+					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
+						state = States.JUMP
+						_coyote_jump_available = false
+					else:
+						last_jump_queue_msec = Time.get_ticks_msec()
+				
+				#elif (Global.laddermode== true):
+					#climbingmode=true	
 			
+		
+				
+			
+				
+			#if Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up"):
+				#if (Global.laddermode==true):
+				#	climbingmode=true
+					
+					
 			# Gravity & Air Hang Peak Logic
 			var gravity_to_apply := current_gravity
 			if _jump_arc_active:
@@ -134,9 +184,10 @@ func _physics_process(delta: float) -> void:
 
 		States.IDLE:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
-				state = States.JUMP
-				_coyote_jump_available = false
-				last_jump_queue_msec = 0
+				if (Global.laddermode==false):
+					state = States.JUMP
+					_coyote_jump_available = false
+					last_jump_queue_msec = 0
 			else:
 				_apply_run_logic(direction, delta)
 				if sprite:
@@ -153,8 +204,9 @@ func _physics_process(delta: float) -> void:
 				state = States.IDLE
 			# Ensure jump works during run too
 			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
-				state = States.JUMP
-				_coyote_jump_available = false
+				if (Global.laddermode == false):
+					state = States.JUMP
+					_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
@@ -162,9 +214,16 @@ func _physics_process(delta: float) -> void:
 	
 	prev_velocity = velocity
 	move_and_slide()
+	if not is_on_floor() and get_platform_velocity().y > 0.0:
+		apply_floor_snap()
 
 	# Wire transport [cite: 7]
 	if Input.is_action_just_pressed("interact"):
+		var active_interactable := _active_interactable()
+		if active_interactable and active_interactable.has_method("interact"):
+			if active_interactable.interact(self):
+				return
+
 		var active := _active_pipe()
 		if active and active.has_method("transport"):
 			active.transport(self)
@@ -183,7 +242,6 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 			accel = AIR_TURN_ACCEL
 		else:
 			accel = GROUND_ACCEL
-
 	velocity.x = move_toward(velocity.x, target_speed, accel * delta)
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0
@@ -195,6 +253,11 @@ func _active_pipe() -> Node:
 		return null
 	return _pipes_inside.back()
 
+func _active_interactable() -> Node:
+	if _interactables_inside.is_empty():
+		return null
+	return _interactables_inside.back()
+
 func _on_pipe_entered(pipe_end: Node) -> void:
 	#Global.wiremode= true
 	if pipe_end not in _pipes_inside:
@@ -203,6 +266,13 @@ func _on_pipe_entered(pipe_end: Node) -> void:
 func _on_pipe_exited(pipe_end: Node) -> void:
 	#Global.wiremode= false
 	_pipes_inside.erase(pipe_end)
+
+func _on_interactable_entered(interactable: Node) -> void:
+	if interactable not in _interactables_inside:
+		_interactables_inside.append(interactable)
+
+func _on_interactable_exited(interactable: Node) -> void:
+	_interactables_inside.erase(interactable)
 
 func entered_water() -> void:
 	if state == States.DEAD:
@@ -234,7 +304,7 @@ func die() -> void:
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")
-	get_tree().create_timer(0.2).timeout.connect(_respawn, CONNECT_ONE_SHOT)
+	get_tree().create_timer(0.001).timeout.connect(_respawn, CONNECT_ONE_SHOT)
 
 func _respawn() -> void:
 	global_position = Global.last_checkpoint_position
@@ -248,3 +318,15 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
+
+func _current_room_id() -> String:
+	if not get_tree() or get_tree().current_scene == null:
+		return ""
+
+	var room_camera := get_tree().current_scene.get_node_or_null("RoomCamera")
+	if room_camera and room_camera.has_method("get_current_target"):
+		var current_target: Node2D = room_camera.call("get_current_target") as Node2D
+		if current_target:
+			return current_target.name
+
+	return ""

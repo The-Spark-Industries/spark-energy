@@ -90,14 +90,16 @@ func _physics_process(delta: float) -> void:
 	#moving the player prompt
 	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
 		if (Global.runprompt == true):
-			await get_tree().create_timer(4.0).timeout
+			await get_tree().create_timer(3.5).timeout
 			Global.runprompt = false
 	
+	print (Global.runprompt, Global.jumpprompt, Global.pauseprompt)
 	
 	#prompt decider
 	if (Global.runprompt==true):
 		$playerprompt.text = "Use arrow keys or a/d to move"
 		Global.jumpprompt=false
+		Global.pauseprompt= false
 	else:
 		$playerprompt.text = ""
 		Global.jumpprompt=true
@@ -106,8 +108,10 @@ func _physics_process(delta: float) -> void:
 	if (Global.jumpprompt==true):
 		$playerprompt.text = "Press space or up arrow key to jump"
 	else:
-		await get_tree().create_timer(4.0).timeout
-		$playerprompt.text = "Press ESC to pause"
+		if (Global.pauseprompt==true):
+			#await get_tree().create_timer(3.0).timeout
+			$playerprompt.text = "             Press ESC to pause"
+			Global.pauseprompt==false
 
 	
 	if (Global.laddermode==true):
@@ -210,6 +214,7 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
 				if (Global.laddermode==false):
 					Global.jumpprompt = false
+					Global.pauseprompt= true
 					state = States.JUMP
 					_coyote_jump_available = false
 					last_jump_queue_msec = 0

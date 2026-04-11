@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 		self.theme=load("res://Assets/Visual/lingualight.tres")
 	if (Global.fontChoice==2):
 		self.theme=load("res://Assets/Visual/Receipt.tres")
-#
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
@@ -71,7 +71,7 @@ func _on_check_button_pressed() -> void:
 
 func _on_text_mode_button_item_selected(index: int) -> void:
 	print(index)
-	#Global.fontChoice=index
+	Global.fontChoice=index
 
 
 func _on_text_mode_button_item_focused(index: int) -> void:
@@ -113,4 +113,3 @@ func _current_room_id() -> String:
 			return current_target.name
 
 	return ""
-	Global.fontChoice=index

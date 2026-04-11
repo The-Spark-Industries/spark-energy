@@ -75,8 +75,15 @@ func _ready() -> void:
 	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
-	
-	print (Global.laddermode, climbingmode)
+	#if (Global.fontChoice==0):
+		#self.theme=load("res://Assets/Visual/Lingua.tres")
+	#if (Global.fontChoice==1):
+		#self.theme=load("res://Assets/Visual/lingualight.tres")
+	#if (Global.fontChoice==2):
+		#self.theme=load("res://Assets/Visual/Receipt.tres")
+		
+	pass
+
 	
 	
 	

@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
 [ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 [ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
-[ext_resource type="Script" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
+[ext_resource type="Script" uid="uid://xjji1j1ek8nr" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
 [ext_resource type="PackedScene" uid="uid://br7s6cj6avyw" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]
 [ext_resource type="PackedScene" uid="uid://b3yhb37j1c51y" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
 [ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
@@ -34,7 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://clvrv5v21nk0b" path="res://Master Scenes/stone.png" id="26_3pojs"]
 [ext_resource type="PackedScene" uid="uid://dviqp60rlqwhw" path="res://Master Scenes/risingPlatform.tscn" id="26_211ka"]
 [ext_resource type="Texture2D" uid="uid://ddscs2vfgb1un" path="res://Master Scenes/cliff.png" id="27_occxo"]
-[ext_resource type="Shader" path="res://Level 1/Level 1 Art Assets/Shaders/BGFog.gdshader" id="28_8jiky"]
+[ext_resource type="Shader" uid="uid://dt3gisec4b42c" path="res://Level 1/Level 1 Art Assets/Shaders/BGFog.gdshader" id="28_8jiky"]
 [ext_resource type="PackedScene" uid="uid://c71uhve82nkku" path="res://Master Scenes/waterPuzzleBox4x4.tscn" id="28_ahjvc"]
 [ext_resource type="Texture2D" uid="uid://d0i0q1w50wn2g" path="res://Master Scenes/rocktest1.png" id="29_c08x5"]
 [ext_resource type="PackedScene" uid="uid://dl0ajfwikhlfi" path="res://Master Scenes/lilypad.tscn" id="30_bmo44"]
@@ -679,6 +679,10 @@ position = Vector2(0, -55)
 enabled = false
 zoom = Vector2(1.2, 1.2)
 script = ExtResource("7_naso3")
+
+[node name="Label" type="Label" parent="CharacterBody2D" unique_id=952783708]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="WirePathTopLeft" type="Node2D" parent="." unique_id=1094322965]
 position = Vector2(-114, 1241)

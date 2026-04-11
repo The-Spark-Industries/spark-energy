@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="1_base_terminal"]
+
+[node name="WirePuzzleTerminalRotateOnly" instance=ExtResource("1_base_terminal")]
+puzzle_layout = 9
+control_mode = 2
+
+[node name="Prompt" parent="." index="2"]
+text = "[E] Tree Circuit (Rotate Only)"
+
+[node name="SolvedWaterStream" parent="." index="3"]
+default_color = Color(0.984314, 0.909804, 0.298039, 1)

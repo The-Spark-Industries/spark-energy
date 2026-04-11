@@ -90,7 +90,7 @@ func _physics_process(delta: float) -> void:
 	#moving the player prompt
 	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
 		if (Global.runprompt == true):
-			await get_tree().create_timer(4.5).timeout
+			await get_tree().create_timer(4.0).timeout
 			Global.runprompt = false
 	
 	
@@ -105,7 +105,9 @@ func _physics_process(delta: float) -> void:
 		
 	if (Global.jumpprompt==true):
 		$playerprompt.text = "Press space or up arrow key to jump"
-	
+	else:
+		await get_tree().create_timer(4.0).timeout
+		$playerprompt.text = "Press ESC to pause"
 
 	
 	if (Global.laddermode==true):

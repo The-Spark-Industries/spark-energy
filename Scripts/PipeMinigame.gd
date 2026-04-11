@@ -190,6 +190,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
+		$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -249,12 +250,28 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 
 	if dx != 0 or dy != 0:
 		_move_cursor(dx, dy)

@@ -113,4 +113,3 @@ func _current_room_id() -> String:
 			return current_target.name
 
 	return ""
-	Global.fontChoice=index

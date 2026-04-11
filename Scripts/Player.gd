@@ -87,6 +87,7 @@ func _physics_process(delta: float) -> void:
 			current_gravity=0
 			global_position.y -= 5
 			print ("jump")
+			
 		if (Input.is_action_pressed("move_down")):
 			current_gravity=0
 			global_position.y += 5
@@ -186,6 +187,7 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
 				if (Global.laddermode==false):
 					state = States.JUMP
+					$"SparkSFX/JumpSFX".play()
 					_coyote_jump_available = false
 					last_jump_queue_msec = 0
 			else:
@@ -206,6 +208,7 @@ func _physics_process(delta: float) -> void:
 			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up"):
 				if (Global.laddermode == false):
 					state = States.JUMP
+					$"SparkSFX/JumpSFX".play()
 					_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
@@ -301,6 +304,7 @@ func _on_water_death_timeout() -> void:
 func die() -> void:
 	state = States.DEAD
 	velocity = Vector2.ZERO
+	$"SparkSFX/DeathSFX".play()
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")

@@ -51,7 +51,9 @@ func _on_options_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Master Scenes/titleScreen.tscn")
-	#Global.runprompt = true
+	
+	Global.tutorialchecker = 0
+	Global.jumpcounter = 0
 
 func _on_back_button_pressed() -> void:
 	oM.visible=false
@@ -81,6 +83,10 @@ func _on_text_mode_button_item_focused(index: int) -> void:
 
 func _on_reset_level_button_pressed() -> void:
 	var scene_path := ""
+
+	Global.tutorialchecker = 0
+	Global.jumpcounter = 0
+
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
 

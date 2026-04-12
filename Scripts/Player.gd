@@ -92,6 +92,7 @@ func _physics_process(delta: float) -> void:
 		if (Global.runprompt == true):
 			await get_tree().create_timer(3.5).timeout
 			Global.runprompt = false
+			Global.jumpprompt = true
 	
 	print (Global.runprompt, Global.jumpprompt, Global.pauseprompt)
 	
@@ -102,7 +103,7 @@ func _physics_process(delta: float) -> void:
 		Global.pauseprompt= false
 	else:
 		$playerprompt.text = ""
-		Global.jumpprompt=true
+		
 		
 		
 	if (Global.jumpprompt==true):

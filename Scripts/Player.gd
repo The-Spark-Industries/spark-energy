@@ -154,6 +154,7 @@ func _physics_process(delta: float) -> void:
 				if (Global.laddermode== false):
 					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
 						state = States.JUMP
+						$"SparkSFX/JumpSFX".play()
 						_coyote_jump_available = false
 					else:
 						last_jump_queue_msec = Time.get_ticks_msec()

@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/WirePowerRelay.gd" id="1_relay"]
+
+[node name="WirePowerRelay" type="Node2D"]
+script = ExtResource("1_relay")
+visual_node_path = NodePath("Visual")
+target_method = &"activate"
+
+[node name="Visual" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 140, 0)
+width = 8.0
+default_color = Color(0.35, 0.35, 0.35, 1)
+begin_cap_mode = 2
+end_cap_mode = 2

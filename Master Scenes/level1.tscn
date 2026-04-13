@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dgy5vnulqv524" path="res://Master Scenes/WaterBlock.tscn" id="7_rgorn"]
 [ext_resource type="PackedScene" uid="uid://bmat7fpcdqhtd" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="PackedScene" uid="uid://g5lflum2cu2t" path="res://Master Scenes/WaterShoes.tscn" id="9_gdrb5"]
-[ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
+[ext_resource type="PackedScene" uid="uid://bwg80bs2f7m1g" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 [ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
 [ext_resource type="Script" uid="uid://xjji1j1ek8nr" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
 [ext_resource type="PackedScene" uid="uid://br7s6cj6avyw" path="res://Master Scenes/valve.tscn" id="15_6xxqs"]

@@ -98,7 +98,7 @@ func _physics_process(delta: float) -> void:
 	
 	#prompt decider
 	if (Global.tutorialchecker == 0):
-		$playerprompt.text = "Use arrow keys or a/d to move"
+		$playerprompt.text = "  Use arrow keys or a/d to move"
 		
 	if (Global.tutorialchecker == 1):
 		$playerprompt.text = "Press space or up arrow key to jump"
@@ -106,17 +106,19 @@ func _physics_process(delta: float) -> void:
 	if (Global.tutorialchecker == 2):
 		$playerprompt.text = "             Press ESC to pause"
 			
+	if (Global.tutorialchecker == 3):
+		await get_tree().create_timer(0.5).timeout
+		$playerprompt.text = ""
+			
 			
 	if (Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("jump")) and (Global.tutorialchecker==1):
 		Global.jumpcounter+=1
 
 
-	if (Global.jumpcounter ==3):
+	if (Global.jumpcounter ==3) and (Global.tutorialchecker==1):
 		Global.tutorialchecker=2
 
-	if (Input.is_action_just_pressed("pause")) and (Global.tutorialchecker==2):
-		$playerprompt.text = ""
-		Global.tutorialchecker=3
+	
 	
 	
 	if (Global.laddermode==true):

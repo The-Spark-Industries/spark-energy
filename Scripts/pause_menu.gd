@@ -22,6 +22,8 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause") and (Global.wiremode== false):
 		if (get_tree().paused==false ):
+			if (Global.tutorialchecker==2):
+				Global.tutorialchecker=3
 			_bring_to_front()
 			get_tree().paused= true
 			oM.visible =false

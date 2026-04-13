@@ -1936,6 +1936,7 @@ script = ExtResource("3_roomcam")
 
 [node name="pauseMenu" parent="RoomCamera" unique_id=970558963 instance=ExtResource("4_nuwp2")]
 visible = false
+z_index = 200
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0

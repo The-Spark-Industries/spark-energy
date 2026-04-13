@@ -726,6 +726,9 @@ pitch_scale = 1.08
 [node name="DeathSFX" type="AudioStreamPlayer" parent="CharacterBody2D/SparkSFX"]
 stream = SubResource("AudioStreamRandomizer_gnar4")
 
+[node name="AudioListener2D" type="AudioListener2D" parent="CharacterBody2D"]
+current = true
+
 [node name="WirePathTopLeft" type="Node2D" parent="."]
 position = Vector2(-114, 1241)
 script = ExtResource("5_wirepath")

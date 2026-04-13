@@ -35,6 +35,9 @@ var _coyote_jump_available := false
 
 #
 
+#
+
+
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
 var _interactables_inside: Array[Node] = []
@@ -53,6 +56,7 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
+	
 	set_meta("tag", "player")
 	floor_snap_length = 24.0
 	floor_stop_on_slope = true
@@ -73,6 +77,8 @@ func _ready() -> void:
 	_water_death_timer.wait_time = water_grace_duration
 	_water_death_timer.timeout.connect(_on_water_death_timeout)
 	add_child(_water_death_timer)
+	
+	$AudioListener2D.make_current()
 
 func _physics_process(delta: float) -> void:
 	

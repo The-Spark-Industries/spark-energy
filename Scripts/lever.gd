@@ -20,13 +20,20 @@ var _lift_tween: Tween = null
 func _ready() -> void:
 	if has_node("Prompt"):
 		$Prompt.visible = false
+	$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
+
 
 
 # # Changes the sprite to whatever the lever status is.
 func _process(delta: float) -> void:
 	change.frame=leverstatus
-	
-		
+
+	if (Global.fontChoice==0):
+		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		$Prompt.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		$Prompt.theme=load("res://Assets/Visual/Receipt.tres")
 
 
 func _input(event: InputEvent) -> void:

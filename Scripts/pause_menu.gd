@@ -16,11 +16,13 @@ func _process(delta: float) -> void:
 		self.theme=load("res://Assets/Visual/lingualight.tres")
 	if (Global.fontChoice==2):
 		self.theme=load("res://Assets/Visual/Receipt.tres")
-#
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause") and (Global.wiremode== false):
+		if (Global.tutorialchecker==2):
+				Global.tutorialchecker=3
 		if (get_tree().paused==false ):
 			_bring_to_front()
 			get_tree().paused= true
@@ -51,7 +53,9 @@ func _on_options_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Master Scenes/titleScreen.tscn")
-
+	
+	Global.tutorialchecker = 0
+	Global.jumpcounter = 0
 
 func _on_back_button_pressed() -> void:
 	oM.visible=false
@@ -71,7 +75,7 @@ func _on_check_button_pressed() -> void:
 
 func _on_text_mode_button_item_selected(index: int) -> void:
 	print(index)
-	#Global.fontChoice=index
+	Global.fontChoice=index
 
 
 func _on_text_mode_button_item_focused(index: int) -> void:
@@ -81,6 +85,10 @@ func _on_text_mode_button_item_focused(index: int) -> void:
 
 func _on_reset_level_button_pressed() -> void:
 	var scene_path := ""
+
+	Global.tutorialchecker = 0
+	Global.jumpcounter = 0
+
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
 

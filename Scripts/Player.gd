@@ -94,6 +94,7 @@ func _physics_process(delta: float) -> void:
 		if (Global.tutorialchecker == 0):
 			await get_tree().create_timer(3.5).timeout
 			Global.tutorialchecker = 1
+			$playerprompt.text = "Press space or up arrow key to jump"
 	
 	
 	#prompt decider
@@ -107,7 +108,7 @@ func _physics_process(delta: float) -> void:
 		$playerprompt.text = "             Press ESC to pause"
 			
 	if (Global.tutorialchecker == 3):
-		await get_tree().create_timer(0.5).timeout
+		#await get_tree().create_timer(0.5).timeout
 		$playerprompt.text = ""
 			
 			
@@ -115,7 +116,8 @@ func _physics_process(delta: float) -> void:
 		Global.jumpcounter+=1
 
 
-	if (Global.jumpcounter ==3) and (Global.tutorialchecker==1):
+	if (Global.jumpcounter >=3) and (Global.tutorialchecker==1):
+		$playerprompt.text = "             Press ESC to pause"
 		Global.tutorialchecker=2
 
 	

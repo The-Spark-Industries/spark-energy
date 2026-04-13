@@ -440,9 +440,10 @@ func _on_send_water_pressed() -> void:
 	if reached.has(sink_idx):
 		_solved = true
 		_status_label.text = "Water reached the end. Puzzle solved!"
+		$"PuzzleComplete".play()
 		_update_cells(reached)
 		completed.emit(true)
-		await get_tree().create_timer(0.8).timeout
+		await get_tree().create_timer(2.7).timeout
 		close_minigame()
 	else:
 		_status_label.text = "Flow failed before the end. Re-route the pipes."

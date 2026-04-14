@@ -121,7 +121,10 @@ func _physics_process(delta: float) -> void:
 		Global.tutorialchecker=2
 
 	
-	
+	if (Input.is_action_just_pressed("ui_down")):
+		self.global_position.x=5565
+		self.global_position.y=-210
+
 	
 	if (Global.laddermode==true):
 		if _is_jump_pressed():

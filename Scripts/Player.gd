@@ -81,9 +81,7 @@ func _ready() -> void:
 	$AudioListener2D.make_current()
 
 func _physics_process(delta: float) -> void:
-	
-	print (Global.laddermode, climbingmode)
-	
+		
 	
 	
 

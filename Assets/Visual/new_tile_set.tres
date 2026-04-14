@@ -2,6 +2,12 @@
 
 [ext_resource type="Texture2D" uid="uid://dhdd4ualamvrq" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_128px_by_128px.png" id="1_upkhe"]
 
+[sub_resource type="TileMapPattern" id="TileMapPattern_upkhe"]
+tile_data = PackedInt32Array(0, 393216, 8, 65537, 393216, 8, 65538, 393216, 8, 65539, 393216, 8, 4, 393216, 8)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_8gpms"]
+tile_data = PackedInt32Array(0, 393216, 8, 1, 393216, 8, 2, 393216, 8)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahjvc"]
 texture = ExtResource("1_upkhe")
 texture_region_size = Vector2i(32, 32)
@@ -71,3 +77,5 @@ texture_region_size = Vector2i(32, 32)
 [resource]
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_ahjvc")
+pattern_0 = SubResource("TileMapPattern_upkhe")
+pattern_1 = SubResource("TileMapPattern_8gpms")

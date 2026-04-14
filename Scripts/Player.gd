@@ -53,6 +53,8 @@ var _water_walk_used: bool = false
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
+	$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
+	Global.tutorialchecker = 0
 	set_meta("tag", "player")
 	floor_snap_length = 24.0
 	floor_stop_on_slope = true
@@ -75,9 +77,54 @@ func _ready() -> void:
 	add_child(_water_death_timer)
 
 func _physics_process(delta: float) -> void:
+	
+	#fonts for the player prompt
+	if (Global.fontChoice==0):
+		$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		$playerprompt.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		$playerprompt.theme=load("res://Assets/Visual/Receipt.tres")
+		
+	pass
+	print (Global.tutorialchecker, Global.jumpcounter)
 
+	#moving the player prompt
+	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
+		if (Global.tutorialchecker == 0):
+			await get_tree().create_timer(3.5).timeout
+			Global.tutorialchecker = 1
+			$playerprompt.text = "Press space or up arrow key to jump"
+	
+	
+	#prompt decider
+	if (Global.tutorialchecker == 0):
+		$playerprompt.text = "  Use arrow keys or a/d to move"
+		
+	if (Global.tutorialchecker == 1):
+		$playerprompt.text = "Press space or up arrow key to jump"
+
+	if (Global.tutorialchecker == 2):
+		$playerprompt.text = "             Press ESC to pause"
+			
+	if (Global.tutorialchecker == 3):
+		#await get_tree().create_timer(0.5).timeout
+		$playerprompt.text = ""
+			
+			
+	if _is_jump_just_pressed() and (Global.tutorialchecker==1):
+		Global.jumpcounter+=1
+
+
+	if (Global.jumpcounter >=3) and (Global.tutorialchecker==1):
+		$playerprompt.text = "             Press ESC to pause"
+		Global.tutorialchecker=2
+
+	
+	
+	
 	if (Global.laddermode==true):
-		if (Input.is_action_pressed("move_up") or Input.is_action_pressed("jump")):
+		if _is_jump_pressed():
 			current_gravity=0
 			global_position.y -= 5
 			print ("jump")
@@ -104,11 +151,7 @@ func _physics_process(delta: float) -> void:
 	else :
 		Global.wiremode=false
 
-	
-
-
-
-	var direction = Input.get_axis("move_left", "move_right")
+	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	# Update Floor/Coyote Timing
 	if is_on_floor():
@@ -136,14 +179,15 @@ func _physics_process(delta: float) -> void:
 				if animPlayer: animPlayer.play("land")
 			
 			# Variable Jump Height [cite: 6]
-			if (Input.is_action_just_released("jump") or Input.is_action_just_released("move_up")):
+			if _is_jump_just_released():
 				if (Global.laddermode==false):
+					
 					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
 			
 			# Jump Input (with Coyote Time)
-			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("move_up"):
+			if _is_jump_just_pressed():
 				if (Global.laddermode== false):
 					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
 						state = States.JUMP
@@ -177,11 +221,11 @@ func _physics_process(delta: float) -> void:
 				current_gravity = START_GRAVITY
 
 		States.IDLE:
-			if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("move_up") or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
-				if (Global.laddermode==false):
-					state = States.JUMP
-					_coyote_jump_available = false
-					last_jump_queue_msec = 0
+			if _is_jump_just_pressed() or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
+		
+				state = States.JUMP
+				_coyote_jump_available = false
+				last_jump_queue_msec = 0
 			else:
 				_apply_run_logic(direction, delta)
 				if sprite:
@@ -197,7 +241,7 @@ func _physics_process(delta: float) -> void:
 			if direction == 0:
 				state = States.IDLE
 			# Ensure jump works during run too
-			elif Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("move_up"):
+			elif _is_jump_just_pressed():
 				if (Global.laddermode == false):
 					state = States.JUMP
 					_coyote_jump_available = false
@@ -239,6 +283,15 @@ func _apply_run_logic(direction: float, delta: float) -> void:
 	velocity.x = move_toward(velocity.x, target_speed, accel * delta)
 	if direction != 0 and sprite:
 		sprite.flip_h = direction < 0
+
+func _is_jump_pressed() -> bool:
+	return Input.is_action_pressed("jump") or Input.is_action_pressed("ui_up") or Input.is_action_pressed("move_up")
+
+func _is_jump_just_pressed() -> bool:
+	return Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("move_up")
+
+func _is_jump_just_released() -> bool:
+	return Input.is_action_just_released("jump") or Input.is_action_just_released("ui_up") or Input.is_action_just_released("move_up")
 
 # --- Wire/Pipe Callbacks [cite: 7, 8] ---
 

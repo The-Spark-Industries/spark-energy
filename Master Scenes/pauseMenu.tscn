@@ -65,7 +65,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 38
 text = "Options"
 
-[node name="quit" type="Button" parent="VBoxContainer2" unique_id=1051712693]
+[node name="quit" type="Button" parent="VBoxContainer2" unique_id=221326531]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 38
@@ -193,7 +193,6 @@ offset_left = 13.528
 offset_top = -75.677
 offset_right = 97.528
 offset_bottom = -44.677002
-selected = 0
 allow_reselect = true
 item_count = 3
 popup/item_0/text = "Classic"

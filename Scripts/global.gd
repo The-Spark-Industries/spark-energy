@@ -29,6 +29,10 @@ var fontChoice: int
 
 var turboMode: bool = false
 
+var tutorialchecker: int = 0
+
+var jumpcounter : int =0
+
 func _ready() -> void:
 	load_game()
 

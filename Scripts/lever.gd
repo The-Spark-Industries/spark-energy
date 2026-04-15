@@ -14,6 +14,7 @@ var readyToPress: bool= false
 
 @export_group("Lever Outputs")
 @export var output_target_paths: Array[NodePath] = []
+@export var output_target_groups: Array[StringName] = []
 @export var output_method: StringName = &"activate"
 @export var output_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
 
@@ -72,6 +73,8 @@ func _apply_configured_actions() -> void:
 	_triggered_once = true
 
 func _trigger_outputs() -> void:
+	var called_nodes := {}
+
 	for target_path in output_target_paths:
 		if String(target_path).is_empty():
 			continue
@@ -80,14 +83,38 @@ func _trigger_outputs() -> void:
 		if target == null:
 			continue
 
-		if _call_output_method(target, output_method):
+		var target_id := target.get_instance_id()
+		if called_nodes.has(target_id):
+			continue
+		called_nodes[target_id] = true
+
+		_trigger_single_output(target)
+
+	for group_name in output_target_groups:
+		var group_name_str := String(group_name)
+		if group_name_str.is_empty():
 			continue
 
-		for fallback_method in output_fallback_methods:
-			if fallback_method == output_method:
+		for target in get_tree().get_nodes_in_group(group_name_str):
+			if target == null:
 				continue
-			if _call_output_method(target, fallback_method):
-				break
+
+			var target_id := target.get_instance_id()
+			if called_nodes.has(target_id):
+				continue
+			called_nodes[target_id] = true
+
+			_trigger_single_output(target)
+
+func _trigger_single_output(target: Object) -> void:
+	if _call_output_method(target, output_method):
+		return
+
+	for fallback_method in output_fallback_methods:
+		if fallback_method == output_method:
+			continue
+		if _call_output_method(target, fallback_method):
+			return
 
 func _call_output_method(target: Object, method_name: StringName) -> bool:
 	var method_str := String(method_name)

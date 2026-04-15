@@ -125,10 +125,13 @@ func _ready() -> void:
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = action_button_text
 	if embedded_mode:
-		# Embedded boards must not flash stale/default content.
+		# Embedded boards should render immediately as in-world previews.
+		# Input remains locked because _active is still false until interact().
 		visible = false
 		if _puzzle == null:
-			return
+			_puzzle = PipePuzzleDefinition.create_default()
+			_grid_size = _puzzle.grid_width
+			_grid_height = _puzzle.grid_height
 		_request_embedded_refresh()
 		return
 	_reset_puzzle()

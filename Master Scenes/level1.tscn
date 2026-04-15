@@ -50,8 +50,9 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminalMoveOnly.tscn" id="48_d0cqg"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WirePuzzleTerminalRotateOnly.tscn" id="48_f7m78"]
 [ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminalRotateOnly.tscn" id="49_gnar4"]
-[ext_resource type="PackedScene" path="res://Master Scenes/WirePowerRelay.tscn" id="50_nce0a"]
+[ext_resource type="PackedScene" uid="uid://b364h0dk5een7" path="res://Master Scenes/WirePowerRelay.tscn" id="50_nce0a"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WirePowerRelayCorner.tscn" id="51_f7m78"]
+[ext_resource type="PackedScene" path="res://Master Scenes/WireMinigame.tscn" id="52_wire_minigame"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -926,7 +927,8 @@ scale = Vector2(0.5, 0.5)
 metadata/_edit_use_anchors_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1700906689]
-position = Vector2(-4086, -334)
+z_index = 3
+position = Vector2(-4192, -435)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=141944352]
@@ -1350,7 +1352,7 @@ position = Vector2(2399, -371)
 position = Vector2(3359, -371)
 
 [node name="Room_9" type="Node2D" parent="camera_points" unique_id=199890939]
-position = Vector2(-3925, -516)
+position = Vector2(-3925, -534)
 
 [node name="Room_10" type="Node2D" parent="camera_points" unique_id=1337082008]
 position = Vector2(-2965, -516)
@@ -2600,15 +2602,32 @@ tile_map_data = PackedByteArray("AADh//n/AAAAAAAAAQDh//f/AAAAAAAAAQDh//b/AAAAAAA
 tile_set = SubResource("TileSet_vd5yc")
 
 [node name="Node2D16" type="Node2D" parent="." unique_id=1679742623]
+position = Vector2(0, -56)
 
-[node name="WirePuzzleTerminalRotateOnly" parent="Node2D16" unique_id=761937962 instance=ExtResource("48_f7m78")]
-position = Vector2(-3782, -385)
+[node name="Node2D9Room" parent="Node2D16" unique_id=1718260463 instance=ExtResource("28_ahjvc")]
+position = Vector2(-3992, -748)
 
-[node name="PipeMinigame" parent="Node2D16" unique_id=816716628 instance=ExtResource("22_pipe_minigame")]
-offset_left = -3754.0
-offset_top = -686.0
-offset_right = -3754.0
-offset_bottom = -686.0
+[node name="WirePuzzleTerminalRoom9" parent="Node2D16/Node2D9Room" unique_id=761937962 instance=ExtResource("48_f7m78")]
+position = Vector2(210, 416)
+puzzle_layout = 15
+embedded_minigame_path = NodePath("../WireMinigameRoom9")
+linked_object_path = NodePath("../../../WirePowerRelay11")
+
+[node name="WireMinigameRoom9" parent="Node2D16/Node2D9Room" unique_id=1718260464 instance=ExtResource("52_wire_minigame")]
+visible = false
+offset_left = 34.57141
+offset_top = 41.587677
+offset_right = 297.66675
+offset_bottom = 318.3992
+metadata/_edit_use_anchors_ = true
+
+[node name="Node2D3" parent="Node2D16/Node2D9Room" unique_id=366736129 instance=ExtResource("26_211ka")]
+z_index = 2
+position = Vector2(419, 416)
+initial_direction = 1
+solved_motion_enabled = true
+solved_motion_distance = 512.0
+solved_motion_loop = true
 
 [node name="waterPuzzle" type="Node2D" parent="." unique_id=223157010]
 position = Vector2(-4059, -1540)
@@ -2629,21 +2648,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Node2D3" parent="." unique_id=488124887 instance=ExtResource("19_8ifkh")]
 position = Vector2(-3701, -1453)
 
-[node name="Node2D8" type="Node2D" parent="." unique_id=251885081]
-
-[node name="PipePuzzleTerminalRotateOnly" parent="Node2D8" unique_id=1568869529 instance=ExtResource("49_gnar4")]
-position = Vector2(-3654, -931)
-puzzle_layout = 9
-embedded_minigame_path = NodePath("../PipeMinigameRotateOnlyA")
-
-[node name="PipeMinigameRotateOnlyA" parent="Node2D8" unique_id=1296001004 instance=ExtResource("22_pipe_minigame")]
-offset_left = -3858.0
-offset_top = -1378.0
-offset_right = -3506.0
-offset_bottom = -1026.0
-embedded_mode = true
-metadata/_edit_use_anchors_ = true
-
 [node name="Node2D5" type="Node2D" parent="." unique_id=1358144887]
 position = Vector2(-2083, -1123)
 
@@ -2652,10 +2656,10 @@ puzzle_layout = 5
 embedded_minigame_path = NodePath("../PipeMinigameMoveOnlyB")
 
 [node name="PipeMinigameMoveOnlyB" parent="Node2D5" unique_id=1296001006 instance=ExtResource("22_pipe_minigame")]
-offset_left = -204.0
-offset_top = -359.0
-offset_right = 148.0
-offset_bottom = -7.0
+offset_left = -21.0
+offset_top = -246.0
+offset_right = 331.0
+offset_bottom = 106.0
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
@@ -2663,18 +2667,22 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(-2421, -484)
 
 [node name="Node2D7" type="Node2D" parent="." unique_id=1787575771]
+position = Vector2(8, -96)
 
-[node name="PipePuzzleTerminalRotateOnly2" parent="Node2D7" unique_id=563767018 instance=ExtResource("49_gnar4")]
-position = Vector2(-3206, -323)
-puzzle_layout = 9
-embedded_minigame_path = NodePath("../PipeMinigameRotateOnlyB")
+[node name="Node2D10Room" parent="Node2D7" unique_id=1296001005 instance=ExtResource("28_ahjvc")]
+position = Vector2(-3418, -683)
 
-[node name="PipeMinigameRotateOnlyB" parent="Node2D7" unique_id=1296001005 instance=ExtResource("22_pipe_minigame")]
-offset_left = -3410.0
-offset_top = -770.0
-offset_right = -3058.0
-offset_bottom = -418.0
-embedded_mode = true
+[node name="WirePuzzleTerminalRoom10" parent="Node2D7/Node2D10Room" unique_id=563767018 instance=ExtResource("48_f7m78")]
+position = Vector2(210, 456)
+puzzle_layout = 11
+embedded_minigame_path = NodePath("../WireMinigameRoom10")
+
+[node name="WireMinigameRoom10" parent="Node2D7/Node2D10Room" unique_id=1449627533 instance=ExtResource("52_wire_minigame")]
+visible = false
+offset_left = 10.571411
+offset_top = -15.412323
+offset_right = 273.66675
+offset_bottom = 261.3992
 metadata/_edit_use_anchors_ = true
 
 [node name="Node2D6" type="Node2D" parent="." unique_id=97419856]
@@ -2685,10 +2693,10 @@ puzzle_layout = 7
 embedded_minigame_path = NodePath("../PipeMinigameRotateOnlyC")
 
 [node name="PipeMinigameRotateOnlyC" parent="Node2D6" unique_id=1296001007 instance=ExtResource("22_pipe_minigame")]
-offset_left = -2385.0
-offset_top = -1578.0
-offset_right = -2033.0
-offset_bottom = -1226.0
+offset_left = -1763.0
+offset_top = -1386.0
+offset_right = -1411.0
+offset_bottom = -1034.0
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
@@ -2771,7 +2779,208 @@ motion_mode = 2
 motion_distance = 160.0
 initial_direction = 1
 
-[node name="WirePuzzleTerminalRotateOnly" parent="." unique_id=1540700879 instance=ExtResource("48_f7m78")]
-position = Vector2(-4081, -938)
+[node name="Node2D13Room" parent="." unique_id=1297496407 instance=ExtResource("28_ahjvc")]
+position = Vector2(-3720, -1385)
+
+[node name="WirePuzzleTerminalRoom13" parent="Node2D13Room" unique_id=1540700879 instance=ExtResource("48_f7m78")]
+position = Vector2(-87, 450)
+puzzle_layout = 16
+embedded_minigame_path = NodePath("../WireMinigameRoom13")
+
+[node name="WireMinigameRoom13" parent="Node2D13Room" unique_id=1297496408 instance=ExtResource("52_wire_minigame")]
+offset_left = -0.9998779
+offset_top = 23.00003
+offset_right = 262.09546
+offset_bottom = 299.81155
+metadata/_edit_use_anchors_ = true
+
+[node name="waterPuzzleBoxRoom12" parent="." unique_id=1097531124 instance=ExtResource("28_ahjvc")]
+position = Vector2(-1256, -910)
+
+[node name="PipePuzzleTerminalRoom12" parent="waterPuzzleBoxRoom12" unique_id=1097531122 instance=ExtResource("12_pipe_terminal")]
+position = Vector2(210, 360)
+puzzle_layout = 2
+embedded_minigame_path = NodePath("../PipeMinigameRoom12")
+
+[node name="PipeMinigameRoom12" parent="waterPuzzleBoxRoom12" unique_id=1097531123 instance=ExtResource("22_pipe_minigame")]
+offset_left = -5.428589
+offset_top = 64.58768
+offset_right = 257.66675
+offset_bottom = 341.3992
+embedded_mode = true
+metadata/_edit_use_anchors_ = true
+
+[node name="WirePowerRelay11" parent="." unique_id=1622372513 instance=ExtResource("50_nce0a")]
+z_index = -1
+position = Vector2(-3759, -506)
+rotation = 1.5707964
+target_paths = Array[NodePath]([NodePath("../room9nodes"), NodePath("../Node2D16/Node2D9Room/Node2D3")])
+
+[node name="room9nodes" type="Node2D" parent="." unique_id=1602456914]
+
+[node name="WirePowerRelay8" parent="room9nodes" unique_id=1431280274 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -386)
+rotation = 1.5707964
+
+[node name="WirePowerRelay7" parent="room9nodes" unique_id=935950090 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -358)
+rotation = 1.5707964
+
+[node name="WirePowerRelay12" parent="room9nodes" unique_id=1454920795 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -328)
+rotation = 1.5707964
+
+[node name="WirePowerRelay13" parent="room9nodes" unique_id=1749911721 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3760, -296)
+
+[node name="WirePowerRelay14" parent="room9nodes" unique_id=1953531919 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3730, -296)
+
+[node name="WirePowerRelay15" parent="room9nodes" unique_id=695294985 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3700, -296)
+
+[node name="WirePowerRelay16" parent="room9nodes" unique_id=1793336531 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3670, -296)
+
+[node name="WirePowerRelay17" parent="room9nodes" unique_id=554486234 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3640, -296)
+
+[node name="WirePowerRelay18" parent="room9nodes" unique_id=279807292 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3610, -296)
+
+[node name="WirePowerRelay19" parent="room9nodes" unique_id=720855828 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3580, -296)
+
+[node name="WirePowerRelay20" parent="room9nodes" unique_id=1910896775 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3550, -296)
+
+[node name="WirePowerRelay21" parent="room9nodes" unique_id=1711822910 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -295)
+rotation = -1.5707964
+
+[node name="WirePowerRelay22" parent="room9nodes" unique_id=1587967301 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -325)
+rotation = -1.5707964
+
+[node name="WirePowerRelay23" parent="room9nodes" unique_id=792144938 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -355)
+rotation = -1.5707964
+
+[node name="WirePowerRelay24" parent="room9nodes" unique_id=2135272502 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -385)
+rotation = -1.5707964
+
+[node name="WirePowerRelay25" parent="room9nodes" unique_id=2069948753 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -415)
+rotation = -1.5707964
+
+[node name="WirePowerRelay26" parent="room9nodes" unique_id=1478478195 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -445)
+rotation = -1.5707964
+
+[node name="WirePowerRelay27" parent="room9nodes" unique_id=149955232 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -475)
+rotation = -1.5707964
+
+[node name="WirePowerRelay28" parent="room9nodes" unique_id=74250438 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -505)
+rotation = -1.5707964
+
+[node name="WirePowerRelay29" parent="room9nodes" unique_id=1353467800 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -535)
+rotation = -1.5707964
+
+[node name="WirePowerRelay30" parent="room9nodes" unique_id=845717484 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -565)
+rotation = -1.5707964
+
+[node name="WirePowerRelay31" parent="room9nodes" unique_id=1067741212 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -595)
+rotation = -1.5707964
+
+[node name="WirePowerRelay32" parent="room9nodes" unique_id=337825549 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -625)
+rotation = -1.5707964
+
+[node name="WirePowerRelay33" parent="room9nodes" unique_id=1082437519 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -655)
+rotation = -1.5707964
+
+[node name="WirePowerRelay34" parent="room9nodes" unique_id=66071238 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -685)
+rotation = -1.5707964
+
+[node name="WirePowerRelay35" parent="room9nodes" unique_id=855008511 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -715)
+rotation = -1.5707964
+
+[node name="WirePowerRelay36" parent="room9nodes" unique_id=1304371481 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -745)
+rotation = -1.5707964
+
+[node name="WirePowerRelay37" parent="room9nodes" unique_id=390716179 instance=ExtResource("50_nce0a")]
+visible = false
+z_index = 1
+position = Vector2(-3518, -775)
+rotation = -1.5707964
+
+[node name="WirePowerRelay38" parent="room9nodes" unique_id=1949158075 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -775)
+rotation = -1.5707964
+
+[node name="WirePowerRelay39" parent="room9nodes" unique_id=1661423540 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -805)
+rotation = -1.5707964
+
+[node name="WirePowerRelay40" parent="room9nodes" unique_id=215463059 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3518, -835)
+rotation = -1.5707964
+
+[node name="WirePowerRelay" parent="room9nodes" unique_id=276316995 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -476)
+rotation = 1.5707964
+target_paths = Array[NodePath]([NodePath("../WirePowerRelay2")])
+
+[node name="WirePowerRelay2" parent="room9nodes" unique_id=1080788155 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -446)
+rotation = 1.5707964
+target_paths = Array[NodePath]([NodePath("../../Node2D16/Node2D9Room/Node2D3")])
+
+[node name="WirePowerRelay3" parent="room9nodes" unique_id=1725455464 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -416)
+rotation = 1.5707964
 
 [editable path="RoomCamera/pauseMenu"]

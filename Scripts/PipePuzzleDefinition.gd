@@ -440,3 +440,165 @@ static func create_wire_full_6x7() -> PipePuzzleDefinition:
 			puzzle.set_piece(x, y, kind, rot, false)
 
 	return puzzle
+
+## Create a full 8x7 wire board (every cell is a wire node).
+static func create_wire_full_8x7() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(8, 7)
+	puzzle.source_pos = Vector2i(0, 3)
+	puzzle.sink_pos = Vector2i(7, 3)
+
+	for y in range(7):
+		for x in range(8):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle
+
+## Create a full 8x8 wire board (every cell is a wire node).
+static func create_wire_full_8x8() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(8, 8)
+	puzzle.source_pos = Vector2i(0, 4)
+	puzzle.sink_pos = Vector2i(7, 4)
+
+	for y in range(8):
+		for x in range(8):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle
+
+## Create a full 8x4 wire board (every cell is a wire node).
+static func create_wire_full_8x4() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(8, 4)
+	puzzle.source_pos = Vector2i(0, 2)
+	puzzle.sink_pos = Vector2i(7, 2)
+
+	for y in range(4):
+		for x in range(8):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle
+
+## Create a full 6x3 wire board (every cell is a wire node).
+static func create_wire_full_6x3() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(6, 3)
+	puzzle.source_pos = Vector2i(0, 1)
+	puzzle.sink_pos = Vector2i(5, 1)
+
+	for y in range(3):
+		for x in range(6):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle
+
+## Create a full 6x5 wire board (every cell is a wire node).
+static func create_wire_full_6x5() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(6, 5)
+	puzzle.source_pos = Vector2i(0, 2)
+	puzzle.sink_pos = Vector2i(5, 2)
+
+	for y in range(5):
+		for x in range(6):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle
+
+## Create a full 4x5 wire board (every cell is a wire node).
+static func create_wire_full_4x5() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(4, 5)
+	puzzle.source_pos = Vector2i(0, 2)
+	puzzle.sink_pos = Vector2i(3, 2)
+
+	for y in range(5):
+		for x in range(4):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle

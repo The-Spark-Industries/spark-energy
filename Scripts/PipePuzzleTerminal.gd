@@ -4,7 +4,7 @@ signal puzzle_solved(terminal: Node)
 
 @export var minigame_scene: PackedScene = preload("res://Master Scenes/PipeMinigame.tscn")
 @export var puzzle_definition: Dictionary = {}  # Serializable puzzle; auto-populate with default if empty.
-@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6", "Wire Full 6x7") var puzzle_layout: int = 0
+@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6", "Wire Full 6x7", "Wire Full 8x7", "Wire Full 6x3", "Wire Full 6x5", "Wire Full 4x5", "Wire Full 8x8", "Wire Full 8x4") var puzzle_layout: int = 0
 @export_enum("Normal", "Move Only", "Rotate Only") var control_mode: int = 0
 @export_group("Solved Platform Motion")
 @export var moving_platform_path: NodePath
@@ -81,6 +81,18 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_wire_full_6x6()
 			10:
 				_puzzle = PipePuzzleDefinition.create_wire_full_6x7()
+			11:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x7()
+			12:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x3()
+			13:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x5()
+			14:
+				_puzzle = PipePuzzleDefinition.create_wire_full_4x5()
+			15:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x8()
+			16:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x4()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
 		puzzle_definition = _puzzle.to_dict()

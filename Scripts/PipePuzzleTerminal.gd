@@ -75,10 +75,6 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x8()
 			7:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x9()
-			8:
-				_puzzle = PipePuzzleDefinition.create_wire_tree_9x8()
-			9:
-				_puzzle = PipePuzzleDefinition.create_wire_full_6x6()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
 		puzzle_definition = _puzzle.to_dict()

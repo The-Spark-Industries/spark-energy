@@ -33,5 +33,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=643582298]
 
 [node name="YellowWaterPuzzle" type="Sprite2D" parent="." unique_id=1257094955]
-position = Vector2(128, 127)
+position = Vector2(152.00002, 151)
+scale = Vector2(1.1875001, 1.1875)
 texture = ExtResource("1_utd55")

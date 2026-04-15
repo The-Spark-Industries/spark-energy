@@ -8,6 +8,8 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.get_meta("tag", "") != "player":
 		return
+	if not Global.checkpoints_enabled:
+		return
 
 	var scene_path := ""
 	if get_tree().current_scene:

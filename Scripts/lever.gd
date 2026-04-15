@@ -12,6 +12,11 @@ var readyToPress: bool= false
 @export var lift_pixels: float = 96.0
 @export_range(0.1, 10.0, 0.1) var lift_duration: float = 2.4
 
+@export_group("Lever Outputs")
+@export var output_target_paths: Array[NodePath] = []
+@export var output_method: StringName = &"activate"
+@export var output_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
+
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
 
@@ -45,6 +50,7 @@ func _input(event: InputEvent) -> void:
 			leverstatus=0
 
 func _apply_configured_actions() -> void:
+	_trigger_outputs()
 	_trigger_wheel_spin()
 
 	if _triggered_once:
@@ -64,6 +70,46 @@ func _apply_configured_actions() -> void:
 			_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 	_triggered_once = true
+
+func _trigger_outputs() -> void:
+	for target_path in output_target_paths:
+		if String(target_path).is_empty():
+			continue
+
+		var target := get_node_or_null(target_path)
+		if target == null:
+			continue
+
+		if _call_output_method(target, output_method):
+			continue
+
+		for fallback_method in output_fallback_methods:
+			if fallback_method == output_method:
+				continue
+			if _call_output_method(target, fallback_method):
+				break
+
+func _call_output_method(target: Object, method_name: StringName) -> bool:
+	var method_str := String(method_name)
+	if method_str.is_empty() or not target.has_method(method_str):
+		return false
+
+	var arg_count := -1
+	for method_info in target.get_method_list():
+		if String(method_info.get("name", "")) == method_str:
+			var args = method_info.get("args", [])
+			if args is Array:
+				arg_count = args.size()
+			break
+
+	if arg_count == 0:
+		target.call(method_str)
+	elif arg_count == 1:
+		target.call(method_str, self)
+	else:
+		target.call(method_str, self, self)
+
+	return true
 
 func _trigger_wheel_spin() -> void:
 	var wheel: Node = null

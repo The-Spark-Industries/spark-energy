@@ -4,7 +4,7 @@ signal puzzle_solved(terminal: Node)
 
 @export var minigame_scene: PackedScene = preload("res://Master Scenes/PipeMinigame.tscn")
 @export var puzzle_definition: Dictionary = {}  # Serializable puzzle; auto-populate with default if empty.
-@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9") var puzzle_layout: int = 0
+@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6") var puzzle_layout: int = 0
 @export_enum("Normal", "Move Only", "Rotate Only") var control_mode: int = 0
 @export_group("Solved Platform Motion")
 @export var moving_platform_path: NodePath
@@ -75,6 +75,10 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x8()
 			7:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x9()
+			8:
+				_puzzle = PipePuzzleDefinition.create_wire_tree_9x8()
+			9:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x6()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
 		puzzle_definition = _puzzle.to_dict()
@@ -215,6 +219,14 @@ func _on_minigame_completed(success: bool) -> void:
 		_start_platform_motion_if_needed()
 
 func _physics_process(delta: float) -> void:
+	if (Global.fontChoice==0):
+		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		$Prompt.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		$Prompt.theme=load("res://Assets/Visual/Receipt.tres")
+
+	
 	if not _ellipse_motion_started:
 		return
 	if _ellipse_target == null or not is_instance_valid(_ellipse_target):
@@ -534,6 +546,33 @@ func _randomize_puzzle_first_open() -> void:
 
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
+
+	if control_mode == 2:
+		var changed := false
+		for piece in movable_pieces:
+			var kind := String(piece.get("kind", "empty"))
+			if kind == "straight" or kind == "corner" or kind == "tee":
+				var next_rot := rng.randi_range(0, 3)
+				if next_rot != int(piece.get("rot", 0)):
+					changed = true
+				piece["rot"] = next_rot
+
+		if not changed:
+			for piece in movable_pieces:
+				var kind := String(piece.get("kind", "empty"))
+				if kind == "straight" or kind == "corner" or kind == "tee":
+					piece["rot"] = posmod(int(piece.get("rot", 0)) + 1, 4)
+					changed = true
+					break
+
+		for i in range(movable_indices.size()):
+			_puzzle.pieces[movable_indices[i]] = movable_pieces[i]
+
+		puzzle_definition = _puzzle.to_dict()
+		_randomized_once = true
+		if debug_embedded_sync:
+			print("[PipePuzzleTerminal] rotate randomize for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
+		return
 
 	for piece in movable_pieces:
 		var kind := String(piece.get("kind", "empty"))

@@ -48,6 +48,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _traveling_player and _path_follow:
 		_traveling_player.global_position = _path_follow.global_position
+		
 	
 	
 	

@@ -190,7 +190,6 @@ offset_left = 456.528
 offset_top = 623.323
 offset_right = 540.528
 offset_bottom = 654.323
-selected = 0
 allow_reselect = true
 item_count = 3
 popup/item_0/text = "Classic"

@@ -2,8 +2,18 @@
 
 [ext_resource type="Script" uid="uid://c56c0c5ch2qux" path="res://Scripts/lever.gd" id="1_yg5hk"]
 [ext_resource type="Texture2D" uid="uid://4odtpllfgryn" path="res://Level 1/Level 1 Art Assets/Items/Sprites/lever.png" id="2_yg5hk"]
+[ext_resource type="Texture2D" uid="uid://4odtpllfgryn" path="res://Level 1/Level 1 Art Assets/Items/Sprites/lever.png" id="2_yg5hk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yg5hk"]
+size = Vector2(28, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oqdeu"]
+atlas = ExtResource("2_yg5hk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x32ih"]
+atlas = ExtResource("2_yg5hk")
+region = Rect2(0, 0, 32, 32)
 size = Vector2(28, 23)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oqdeu"]
@@ -19,8 +29,10 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oqdeu")
+"texture": SubResource("AtlasTexture_oqdeu")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_x32ih")
 "texture": SubResource("AtlasTexture_x32ih")
 }],
 "loop": false,
@@ -32,6 +44,7 @@ animations = [{
 script = ExtResource("1_yg5hk")
 
 [node name="leverCollision" type="CollisionShape2D" parent="." unique_id=1833193169]
+position = Vector2(0, 4.5)
 position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_yg5hk")
 

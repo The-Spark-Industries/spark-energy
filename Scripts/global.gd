@@ -2,6 +2,10 @@ extends Node
 
 const SAVE_FILE_PATH := "user://savegame.json"
 
+## Toggle all checkpoint behavior globally.
+## When false, checkpoint triggers are ignored and player spawn uses scene placement.
+@export var checkpoints_enabled: bool = false
+
 ## Last checkpoint position the player touched.
 var last_checkpoint_position: Vector2 = Vector2.ZERO
 ## Scene path where the last checkpoint was touched.
@@ -37,6 +41,9 @@ func _notification(what: int) -> void:
 		save_game()
 
 func set_checkpoint(pos: Vector2, scene_path: String = "", room_id: String = "") -> void:
+	if not checkpoints_enabled:
+		return
+
 	if scene_path == "":
 		scene_path = _current_scene_path()
 
@@ -53,6 +60,9 @@ func set_checkpoint(pos: Vector2, scene_path: String = "", room_id: String = "")
 	save_game()
 
 func has_checkpoint_for_scene(scene_path: String) -> bool:
+	if not checkpoints_enabled:
+		return false
+
 	if not has_saved_checkpoint:
 		return false
 	return last_checkpoint_scene_path == scene_path

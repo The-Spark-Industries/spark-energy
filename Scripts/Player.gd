@@ -35,6 +35,9 @@ var _coyote_jump_available := false
 
 #
 
+#
+
+
 # Stack for wire player is currently hovering [cite: 5]
 var _pipes_inside: Array[Node] = []
 var _interactables_inside: Array[Node] = []
@@ -75,6 +78,8 @@ func _ready() -> void:
 	_water_death_timer.wait_time = water_grace_duration
 	_water_death_timer.timeout.connect(_on_water_death_timeout)
 	add_child(_water_death_timer)
+	
+	$AudioListener2D.make_current()
 
 func _physics_process(delta: float) -> void:
 	
@@ -151,6 +156,8 @@ func _physics_process(delta: float) -> void:
 	else :
 		Global.wiremode=false
 
+
+
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	# Update Floor/Coyote Timing
@@ -191,6 +198,7 @@ func _physics_process(delta: float) -> void:
 				if (Global.laddermode== false):
 					if _coyote_jump_available and Time.get_ticks_msec() - last_floor_msec < COYOTE_TIME_MS:
 						state = States.JUMP
+						$"SparkSFX/JumpSFX".play()
 						_coyote_jump_available = false
 					else:
 						last_jump_queue_msec = Time.get_ticks_msec()
@@ -222,10 +230,11 @@ func _physics_process(delta: float) -> void:
 
 		States.IDLE:
 			if _is_jump_just_pressed() or (Time.get_ticks_msec() - last_jump_queue_msec < JUMP_BUFFER_MS):
-		
-				state = States.JUMP
-				_coyote_jump_available = false
-				last_jump_queue_msec = 0
+				if (Global.laddermode==false):
+					state = States.JUMP
+					$"SparkSFX/JumpSFX".play()
+					_coyote_jump_available = false
+					last_jump_queue_msec = 0
 			else:
 				_apply_run_logic(direction, delta)
 				if sprite:
@@ -244,6 +253,7 @@ func _physics_process(delta: float) -> void:
 			elif _is_jump_just_pressed():
 				if (Global.laddermode == false):
 					state = States.JUMP
+					$"SparkSFX/JumpSFX".play()
 					_coyote_jump_available = false
 
 	# Final Smoothing and Terminal Velocity
@@ -348,6 +358,7 @@ func _on_water_death_timeout() -> void:
 func die() -> void:
 	state = States.DEAD
 	velocity = Vector2.ZERO
+	$"SparkSFX/DeathSFX".play()
 	if sprite:
 		sprite.stop()
 		sprite.play("dead")

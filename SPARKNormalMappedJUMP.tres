@@ -1,0 +1,8 @@
+[gd_resource type="CanvasTexture" load_steps=3 format=3 uid="uid://bxc8ww8cg8oor"]
+
+[ext_resource type="Texture2D" uid="uid://bmxr8o4qujd85" path="res://1_Main Character Assets/Spark Assets/Spark Animations/new_run.png" id="1_mb56q"]
+[ext_resource type="Texture2D" uid="uid://c8ww0t1jh5nqd" path="res://1_Main Character Assets/Spark Assets/Spark Animations/new_run_NORMAL.png" id="2_brfam"]
+
+[resource]
+diffuse_texture = ExtResource("1_mb56q")
+normal_texture = ExtResource("2_brfam")

@@ -1,24 +1,29 @@
-[gd_scene format=3 uid="uid://ctu446b65pai6"]
+[gd_scene load_steps=6 format=3 uid="uid://ctu446b65pai6"]
 
 [ext_resource type="Script" uid="uid://cmoblano7wpdw" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
 [ext_resource type="Texture2D" uid="uid://g3ol17l1csgd" path="res://Level 1/Level 1 Art Assets/Items/Sprites/TERMINAL.png" id="2_nxd6q"]
+[ext_resource type="Texture2D" uid="uid://bnl3cplhkico7" path="res://Level 1/Level 1 Art Assets/Items/Texture Maps/TERMINAL-normal.png" id="3_nnowx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnowx"]
 size = Vector2(45, 67)
 
-[node name="PipePuzzleTerminal" type="Area2D" unique_id=2059207433]
+[sub_resource type="CanvasTexture" id="CanvasTexture_iv4xa"]
+diffuse_texture = ExtResource("2_nxd6q")
+normal_texture = ExtResource("3_nnowx")
+
+[node name="PipePuzzleTerminal" type="Area2D"]
 collision_layer = 0
 script = ExtResource("1_terminal_script")
 water_stream_path = NodePath("SolvedWaterStream")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482101810]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -2.5)
 shape = SubResource("RectangleShape2D_nnowx")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1851894307]
-texture = ExtResource("2_nxd6q")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("CanvasTexture_iv4xa")
 
-[node name="Prompt" type="Label" parent="." unique_id=888163643]
+[node name="Prompt" type="Label" parent="."]
 visible = false
 offset_left = -140.0
 offset_top = -122.0
@@ -28,7 +33,7 @@ theme_override_font_sizes/font_size = 32
 text = "[E] Pipe Control"
 horizontal_alignment = 1
 
-[node name="SolvedWaterStream" type="Line2D" parent="." unique_id=1727436921]
+[node name="SolvedWaterStream" type="Line2D" parent="."]
 visible = false
 position = Vector2(36, -10)
 points = PackedVector2Array(0, 0, 55, 12, 110, 34)

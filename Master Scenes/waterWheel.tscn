@@ -1,16 +1,21 @@
-[gd_scene format=3 uid="uid://cry8t43cly03v"]
+[gd_scene load_steps=5 format=3 uid="uid://cry8t43cly03v"]
 
 [ext_resource type="Script" uid="uid://g7pmotdk61py" path="res://Scripts/water_wheel.gd" id="1_gd0dq"]
-[ext_resource type="Texture2D" uid="uid://clj5v77k4tn3e" path="res://Level 1/Level 1 Art Assets/Items/Sprites/waterwheel.png" id="2_4w2gn"]
+[ext_resource type="Texture2D" uid="uid://cfit2gjy4xwix" path="res://Level 1/Level 1 Art Assets/Items/Sprites/wheel1.png" id="2_3t308"]
+[ext_resource type="Texture2D" uid="uid://cji1sovd7xgan" path="res://Level 1/Level 1 Art Assets/Items/Texture Maps/wheel1-NORMAL2.png" id="3_3t308"]
 
-[node name="Node2D" type="Node2D" unique_id=488124887]
+[sub_resource type="CanvasTexture" id="CanvasTexture_8ka72"]
+diffuse_texture = ExtResource("2_3t308")
+normal_texture = ExtResource("3_3t308")
+
+[node name="Node2D" type="Node2D"]
 script = ExtResource("1_gd0dq")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=231638042]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(-1.1920929e-07, 1.1920929e-07)
 scale = Vector2(5, 5)
 
-[node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=1866004177]
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
 visible = false
 offset_left = -16.000002
 offset_top = -16.000002
@@ -19,11 +24,11 @@ offset_bottom = 15.999998
 color = Color(1, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=263801177]
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 position = Vector2(3.054738e-07, -0.5999999)
 scale = Vector2(0.19999999, 0.19999999)
-texture = ExtResource("2_4w2gn")
+texture = SubResource("CanvasTexture_8ka72")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=609959092]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 scale = Vector2(0.99999994, 0.99999994)
 polygon = PackedVector2Array(-4.0000005, -14.400002, 4.4000006, -14.400002, 11.200001, -10.400001, 14.600001, -4.0000005, 14.600001, 4.0000005, 10.400001, 11.000001, 4.2000003, 14.600001, -4.2000003, 14.600001, -10.000001, 11.000001, -14.200002, 4.2000003, -14.200002, -4.2000003, -10.400001, -10.600001)

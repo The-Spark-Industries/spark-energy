@@ -2279,6 +2279,7 @@ position = Vector2(751, 16)
 [node name="PipePuzzleTerminal2" parent="level2container/waterPuzzleLevel2" unique_id=2015673409 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(72, 98)
 puzzle_layout = 6
+control_mode = 1
 
 [node name="PipeMinigame" parent="level2container/waterPuzzleLevel2" unique_id=816716628 instance=ExtResource("22_pipe_minigame")]
 offset_left = 70.0

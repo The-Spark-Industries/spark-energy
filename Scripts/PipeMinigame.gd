@@ -11,7 +11,7 @@ const CELL_NORMAL := Color("2f3642")
 const CELL_CURSOR := Color("4fc9ff")
 const CELL_SELECTED := Color("ffb300")
 const CELL_FLOW := Color("2b6d8a")
-const EMBEDDED_CELL_SIZE_DEFAULT := 48.0
+const EMBEDDED_CELL_SIZE := 48.0
 
 @export_group("Visuals")
 @export var ui_font: Font
@@ -43,24 +43,6 @@ const EMBEDDED_CELL_SIZE_DEFAULT := 48.0
 @export var empty_texture: Texture2D
 @export var embedded_mode: bool = false
 @export var embedded_use_glyphs: bool = false
-@export var embedded_cell_size: float = EMBEDDED_CELL_SIZE_DEFAULT
-@export var piece_tint: Color = Color(1, 1, 1, 1)
-@export var source_piece_tint: Color = Color(1, 1, 1, 1)
-@export var sink_piece_tint: Color = Color(1, 1, 1, 1)
-@export var show_cell_background: bool = true
-@export var highlight_active_pipe: bool = true
-@export var active_pipe_tint: Color = Color(1, 1, 0.78, 1)
-@export var auto_flow_preview: bool = false
-@export var auto_flow_completes: bool = true
-@export var cell_color_normal: Color = CELL_NORMAL
-@export var cell_color_cursor: Color = CELL_CURSOR
-@export var cell_color_selected: Color = CELL_SELECTED
-@export var cell_color_flow: Color = CELL_FLOW
-@export var puzzle_title_text: String = "Pipe Control"
-@export var puzzle_info_text: String = "Build a connected pipe route from source to drain."
-@export var action_button_text: String = "Send Water"
-@export var solved_status_text: String = "Water reached the end. Puzzle solved!"
-@export var failed_status_text: String = "Flow failed before the end. Re-route the pipes."
 
 @onready var _root_panel: PanelContainer = $CenterContainer/PanelContainer
 @onready var _title_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Title
@@ -92,8 +74,6 @@ func set_debug_preview(enabled: bool) -> void:
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	self.theme=load("res://Assets/Visual/Lingua.tres")
-
 	if embedded_mode:
 		anchor_left = 0.0
 		anchor_top = 0.0
@@ -119,11 +99,11 @@ func _ready() -> void:
 	if embedded_mode:
 		$Backdrop.visible = false
 		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = puzzle_title_text.is_empty()
-		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = puzzle_info_text.is_empty()
-		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = not auto_flow_preview
+		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = action_button_text
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
 	if embedded_mode:
 		# Embedded boards should render immediately as in-world previews.
 		# Input remains locked because _active is still false until interact().
@@ -135,15 +115,6 @@ func _ready() -> void:
 		_request_embedded_refresh()
 		return
 	_reset_puzzle()
-
-
-func _process(delta: float) -> void:
-	if (Global.fontChoice==0):
-		self.theme=load("res://Assets/Visual/Lingua.tres")
-	if (Global.fontChoice==1):
-		self.theme=load("res://Assets/Visual/lingualight.tres")
-	if (Global.fontChoice==2):
-		self.theme=load("res://Assets/Visual/Receipt.tres")
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	_puzzle = puzzle
@@ -222,6 +193,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
+		$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -281,12 +253,28 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
+		if _grabbed_index != -1:
+			$"PipeSoundTest".play()
+		if _grabbed_index == -1:
+			$"TerminalMoveSound".play()
 
 	if dx != 0 or dy != 0:
 		_move_cursor(dx, dy)
@@ -309,43 +297,26 @@ func _build_grid_ui() -> void:
 	var layout_size := size
 	if layout_size.x <= 0.0 or layout_size.y <= 0.0:
 		layout_size = get_viewport_rect().size
-	var actual_embedded_cell_size := maxf(embedded_cell_size, 8.0)
-	var cell_size: float = actual_embedded_cell_size if embedded_mode else clampf(minf(
+	var cell_size: float = EMBEDDED_CELL_SIZE if embedded_mode else clampf(minf(
 		(layout_size.x * 0.72 - float(separation * (_grid_size - 1))) / float(_grid_size),
 		(layout_size.y * 0.45 - float(separation * (_grid_height - 1))) / float(_grid_height)
 	), 32.0, 96.0)
-	if embedded_mode:
-		var embedded_grid_size := Vector2(
-			(cell_size * _grid_size) + float(separation * (_grid_size - 1)),
-			(cell_size * _grid_height) + float(separation * (_grid_height - 1))
-		)
-		# Keep embedded cells perfectly square by disabling expand/stretch behavior.
-		_grid.size_flags_horizontal = 0
-		_grid.size_flags_vertical = 0
-		_grid.custom_minimum_size = embedded_grid_size
-	else:
-		_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		_grid.custom_minimum_size = Vector2.ZERO
 
-	var embedded_footer_padding := 16.0 if auto_flow_preview else 84.0
 	var panel_width: float = (cell_size * _grid_size) + float(separation * (_grid_size - 1)) + (16.0 if embedded_mode else 120.0)
-	var panel_height: float = (cell_size * _grid_height) + float(separation * (_grid_height - 1)) + (embedded_footer_padding if embedded_mode else 240.0)
+	var panel_height: float = (cell_size * _grid_height) + float(separation * (_grid_height - 1)) + (84.0 if embedded_mode else 240.0)
 	if not embedded_mode:
 		panel_width = minf(layout_size.x * 0.92, maxf(380.0, panel_width))
 		panel_height = minf(layout_size.y * 0.92, maxf(360.0, panel_height))
 	_root_panel.custom_minimum_size = Vector2(panel_width, panel_height)
 
-	var glyph_font_size: int = int(clampf(cell_size * 0.6, 8.0, 62.0))
+	var glyph_font_size: int = int(clampf(cell_size * 0.6, 24.0, 62.0))
 
 	for i in range(_grid_size * _grid_height):
 		var cell := PanelContainer.new()
 		cell.custom_minimum_size = Vector2(cell_size, cell_size)
 		cell.pivot_offset = Vector2(cell_size * 0.5, cell_size * 0.5)
 		cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		if not show_cell_background:
-			cell.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-		elif cell_texture:
+		if cell_texture:
 			cell.add_theme_stylebox_override("panel", _make_texture_stylebox(cell_texture))
 
 		var icon := Sprite2D.new()
@@ -397,12 +368,9 @@ func _reset_puzzle() -> void:
 	var center_y: int = _grid_height / 2
 	_cursor_index = _idx(center_x, center_y)
 	_grabbed_index = -1
-	_title_label.text = puzzle_title_text
-	_info_label.text = puzzle_info_text
-	_send_button.text = action_button_text
+	_info_label.text = "Build a connected pipe route from source to drain."
 	_status_label.text = _controls_hint_text()
 	_update_cells()
-	_refresh_auto_flow()
 	# Re-apply visuals on next frame so TextureRect sizes are valid before rotation pivots are used.
 	call_deferred("_update_cells")
 
@@ -413,10 +381,9 @@ func _toggle_select() -> void:
 			_status_label.text = "Selected. Move with WASD, Enter to place."
 	else:
 		_grabbed_index = -1
-		_status_label.text = "Piece placed." if auto_flow_preview else "Piece placed. Press Send Water when ready."
+		_status_label.text = "Piece placed. Press Send Water when ready."
 
 	_update_cells()
-	_refresh_auto_flow()
 
 func _move_cursor(dx: int, dy: int) -> void:
 	var current := _to_xy(_cursor_index)
@@ -434,7 +401,6 @@ func _move_cursor(dx: int, dy: int) -> void:
 
 	_cursor_index = target_index
 	_update_cells()
-	_refresh_auto_flow()
 
 func _rotate_at_selection(dir: int) -> void:
 	if not _can_rotate_pieces():
@@ -452,7 +418,6 @@ func _rotate_at_selection(dir: int) -> void:
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
 	_status_label.text = "Rotated piece."
 	_update_cells()
-	_refresh_auto_flow()
 
 func _can_move_pieces() -> bool:
 	return _control_mode != 2
@@ -472,42 +437,20 @@ func _controls_hint_text() -> String:
 func _on_send_water_pressed() -> void:
 	if not _active:
 		return
-	if auto_flow_preview:
-		return
 
 	var reached := _trace_flow_from_source()
 	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
 	if reached.has(sink_idx):
 		_solved = true
-		_status_label.text = solved_status_text
+		_status_label.text = "Water reached the end. Puzzle solved!"
+		$"PuzzleComplete".play()
 		_update_cells(reached)
 		completed.emit(true)
-		await get_tree().create_timer(0.8).timeout
+		await get_tree().create_timer(2.7).timeout
 		close_minigame()
 	else:
-		_status_label.text = failed_status_text
+		_status_label.text = "Flow failed before the end. Re-route the pipes."
 		_update_cells(reached)
-
-func _refresh_auto_flow() -> void:
-	if not auto_flow_preview or _puzzle == null:
-		return
-
-	var reached := _trace_flow_from_source()
-	_update_cells(reached)
-
-	if _solved or not _active or not auto_flow_completes:
-		return
-
-	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
-	if reached.has(sink_idx):
-		_solved = true
-		_status_label.text = solved_status_text
-		completed.emit(true)
-		call_deferred("_close_after_auto_flow_solve")
-
-func _close_after_auto_flow_solve() -> void:
-	await get_tree().create_timer(0.25).timeout
-	close_minigame()
 
 func _trace_flow_from_source() -> Array[int]:
 	var source_idx := _idx(_puzzle.source_pos.x, _puzzle.source_pos.y)
@@ -542,36 +485,19 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 		var piece_tex: Texture2D = _piece_texture(piece) if use_texture else null
 		if piece_tex:
 			_cell_icons[i].texture = piece_tex
-			var icon_tint := piece_tint
-			var piece_kind := String(piece.get("kind", ""))
-			if piece_kind == "source":
-				icon_tint = source_piece_tint
-			elif piece_kind == "sink":
-				icon_tint = sink_piece_tint
-			_cell_icons[i].modulate = icon_tint
 			var pivot_basis := _cells[i].custom_minimum_size
 			if pivot_basis.x <= 0.0 or pivot_basis.y <= 0.0:
 				pivot_basis = _cells[i].size
 			if pivot_basis.x <= 0.0 or pivot_basis.y <= 0.0:
-				pivot_basis = Vector2(maxf(embedded_cell_size, 8.0), maxf(embedded_cell_size, 8.0))
+				pivot_basis = Vector2(EMBEDDED_CELL_SIZE, EMBEDDED_CELL_SIZE)
 			_cell_icons[i].position = pivot_basis * 0.5
 			var tex_size := piece_tex.get_size()
 			if tex_size.x > 0.0 and tex_size.y > 0.0:
-				var embedded_target := maxf(embedded_cell_size, 8.0)
-				var target := Vector2(embedded_target, embedded_target) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
+				var target := Vector2(EMBEDDED_CELL_SIZE, EMBEDDED_CELL_SIZE) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
 				var fit_scale := minf(target.x / tex_size.x, target.y / tex_size.y)
 				_cell_icons[i].scale = Vector2.ONE * fit_scale
 			else:
 				_cell_icons[i].scale = Vector2.ONE
-			if not show_cell_background and highlight_active_pipe:
-				if i == _grabbed_index:
-					_cell_icons[i].modulate = active_pipe_tint
-					_cell_icons[i].scale *= 1.14
-					_cells[i].z_index = 20
-				elif i == _cursor_index:
-					_cell_icons[i].modulate = active_pipe_tint
-					_cell_icons[i].scale *= 1.08
-					_cells[i].z_index = 10
 			_cell_icons[i].rotation = _piece_rotation_radians(piece)
 			_cell_icons[i].visible = true
 			_cell_labels[i].text = ""
@@ -579,27 +505,22 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 			_cell_icons[i].visible = false
 			_cell_labels[i].text = _glyph_for_piece(piece)
 
-		if show_cell_background:
-			var color := cell_color_normal
-			if i in flow_cells:
-				color = cell_color_flow
-			if i == _cursor_index:
-				color = cell_color_cursor
-			if i == _grabbed_index:
-				color = cell_color_selected
+		var color := CELL_NORMAL
+		if i in flow_cells:
+			color = CELL_FLOW
+		if i == _cursor_index:
+			color = CELL_CURSOR
+		if i == _grabbed_index:
+			color = CELL_SELECTED
 
-			_cells[i].self_modulate = color
-			if i == _grabbed_index:
-				_cells[i].scale = Vector2(1.14, 1.14)
-				_cells[i].z_index = 20
-			elif i == _cursor_index:
-				_cells[i].scale = Vector2(1.06, 1.06)
-				_cells[i].z_index = 10
-			else:
-				_cells[i].scale = Vector2.ONE
-				_cells[i].z_index = 0
+		_cells[i].self_modulate = color
+		if i == _grabbed_index:
+			_cells[i].scale = Vector2(1.14, 1.14)
+			_cells[i].z_index = 20
+		elif i == _cursor_index:
+			_cells[i].scale = Vector2(1.06, 1.06)
+			_cells[i].z_index = 10
 		else:
-			_cells[i].self_modulate = Color(1, 1, 1, 1)
 			_cells[i].scale = Vector2.ONE
 			_cells[i].z_index = 0
 

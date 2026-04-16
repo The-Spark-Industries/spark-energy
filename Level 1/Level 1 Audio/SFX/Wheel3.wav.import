@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b0t5xugsfmtbu"
+path="res://.godot/imported/Wheel3.wav-f9deb79dcf170205b0a905710d50e6ff.sample"
+
+[deps]
+
+source_file="res://Level 1/Level 1 Audio/SFX/Wheel3.wav"
+dest_files=["res://.godot/imported/Wheel3.wav-f9deb79dcf170205b0a905710d50e6ff.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

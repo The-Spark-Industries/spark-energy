@@ -70,8 +70,6 @@ size_flags_horizontal = 3
 autowrap_mode = 2
 
 [node name="SendWaterButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1852465570]
-z_index = 1
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_font_sizes/font_size = 24
 text = "Send Water"

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dui1yiuhljjwq"
+path="res://.godot/imported/Water, Flow, River, Close, Perspective 02 SND145709.wav-12e31cb7cf547d269ca218bd0b9172b8.sample"
+
+[deps]
+
+source_file="res://Level 1/Level 1 Audio/Ambience/Water, Flow, River, Close, Perspective 02 SND145709.wav"
+dest_files=["res://.godot/imported/Water, Flow, River, Close, Perspective 02 SND145709.wav-12e31cb7cf547d269ca218bd0b9172b8.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

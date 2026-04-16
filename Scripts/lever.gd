@@ -47,6 +47,7 @@ func _input(event: InputEvent) -> void:
 		if (leverstatus==0):
 			leverstatus=1
 			_apply_configured_actions()
+			$"leverSound".play()
 		elif (leverstatus==1):
 			leverstatus=0
 

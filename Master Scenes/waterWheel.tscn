@@ -1,12 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://cry8t43cly03v"]
+[gd_scene load_steps=6 format=3 uid="uid://cry8t43cly03v"]
 
 [ext_resource type="Script" uid="uid://g7pmotdk61py" path="res://Scripts/water_wheel.gd" id="1_gd0dq"]
 [ext_resource type="Texture2D" uid="uid://cfit2gjy4xwix" path="res://Level 1/Level 1 Art Assets/Items/Sprites/wheel1.png" id="2_3t308"]
-[ext_resource type="Texture2D" uid="uid://cji1sovd7xgan" path="res://Level 1/Level 1 Art Assets/Items/Texture Maps/wheel1-NORMAL2.png" id="3_3t308"]
+[ext_resource type="Texture2D" uid="uid://cfigltjobh0n3" path="res://Level 1/Level 1 Art Assets/Items/Sprites/WHELLTRY4.png" id="3_3t308"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_8ka72"]
 diffuse_texture = ExtResource("2_3t308")
 normal_texture = ExtResource("3_3t308")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3t308"]
+polygon = PackedVector2Array(52, -61, 62, -51, 46, -33, 58, -11, 72, -8, 73, 4.9999995, 57, 3.9999995, 49, 33, 60, 52, 50, 66, 31.999998, 48, 7.9999986, 58, 6.9999986, 75, -5.0000014, 75, -6.0000014, 55, -33, 48, -50, 64, -62, 48, -48, 31, -58, 6.9999995, -71, 5.9999995, -71, -5.0000005, -60, -6.0000005, -49, -32, -62, -56, -48, -66, -35, -50, -5.0000014, -57, -3.0000014, -74, 3.9999986, -74, 7.9999986, -57, 31.999998, -49)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_gd0dq")
@@ -28,6 +31,9 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(3.054738e-07, -0.5999999)
 scale = Vector2(0.19999999, 0.19999999)
 texture = SubResource("CanvasTexture_8ka72")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_3t308")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 scale = Vector2(0.99999994, 0.99999994)

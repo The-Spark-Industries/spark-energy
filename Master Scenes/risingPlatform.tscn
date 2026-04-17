@@ -7,7 +7,7 @@
 size = Vector2(96, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1hgnv"]
-size = Vector2(104, 19)
+size = Vector2(96, 19)
 
 [node name="Node2D3" type="Node2D" unique_id=1301307828]
 script = ExtResource("1_risingplat")
@@ -19,8 +19,8 @@ position = Vector2(48, 26)
 shape = SubResource("RectangleShape2D_gmpt8")
 
 [node name="Sprite2D" type="Sprite2D" parent="PlatformBody" unique_id=1637247961]
-position = Vector2(51.500008, 16)
-scale = Vector2(1.0937501, 1)
+position = Vector2(47.500004, 16)
+scale = Vector2(1.0104167, 1)
 texture = ExtResource("2_4pvl5")
 
 [node name="ColorRect" type="ColorRect" parent="PlatformBody" unique_id=1317594174]
@@ -33,5 +33,5 @@ color = Color(0.78039217, 0.6666667, 0.5411765, 1)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126918074]
-position = Vector2(52, 22.5)
+position = Vector2(48, 22.5)
 shape = SubResource("RectangleShape2D_1hgnv")

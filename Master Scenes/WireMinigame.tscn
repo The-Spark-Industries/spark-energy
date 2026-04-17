@@ -19,7 +19,7 @@
 [node name="WireMinigame" unique_id=50798521 instance=ExtResource("1_base_minigame")]
 ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
 embedded_mode = true
-embedded_use_glyphs = false
+embedded_use_glyphs = true
 embedded_cell_size = 32.0
 piece_tint = Color(0.984314, 0.909804, 0.298039, 1)
 source_piece_tint = Color(0.321569, 1, 0.615686, 1)

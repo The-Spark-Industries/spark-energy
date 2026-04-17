@@ -1,44 +1,51 @@
-[gd_scene load_steps=7 format=3 uid="uid://wflvrv4ubxgo"]
+[gd_scene format=3 uid="uid://wflvrv4ubxgo"]
 
 [ext_resource type="Script" uid="uid://c56c0c5ch2qux" path="res://Scripts/lever.gd" id="1_yg5hk"]
 [ext_resource type="Texture2D" uid="uid://4odtpllfgryn" path="res://Level 1/Level 1 Art Assets/Items/Sprites/lever.png" id="2_yg5hk"]
+[ext_resource type="Texture2D" uid="uid://jtq656be4w67" path="res://Level 1/Level 1 Art Assets/Items/Sprites/leverflipped.png" id="3_oqdeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yg5hk"]
-size = Vector2(28, 23)
+size = Vector2(40, 26)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oqdeu"]
 atlas = ExtResource("2_yg5hk")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x32ih"]
-atlas = ExtResource("2_yg5hk")
-region = Rect2(32, 0, 32, 32)
+atlas = ExtResource("3_oqdeu")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ybjgq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oqdeu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x32ih")
 }],
 "loop": false,
 "name": &"default",
 "speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x32ih")
+}],
+"loop": true,
+"name": &"flipped",
+"speed": 5.0
 }]
 
 [node name="Lever" type="Area2D" unique_id=1287015382]
 script = ExtResource("1_yg5hk")
 
 [node name="leverCollision" type="CollisionShape2D" parent="." unique_id=1833193169]
-position = Vector2(0, 4.5)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_yg5hk")
 
 [node name="leverSprites" type="AnimatedSprite2D" parent="." unique_id=1874664651]
 sprite_frames = SubResource("SpriteFrames_ybjgq")
+animation = &"flipped"
 
-[node name="leverSound" type="AudioStreamPlayer" parent="."]
+[node name="leverSound" type="AudioStreamPlayer" parent="." unique_id=922319105]
 
 [node name="Prompt" type="Label" parent="." unique_id=188004533]
 visible = false

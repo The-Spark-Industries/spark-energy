@@ -27,12 +27,13 @@ func _ready() -> void:
 	if has_node("Prompt"):
 		$Prompt.visible = false
 	$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
+	_update_lever_animation()
 
 
 
 # # Changes the sprite to whatever the lever status is.
 func _process(delta: float) -> void:
-	change.frame=leverstatus
+	_update_lever_animation()
 
 	if (Global.fontChoice==0):
 		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
@@ -46,10 +47,22 @@ func _input(event: InputEvent) -> void:
 	if (Input.is_action_just_pressed("interact")) and (readyToPress==true):
 		if (leverstatus==0):
 			leverstatus=1
+			_update_lever_animation()
 			_apply_configured_actions()
 			$"leverSound".play()
 		elif (leverstatus==1):
 			leverstatus=0
+			_update_lever_animation()
+
+func _update_lever_animation() -> void:
+	if change == null or change.sprite_frames == null:
+		return
+
+	var next_anim := "flipped" if leverstatus == 1 else "default"
+	if not change.sprite_frames.has_animation(next_anim):
+		return
+	if change.animation != StringName(next_anim):
+		change.play(next_anim)
 
 func _apply_configured_actions() -> void:
 	_trigger_outputs()

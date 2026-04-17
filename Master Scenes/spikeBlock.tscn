@@ -3,18 +3,10 @@
 [ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="1_deathbox"]
 [ext_resource type="Texture2D" uid="uid://c5e8n675pw50t" path="res://Level 1/Level 1 Art Assets/Environment/Props/Spike.png" id="2_l2bc3"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_solid"]
-size = Vector2(32, 32)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
 size = Vector2(32, 32)
 
 [node name="SpikeBlock" type="Node2D" unique_id=2139032335]
-
-[node name="Solid" type="StaticBody2D" parent="." unique_id=428827989]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Solid" unique_id=568089954]
-shape = SubResource("RectangleShape2D_solid")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=2028626065]
 collision_layer = 0

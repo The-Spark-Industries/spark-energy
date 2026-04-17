@@ -441,6 +441,33 @@ static func create_wire_full_6x7() -> PipePuzzleDefinition:
 
 	return puzzle
 
+## Create a full 7x6 wire board (every cell is a wire node).
+static func create_wire_full_7x6() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(7, 6)
+	puzzle.source_pos = Vector2i(0, 3)
+	puzzle.sink_pos = Vector2i(6, 3)
+
+	for y in range(6):
+		for x in range(7):
+			if x == puzzle.source_pos.x and y == puzzle.source_pos.y:
+				puzzle.set_piece(x, y, "source", 0, true)
+				continue
+			if x == puzzle.sink_pos.x and y == puzzle.sink_pos.y:
+				puzzle.set_piece(x, y, "sink", 0, true)
+				continue
+
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	return puzzle
+
 ## Create a full 8x7 wire board (every cell is a wire node).
 static func create_wire_full_8x7() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(8, 7)

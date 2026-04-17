@@ -40,6 +40,7 @@ func stop_spin() -> void:
 func _start_oscillation() -> void:
 	if _oscillation_tween and _oscillation_tween.is_valid():
 		_oscillation_tween.kill()
+		$"WaterWheelNoise".play()
 
 	var left_rotation := _base_rotation - deg_to_rad(oscillation_angle_degrees)
 

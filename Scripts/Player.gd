@@ -87,7 +87,6 @@ func _physics_process(delta: float) -> void:
 		$playerprompt.theme=load("res://Assets/Visual/Receipt.tres")
 		
 	pass
-	print (Global.tutorialchecker, Global.jumpcounter)
 
 	#moving the player prompt
 	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):

@@ -13,8 +13,6 @@ size = Vector2(96, 12)
 script = ExtResource("1_risingplat")
 
 [node name="PlatformBody" type="StaticBody2D" parent="." unique_id=1255022640]
-collision_layer = 1
-collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformBody" unique_id=1111304928]
 position = Vector2(48, 26)
@@ -33,7 +31,6 @@ color = Color(0.78039217, 0.6666667, 0.5411765, 1)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1234567890]
 collision_layer = 0
-collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126918074]
 position = Vector2(48, 26)

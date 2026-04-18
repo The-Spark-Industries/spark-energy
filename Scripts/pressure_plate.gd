@@ -8,11 +8,14 @@ var readyToPress: bool= false
 
 @onready var platformMode: bool= false
 
-@export_group("Solved Platform Motion")
-@export var moving_platform_path: NodePath
-@export var platform_move_distance: float = 100.0
-@export var platform_move_duration: float = 2.3
-
+@export_group("pplate Actions")
+@export var waterfall_path: NodePath
+@export var lift_target_path: NodePath
+@export var wheel_target_path: NodePath
+@export var lift_pixels: float = 96.0
+@export_range(0.1, 50.0, 0.1) var lift_duration: float = 2.4
+var _lift_tween: Tween = null
+var i: int =0
 
 @onready var change= $pressurePlateSprites
 # Called when the node enters the scene tree for the first time.
@@ -34,16 +37,24 @@ func _on_body_entered(body: Node2D) -> void:
 	if (body is CharacterBody2D):
 		readyToPress= true
 		pressurePlateStatus=1
-		var platform := get_node_or_null(moving_platform_path) as Node2D
-		if platform == null:
-			return
-			
-		var start_y := platform.position.y
-		var tween := create_tween()
-		tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-		tween.tween_property(platform, "position:y", start_y + platform_move_distance, platform_move_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(platform, "position:y", start_y - platform_move_distance, platform_move_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+		
+		
+		if not String(lift_target_path).is_empty() and not is_zero_approx(lift_pixels):
+			var lift_target := get_node_or_null(lift_target_path) as Node2D
+			if lift_target:
+				if _lift_tween and _lift_tween.is_valid():
+					_lift_tween.kill()
+				_lift_tween = create_tween()
+				_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			while (body is CharacterBody2D) and (lift_target.get_meta("tag", "") != "risingWater") and (i<=lift_duration*3):
+		
+				lift_target.scale.y+=0.25
+				await get_tree().create_timer(0.065).timeout
+				i+=1
+				print(i)
+				
 
+				
 func _on_body_exited(body: Node2D) -> void:
 	if (body is CharacterBody2D):
 		readyToPress= false

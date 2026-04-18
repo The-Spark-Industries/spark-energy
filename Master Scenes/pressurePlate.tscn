@@ -23,6 +23,7 @@ size = Vector2(36, 18)
 
 [node name="PressurePlate" type="Area2D" unique_id=446670835]
 script = ExtResource("1_4uor8")
+lift_duration = 15.0
 
 [node name="pressurePlateSprites" type="AnimatedSprite2D" parent="." unique_id=24121763]
 position = Vector2(2, -10)

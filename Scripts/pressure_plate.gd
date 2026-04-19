@@ -48,7 +48,7 @@ func _on_body_entered(body: Node2D) -> void:
 				_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			while (body is CharacterBody2D) and (lift_target.get_meta("tag", "") != "risingWater") and (i<=lift_duration*5):
 		
-				lift_target.scale.y+=0.20
+				lift_target.scale.y+=0.223
 				await get_tree().create_timer(0.08).timeout
 				i+=1
 				print(i)

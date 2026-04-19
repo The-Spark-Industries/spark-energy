@@ -207,6 +207,7 @@ func _physics_process(delta: float) -> void:
 				animPlayer.stop()
 				animPlayer.play("jump")
 			state = States.AIR
+			$"SparkSFX/WalkingSFX".stop()
 
 		States.AIR:
 			if is_on_floor():
@@ -221,6 +222,8 @@ func _physics_process(delta: float) -> void:
 					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
+			
+			$"SparkSFX/WalkingSFX".stop()
 			
 			# Jump Input (with Coyote Time)
 			if _is_jump_just_pressed():
@@ -271,10 +274,12 @@ func _physics_process(delta: float) -> void:
 					sprite.play("idle")
 				if direction != 0:
 					state = States.RUN
-
+			$"SparkSFX/WalkingSFX".stop()
 		States.RUN:
 			if sprite: sprite.play("run")
 			_apply_run_logic(direction, delta)
+			if not $"SparkSFX/WalkingSFX".playing:
+				$"SparkSFX/WalkingSFX".play()
 			
 			if direction == 0:
 				state = States.IDLE

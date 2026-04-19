@@ -473,6 +473,17 @@ func _set_flow_visual_active(node: Node, active: bool) -> void:
 		(node as GPUParticles2D).emitting = active
 	elif node is CPUParticles2D:
 		(node as CPUParticles2D).emitting = active
+		
+	if node.has_node("WaterfallSound"):
+		var WaterfallSound := node.get_node("WaterfallSound") as AudioStreamPlayer2D
+		print("WaterSFX found: ", WaterfallSound, " active: ", active)
+		if WaterfallSound:
+			if active:
+				WaterfallSound.play()
+			else:
+				WaterfallSound.stop()
+	else:
+		print("No WaterSFX child on: ", node.name)
 
 	# Supports an AnimationPlayer child named FlowAnimation for custom visuals.
 	if node.has_node("FlowAnimation"):

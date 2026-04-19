@@ -401,8 +401,8 @@ streams_count = 1
 stream_0/stream = ExtResource("11_d0cqg")
 
 [sub_resource type="Gradient" id="Gradient_vg4o2"]
-offsets = PackedFloat32Array(0.023584906, 0.254717, 0.5518868)
-colors = PackedColorArray(0, 0, 0, 1, 0.65445083, 0.54370993, 0.44912487, 1, 0.6112324, 0.5078046, 0.4194657, 1)
+offsets = PackedFloat32Array(0.023584906, 0.254717, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.65445083, 0.54370993, 0.44912487, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ovtw8"]
 gradient = SubResource("Gradient_vg4o2")
@@ -823,6 +823,7 @@ current = true
 [node name="SmallLandingParticles" type="GPUParticles2D" parent="CharacterBody2D"]
 emitting = false
 amount = 50
+lifetime = 5.18
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_sfx35")
@@ -837,7 +838,7 @@ process_material = SubResource("ParticleProcessMaterial_sfx35")
 [node name="BigLandingParticles" type="GPUParticles2D" parent="CharacterBody2D"]
 emitting = false
 amount = 200
-lifetime = 1.6700000000000002
+lifetime = 6.89
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_sfx35")

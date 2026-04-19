@@ -87,12 +87,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	print("on_floor: ", is_on_floor(), "  velocity.y: ", velocity.y)
-	
 	just_fell_countdown -= delta
 	
 	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:
-		print("landed")
 		for i in get_slide_collision_count():
 			var collision := get_slide_collision(i)
 			var collider := collision.get_collider()
@@ -103,7 +100,6 @@ func _physics_process(delta: float) -> void:
 				just_fell_countdown = 0.2
 				break
 	if is_on_floor() and just_fell and just_fell_countdown <= 0.0:
-		print("landed")
 		for i in get_slide_collision_count():
 			var collision := get_slide_collision(i)
 			var collider := collision.get_collider()

@@ -43,6 +43,6 @@ polygon = PackedVector2Array(-4.0000005, -14.400002, 4.4000006, -14.400002, 11.2
 [node name="WaterWheelNoise" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_3m5p7")
 volume_db = 2.385
-max_distance = 590.0
+max_distance = 884.0
 attenuation = 1.7411016
 panning_strength = 1.63

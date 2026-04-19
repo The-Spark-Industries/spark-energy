@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=139 format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
@@ -61,6 +61,7 @@
 [ext_resource type="AudioStream" uid="uid://cltuows3gcovu" path="res://Level 1/Level 1 Audio/SFX/PuzzleSolved_3.wav" id="46_uapay"]
 [ext_resource type="AudioStream" uid="uid://wecos68iu24f" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_2.wav" id="50_t5me0"]
 [ext_resource type="AudioStream" uid="uid://cdsgbk8nuv2vx" path="res://Level 1/Level 1 Audio/SFX/Lever3.wav" id="57_jxy6j"]
+[ext_resource type="AudioStream" uid="uid://bdhafu5d4yhhy" path="res://Level 1/Level 1 Audio/Ambience/Ambience, Industrial, Factory, Hums, Distant Movement, Metal Trolleys (50) (LRC Ls Rs) SND139588.ogg" id="62_vg4o2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -2433,3 +2434,9 @@ position = Vector2(1487.5, -85)
 
 [node name="Checkpoint4" parent="." instance=ExtResource("8_tiul6")]
 position = Vector2(2880, 250)
+
+[node name="Ambience?" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("62_vg4o2")
+volume_db = 8.11
+autoplay = true
+bus = &"Ambience"

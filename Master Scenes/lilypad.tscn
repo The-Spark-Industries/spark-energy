@@ -1,7 +1,12 @@
-[gd_scene format=3 uid="uid://dl0ajfwikhlfi"]
+[gd_scene load_steps=7 format=3 uid="uid://dl0ajfwikhlfi"]
 
 [ext_resource type="Script" uid="uid://bhmgwwcku5l1u" path="res://Scripts/lilypad.gd" id="1_uf608"]
 [ext_resource type="Texture2D" uid="uid://beboj51j5jldt" path="res://Level 1/Level 1 Art Assets/Items/Sprites/lilypad.png" id="2_tjthv"]
+[ext_resource type="Texture2D" uid="uid://k8aplnxu1aki" path="res://Level 1/Level 1 Art Assets/Items/Sprites/lilypad-NORMAL.png" id="3_n0r7m"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_au8dx"]
+diffuse_texture = ExtResource("2_tjthv")
+normal_texture = ExtResource("3_n0r7m")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0r7m"]
 size = Vector2(96, 17.5)
@@ -9,21 +14,21 @@ size = Vector2(96, 17.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjthv"]
 size = Vector2(96, 16)
 
-[node name="Lilypad" type="StaticBody2D" unique_id=1146570908]
+[node name="Lilypad" type="StaticBody2D"]
 script = ExtResource("1_uf608")
 
-[node name="lilypadSprite" type="Sprite2D" parent="." unique_id=900431115]
+[node name="lilypadSprite" type="Sprite2D" parent="."]
 position = Vector2(48, 3.5)
 scale = Vector2(3, 1.34375)
-texture = ExtResource("2_tjthv")
+texture = SubResource("CanvasTexture_au8dx")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=696400526]
+[node name="Area2D" type="Area2D" parent="."]
 
-[node name="lilypadCollision" type="CollisionShape2D" parent="Area2D" unique_id=1852621751]
+[node name="lilypadCollision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(48, 16)
 shape = SubResource("RectangleShape2D_n0r7m")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=235614885]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(48, 17)
 shape = SubResource("RectangleShape2D_tjthv")
 

@@ -485,17 +485,26 @@ func _set_flow_visual_active(node: Node, active: bool) -> void:
 				flow_anim.stop()
 
 func _start_wheel_spin(node: Node) -> void:
+	var wheel := node as Node2D
 	if _wheel_spin_started:
 		return
-	var wheel := node as Node2D
 	if wheel == null:
 		return
 
 	_wheel_spin_started = true
-	var tween := create_tween()
-	tween.set_loops()
-	tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
-
+	
+	if wheel.has_method("start_spin"):
+		# Optionally override the spin speed to match this terminal's setting
+		if "spin_time_per_turn" in node:
+			node.spin_time_per_turn = wheel_spin_time_per_turn
+		wheel.start_spin()
+	else:
+		# Fallback to old behavior if the wheel doesn't have a start_spin method
+		if wheel:
+			var tween := create_tween()
+			tween.set_loops()
+			tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+			
 func _on_body_entered(body: Node2D) -> void:
 	if not (body is CharacterBody2D):
 		return

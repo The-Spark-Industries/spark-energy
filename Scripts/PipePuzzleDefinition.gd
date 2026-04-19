@@ -94,6 +94,19 @@ static func create_default() -> PipePuzzleDefinition:
 	puzzle.set_piece(2, 2, "tee", 0)
 	return puzzle
 
+## Create a compact 2x2 puzzle.
+static func create_puzzle_2x2() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(2)
+	puzzle.source_pos = Vector2i(0, 0)
+	puzzle.sink_pos = Vector2i(1, 1)
+
+	puzzle.set_piece(0, 0, "source", 1, true)
+	puzzle.set_piece(1, 1, "sink", 3, true)
+	puzzle.set_piece(1, 0, "corner", 2)
+	puzzle.set_piece(0, 1, "corner", 0)
+
+	return puzzle
+
 ## Create a unique 3x3 puzzle.
 static func create_puzzle_3x3() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(3)

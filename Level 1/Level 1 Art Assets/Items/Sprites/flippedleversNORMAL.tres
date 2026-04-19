@@ -1,4 +1,4 @@
-[gd_resource type="CanvasTexture" load_steps=3 format=3 uid="uid://bfa37qf1dqelb"]
+[gd_resource type="CanvasTexture" format=3 uid="uid://bfa37qf1dqelb"]
 
 [ext_resource type="Texture2D" uid="uid://b3upu5s3h2k7f" path="res://Level 1/Level 1 Art Assets/Items/Sprites/flipped_lever.png" id="1_v8eow"]
 [ext_resource type="Texture2D" uid="uid://go55fymsnihq" path="res://Level 1/Level 1 Art Assets/Items/Sprites/flipped_lever-NORMAL.png" id="2_33hls"]

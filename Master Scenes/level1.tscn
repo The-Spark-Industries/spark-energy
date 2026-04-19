@@ -1,4 +1,4 @@
-[gd_scene load_steps=136 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=138 format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
@@ -21,7 +21,9 @@
 [ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 [ext_resource type="AudioStream" uid="uid://ddixlvahgepyh" path="res://Level 1/Level 1 Audio/SFX/SparkLanding.wav" id="12_sfx35"]
 [ext_resource type="PackedScene" uid="uid://wflvrv4ubxgo" path="res://Master Scenes/lever.tscn" id="13_1yw1p"]
+[ext_resource type="AudioStream" uid="uid://du84kw3i4cth7" path="res://Level 1/Level 1 Audio/SFX/PuzzleSolved_2.wav" id="13_sfx35"]
 [ext_resource type="Script" uid="uid://xjji1j1ek8nr" path="res://Scripts/TerminalWaterDispenser.gd" id="13_terminal_dispenser"]
+[ext_resource type="AudioStream" uid="uid://df5mcs6aouftg" path="res://Level 1/Level 1 Audio/SFX/Water, Impact, Splash, Rock Lake, D100 SND117437.wav" id="14_8g7by"]
 [ext_resource type="PackedScene" uid="uid://b3yhb37j1c51y" path="res://Master Scenes/pressurePlate.tscn" id="16_wnyvq"]
 [ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="17_naso3"]
 [ext_resource type="PackedScene" uid="uid://cry8t43cly03v" path="res://Master Scenes/waterWheel.tscn" id="19_8ifkh"]
@@ -808,13 +810,21 @@ stream = SubResource("AudioStreamRandomizer_gnar4")
 
 [node name="LandingSFX" type="AudioStreamPlayer" parent="CharacterBody2D/SparkSFX"]
 stream = ExtResource("12_sfx35")
-volume_db = -9.063
+volume_db = -11.925
 pitch_scale = 0.47
 
 [node name="HardLandingSFX" type="AudioStreamPlayer" parent="CharacterBody2D/SparkSFX"]
 stream = ExtResource("12_sfx35")
 volume_db = -0.952
 pitch_scale = 0.47
+
+[node name="PipeInitializeSound" type="AudioStreamPlayer" parent="CharacterBody2D/SparkSFX"]
+stream = ExtResource("13_sfx35")
+volume_db = -4.771
+bus = &"SFX"
+
+[node name="SplashSFX" type="AudioStreamPlayer" parent="CharacterBody2D/SparkSFX"]
+stream = ExtResource("14_8g7by")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="CharacterBody2D"]
 current = true

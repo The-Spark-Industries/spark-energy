@@ -44,6 +44,7 @@ func _input(event: InputEvent) -> void:
 			$"leverSound".play()
 		elif (leverstatus==1):
 			leverstatus=0
+			$"leverSound".play()
 
 func _apply_configured_actions() -> void:
 	_trigger_wheel_spin()

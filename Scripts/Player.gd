@@ -52,6 +52,10 @@ var _water_death_timer: Timer
 ## Tracks whether the water-walk grace has been used this life (one touch allowed per respawn).
 var _water_walk_used: bool = false
 
+var just_fell: bool = false
+var just_fell_hard: bool = false
+var just_fell_countdown: float = 0.0
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
@@ -82,6 +86,35 @@ func _ready() -> void:
 	$AudioListener2D.make_current()
 
 func _physics_process(delta: float) -> void:
+	
+	print("on_floor: ", is_on_floor(), "  velocity.y: ", velocity.y)
+	
+	just_fell_countdown -= delta
+	
+	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:
+		print("landed")
+		for i in get_slide_collision_count():
+			var collision := get_slide_collision(i)
+			var collider := collision.get_collider()
+			if collision.get_collider() is StaticBody2D and not collider.is_in_group("NotTileMap"):
+				if not $"SparkSFX/HardLandingSFX".playing:
+					$"SparkSFX/HardLandingSFX".play()
+				$BigLandingParticles.restart()
+				just_fell_countdown = 0.2
+				break
+	if is_on_floor() and just_fell and just_fell_countdown <= 0.0:
+		print("landed")
+		for i in get_slide_collision_count():
+			var collision := get_slide_collision(i)
+			var collider := collision.get_collider()
+			if collision.get_collider() is StaticBody2D and not collider.is_in_group("NotTileMap"):
+				if not $"SparkSFX/LandingSFX".playing:
+					$"SparkSFX/LandingSFX".play()
+				$SmallLandingParticles.restart()
+				just_fell_countdown = 0.2
+				break
+	just_fell = not is_on_floor() and velocity.y > 700
+	just_fell_hard = not is_on_floor() and velocity.y > 1200
 	
 	#fonts for the player prompt
 	if (Global.fontChoice==0):
@@ -176,7 +209,7 @@ func _physics_process(delta: float) -> void:
 			if sprite: sprite.play("jump")
 			if animPlayer:
 				animPlayer.stop()
-				animPlayer.plpay("jump")
+				animPlayer.play("jump")
 			state = States.AIR
 
 		States.AIR:
@@ -184,7 +217,7 @@ func _physics_process(delta: float) -> void:
 				state = States.IDLE
 				_jump_arc_active = false
 				if animPlayer: animPlayer.play("land")
-			
+									
 			# Variable Jump Height [cite: 6]
 			if _is_jump_just_released():
 				if (Global.laddermode==false):
@@ -259,6 +292,7 @@ func _physics_process(delta: float) -> void:
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
 	velocity.y = min(velocity.y, MAX_FALL_SPEED)
+	
 	
 	prev_velocity = velocity
 	move_and_slide()

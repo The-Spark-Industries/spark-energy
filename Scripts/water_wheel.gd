@@ -40,15 +40,20 @@ func stop_spin() -> void:
 func _start_oscillation() -> void:
 	if _oscillation_tween and _oscillation_tween.is_valid():
 		_oscillation_tween.kill()
-		$"WaterWheelNoise".play()
+		
+	$"WaterWheelNoise".play()
 
 	var left_rotation := _base_rotation - deg_to_rad(oscillation_angle_degrees)
 
 	_oscillation_tween = create_tween()
 	_oscillation_tween.set_loops()
 	_oscillation_tween.tween_property(self, "rotation", left_rotation, rotation_duration)
+	_oscillation_tween.tween_callback(func(): $WaterWheelNoise.stream_paused = true)
 	if pause_between_swaps > 0.0:
 		_oscillation_tween.tween_interval(pause_between_swaps)
+	_oscillation_tween.tween_callback(func(): $WaterWheelNoise.stream_paused = false)
 	_oscillation_tween.tween_property(self, "rotation", _base_rotation, rotation_duration)
+	_oscillation_tween.tween_callback(func(): $WaterWheelNoise.stream_paused = true)
 	if pause_between_swaps > 0.0:
 		_oscillation_tween.tween_interval(pause_between_swaps)
+	_oscillation_tween.tween_callback(func(): $WaterWheelNoise.stream_paused = false)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cry8t43cly03v"]
+[gd_scene load_steps=7 format=3 uid="uid://cry8t43cly03v"]
 
 [ext_resource type="Script" uid="uid://g7pmotdk61py" path="res://Scripts/water_wheel.gd" id="1_gd0dq"]
 [ext_resource type="Texture2D" uid="uid://cfit2gjy4xwix" path="res://Level 1/Level 1 Art Assets/Items/Sprites/wheel1.png" id="2_3t308"]
 [ext_resource type="Texture2D" uid="uid://cfigltjobh0n3" path="res://Level 1/Level 1 Art Assets/Items/Sprites/WHELLTRY4.png" id="3_3t308"]
+[ext_resource type="AudioStream" uid="uid://dn4he5i1omijx" path="res://Level 1/Level 1 Audio/SFX/Wheel4.wav" id="4_3m5p7"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_8ka72"]
 diffuse_texture = ExtResource("2_3t308")
@@ -38,3 +39,10 @@ occluder = SubResource("OccluderPolygon2D_3t308")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 scale = Vector2(0.99999994, 0.99999994)
 polygon = PackedVector2Array(-4.0000005, -14.400002, 4.4000006, -14.400002, 11.200001, -10.400001, 14.600001, -4.0000005, 14.600001, 4.0000005, 10.400001, 11.000001, 4.2000003, 14.600001, -4.2000003, 14.600001, -10.000001, 11.000001, -14.200002, 4.2000003, -14.200002, -4.2000003, -10.400001, -10.600001)
+
+[node name="WaterWheelNoise" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_3m5p7")
+volume_db = 2.385
+max_distance = 590.0
+attenuation = 1.7411016
+panning_strength = 1.63

@@ -2341,6 +2341,13 @@ scale = Vector2(5, 1)
 position = Vector2(-316, -175)
 rotation = -3.1415927
 scale = Vector2(2, 2)
+lift_target_path = NodePath("../risingDoorLeftMiddle")
+lift_pixels = -100.0
+lift_duration = 3.0
+
+[node name="risingDoorLeftMiddle" parent="level2container" unique_id=2021566902 instance=ExtResource("25_2rbmd")]
+position = Vector2(-416, -499)
+scale = Vector2(1, 1.5)
 
 [node name="container" type="Node2D" parent="." unique_id=2109297046]
 

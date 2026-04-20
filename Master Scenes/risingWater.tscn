@@ -34,7 +34,7 @@ shader_parameter/reflection_pixel_snap = 4.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lrnk2"]
 size = Vector2(32, 18)
 
-[node name="Node2D" type="Node2D" unique_id=337325096]
+[node name="risingWater" type="Node2D" unique_id=337325096]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=652183361]
 

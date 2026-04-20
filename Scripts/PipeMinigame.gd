@@ -51,6 +51,10 @@ const EMBEDDED_CELL_SIZE := 48.0
 @onready var _status_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Footer/Status
 @onready var _send_button: Button = $CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton
 @onready var _backdrop: ColorRect = $Backdrop
+@onready var _sfx_init: AudioStreamPlayer = get_node_or_null("TerminalInitialize")
+@onready var _sfx_move: AudioStreamPlayer = get_node_or_null("TerminalMoveSound")
+@onready var _sfx_pipe: AudioStreamPlayer = get_node_or_null("PipeSoundTest")
+@onready var _sfx_complete: AudioStreamPlayer = get_node_or_null("PuzzleComplete")
 
 var _player: CharacterBody2D = null
 var _cells: Array[PanelContainer] = []
@@ -190,7 +194,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
-		$"TerminalInitialize".play()
+		_play_sfx(_sfx_init)
 		return
 
 	_player = player
@@ -251,27 +255,27 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
 		if _grabbed_index != -1:
-			$"PipeSoundTest".play()
+			_play_sfx(_sfx_pipe)
 		if _grabbed_index == -1:
-			$"TerminalMoveSound".play()
+			_play_sfx(_sfx_move)
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
 		if _grabbed_index != -1:
-			$"PipeSoundTest".play()
+			_play_sfx(_sfx_pipe)
 		if _grabbed_index == -1:
-			$"TerminalMoveSound".play()
+			_play_sfx(_sfx_move)
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
 		if _grabbed_index != -1:
-			$"PipeSoundTest".play()
+			_play_sfx(_sfx_pipe)
 		if _grabbed_index == -1:
-			$"TerminalMoveSound".play()
+			_play_sfx(_sfx_move)
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
 		if _grabbed_index != -1:
-			$"PipeSoundTest".play()
+			_play_sfx(_sfx_pipe)
 		if _grabbed_index == -1:
-			$"TerminalMoveSound".play()
+			_play_sfx(_sfx_move)
 
 	if dx != 0 or dy != 0:
 		_move_cursor(dx, dy)
@@ -440,7 +444,7 @@ func _on_send_water_pressed() -> void:
 	if reached.has(sink_idx):
 		_solved = true
 		_status_label.text = "Water reached the end. Puzzle solved!"
-		$"PuzzleComplete".play()
+		_play_sfx(_sfx_complete)
 		_update_cells(reached)
 		completed.emit(true)
 		await get_tree().create_timer(2.7).timeout
@@ -711,3 +715,7 @@ func _piece_rotation_radians(piece: Dictionary) -> float:
 		# Pipe1 artwork is authored as horizontal while rot=0 logic is vertical.
 		return float(posmod(int(piece.get("rot", 0)) + 1, 4)) * (PI * 0.5)
 	return float(int(piece.get("rot", 0))) * (PI * 0.5)
+
+func _play_sfx(player: AudioStreamPlayer) -> void:
+	if player:
+		player.play()

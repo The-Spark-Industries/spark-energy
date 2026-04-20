@@ -1,8 +1,51 @@
 [gd_scene format=3 uid="uid://bbo8uq11hicrl"]
 
+[ext_resource type="Shader" uid="uid://kgc1nussu3wu" path="res://Level 1/Level 1 Art Assets/Shaders/FallingWater.gdshader" id="1_42fvd"]
+[ext_resource type="AudioStream" uid="uid://dui1yiuhljjwq" path="res://Level 1/Level 1 Audio/Ambience/Water, Flow, River, Close, Perspective 02 SND145709.wav" id="2_rl6qa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tc1f8"]
+shader = ExtResource("1_42fvd")
+shader_parameter/liquid_color = Color(0.2, 0.4, 0.9, 0.8)
+shader_parameter/flow_speed = 0.65
+shader_parameter/flow_streak_scale = 12.0
+shader_parameter/flow_streak_intensity = 0.12
+shader_parameter/flow_wobble = 0.005
+shader_parameter/flow_wobble_speed = 0.25
+shader_parameter/shine_intensity = 0.08
+shader_parameter/add_bubble = true
+shader_parameter/bubble_scale = 10.0
+shader_parameter/bubble_speed = 0.4
+shader_parameter/speck_pixel_size = 3.0
+shader_parameter/speck_density = 0.4
+shader_parameter/speck_brightness = 0.15
+shader_parameter/speck_dark_brightness = -0.08
+shader_parameter/speck_drift_speed = 0.025
+shader_parameter/speck_shimmer_speed = 0.12
+shader_parameter/edge_darken = 0.45
+shader_parameter/edge_width = 0.12
+shader_parameter/edge_color = Color(0.08, 0.15, 0.4, 1)
+shader_parameter/edge_noise_scale = 25.0
+shader_parameter/edge_noise_strength = 0.06
+shader_parameter/reflection_strength = 0.15
+shader_parameter/reflection_distortion = 0.012
+shader_parameter/reflection_pixel_snap = 4.0
+shader_parameter/bg_distortion_strength = 0.58
+shader_parameter/bg_distortion_scale = 10.0
+
 [node name="Node2D" type="Node2D" unique_id=216903372]
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1856559112]
-offset_right = 32.0
-offset_bottom = 2200.0
-color = Color(0.19215687, 1, 1, 1)
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=544067820]
+z_index = -1
+material = SubResource("ShaderMaterial_tc1f8")
+offset_left = -16.0
+offset_right = 16.0
+offset_bottom = 540.0
+
+[node name="Waterfall Sound" type="AudioStreamPlayer2D" parent="ColorRect3" unique_id=1475117946]
+position = Vector2(16.51, 800)
+stream = ExtResource("2_rl6qa")
+autoplay = true
+max_distance = 1081.0
+attenuation = 1.6245036
+panning_strength = 0.83
+bus = &"Environmental SFX"

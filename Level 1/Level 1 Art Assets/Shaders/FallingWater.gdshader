@@ -1,5 +1,6 @@
 // Made by PWira (modified)
 // MIT License
+
 shader_type canvas_item;
 
 // Liquid Property

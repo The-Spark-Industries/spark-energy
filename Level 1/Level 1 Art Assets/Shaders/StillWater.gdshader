@@ -1,4 +1,4 @@
-// Made by PWira (modified with pixelated specks)
+// Made by PWira (modified)
 // MIT License
 shader_type canvas_item;
 

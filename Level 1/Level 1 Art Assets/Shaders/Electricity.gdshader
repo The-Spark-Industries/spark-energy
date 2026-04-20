@@ -1,3 +1,6 @@
+// Made by Vanviethieuanh (modified)
+// MIT License
+
 shader_type canvas_item;
 
 uniform vec4 lightning_color : source_color = vec4(1.0, 1.0, 0.0, 1.0);

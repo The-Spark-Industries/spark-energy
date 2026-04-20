@@ -1,6 +1,7 @@
-[gd_resource type="TileSet" format=3 uid="uid://dbv5vx35pb2f0"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://nsfuqpcymoww"]
 
 [ext_resource type="Texture2D" uid="uid://dhdd4ualamvrq" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_128px_by_128px.png" id="1_upkhe"]
+[ext_resource type="Texture2D" uid="uid://dxb8umw8vqbth" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_NORMAL.png" id="2_8gpms"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_upkhe"]
 tile_data = PackedInt32Array(0, 393216, 8, 65537, 393216, 8, 65538, 393216, 8, 65539, 393216, 8, 4, 393216, 8)
@@ -8,8 +9,12 @@ tile_data = PackedInt32Array(0, 393216, 8, 65537, 393216, 8, 65538, 393216, 8, 6
 [sub_resource type="TileMapPattern" id="TileMapPattern_8gpms"]
 tile_data = PackedInt32Array(0, 393216, 8, 1, 393216, 8, 2, 393216, 8)
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_kow2g"]
+diffuse_texture = ExtResource("1_upkhe")
+normal_texture = ExtResource("2_8gpms")
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahjvc"]
-texture = ExtResource("1_upkhe")
+texture = SubResource("CanvasTexture_kow2g")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0

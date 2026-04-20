@@ -1,4 +1,4 @@
-[gd_scene load_steps=144 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=146 format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
@@ -59,6 +59,7 @@
 [ext_resource type="AudioStream" uid="uid://bw6tc0g3mhww7" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_1.wav" id="39_wnwni"]
 [ext_resource type="AudioStream" uid="uid://dpfm6sormrp7d" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_2.wav" id="40_avpqe"]
 [ext_resource type="AudioStream" uid="uid://y1jmepwjlnb0" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_3.wav" id="41_t5me0"]
+[ext_resource type="Texture2D" uid="uid://djo5c55ddyl0t" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_NORMAL2.png" id="42_f15sg"]
 [ext_resource type="AudioStream" uid="uid://oe86a7by6ahf" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_4.wav" id="42_fs2l7"]
 [ext_resource type="AudioStream" uid="uid://ban0kguqhf8ly" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_5.wav" id="43_jxy6j"]
 [ext_resource type="AudioStream" uid="uid://civg58i5oib5p" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_1.wav" id="44_avpqe"]
@@ -552,8 +553,12 @@ tile_data = PackedInt32Array(0, 393216, 8, 1, 393216, 8, 2, 393216, 8)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d0cqg"]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_v7bru"]
+diffuse_texture = ExtResource("31_es5gu")
+normal_texture = ExtResource("42_f15sg")
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gnar4"]
-texture = ExtResource("31_es5gu")
+texture = SubResource("CanvasTexture_v7bru")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -2987,6 +2992,19 @@ texture_scale = 2.7
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Lighting/PointLight2D6"]
 autoplay = "Light Movement"
 
+[node name="PointLight2D6" type="PointLight2D" parent="Lighting/PointLight2D6"]
+position = Vector2(1445.5791, -4336.9604)
+rotation = 0.58294
+scale = Vector2(2.0490975, 0.5880383)
+color = Color(0.73251253, 0.6408778, 0.21132898, 1)
+energy = 3.78
+texture = SubResource("NoiseTexture2D_sfx35")
+offset = Vector2(-0.88, -5.44)
+texture_scale = 2.7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Lighting/PointLight2D6/PointLight2D6"]
+autoplay = "Light Movement"
+
 [node name="PointLight2D5" type="PointLight2D" parent="Lighting"]
 visible = false
 position = Vector2(2930.25, 453)
@@ -2994,7 +3012,6 @@ scale = Vector2(28.507809, 1)
 texture = SubResource("GradientTexture2D_es5gu")
 
 [node name="PointLight2D7" type="PointLight2D" parent="Lighting"]
-visible = false
 z_index = -4
 position = Vector2(1954, 581)
 scale = Vector2(1.4635103, 1.3034896)

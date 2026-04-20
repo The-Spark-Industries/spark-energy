@@ -96,7 +96,7 @@ func _trigger_wheel_spin() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if (body is CharacterBody2D):
+	if (body is CharacterBody2D) and (Global.tutorialchecker<3):
 		readyToPress= true
 		if has_node("Prompt"):
 			$Prompt.visible = true

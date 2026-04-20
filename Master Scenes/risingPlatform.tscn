@@ -17,7 +17,7 @@ size = Vector2(96, 12)
 [node name="Node2D3" type="Node2D"]
 script = ExtResource("1_risingplat")
 
-[node name="PlatformBody" type="StaticBody2D" parent="."]
+[node name="PlatformBody" type="StaticBody2D" parent="." unique_id=1255022640]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformBody"]
 position = Vector2(48, 26)

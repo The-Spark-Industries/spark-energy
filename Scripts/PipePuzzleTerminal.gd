@@ -639,6 +639,9 @@ func _randomize_puzzle_first_open() -> void:
 	if debug_embedded_sync:
 		print("[PipePuzzleTerminal] randomized once for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
 
+
+
+
 func _start_platform_motion_if_needed() -> void:
 	if _platform_motion_started:
 		return

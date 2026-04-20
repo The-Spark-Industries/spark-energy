@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://cdsgbk8nuv2vx" path="res://Level 1/Level 1 Audio/SFX/Lever3.wav" id="4_x32ih"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yg5hk"]
-size = Vector2(28, 23)
+size = Vector2(28, 58)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vffm3"]
 atlas = ExtResource("2_oqdeu")

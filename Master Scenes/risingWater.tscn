@@ -34,7 +34,7 @@ shader_parameter/reflection_pixel_snap = 4.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lrnk2"]
 size = Vector2(32, 18)
 
-[node name="risingWater" type="Node2D" unique_id=337325096]
+[node name="risingWater" type="Node2D" unique_id=337325096 groups=["risingWater"]]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=652183361]
 
@@ -47,4 +47,9 @@ offset_bottom = 9.0
 pivot_offset_ratio = Vector2(0.5, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1892578782]
+shape = SubResource("RectangleShape2D_lrnk2")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=965888998]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1820515051]
 shape = SubResource("RectangleShape2D_lrnk2")

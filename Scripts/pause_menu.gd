@@ -1,6 +1,10 @@
 extends Control
 
 @onready var oM =$optionsMenu
+@onready var _ambience_bus_idx: int = AudioServer.get_bus_index("Ambience")
+
+var _ambience_muted_by_pause_menu: bool = false
+var _ambience_previous_mute_state: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -8,6 +12,9 @@ func _ready() -> void:
 	
 	visible = false
 	_bring_to_front()
+
+func _exit_tree() -> void:
+	_restore_ambience_if_needed()
 
 func _process(delta: float) -> void:
 	if (Global.fontChoice==0):
@@ -28,10 +35,12 @@ func _input(event: InputEvent) -> void:
 			get_tree().paused= true
 			oM.visible =false
 			visible=true
+			_set_ambience_paused_for_menu(true)
 		elif (get_tree().paused ==true):
 			get_tree().paused= false
 			visible=false
 			oM.visible =false
+			_set_ambience_paused_for_menu(false)
 
 
 func _bring_to_front() -> void:
@@ -44,6 +53,7 @@ func _bring_to_front() -> void:
 func _on_resume_pressed() -> void:
 	get_tree().paused = false
 	visible = false
+	_set_ambience_paused_for_menu(false)
 	#Switch scenes
 
 
@@ -53,6 +63,7 @@ func _on_options_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().paused = false
+	_set_ambience_paused_for_menu(false)
 	get_tree().change_scene_to_file("res://Master Scenes/titleScreen.tscn")
 	
 	Global.tutorialchecker = 0
@@ -109,7 +120,30 @@ func _reload_current_scene() -> void:
 	get_tree().paused = false
 	visible = false
 	oM.visible = false
+	_set_ambience_paused_for_menu(false)
 	get_tree().reload_current_scene()
+
+func _set_ambience_paused_for_menu(paused_for_menu: bool) -> void:
+	if _ambience_bus_idx < 0:
+		return
+
+	if paused_for_menu:
+		if _ambience_muted_by_pause_menu:
+			return
+		_ambience_previous_mute_state = AudioServer.is_bus_mute(_ambience_bus_idx)
+		AudioServer.set_bus_mute(_ambience_bus_idx, true)
+		_ambience_muted_by_pause_menu = true
+		return
+
+	_restore_ambience_if_needed()
+
+func _restore_ambience_if_needed() -> void:
+	if _ambience_bus_idx < 0:
+		return
+	if not _ambience_muted_by_pause_menu:
+		return
+	AudioServer.set_bus_mute(_ambience_bus_idx, _ambience_previous_mute_state)
+	_ambience_muted_by_pause_menu = false
 
 func _current_room_id() -> String:
 	if not get_tree() or get_tree().current_scene == null:

@@ -2509,6 +2509,7 @@ position = Vector2(2880, 250)
 
 [node name="Ambience?" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("62_vg4o2")
+process_mode = 3
 volume_db = 8.11
 autoplay = true
 bus = &"Ambience"

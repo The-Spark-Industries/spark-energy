@@ -19,6 +19,7 @@ signal puzzle_solved(terminal: Node)
 @export var solved_rise_target_path: NodePath
 @export var solved_rise_distance: float = 0.0
 @export var solved_rise_duration: float = 1.0
+@export var solved_rise_loop: bool = false
 @export_enum("Rise", "Ellipse Conveyor") var solved_motion_type: int = 0
 @export_group("Solved Ellipse Motion")
 @export var solved_ellipse_target_path: NodePath
@@ -459,7 +460,12 @@ func _raise_platform(target: Node2D) -> void:
 	var start_y := target.position.y
 	_rise_tween = create_tween()
 	_rise_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-	_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	if solved_rise_loop:
+		_rise_tween.set_loops()
+		_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_rise_tween.tween_property(target, "position:y", start_y, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	else:
+		_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _set_flow_visual_active(node: Node, active: bool) -> void:
 	if node == null:

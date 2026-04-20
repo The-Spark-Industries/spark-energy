@@ -2185,6 +2185,7 @@ water_wheel_path = NodePath("../waterWheelPuzzle1")
 wheel_spin_time_per_turn = 0.8
 solved_rise_target_path = NodePath("../doorPuzzle1")
 solved_rise_distance = 96.0
+solved_rise_loop = true
 embedded_minigame_path = NodePath("../PipeMinigame1")
 
 [node name="PuzzleWaterStream1" type="ColorRect" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=215753422]
@@ -2434,6 +2435,7 @@ texture = ExtResource("29_c08x5")
 position = Vector2(2418, -341)
 waterfall_path = NodePath("../Water/Waterfalls/ColorRect5")
 lift_target_path = NodePath("../door1")
+lift_loop = true
 
 [node name="leverSound2" type="AudioStreamPlayer" parent="Lever3" unique_id=1862687227]
 stream = ExtResource("57_jxy6j")

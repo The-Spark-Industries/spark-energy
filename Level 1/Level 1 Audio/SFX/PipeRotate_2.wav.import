@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dpfm6sormrp7d"
+path="res://.godot/imported/PipeRotate_2.wav-15aef9fc2e31cdc5c7d880046ffa146a.sample"
+
+[deps]
+
+source_file="res://Level 1/Level 1 Audio/SFX/PipeRotate_2.wav"
+dest_files=["res://.godot/imported/PipeRotate_2.wav-15aef9fc2e31cdc5c7d880046ffa146a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

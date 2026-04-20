@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bgtxnqb0crkcs"
+path="res://.godot/imported/Jump_1.wav-bad99d2ba34f89acf39a30039170705c.sample"
+
+[deps]
+
+source_file="res://1_Main Character Assets/Spark Audio/Spark SFX/Jump_1.wav"
+dest_files=["res://.godot/imported/Jump_1.wav-bad99d2ba34f89acf39a30039170705c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

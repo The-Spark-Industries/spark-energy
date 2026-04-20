@@ -1,24 +1,54 @@
-[gd_scene format=3 uid="uid://ctu446b65pai6"]
+[gd_scene load_steps=18 format=3 uid="uid://ctu446b65pai6"]
 
 [ext_resource type="Script" uid="uid://cmoblano7wpdw" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
 [ext_resource type="Texture2D" uid="uid://g3ol17l1csgd" path="res://Level 1/Level 1 Art Assets/Items/Sprites/TERMINAL.png" id="2_nxd6q"]
+[ext_resource type="Texture2D" uid="uid://bnl3cplhkico7" path="res://Level 1/Level 1 Art Assets/Items/Texture Maps/TERMINAL-normal.png" id="3_nnowx"]
+[ext_resource type="AudioStream" uid="uid://du84kw3i4cth7" path="res://Level 1/Level 1 Audio/SFX/PuzzleSolved_2.wav" id="4_iv4xa"]
+[ext_resource type="AudioStream" uid="uid://bw6tc0g3mhww7" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_1.wav" id="5_01vlt"]
+[ext_resource type="AudioStream" uid="uid://dpfm6sormrp7d" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_2.wav" id="6_ajy46"]
+[ext_resource type="AudioStream" uid="uid://y1jmepwjlnb0" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_3.wav" id="7_lhprv"]
+[ext_resource type="AudioStream" uid="uid://oe86a7by6ahf" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_4.wav" id="8_e8ql3"]
+[ext_resource type="AudioStream" uid="uid://ban0kguqhf8ly" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_5.wav" id="9_l284o"]
+[ext_resource type="AudioStream" uid="uid://civg58i5oib5p" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_1.wav" id="10_wcv65"]
+[ext_resource type="AudioStream" uid="uid://wecos68iu24f" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_2.wav" id="11_ssj04"]
+[ext_resource type="AudioStream" uid="uid://cltuows3gcovu" path="res://Level 1/Level 1 Audio/SFX/PuzzleSolved_3.wav" id="12_8rcg5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnowx"]
 size = Vector2(45, 67)
 
-[node name="PipePuzzleTerminal" type="Area2D" unique_id=2059207433]
+[sub_resource type="CanvasTexture" id="CanvasTexture_iv4xa"]
+diffuse_texture = ExtResource("2_nxd6q")
+normal_texture = ExtResource("3_nnowx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l13ml"]
+streams_count = 5
+stream_0/stream = ExtResource("5_01vlt")
+stream_1/stream = ExtResource("6_ajy46")
+stream_2/stream = ExtResource("7_lhprv")
+stream_3/stream = ExtResource("8_e8ql3")
+stream_4/stream = ExtResource("9_l284o")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bo2d3"]
+streams_count = 1
+stream_0/stream = ExtResource("10_wcv65")
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_tcdtk"]
+stream_count = 1
+stream_0 = ExtResource("11_ssj04")
+
+[node name="PipePuzzleTerminal" type="Area2D"]
 collision_layer = 0
 script = ExtResource("1_terminal_script")
 water_stream_path = NodePath("SolvedWaterStream")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482101810]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -2.5)
 shape = SubResource("RectangleShape2D_nnowx")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1851894307]
-texture = ExtResource("2_nxd6q")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("CanvasTexture_iv4xa")
 
-[node name="Prompt" type="Label" parent="." unique_id=888163643]
+[node name="Prompt" type="Label" parent="."]
 visible = false
 offset_left = -140.0
 offset_top = -122.0
@@ -28,9 +58,30 @@ theme_override_font_sizes/font_size = 32
 text = "[E] Pipe Control"
 horizontal_alignment = 1
 
-[node name="SolvedWaterStream" type="Line2D" parent="." unique_id=1727436921]
+[node name="SolvedWaterStream" type="Line2D" parent="."]
 visible = false
 position = Vector2(36, -10)
 points = PackedVector2Array(0, 0, 55, 12, 110, 34)
 width = 9.0
 default_color = Color(0.211765, 0.682353, 0.905882, 1)
+
+[node name="PipeInitializeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_iv4xa")
+volume_db = -4.771
+
+[node name="PipeSoundTest" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_l13ml")
+volume_db = 5.553
+pitch_scale = 1.93
+
+[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_bo2d3")
+volume_db = -6.679
+pitch_scale = 1.43
+
+[node name="TerminalInitialize" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamPlaylist_tcdtk")
+pitch_scale = 1.42
+
+[node name="PuzzleComplete" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_8rcg5")

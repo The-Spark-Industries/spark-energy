@@ -11,6 +11,7 @@ var readyToPress: bool= false
 @export var wheel_target_path: NodePath
 @export var lift_pixels: float = 96.0
 @export_range(0.1, 10.0, 0.1) var lift_duration: float = 2.4
+@export var lift_loop: bool = false
 
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
@@ -41,8 +42,10 @@ func _input(event: InputEvent) -> void:
 		if (leverstatus==0):
 			leverstatus=1
 			_apply_configured_actions()
+			$"leverSound".play()
 		elif (leverstatus==1):
 			leverstatus=0
+			$"leverSound".play()
 
 func _apply_configured_actions() -> void:
 	_trigger_wheel_spin()
@@ -60,8 +63,15 @@ func _apply_configured_actions() -> void:
 		if lift_target:
 			if _lift_tween and _lift_tween.is_valid():
 				_lift_tween.kill()
+			var start_y := lift_target.position.y
 			_lift_tween = create_tween()
-			_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			_lift_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+			if lift_loop:
+				_lift_tween.set_loops()
+				_lift_tween.tween_property(lift_target, "position:y", start_y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				_lift_tween.tween_property(lift_target, "position:y", start_y, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			else:
+				_lift_tween.tween_property(lift_target, "position:y", start_y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 	_triggered_once = true
 

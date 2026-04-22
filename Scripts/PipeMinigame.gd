@@ -43,6 +43,10 @@ const EMBEDDED_CELL_SIZE := 48.0
 @export var empty_texture: Texture2D
 @export var embedded_mode: bool = false
 @export var embedded_use_glyphs: bool = false
+@export_group("Embedded Placement")
+@export var embedded_anchor_path: NodePath
+@export var embedded_anchor_centered: bool = true
+@export var embedded_anchor_offset: Vector2 = Vector2.ZERO
 
 @onready var _root_panel: PanelContainer = $CenterContainer/PanelContainer
 @onready var _title_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Title
@@ -72,22 +76,16 @@ var _solved: bool = false
 var _control_mode: int = 0  # 0: normal, 1: move-only, 2: rotate-only
 var _embedded_refresh_pending: bool = false
 var _debug_preview: bool = false
+var _embedded_anchor_node: Node2D = null
+var _embedded_anchor_is_internal: bool = false
+var _embedded_anchor_global_target: Vector2 = Vector2.ZERO
 
 func set_debug_preview(enabled: bool) -> void:
 	_debug_preview = enabled
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	if embedded_mode:
-		anchor_left = 0.0
-		anchor_top = 0.0
-		anchor_right = 0.0
-		anchor_bottom = 0.0
-		offset_left = 0.0
-		offset_top = 0.0
-		offset_right = size.x
-		offset_bottom = size.y
-	else:
+	if not embedded_mode:
 		anchor_left = 0.0
 		anchor_top = 0.0
 		anchor_right = 1.0
@@ -108,17 +106,26 @@ func _ready() -> void:
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
+		_resolve_embedded_anchor_node()
+		set_process(_embedded_anchor_node != null and not _embedded_anchor_is_internal)
+		if _embedded_anchor_node != null:
+			call_deferred("_update_embedded_anchor_position")
 	if embedded_mode:
 		# Embedded boards must not flash stale/default content.
 		visible = false
 		if _puzzle == null:
-			return
+			_puzzle = PipePuzzleDefinition.create_default()
+			_grid_size = _puzzle.grid_width
+			_grid_height = _puzzle.grid_height
 		_request_embedded_refresh()
 		return
 	_reset_puzzle()
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
-	_puzzle = puzzle
+	if puzzle == null:
+		_puzzle = PipePuzzleDefinition.create_default()
+	else:
+		_puzzle = puzzle
 	if _puzzle:
 		_grid_size = _puzzle.grid_width
 		_grid_height = _puzzle.grid_height
@@ -132,6 +139,13 @@ func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 
 func set_control_mode(mode: int) -> void:
 	_control_mode = clampi(mode, 0, 2)
+
+func _process(_delta: float) -> void:
+	if not embedded_mode:
+		return
+	if _embedded_anchor_is_internal:
+		return
+	_update_embedded_anchor_position()
 
 func refresh_embedded_preview() -> void:
 	if not embedded_mode or _puzzle == null:
@@ -345,6 +359,40 @@ func _build_grid_ui() -> void:
 		_cells.append(cell)
 		_cell_labels.append(label)
 		_cell_icons.append(icon)
+
+	if embedded_mode and _embedded_anchor_node != null:
+		call_deferred("_update_embedded_anchor_position")
+
+func _resolve_embedded_anchor_node() -> void:
+	_embedded_anchor_node = null
+	_embedded_anchor_is_internal = false
+	if String(embedded_anchor_path).is_empty():
+		return
+	_embedded_anchor_node = get_node_or_null(embedded_anchor_path) as Node2D
+	if _embedded_anchor_node == null:
+		push_warning("PipeMinigame: embedded_anchor_path does not point to a Node2D on %s" % name)
+		return
+
+	_embedded_anchor_is_internal = is_ancestor_of(_embedded_anchor_node)
+	_embedded_anchor_global_target = _embedded_anchor_node.global_position
+
+func _update_embedded_anchor_position() -> void:
+	if not embedded_mode:
+		return
+	if _embedded_anchor_node == null:
+		if not String(embedded_anchor_path).is_empty():
+			_resolve_embedded_anchor_node()
+		if _embedded_anchor_node == null:
+			return
+
+	var anchor_global := _embedded_anchor_global_target if _embedded_anchor_is_internal else _embedded_anchor_node.global_position
+	var target_position := anchor_global + embedded_anchor_offset
+	if embedded_anchor_centered:
+		var panel_size := _root_panel.size
+		if panel_size.x <= 0.0 or panel_size.y <= 0.0:
+			panel_size = _root_panel.get_combined_minimum_size()
+		target_position -= panel_size * 0.5
+	global_position = target_position
 
 func _reset_puzzle() -> void:
 	if not _puzzle:

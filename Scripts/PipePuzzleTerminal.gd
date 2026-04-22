@@ -93,6 +93,8 @@ func _ready() -> void:
 		call_deferred("_setup_embedded_preview")
 		call_deferred("_sync_embedded_preview_with_retries", 0)
 
+	call_deferred("_sync_interaction_overlaps")
+
 func _setup_embedded_preview() -> void:
 	var embedded := get_node_or_null(embedded_minigame_path) as Control
 	if embedded == null:
@@ -216,6 +218,8 @@ func _on_minigame_completed(success: bool) -> void:
 		_start_platform_motion_if_needed()
 
 func _physics_process(delta: float) -> void:
+	_sync_interaction_overlaps()
+
 	if (Global.fontChoice==0):
 		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
 	if (Global.fontChoice==1):
@@ -510,6 +514,25 @@ func _start_wheel_spin(node: Node) -> void:
 			var tween := create_tween()
 			tween.set_loops()
 			tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+
+func _sync_interaction_overlaps() -> void:
+	var overlapping_players: Array[Node] = []
+	for body in get_overlapping_bodies():
+		if body is CharacterBody2D:
+			overlapping_players.append(body)
+			if body not in _bodies_inside:
+				_bodies_inside.append(body)
+				if body.has_method("_on_interactable_entered"):
+					body._on_interactable_entered(self)
+
+	for tracked in _bodies_inside.duplicate():
+		if tracked == null or not is_instance_valid(tracked) or tracked not in overlapping_players:
+			_bodies_inside.erase(tracked)
+			if tracked and tracked.has_method("_on_interactable_exited"):
+				tracked._on_interactable_exited(self)
+
+	if has_node("Prompt"):
+		$Prompt.visible = (not _bodies_inside.is_empty()) and (not _solved)
 			
 func _on_body_entered(body: Node2D) -> void:
 	if not (body is CharacterBody2D):

@@ -11,12 +11,12 @@ var readyToPress: bool= false
 @export var wheel_target_path: NodePath
 @export var lift_pixels: float = 96.0
 @export_range(0.1, 10.0, 0.1) var lift_duration: float = 2.4
-
-@export_group("Lever Outputs")
 @export var output_target_paths: Array[NodePath] = []
 @export var output_target_groups: Array[StringName] = []
-@export var output_method: StringName = &"activate"
-@export var output_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
+@export var output_on_method: StringName = &"activate"
+@export var output_off_method: StringName = &"deactivate"
+@export var output_on_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
+@export var output_off_fallback_methods: Array[StringName] = [&"power_off", &"deactivate", &"stop", &"stop_spin", &"disable"]
 
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
@@ -27,13 +27,12 @@ func _ready() -> void:
 	if has_node("Prompt"):
 		$Prompt.visible = false
 	$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
-	_update_lever_animation()
 
 
 
 # # Changes the sprite to whatever the lever status is.
 func _process(delta: float) -> void:
-	_update_lever_animation()
+	change.frame=leverstatus
 
 	if (Global.fontChoice==0):
 		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
@@ -47,26 +46,16 @@ func _input(event: InputEvent) -> void:
 	if (Input.is_action_just_pressed("interact")) and (readyToPress==true):
 		if (leverstatus==0):
 			leverstatus=1
-			_update_lever_animation()
 			_apply_configured_actions()
 			$"leverSound".play()
 		elif (leverstatus==1):
 			leverstatus=0
-			_update_lever_animation()
-
-func _update_lever_animation() -> void:
-	if change == null or change.sprite_frames == null:
-		return
-
-	var next_anim := "flipped" if leverstatus == 1 else "default"
-	if not change.sprite_frames.has_animation(next_anim):
-		return
-	if change.animation != StringName(next_anim):
-		change.play(next_anim)
+			_revert_configured_actions()
+			$"leverSound".play()
 
 func _apply_configured_actions() -> void:
-	_trigger_outputs()
 	_trigger_wheel_spin()
+	_trigger_outputs(true)
 
 	if _triggered_once:
 		return
@@ -86,7 +75,56 @@ func _apply_configured_actions() -> void:
 
 	_triggered_once = true
 
-func _trigger_outputs() -> void:
+func _revert_configured_actions() -> void:
+	_stop_wheel_spin()
+	_trigger_outputs(false)
+
+	if not String(waterfall_path).is_empty():
+		var waterfall := get_node_or_null(waterfall_path) as CanvasItem
+		if waterfall:
+			waterfall.visible = false
+
+	if _lift_tween and _lift_tween.is_valid():
+		_lift_tween.kill()
+		_lift_tween = null
+
+func _trigger_wheel_spin() -> void:
+	var wheel: Node = null
+	if not String(wheel_target_path).is_empty():
+		wheel = get_node_or_null(wheel_target_path)
+
+	if wheel == null:
+		# Fallback for scene variants where the export path was not set.
+		wheel = get_tree().current_scene.get_node_or_null("waterWheelRoom11")
+
+	if wheel == null:
+		return
+
+	if wheel.has_method("start_spin"):
+		wheel.call("start_spin")
+		return
+	if wheel.has_method("_start_spin"):
+		wheel.call("_start_spin")
+
+func _stop_wheel_spin() -> void:
+	var wheel: Node = null
+	if not String(wheel_target_path).is_empty():
+		wheel = get_node_or_null(wheel_target_path)
+
+	if wheel == null:
+		# Fallback for scene variants where the export path was not set.
+		wheel = get_tree().current_scene.get_node_or_null("waterWheelRoom11")
+
+	if wheel == null:
+		return
+
+	if wheel.has_method("stop_spin"):
+		wheel.call("stop_spin")
+		return
+	if wheel.has_method("stop"):
+		wheel.call("stop")
+
+func _trigger_outputs(is_on: bool) -> void:
 	var called_nodes := {}
 
 	for target_path in output_target_paths:
@@ -102,7 +140,7 @@ func _trigger_outputs() -> void:
 			continue
 		called_nodes[target_id] = true
 
-		_trigger_single_output(target)
+		_trigger_single_output(target, is_on)
 
 	for group_name in output_target_groups:
 		var group_name_str := String(group_name)
@@ -118,14 +156,16 @@ func _trigger_outputs() -> void:
 				continue
 			called_nodes[target_id] = true
 
-			_trigger_single_output(target)
+			_trigger_single_output(target, is_on)
 
-func _trigger_single_output(target: Object) -> void:
-	if _call_output_method(target, output_method):
+func _trigger_single_output(target: Object, is_on: bool) -> void:
+	var primary_method := output_on_method if is_on else output_off_method
+	if _call_output_method(target, primary_method):
 		return
 
-	for fallback_method in output_fallback_methods:
-		if fallback_method == output_method:
+	var fallbacks := output_on_fallback_methods if is_on else output_off_fallback_methods
+	for fallback_method in fallbacks:
+		if fallback_method == primary_method:
 			continue
 		if _call_output_method(target, fallback_method):
 			return
@@ -151,24 +191,6 @@ func _call_output_method(target: Object, method_name: StringName) -> bool:
 		target.call(method_str, self, self)
 
 	return true
-
-func _trigger_wheel_spin() -> void:
-	var wheel: Node = null
-	if not String(wheel_target_path).is_empty():
-		wheel = get_node_or_null(wheel_target_path)
-
-	if wheel == null:
-		# Fallback for scene variants where the export path was not set.
-		wheel = get_tree().current_scene.get_node_or_null("waterWheelRoom11")
-
-	if wheel == null:
-		return
-
-	if wheel.has_method("start_spin"):
-		wheel.call("start_spin")
-		return
-	if wheel.has_method("_start_spin"):
-		wheel.call("_start_spin")
 		
 
 

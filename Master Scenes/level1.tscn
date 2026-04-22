@@ -1114,7 +1114,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1700906689]
 z_index = 3
-position = Vector2(-2016, -1569)
+position = Vector2(-3055, -1338)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1189574471]
@@ -1604,7 +1604,7 @@ position = Vector2(-3925, -1074)
 position = Vector2(-2965, -1090)
 
 [node name="Room_16" type="Node2D" parent="camera_points" unique_id=1091852408]
-position = Vector2(-1941, -1686)
+position = Vector2(-2005, -1686)
 
 [node name="Room_17" type="Node2D" parent="camera_points" unique_id=1641608984]
 position = Vector2(-3925, -534)
@@ -1628,7 +1628,7 @@ position = Vector2(-2965, -1090)
 position = Vector2(-1941, -1106)
 
 [node name="Room_24" type="Node2D" parent="camera_points" unique_id=443903454]
-position = Vector2(-1941, -1686)
+position = Vector2(-2005, -1686)
 
 [node name="FloorBlocks" type="Node2D" parent="." unique_id=2107216682]
 position = Vector2(0, -197)
@@ -2345,9 +2345,9 @@ offset_bottom = 478.0
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
 layout_mode = 0
-offset_left = -2470.0
+offset_left = -2534.0
 offset_top = -1897.0
-offset_right = -1894.0
+offset_right = -1958.0
 offset_bottom = -1771.0
 
 [node name="ColorRect2" type="ColorRect" parent="Water/Standing Water" unique_id=399020059]
@@ -2857,7 +2857,7 @@ position = Vector2(2880, 250)
 position = Vector2(-2725, -660)
 
 [node name="SpikeBlock2" parent="." unique_id=343983669 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2917, -628)
+position = Vector2(-2981, -628)
 
 [node name="SpikeBlock5" parent="." unique_id=526711234 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2629, -1044)
@@ -2878,147 +2878,147 @@ position = Vector2(-2789, -308)
 position = Vector2(-2821, -308)
 
 [node name="SpikeBlock12" parent="." unique_id=1144819773 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1605, -1812)
+position = Vector2(-1669, -1812)
 rotation = -1.5707964
 
 [node name="SpikeBlock13" parent="." unique_id=1235649546 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1605, -1780)
+position = Vector2(-1669, -1780)
 rotation = -1.5707964
 
 [node name="SpikeBlock14" parent="." unique_id=641877706 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1605, -1748)
+position = Vector2(-1669, -1748)
 rotation = -1.5707964
 
 [node name="SpikeBlock16" parent="." unique_id=1497952590 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1573, -1716)
+position = Vector2(-1637, -1716)
 rotation = 3.1415927
 
 [node name="SpikeBlock17" parent="." unique_id=392819446 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1541, -1716)
+position = Vector2(-1605, -1716)
 rotation = 3.1415927
 
 [node name="SpikeBlock18" parent="." unique_id=1963935103 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1509, -1716)
+position = Vector2(-1573, -1716)
 rotation = 3.1415927
 
 [node name="SpikeBlock19" parent="." unique_id=758692558 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1477, -1716)
+position = Vector2(-1541, -1716)
 rotation = 3.1415927
 
 [node name="SpikeBlock20" parent="." unique_id=1648419217 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1445, -1716)
+position = Vector2(-1509, -1716)
 rotation = 3.1415927
 
 [node name="SpikeBlock15" parent="." unique_id=1255610230 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1701, -1940)
-rotation = 3.1415927
-
-[node name="SpikeBlock21" parent="." unique_id=88585543 instance=ExtResource("47_hjx3g")]
-position = Vector2(-1733, -1940)
-rotation = 3.1415927
-
-[node name="SpikeBlock22" parent="." unique_id=1975138770 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1765, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock23" parent="." unique_id=338990772 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock21" parent="." unique_id=88585543 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1797, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock24" parent="." unique_id=19117975 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock22" parent="." unique_id=1975138770 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1829, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock25" parent="." unique_id=1612586105 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock23" parent="." unique_id=338990772 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1861, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock26" parent="." unique_id=1485678781 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock24" parent="." unique_id=19117975 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1893, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock27" parent="." unique_id=710917457 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock25" parent="." unique_id=1612586105 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1925, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock28" parent="." unique_id=245945767 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock26" parent="." unique_id=1485678781 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1957, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock29" parent="." unique_id=132365224 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock27" parent="." unique_id=710917457 instance=ExtResource("47_hjx3g")]
 position = Vector2(-1989, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock30" parent="." unique_id=1118276237 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock28" parent="." unique_id=245945767 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2021, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock31" parent="." unique_id=761915913 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock29" parent="." unique_id=132365224 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2053, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock32" parent="." unique_id=450704050 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock30" parent="." unique_id=1118276237 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2085, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock33" parent="." unique_id=1356019745 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock31" parent="." unique_id=761915913 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2117, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock34" parent="." unique_id=1370640660 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock32" parent="." unique_id=450704050 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2149, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock35" parent="." unique_id=1668253345 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock33" parent="." unique_id=1356019745 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2181, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock36" parent="." unique_id=1219117736 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock34" parent="." unique_id=1370640660 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2213, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock37" parent="." unique_id=1893142440 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock35" parent="." unique_id=1668253345 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2245, -1940)
 rotation = 3.1415927
 
-[node name="SpikeBlock38" parent="." unique_id=1427512928 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1908)
-rotation = 1.5707964
-
-[node name="SpikeBlock39" parent="." unique_id=1229505265 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2341, -1940)
-rotation = 3.1415927
-
-[node name="SpikeBlock40" parent="." unique_id=77228013 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2309, -1940)
-rotation = 3.1415927
-
-[node name="SpikeBlock41" parent="." unique_id=1965820462 instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock36" parent="." unique_id=1219117736 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2277, -1940)
 rotation = 3.1415927
 
+[node name="SpikeBlock37" parent="." unique_id=1893142440 instance=ExtResource("47_hjx3g")]
+position = Vector2(-2309, -1940)
+rotation = 3.1415927
+
+[node name="SpikeBlock38" parent="." unique_id=1427512928 instance=ExtResource("47_hjx3g")]
+position = Vector2(-2437, -1908)
+rotation = 1.5707964
+
+[node name="SpikeBlock39" parent="." unique_id=1229505265 instance=ExtResource("47_hjx3g")]
+position = Vector2(-2405, -1940)
+rotation = 3.1415927
+
+[node name="SpikeBlock40" parent="." unique_id=77228013 instance=ExtResource("47_hjx3g")]
+position = Vector2(-2373, -1940)
+rotation = 3.1415927
+
+[node name="SpikeBlock41" parent="." unique_id=1965820462 instance=ExtResource("47_hjx3g")]
+position = Vector2(-2341, -1940)
+rotation = 3.1415927
+
 [node name="SpikeBlock42" parent="." unique_id=1199286477 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1876)
+position = Vector2(-2437, -1876)
 rotation = 1.5707964
 
 [node name="SpikeBlock43" parent="." unique_id=1289115884 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1844)
+position = Vector2(-2437, -1844)
 rotation = 1.5707964
 
 [node name="SpikeBlock44" parent="." unique_id=431237852 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1812)
+position = Vector2(-2437, -1812)
 rotation = 1.5707964
 
 [node name="SpikeBlock45" parent="." unique_id=208055544 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1780)
+position = Vector2(-2437, -1780)
 rotation = 1.5707964
 
 [node name="SpikeBlock46" parent="." unique_id=2143629692 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1748)
+position = Vector2(-2437, -1748)
 rotation = 1.5707964
 
 [node name="SpikeBlock47" parent="." unique_id=302264248 instance=ExtResource("47_hjx3g")]
-position = Vector2(-2373, -1716)
+position = Vector2(-2437, -1716)
 rotation = 1.5707964
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=472916899]
@@ -3040,17 +3040,17 @@ offset_bottom = -1059.0
 [node name="ColorRect7" type="ColorRect" parent="." unique_id=368344346]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = -2709.0
+offset_left = -2773.0
 offset_top = -674.0
-offset_right = -2581.0
+offset_right = -2645.0
 offset_bottom = -611.0
 
 [node name="ColorRect8" type="ColorRect" parent="." unique_id=1750294928]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = -3125.0
+offset_left = -3189.0
 offset_top = -669.0
-offset_right = -2933.0
+offset_right = -2997.0
 offset_bottom = -548.0
 
 [node name="Level3" type="TileMapLayer" parent="." unique_id=1433439392]
@@ -3063,10 +3063,10 @@ tile_set = SubResource("TileSet_vd5yc")
 position = Vector2(0, -56)
 
 [node name="Node2D9Room" parent="Node2D16" unique_id=1718260463 instance=ExtResource("28_ahjvc")]
-position = Vector2(-3992, -748)
+position = Vector2(-3992, -765)
 
 [node name="WirePuzzleTerminalRoom9" parent="Node2D16/Node2D9Room" unique_id=761937962 instance=ExtResource("48_f7m78")]
-position = Vector2(210, 416)
+position = Vector2(210, 434)
 puzzle_layout = 17
 embedded_minigame_path = NodePath("../WireMinigameRoom9")
 linked_object_path = NodePath("../../../WirePowerRelay11")
@@ -3081,7 +3081,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Node2D3" parent="Node2D16/Node2D9Room" unique_id=366736129 instance=ExtResource("26_211ka")]
 z_index = 2
-position = Vector2(419, 416)
+position = Vector2(427, 416)
 initial_direction = 1
 solved_motion_enabled = true
 solved_motion_distance = 512.0
@@ -3129,6 +3129,11 @@ rotation = 1.5707964
 [node name="WirePowerRelay42" parent="waterPuzzle/Node2D" unique_id=1503114154 instance=ExtResource("50_nce0a")]
 z_index = 1
 position = Vector2(143, 492)
+rotation = 1.5707964
+
+[node name="WirePowerRelay43" parent="waterPuzzle/Node2D" unique_id=1700183424 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(143, 522)
 rotation = 1.5707964
 
 [node name="Node2D5" parent="waterPuzzle" unique_id=488124887 instance=ExtResource("19_8ifkh")]
@@ -3318,7 +3323,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="WirePowerRelay11" parent="." unique_id=1622372513 instance=ExtResource("50_nce0a")]
 z_index = -1
-position = Vector2(-3759, -506)
+position = Vector2(-3759, -566)
 rotation = 1.5707964
 target_paths = Array[NodePath]([NodePath("../room9nodes"), NodePath("../Node2D16/Node2D9Room/Node2D3")])
 
@@ -3467,6 +3472,18 @@ z_index = 1
 position = Vector2(-3518, -805)
 rotation = -1.5707964
 
+[node name="WirePowerRelay4" parent="room9nodes" unique_id=1565211401 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -536)
+rotation = 1.5707964
+target_paths = Array[NodePath]([NodePath("../WirePowerRelay2")])
+
+[node name="WirePowerRelay5" parent="room9nodes" unique_id=1108586642 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3759, -506)
+rotation = 1.5707964
+target_paths = Array[NodePath]([NodePath("../WirePowerRelay2")])
+
 [node name="WirePowerRelay40" parent="room9nodes" unique_id=215463059 instance=ExtResource("50_nce0a")]
 z_index = 1
 position = Vector2(-3518, -835)
@@ -3490,7 +3507,7 @@ position = Vector2(-3759, -416)
 rotation = 1.5707964
 
 [node name="Node2D18" parent="." unique_id=1301307828 instance=ExtResource("26_211ka")]
-position = Vector2(-3861, -996)
+position = Vector2(-3861, -964)
 motion_distance = 576.0
 initial_direction = 1
 solved_motion_enabled = true
@@ -3509,7 +3526,7 @@ z_index = -1
 position = Vector2(64, 48)
 
 [node name="Node2D20" parent="." unique_id=1166266002 instance=ExtResource("26_211ka")]
-position = Vector2(-3861, -1124)
+position = Vector2(-3861, -1092)
 motion_distance = 192.0
 initial_direction = 1
 solved_motion_enabled = true
@@ -3527,7 +3544,7 @@ z_index = -1
 position = Vector2(64, 48)
 
 [node name="Node2D19" parent="." unique_id=314908362 instance=ExtResource("26_211ka")]
-position = Vector2(-4245, -1348)
+position = Vector2(-4245, -1316)
 motion_distance = 256.0
 solved_motion_enabled = true
 solved_motion_distance = 256.0
@@ -3544,7 +3561,7 @@ z_index = -1
 position = Vector2(64, 48)
 
 [node name="Node2D21" parent="." unique_id=956476782 instance=ExtResource("26_211ka")]
-position = Vector2(-4053, -1188)
+position = Vector2(-4053, -1156)
 motion_distance = 320.0
 initial_direction = 1
 solved_motion_enabled = true
@@ -3562,7 +3579,7 @@ z_index = -1
 position = Vector2(64, 48)
 
 [node name="Node2D22" parent="." unique_id=30579054 instance=ExtResource("26_211ka")]
-position = Vector2(-4341, -1059)
+position = Vector2(-4341, -1027)
 motion_distance = 256.0
 initial_direction = 1
 solved_motion_enabled = true
@@ -3580,13 +3597,13 @@ z_index = -1
 position = Vector2(64, 48)
 
 [node name="WaterHazardAreaLarge" parent="." unique_id=1277465433 instance=ExtResource("70_04pvr")]
-position = Vector2(-1747, -1406)
+position = Vector2(-1819, -1406)
 
 [node name="WaterHazardAreaSmall" parent="." unique_id=483180578 instance=ExtResource("71_8mt1v")]
-position = Vector2(-1444, -1439)
+position = Vector2(-1532, -1439)
 
 [node name="WaterHazardAreaMedium" parent="." unique_id=946889739 instance=ExtResource("72_bhcpu")]
-position = Vector2(-3029, -562)
+position = Vector2(-3109, -562)
 
 [node name="WirePuzzleLevel3BottomMiddle" type="Node2D" parent="." unique_id=633092172]
 
@@ -3608,32 +3625,32 @@ offset_bottom = -452.0
 position = Vector2(-2453, -388)
 
 [node name="Node2D23" parent="." unique_id=7864167 instance=ExtResource("26_211ka")]
-position = Vector2(-1973, -1636)
+position = Vector2(-2037, -1636)
 motion_mode = 2
 motion_distance = 212.0
 motion_speed = 110.0
 
 [node name="Node2D24" parent="." unique_id=54279102 instance=ExtResource("26_211ka")]
-position = Vector2(-1845, -1636)
+position = Vector2(-1909, -1636)
 motion_mode = 2
 motion_distance = 192.0
 motion_speed = 110.0
 auto_motion_start_delay = 0.8
 
 [node name="Node2D25" parent="." unique_id=979848238 instance=ExtResource("26_211ka")]
-position = Vector2(-1717, -1636)
+position = Vector2(-1781, -1636)
 motion_mode = 2
 motion_distance = 192.0
 motion_speed = 110.0
 auto_motion_start_delay = 1.6
 
 [node name="Node2D26" parent="." unique_id=1744591080 instance=ExtResource("26_211ka")]
-position = Vector2(-2357, -1732)
+position = Vector2(-2421, -1732)
 motion_mode = 1
 motion_distance = 576.0
 
 [node name="Node2D27" parent="." unique_id=364482405 instance=ExtResource("26_211ka")]
-position = Vector2(-2069, -1796)
+position = Vector2(-2133, -1796)
 motion_mode = 3
 sequence_right_distance = 448.0
 sequence_down_distance = 352.0

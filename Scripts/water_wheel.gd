@@ -27,11 +27,15 @@ func start_spin() -> void:
 	_spin_tween = create_tween()
 	_spin_tween.set_loops()
 	_spin_tween.tween_property(self, "rotation", direction * TAU, spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	
+	#$"WaterWheelNoise".play()
 
 func stop_spin() -> void:
 	if _spin_tween and _spin_tween.is_valid():
 		_spin_tween.kill()
 		_spin_tween = null
+		
+	#$"WaterWheelNoise".stop()
 
 func _start_oscillation() -> void:
 	if _oscillation_tween and _oscillation_tween.is_valid():

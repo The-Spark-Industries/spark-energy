@@ -87,8 +87,8 @@ func _physics_process(delta: float) -> void:
 	
 	#temporary test for level 4
 	if Input.is_action_just_pressed("ui_down"):
-		self.position.x=5530
-		self.position.y=--250
+		self.position.x=6000
+		self.position.y=-2800
 		
 		
 		

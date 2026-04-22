@@ -209,7 +209,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
-		$"TerminalInitialize".play()
+		#$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -482,7 +482,7 @@ func _on_send_water_pressed() -> void:
 	if reached.has(sink_idx):
 		_solved = true
 		_status_label.text = "Water reached the end. Puzzle solved!"
-		$"PuzzleComplete".play()
+		#$"PuzzleComplete".play()
 		_update_cells(reached)
 		completed.emit(true)
 		await get_tree().create_timer(2.7).timeout

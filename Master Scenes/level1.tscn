@@ -2944,7 +2944,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 1.73
 
 [node name="PointLight2D6" type="PointLight2D" parent="Lighting" unique_id=13792287]
-position = Vector2(2999.1802, -400.48495)
+position = Vector2(3100, -404.00003)
 rotation = 0.58294
 scale = Vector2(2.0490975, 0.5880383)
 color = Color(0.73251253, 0.6408778, 0.21132898, 1)
@@ -2954,6 +2954,19 @@ offset = Vector2(-0.88, -5.44)
 texture_scale = 2.7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Lighting/PointLight2D6" unique_id=1273225128]
+autoplay = &"Light Movement"
+
+[node name="PointLight2D9" type="PointLight2D" parent="Lighting" unique_id=77525490]
+position = Vector2(6677.7505, -2141.946)
+rotation = 0.58294
+scale = Vector2(4.1592875, 0.48497495)
+color = Color(0.73251253, 0.6408778, 0.21132898, 1)
+energy = 3.78
+texture = SubResource("NoiseTexture2D_sfx35")
+offset = Vector2(-0.88, -5.44)
+texture_scale = 2.7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Lighting/PointLight2D9" unique_id=1334582043]
 autoplay = &"Light Movement"
 
 [node name="PointLight2D5" type="PointLight2D" parent="Lighting" unique_id=1377809327]

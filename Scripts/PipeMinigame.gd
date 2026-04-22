@@ -1,3 +1,4 @@
+@tool
 extends Control
 
 signal completed(success: bool)
@@ -11,7 +12,6 @@ const CELL_NORMAL := Color("2f3642")
 const CELL_CURSOR := Color("4fc9ff")
 const CELL_SELECTED := Color("ffb300")
 const CELL_FLOW := Color("2b6d8a")
-const EMBEDDED_CELL_SIZE := 48.0
 
 @export_group("Visuals")
 @export var ui_font: Font
@@ -43,6 +43,7 @@ const EMBEDDED_CELL_SIZE := 48.0
 @export var empty_texture: Texture2D
 @export var embedded_mode: bool = false
 @export var embedded_use_glyphs: bool = false
+@export var embedded_cell_size: float = 48.0
 @export_group("Embedded Placement")
 @export var embedded_anchor_path: NodePath
 @export var embedded_anchor_centered: bool = true
@@ -106,12 +107,22 @@ func _ready() -> void:
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
+		_ensure_embedded_rect_size()
+		if Engine.is_editor_hint():
+			visible = true
+			if _puzzle == null:
+				_puzzle = PipePuzzleDefinition.create_default()
+				_grid_size = _puzzle.grid_width
+				_grid_height = _puzzle.grid_height
+			_reset_puzzle()
+			return
 		_resolve_embedded_anchor_node()
 		set_process(_embedded_anchor_node != null and not _embedded_anchor_is_internal)
 		if _embedded_anchor_node != null:
 			call_deferred("_update_embedded_anchor_position")
 	if embedded_mode:
-		# Embedded boards must not flash stale/default content.
+		# Embedded boards should render immediately as in-world previews.
+		# Input remains locked because _active is still false until interact().
 		visible = false
 		if _puzzle == null:
 			_puzzle = PipePuzzleDefinition.create_default()
@@ -120,6 +131,18 @@ func _ready() -> void:
 		_request_embedded_refresh()
 		return
 	_reset_puzzle()
+
+func _ensure_embedded_rect_size() -> void:
+	if not embedded_mode:
+		return
+	if size.x >= 8.0 and size.y >= 8.0:
+		return
+	var fallback_size := Vector2(352.0, 352.0)
+	custom_minimum_size = fallback_size
+	if is_equal_approx(offset_right, offset_left):
+		offset_right = offset_left + fallback_size.x
+	if is_equal_approx(offset_bottom, offset_top):
+		offset_bottom = offset_top + fallback_size.y
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	if puzzle == null:
@@ -169,6 +192,8 @@ func _apply_embedded_refresh() -> void:
 	if not embedded_mode or _puzzle == null or not is_node_ready():
 		return
 	_reset_puzzle()
+	# Always show the embedded board after the first refresh; keep retrying signature sync in background.
+	visible = true
 	var puzzle_signature := get_puzzle_signature()
 	var render_signature := get_render_signature()
 	if _debug_preview:
@@ -177,7 +202,6 @@ func _apply_embedded_refresh() -> void:
 		await get_tree().process_frame
 		call_deferred("_request_embedded_refresh")
 		return
-	visible = true
 	if _debug_preview:
 		print("[PipeMinigame] preview visible with matched signature: ", name)
 
@@ -295,6 +319,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_move_cursor(dx, dy)
 		get_viewport().set_input_as_handled()
 
+func _play_optional_sound(sound_node: Node) -> void:
+	if sound_node != null and sound_node.has_method("play"):
+		sound_node.call("play")
+
 func _build_grid_ui() -> void:
 	for child in _grid.get_children():
 		child.queue_free()
@@ -312,7 +340,7 @@ func _build_grid_ui() -> void:
 	var layout_size := size
 	if layout_size.x <= 0.0 or layout_size.y <= 0.0:
 		layout_size = get_viewport_rect().size
-	var cell_size: float = EMBEDDED_CELL_SIZE if embedded_mode else clampf(minf(
+	var cell_size: float = embedded_cell_size if embedded_mode else clampf(minf(
 		(layout_size.x * 0.72 - float(separation * (_grid_size - 1))) / float(_grid_size),
 		(layout_size.y * 0.45 - float(separation * (_grid_height - 1))) / float(_grid_height)
 	), 32.0, 96.0)
@@ -323,6 +351,22 @@ func _build_grid_ui() -> void:
 		panel_width = minf(layout_size.x * 0.92, maxf(380.0, panel_width))
 		panel_height = minf(layout_size.y * 0.92, maxf(360.0, panel_height))
 	_root_panel.custom_minimum_size = Vector2(panel_width, panel_height)
+	if embedded_mode:
+		# Keep embedded board geometry fixed; do not let parent containers stretch cells.
+		_root_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		_root_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		_grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		_grid.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		_grid.custom_minimum_size = Vector2(
+			(cell_size * _grid_size) + float(separation * (_grid_size - 1)),
+			(cell_size * _grid_height) + float(separation * (_grid_height - 1))
+		)
+	else:
+		_root_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_root_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_grid.custom_minimum_size = Vector2.ZERO
 
 	var glyph_font_size: int = int(clampf(cell_size * 0.6, 24.0, 62.0))
 
@@ -330,6 +374,9 @@ func _build_grid_ui() -> void:
 		var cell := PanelContainer.new()
 		cell.custom_minimum_size = Vector2(cell_size, cell_size)
 		cell.pivot_offset = Vector2(cell_size * 0.5, cell_size * 0.5)
+		if embedded_mode:
+			cell.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			cell.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		if cell_texture:
 			cell.add_theme_stylebox_override("panel", _make_texture_stylebox(cell_texture))
@@ -538,11 +585,11 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 			if pivot_basis.x <= 0.0 or pivot_basis.y <= 0.0:
 				pivot_basis = _cells[i].size
 			if pivot_basis.x <= 0.0 or pivot_basis.y <= 0.0:
-				pivot_basis = Vector2(EMBEDDED_CELL_SIZE, EMBEDDED_CELL_SIZE)
+				pivot_basis = Vector2(embedded_cell_size, embedded_cell_size)
 			_cell_icons[i].position = pivot_basis * 0.5
 			var tex_size := piece_tex.get_size()
 			if tex_size.x > 0.0 and tex_size.y > 0.0:
-				var target := Vector2(EMBEDDED_CELL_SIZE, EMBEDDED_CELL_SIZE) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
+				var target := Vector2(embedded_cell_size, embedded_cell_size) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
 				var fit_scale := minf(target.x / tex_size.x, target.y / tex_size.y)
 				_cell_icons[i].scale = Vector2.ONE * fit_scale
 			else:

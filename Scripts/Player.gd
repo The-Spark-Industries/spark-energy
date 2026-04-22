@@ -51,6 +51,7 @@ var _water_overlap_count: int = 0
 var _water_death_timer: Timer
 ## Tracks whether the water-walk grace has been used this life (one touch allowed per respawn).
 var _water_walk_used: bool = false
+var _scene_spawn_position: Vector2 = Vector2.ZERO
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
@@ -67,10 +68,11 @@ func _ready() -> void:
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
 	var room_id := _current_room_id()
+	_scene_spawn_position = global_position
 
-	if Global.has_checkpoint_for_scene(scene_path):
+	if Global.checkpoints_enabled and Global.has_checkpoint_for_scene(scene_path):
 		global_position = Global.last_checkpoint_position
-	else:
+	elif Global.checkpoints_enabled:
 		Global.ensure_scene_defaults(scene_path, global_position, room_id)
 
 	_water_death_timer = Timer.new()
@@ -365,7 +367,10 @@ func die() -> void:
 	get_tree().create_timer(0.001).timeout.connect(_respawn, CONNECT_ONE_SHOT)
 
 func _respawn() -> void:
-	global_position = Global.last_checkpoint_position
+	if Global.checkpoints_enabled and Global.has_checkpoint_for_scene(_current_scene_path()):
+		global_position = Global.last_checkpoint_position
+	else:
+		global_position = _scene_spawn_position
 	velocity = Vector2.ZERO
 	state = States.IDLE
 	_jump_arc_active = false
@@ -376,6 +381,11 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
+
+func _current_scene_path() -> String:
+	if get_tree().current_scene:
+		return get_tree().current_scene.scene_file_path
+	return ""
 
 func _current_room_id() -> String:
 	if not get_tree() or get_tree().current_scene == null:

@@ -11,6 +11,12 @@ var readyToPress: bool= false
 @export var wheel_target_path: NodePath
 @export var lift_pixels: float = 96.0
 @export_range(0.1, 10.0, 0.1) var lift_duration: float = 2.4
+@export var output_target_paths: Array[NodePath] = []
+@export var output_target_groups: Array[StringName] = []
+@export var output_on_method: StringName = &"activate"
+@export var output_off_method: StringName = &"deactivate"
+@export var output_on_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
+@export var output_off_fallback_methods: Array[StringName] = [&"power_off", &"deactivate", &"stop", &"stop_spin", &"disable"]
 
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
@@ -44,6 +50,8 @@ func _input(event: InputEvent) -> void:
 			_play_lever_sound()
 		elif (leverstatus==1):
 			leverstatus=0
+			_revert_configured_actions()
+			$"leverSound".play()
 
 func _play_lever_sound() -> void:
 	var sfx := get_node_or_null("leverSound") as AudioStreamPlayer
@@ -54,6 +62,7 @@ func _play_lever_sound() -> void:
 
 func _apply_configured_actions() -> void:
 	_trigger_wheel_spin()
+	_trigger_outputs(true)
 
 	if _triggered_once:
 		return
@@ -73,6 +82,19 @@ func _apply_configured_actions() -> void:
 
 	_triggered_once = true
 
+func _revert_configured_actions() -> void:
+	_stop_wheel_spin()
+	_trigger_outputs(false)
+
+	if not String(waterfall_path).is_empty():
+		var waterfall := get_node_or_null(waterfall_path) as CanvasItem
+		if waterfall:
+			waterfall.visible = false
+
+	if _lift_tween and _lift_tween.is_valid():
+		_lift_tween.kill()
+		_lift_tween = null
+
 func _trigger_wheel_spin() -> void:
 	var wheel: Node = null
 	if not String(wheel_target_path).is_empty():
@@ -90,6 +112,92 @@ func _trigger_wheel_spin() -> void:
 		return
 	if wheel.has_method("_start_spin"):
 		wheel.call("_start_spin")
+
+func _stop_wheel_spin() -> void:
+	var wheel: Node = null
+	if not String(wheel_target_path).is_empty():
+		wheel = get_node_or_null(wheel_target_path)
+
+	if wheel == null:
+		# Fallback for scene variants where the export path was not set.
+		wheel = get_tree().current_scene.get_node_or_null("waterWheelRoom11")
+
+	if wheel == null:
+		return
+
+	if wheel.has_method("stop_spin"):
+		wheel.call("stop_spin")
+		return
+	if wheel.has_method("stop"):
+		wheel.call("stop")
+
+func _trigger_outputs(is_on: bool) -> void:
+	var called_nodes := {}
+
+	for target_path in output_target_paths:
+		if String(target_path).is_empty():
+			continue
+
+		var target := get_node_or_null(target_path)
+		if target == null:
+			continue
+
+		var target_id := target.get_instance_id()
+		if called_nodes.has(target_id):
+			continue
+		called_nodes[target_id] = true
+
+		_trigger_single_output(target, is_on)
+
+	for group_name in output_target_groups:
+		var group_name_str := String(group_name)
+		if group_name_str.is_empty():
+			continue
+
+		for target in get_tree().get_nodes_in_group(group_name_str):
+			if target == null:
+				continue
+
+			var target_id := target.get_instance_id()
+			if called_nodes.has(target_id):
+				continue
+			called_nodes[target_id] = true
+
+			_trigger_single_output(target, is_on)
+
+func _trigger_single_output(target: Object, is_on: bool) -> void:
+	var primary_method := output_on_method if is_on else output_off_method
+	if _call_output_method(target, primary_method):
+		return
+
+	var fallbacks := output_on_fallback_methods if is_on else output_off_fallback_methods
+	for fallback_method in fallbacks:
+		if fallback_method == primary_method:
+			continue
+		if _call_output_method(target, fallback_method):
+			return
+
+func _call_output_method(target: Object, method_name: StringName) -> bool:
+	var method_str := String(method_name)
+	if method_str.is_empty() or not target.has_method(method_str):
+		return false
+
+	var arg_count := -1
+	for method_info in target.get_method_list():
+		if String(method_info.get("name", "")) == method_str:
+			var args = method_info.get("args", [])
+			if args is Array:
+				arg_count = args.size()
+			break
+
+	if arg_count == 0:
+		target.call(method_str)
+	elif arg_count == 1:
+		target.call(method_str, self)
+	else:
+		target.call(method_str, self, self)
+
+	return true
 		
 
 

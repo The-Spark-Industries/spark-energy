@@ -55,6 +55,8 @@ const CELL_FLOW := Color("2b6d8a")
 @export_group("Flow")
 @export var auto_flow_preview: bool = false
 @export var auto_flow_completes: bool = false
+@export var corner_connector_rot_offset: int = 0
+@export var tee_connector_rot_offset: int = 0
 @export var solved_close_delay: float = 2.7
 @export var embedded_mode: bool = false
 @export var embedded_use_glyphs: bool = false
@@ -685,7 +687,7 @@ func _make_piece(kind: String, rot: int, locked: bool) -> Dictionary:
 
 func _connectors(piece: Dictionary) -> Array[int]:
 	var kind := String(piece.get("kind", "empty"))
-	var rot := posmod(int(piece.get("rot", 0)), 4)
+	var rot := _connector_rot(piece)
 
 	match kind:
 		"source":
@@ -739,7 +741,7 @@ func _connectors(piece: Dictionary) -> Array[int]:
 
 func _glyph_for_piece(piece: Dictionary) -> String:
 	var kind := String(piece.get("kind", "empty"))
-	var rot := int(piece.get("rot", 0))
+	var rot := _connector_rot(piece)
 
 	match kind:
 		"source":
@@ -774,6 +776,16 @@ func _glyph_for_piece(piece: Dictionary) -> String:
 			return "■"
 		_:
 			return "·"
+
+func _connector_rot(piece: Dictionary) -> int:
+	var kind := String(piece.get("kind", "empty"))
+	var rot := int(piece.get("rot", 0))
+	match kind:
+		"corner":
+			rot += corner_connector_rot_offset
+		"tee":
+			rot += tee_connector_rot_offset
+	return posmod(rot, 4)
 
 func _idx(x: int, y: int) -> int:
 	return y * _grid_size + x

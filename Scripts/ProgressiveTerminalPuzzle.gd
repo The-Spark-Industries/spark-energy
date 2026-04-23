@@ -110,6 +110,10 @@ func _set_terminal_enabled(node: Node, enabled: bool) -> void:
 	if node == null:
 		return
 
+	if node.has_method("set_terminal_enabled"):
+		node.call("set_terminal_enabled", enabled)
+		return
+
 	if node is Area2D:
 		var area := node as Area2D
 		area.set_deferred("monitoring", enabled)

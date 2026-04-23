@@ -39,10 +39,14 @@ signal puzzle_solved(terminal: Node)
 @export var interact_sprite_path: NodePath
 @export var interact_animation_name: StringName = &"flipped"
 
+const LOCKED_PROMPT_TEXT: String = "TERMINAL LOCKED, COMPLETE PREVIOUS STEP"
+
 var _bodies_inside: Array[Node] = []
 var _ui_layer: CanvasLayer = null
 var _minigame: Control = null
 var _solved: bool = false
+var _terminal_enabled: bool = true
+var _default_prompt_text: String = "[E] Pipe Control"
 var _puzzle: PipePuzzleDefinition = null
 var _randomized_once: bool = false
 var _platform_motion_started: bool = false
@@ -61,6 +65,7 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	if has_node("Prompt"):
+		_default_prompt_text = $Prompt.text
 		$Prompt.visible = false
 	# Initialize puzzle from export data or use default.
 	if puzzle_definition.is_empty():
@@ -184,6 +189,12 @@ func _sync_embedded_preview_with_retries(attempt: int) -> void:
 
 func interact(player: CharacterBody2D) -> bool:
 	_play_terminal_interact_animation()
+
+	if not _terminal_enabled:
+		if has_node("Prompt"):
+			$Prompt.text = LOCKED_PROMPT_TEXT
+			$Prompt.visible = true
+		return false
 
 	if _solved:
 		if has_node("Prompt"):
@@ -591,6 +602,12 @@ func _sync_interaction_overlaps() -> void:
 				tracked._on_interactable_exited(self)
 
 	if has_node("Prompt"):
+		if not _terminal_enabled:
+			$Prompt.text = LOCKED_PROMPT_TEXT
+		elif _solved:
+			$Prompt.text = "Solved"
+		else:
+			$Prompt.text = _default_prompt_text
 		$Prompt.visible = (not _bodies_inside.is_empty()) and (not _solved)
 			
 func _on_body_entered(body: Node2D) -> void:
@@ -601,6 +618,12 @@ func _on_body_entered(body: Node2D) -> void:
 
 	_bodies_inside.append(body)
 	if has_node("Prompt"):
+		if not _terminal_enabled:
+			$Prompt.text = LOCKED_PROMPT_TEXT
+		elif _solved:
+			$Prompt.text = "Solved"
+		else:
+			$Prompt.text = _default_prompt_text
 		$Prompt.visible = true
 
 	if body.has_method("_on_interactable_entered"):
@@ -616,6 +639,12 @@ func _on_body_exited(body: Node2D) -> void:
 
 	if body.has_method("_on_interactable_exited"):
 		body._on_interactable_exited(self)
+
+func set_terminal_enabled(enabled: bool) -> void:
+	_terminal_enabled = enabled
+	monitoring = true
+	monitorable = true
+	_sync_interaction_overlaps()
 
 func _randomize_puzzle_first_open() -> void:
 	if _randomized_once or _puzzle == null:

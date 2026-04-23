@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://biyqeqplfna5x"
-path="res://.godot/imported/backgroundtest.png-8547b83b5f9e42c3e01d5cd37d710715.ctex"
+uid="uid://02jmvsdqmwj0"
+path="res://.godot/imported/lever-NORMAL.png-1379f7cc7855a631c6f2be29cff445bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Master Scenes/backgroundtest.png"
-dest_files=["res://.godot/imported/backgroundtest.png-8547b83b5f9e42c3e01d5cd37d710715.ctex"]
+source_file="res://Level 1/Level 1 Art Assets/Items/Sprites/lever-NORMAL.png"
+dest_files=["res://.godot/imported/lever-NORMAL.png-1379f7cc7855a631c6f2be29cff445bd.ctex"]
 
 [params]
 

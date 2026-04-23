@@ -553,6 +553,17 @@ func _set_flow_visual_active(node: Node, active: bool) -> void:
 		(node as GPUParticles2D).emitting = active
 	elif node is CPUParticles2D:
 		(node as CPUParticles2D).emitting = active
+		
+	if node.has_node("WaterfallSound"):
+		var WaterfallSound := node.get_node("WaterfallSound") as AudioStreamPlayer2D
+		print("WaterSFX found: ", WaterfallSound, " active: ", active)
+		if WaterfallSound:
+			if active:
+				WaterfallSound.play()
+			else:
+				WaterfallSound.stop()
+	else:
+		print("No WaterSFX child on: ", node.name)
 
 	# Supports an AnimationPlayer child named FlowAnimation for custom visuals.
 	if node.has_node("FlowAnimation"):
@@ -738,6 +749,9 @@ func _randomize_puzzle_first_open() -> void:
 	_randomized_once = true
 	if debug_embedded_sync:
 		print("[PipePuzzleTerminal] randomized once for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
+
+
+
 
 func _start_platform_motion_if_needed() -> void:
 	if _platform_motion_started:

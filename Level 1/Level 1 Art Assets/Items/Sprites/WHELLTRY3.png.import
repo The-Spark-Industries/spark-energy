@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bno7isykvkuvn"
-path="res://.godot/imported/backgroundtest2.png-71d63ebc5f87120d8251c135f9aff787.ctex"
+uid="uid://cqecfbfljbspu"
+path="res://.godot/imported/WHELLTRY3.png-6aa58d708584cf22080af7fd03180ff9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Master Scenes/backgroundtest2.png"
-dest_files=["res://.godot/imported/backgroundtest2.png-71d63ebc5f87120d8251c135f9aff787.ctex"]
+source_file="res://Level 1/Level 1 Art Assets/Items/Sprites/WHELLTRY3.png"
+dest_files=["res://.godot/imported/WHELLTRY3.png-6aa58d708584cf22080af7fd03180ff9.ctex"]
 
 [params]
 

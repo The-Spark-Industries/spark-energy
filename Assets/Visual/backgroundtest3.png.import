@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bua8c17ntmti1"
-path="res://.godot/imported/backgroundtest3.png-a456edbee839c6f6de8f15b7e7e668b4.ctex"
+path="res://.godot/imported/backgroundtest3.png-c05307b1f29af8288456b79d0f775569.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Master Scenes/backgroundtest3.png"
-dest_files=["res://.godot/imported/backgroundtest3.png-a456edbee839c6f6de8f15b7e7e668b4.ctex"]
+source_file="res://Assets/Visual/backgroundtest3.png"
+dest_files=["res://.godot/imported/backgroundtest3.png-c05307b1f29af8288456b79d0f775569.ctex"]
 
 [params]
 

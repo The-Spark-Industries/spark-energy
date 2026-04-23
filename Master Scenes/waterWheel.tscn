@@ -1,19 +1,25 @@
-[gd_scene format=3 uid="uid://cry8t43cly03v"]
+[gd_scene load_steps=7 format=3 uid="uid://cry8t43cly03v"]
 
 [ext_resource type="Script" uid="uid://g7pmotdk61py" path="res://Scripts/water_wheel.gd" id="1_gd0dq"]
-[ext_resource type="Texture2D" uid="uid://clj5v77k4tn3e" path="res://Level 1/Level 1 Art Assets/Items/Sprites/waterwheel.png" id="2_4w2gn"]
+[ext_resource type="Texture2D" uid="uid://cfit2gjy4xwix" path="res://Level 1/Level 1 Art Assets/Items/Sprites/wheel1.png" id="2_3t308"]
+[ext_resource type="Texture2D" uid="uid://cfigltjobh0n3" path="res://Level 1/Level 1 Art Assets/Items/Sprites/WHELLTRY4.png" id="3_3t308"]
+[ext_resource type="AudioStream" uid="uid://dn4he5i1omijx" path="res://Level 1/Level 1 Audio/SFX/Wheel4.wav" id="4_3m5p7"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_8ka72"]
+diffuse_texture = ExtResource("2_3t308")
+normal_texture = ExtResource("3_3t308")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3t308"]
 polygon = PackedVector2Array(52, -61, 62, -51, 46, -33, 58, -11, 72, -8, 73, 4.9999995, 57, 3.9999995, 49, 33, 60, 52, 50, 66, 31.999998, 48, 7.9999986, 58, 6.9999986, 75, -5.0000014, 75, -6.0000014, 55, -33, 48, -50, 64, -62, 48, -48, 31, -58, 6.9999995, -71, 5.9999995, -71, -5.0000005, -60, -6.0000005, -49, -32, -62, -56, -48, -66, -35, -50, -5.0000014, -57, -3.0000014, -74, 3.9999986, -74, 7.9999986, -57, 31.999998, -49)
 
-[node name="Node2D" type="Node2D" unique_id=1421433164]
+[node name="Node2D" type="Node2D"]
 script = ExtResource("1_gd0dq")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1451428372]
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["NotTileMap"]]
 position = Vector2(-1.1920929e-07, 1.1920929e-07)
 scale = Vector2(5, 5)
 
-[node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=623583355]
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
 visible = false
 offset_left = -16.000002
 offset_top = -16.000002
@@ -22,14 +28,21 @@ offset_bottom = 15.999998
 color = Color(1, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1181116353]
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 position = Vector2(3.054738e-07, -0.5999999)
 scale = Vector2(0.19999999, 0.19999999)
-texture = ExtResource("2_4w2gn")
+texture = SubResource("CanvasTexture_8ka72")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D/Sprite2D" unique_id=2123348160]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D/Sprite2D"]
 occluder = SubResource("OccluderPolygon2D_3t308")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=1670598229]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 scale = Vector2(0.99999994, 0.99999994)
-polygon = PackedVector2Array(-7.200001, -10.600001, -1.2, -12.200001, -1.2, -15.200002, 0.8000001, -15.400002, 1.6000001, -12.200001, 6.4000006, -10.600001, 10.200001, -13.200001, 12.600001, -10.400001, 9.6, -7.200001, 11.400001, -3.4000003, 14.400002, -2.4, 14.600001, 0.6, 11.600001, 0.8000001, 10.400001, 6.0000005, 12.400002, 10.200001, 10.200001, 12.600001, 6.4000006, 9.200001, 1.8000002, 11.000001, 1.0000001, 14.400002, -1.0000001, 14.200002, -1.4000001, 11.000001, -6.200001, 9.200001, -10.200001, 12.200001, -12.600001, 9.200001, -9.800001, 5.8000007, -11.762291, 1.3402538, -14.600001, 0.6, -14.219055, -1.3999557, -12.200001, -2.0000002, -10.000001, -6.8000007, -12.200001, -12.000001, -9.400001, -13.800001)
+polygon = PackedVector2Array(-4.0000005, -14.400002, 4.4000006, -14.400002, 11.200001, -10.400001, 14.600001, -4.0000005, 14.600001, 4.0000005, 10.400001, 11.000001, 4.2000003, 14.600001, -4.2000003, 14.600001, -10.000001, 11.000001, -14.200002, 4.2000003, -14.200002, -4.2000003, -10.400001, -10.600001)
+
+[node name="WaterWheelNoise" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_3m5p7")
+volume_db = 2.385
+max_distance = 884.0
+attenuation = 1.7411016
+panning_strength = 1.63

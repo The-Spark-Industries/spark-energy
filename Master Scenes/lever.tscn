@@ -31,7 +31,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x32ih")
+"texture": SubResource("AtlasTexture_lgbjs")
 }],
 "loop": true,
 "name": &"flipped",

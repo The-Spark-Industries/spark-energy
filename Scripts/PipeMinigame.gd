@@ -41,6 +41,21 @@ const CELL_FLOW := Color("2b6d8a")
 ]
 @export var block_texture: Texture2D
 @export var empty_texture: Texture2D
+@export_group("Powered Visuals")
+@export var powered_source_texture: Texture2D
+@export var powered_sink_texture: Texture2D
+@export var powered_straight_texture: Texture2D
+@export var powered_corner_texture: Texture2D
+@export var powered_tee_texture: Texture2D
+@export var powered_block_texture: Texture2D
+@export var powered_empty_texture: Texture2D
+@export var powered_straight_textures: Array[Texture2D] = []
+@export var powered_corner_textures: Array[Texture2D] = []
+@export var powered_tee_textures: Array[Texture2D] = []
+@export_group("Flow")
+@export var auto_flow_preview: bool = false
+@export var auto_flow_completes: bool = false
+@export var solved_close_delay: float = 2.7
 @export var embedded_mode: bool = false
 @export var embedded_use_glyphs: bool = false
 @export var embedded_cell_size: float = 48.0
@@ -99,6 +114,7 @@ func _ready() -> void:
 		visible = false
 	_apply_visual_overrides()
 	_send_button.pressed.connect(_on_send_water_pressed)
+	_send_button.visible = not auto_flow_completes
 	if embedded_mode:
 		$Backdrop.visible = false
 		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
@@ -466,9 +482,9 @@ func _reset_puzzle() -> void:
 	_grabbed_index = -1
 	_info_label.text = "Build a connected pipe route from source to drain."
 	_status_label.text = _controls_hint_text()
-	_update_cells()
+	_refresh_flow_state(false)
 	# Re-apply visuals on next frame so TextureRect sizes are valid before rotation pivots are used.
-	call_deferred("_update_cells")
+	call_deferred("_refresh_flow_state", false)
 
 func _toggle_select() -> void:
 	if _grabbed_index == -1:
@@ -477,9 +493,12 @@ func _toggle_select() -> void:
 			_status_label.text = "Selected. Move with WASD, Enter to place."
 	else:
 		_grabbed_index = -1
-		_status_label.text = "Piece placed. Press Send Water when ready."
+		if auto_flow_completes:
+			_status_label.text = "Piece placed. Power propagates automatically."
+		else:
+			_status_label.text = "Piece placed. Press Send Water when ready."
 
-	_update_cells()
+	_refresh_flow_state()
 
 func _move_cursor(dx: int, dy: int) -> void:
 	var current := _to_xy(_cursor_index)
@@ -496,7 +515,7 @@ func _move_cursor(dx: int, dy: int) -> void:
 		_grabbed_index = target_index
 
 	_cursor_index = target_index
-	_update_cells()
+	_refresh_flow_state()
 
 func _rotate_at_selection(dir: int) -> void:
 	if not _can_rotate_pieces():
@@ -513,7 +532,7 @@ func _rotate_at_selection(dir: int) -> void:
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
 	_status_label.text = "Rotated piece."
-	_update_cells()
+	_refresh_flow_state()
 
 func _can_move_pieces() -> bool:
 	return _control_mode != 2
@@ -534,19 +553,51 @@ func _on_send_water_pressed() -> void:
 	if not _active:
 		return
 
+	if auto_flow_completes:
+		return
+
 	var reached := _trace_flow_from_source()
-	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
-	if reached.has(sink_idx):
-		_solved = true
-		_status_label.text = "Water reached the end. Puzzle solved!"
-		_play_sfx(_sfx_complete)
-		_update_cells(reached)
-		completed.emit(true)
-		await get_tree().create_timer(2.7).timeout
-		close_minigame()
+	if _is_sink_reached(reached):
+		await _handle_solved(reached, "Water reached the end. Puzzle solved!")
 	else:
 		_status_label.text = "Flow failed before the end. Re-route the pipes."
 		_update_cells(reached)
+
+func _refresh_flow_state(allow_autocomplete: bool = true) -> void:
+	if auto_flow_preview or auto_flow_completes:
+		var reached := _trace_flow_from_source()
+		_update_cells(reached)
+		if allow_autocomplete and auto_flow_completes and _is_sink_reached(reached):
+			call_deferred("_complete_from_auto_flow", reached)
+		return
+
+	_update_cells()
+
+func _complete_from_auto_flow(reached: Array[int]) -> void:
+	if not _active or _solved or not auto_flow_completes:
+		return
+	if not _is_sink_reached(reached):
+		return
+	await _handle_solved(reached, "Circuit complete. Tree is powered!")
+
+func _is_sink_reached(reached: Array[int]) -> bool:
+	if _puzzle == null:
+		return false
+	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
+	return reached.has(sink_idx)
+
+func _handle_solved(reached: Array[int], solved_text: String) -> void:
+	if _solved:
+		return
+
+	_solved = true
+	_status_label.text = solved_text
+	_play_sfx(_sfx_complete)
+	_update_cells(reached)
+	completed.emit(true)
+	if solved_close_delay > 0.0:
+		await get_tree().create_timer(solved_close_delay).timeout
+	close_minigame()
 
 func _trace_flow_from_source() -> Array[int]:
 	var source_idx := _idx(_puzzle.source_pos.x, _puzzle.source_pos.y)
@@ -578,7 +629,7 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 	for i in range(_pieces.size()):
 		var piece: Dictionary = _pieces[i]
 		var use_texture := not (embedded_mode and embedded_use_glyphs)
-		var piece_tex: Texture2D = _piece_texture(piece) if use_texture else null
+		var piece_tex: Texture2D = _piece_texture(piece, i in flow_cells) if use_texture else null
 		if piece_tex:
 			_cell_icons[i].texture = piece_tex
 			var pivot_basis := _cells[i].custom_minimum_size
@@ -774,22 +825,36 @@ func _make_texture_stylebox(tex: Texture2D) -> StyleBoxTexture:
 	style.texture = tex
 	return style
 
-func _piece_texture(piece: Dictionary) -> Texture2D:
+func _piece_texture(piece: Dictionary, is_powered: bool = false) -> Texture2D:
 	var dirt_level := int(piece.get("dirt_level", 0))
 	match String(piece.get("kind", "empty")):
 		"source":
+			if is_powered and powered_source_texture:
+				return powered_source_texture
 			return source_texture
 		"sink":
+			if is_powered and powered_sink_texture:
+				return powered_sink_texture
 			return sink_texture
 		"straight":
+			if is_powered:
+				return _resolve_variant_texture(powered_straight_textures, dirt_level, powered_straight_texture if powered_straight_texture else straight_texture)
 			return _resolve_variant_texture(straight_textures, dirt_level, straight_texture)
 		"corner":
+			if is_powered:
+				return _resolve_variant_texture(powered_corner_textures, dirt_level, powered_corner_texture if powered_corner_texture else corner_texture)
 			return _resolve_variant_texture(corner_textures, dirt_level, corner_texture)
 		"tee":
+			if is_powered:
+				return _resolve_variant_texture(powered_tee_textures, dirt_level, powered_tee_texture if powered_tee_texture else tee_texture)
 			return _resolve_variant_texture(tee_textures, dirt_level, tee_texture)
 		"block":
+			if is_powered and powered_block_texture:
+				return powered_block_texture
 			return block_texture
 		"empty":
+			if is_powered and powered_empty_texture:
+				return powered_empty_texture
 			return empty_texture
 		_:
 			return null

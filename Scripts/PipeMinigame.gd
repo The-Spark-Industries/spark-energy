@@ -119,6 +119,19 @@ func _ready() -> void:
 		return
 	_reset_puzzle()
 
+
+func _process(delta: float) -> void:
+	if (Global.fontChoice==0):
+		self.theme=load("res://Assets/Visual/Lingua.tres")
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Lingua.tres")
+		
+	if (Global.fontChoice==1):
+		self.theme=load("res://Assets/Visual/lingualight.tres")
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		self.theme=load("res://Assets/Visual/Receipt.tres")
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Receipt.tres")
+
 func _ensure_embedded_rect_size() -> void:
 	if not embedded_mode:
 		return

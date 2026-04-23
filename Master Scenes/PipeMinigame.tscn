@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://cknx1i8d6ojmr"]
 
 [ext_resource type="Script" uid="uid://dplhbc4yvnf0y" path="res://Scripts/PipeMinigame.gd" id="1_pipe_script"]
+[ext_resource type="Theme" uid="uid://60rj30lepwcb" path="res://Assets/Visual/Lingua.tres" id="2_o6pxk"]
 
 [node name="PipeMinigame" type="Control" unique_id=816716628]
 process_mode = 2
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,10 +34,10 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1163156292]
-custom_minimum_size = Vector2(540, 520)
+custom_minimum_size = Vector2(380, 483)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=972430594]
 layout_mode = 2
@@ -43,19 +45,21 @@ theme_override_constants/separation = 14
 
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=509321678]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "Pipe Control"
 horizontal_alignment = 1
 
 [node name="Info" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=452963937]
 layout_mode = 2
-text = "Route water from S to T."
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Build a connected pipe route from source to drain."
 horizontal_alignment = 1
 
 [node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1234549175]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 3
@@ -67,9 +71,13 @@ theme_override_constants/separation = 12
 [node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=752601829]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
 autowrap_mode = 2
 
 [node name="SendWaterButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1852465570]
 layout_mode = 2
 size_flags_horizontal = 8
+theme = ExtResource("2_o6pxk")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Send Water"

@@ -627,6 +627,16 @@ func _complete_from_auto_flow(reached: Array[int]) -> void:
 func _is_sink_reached(reached: Array[int]) -> bool:
 	if _puzzle == null:
 		return false
+	if not _is_in_grid(_puzzle.sink_pos):
+		var sink_attachment := _virtual_port_attachment(_puzzle.sink_pos)
+		if sink_attachment.is_empty():
+			return false
+		var sink_cell: Vector2i = sink_attachment["cell"]
+		var sink_connector: int = int(sink_attachment["connector"])
+		var sink_cell_idx := _idx(sink_cell.x, sink_cell.y)
+		if not reached.has(sink_cell_idx):
+			return false
+		return _connectors(_pieces[sink_cell_idx]).has(sink_connector)
 	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
 	return reached.has(sink_idx)
 

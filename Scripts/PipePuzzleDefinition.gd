@@ -259,6 +259,27 @@ static func _dir_to_vec(d: int) -> Vector2i:
 static func _opposite_dir(d: int) -> int:
 	return (d + 2) % 4
 
+## Create a 3x3 puzzle with hidden source/sink ports outside the visible grid.
+## Source is above the top-middle cell; sink is below the bottom-right cell.
+static func create_puzzle_3x3_hidden_ports() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(3)
+	puzzle.source_pos = Vector2i(1, -1)
+	puzzle.sink_pos = Vector2i(2, 3)
+
+	# Solved route: (1,0) -> (1,1) -> (2,1) -> (2,2) -> sink(outside)
+	puzzle.set_piece(1, 0, "straight", 0)
+	puzzle.set_piece(1, 1, "corner", 0)
+	puzzle.set_piece(2, 1, "corner", 2)
+	puzzle.set_piece(2, 2, "straight", 0)
+
+	# Keep other cells empty so move-only shuffling still creates a valid challenge.
+	for y in range(3):
+		for x in range(3):
+			if puzzle.get_piece(x, y).is_empty():
+				puzzle.set_piece(x, y, "empty")
+
+	return puzzle
+
 ## Create a unique 4x4 puzzle.
 static func create_puzzle_4x4() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4)

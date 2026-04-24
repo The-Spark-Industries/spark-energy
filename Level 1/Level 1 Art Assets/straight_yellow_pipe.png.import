@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://biyqeqplfna5x"
-path="res://.godot/imported/backgroundtest.png-8547b83b5f9e42c3e01d5cd37d710715.ctex"
+uid="uid://djmv5d8tsf1qw"
+path="res://.godot/imported/straight_yellow_pipe.png-d4d86db1f55b9e9591a0909b91c1adca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Master Scenes/backgroundtest.png"
-dest_files=["res://.godot/imported/backgroundtest.png-8547b83b5f9e42c3e01d5cd37d710715.ctex"]
+source_file="res://Level 1/Level 1 Art Assets/straight_yellow_pipe.png"
+dest_files=["res://.godot/imported/straight_yellow_pipe.png-d4d86db1f55b9e9591a0909b91c1adca.ctex"]
 
 [params]
 

@@ -4,7 +4,7 @@ signal puzzle_solved(terminal: Node)
 
 @export var minigame_scene: PackedScene = preload("res://Master Scenes/PipeMinigame.tscn")
 @export var puzzle_definition: Dictionary = {}  # Serializable puzzle; auto-populate with default if empty.
-@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6") var puzzle_layout: int = 0
+@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6", "Wire Full 6x7", "Wire Full 8x7", "Wire Full 6x3", "Wire Full 6x5", "Wire Full 4x5", "Wire Full 8x8", "Wire Full 8x4", "Wire Full 7x6", "3x3 Hidden Ports") var puzzle_layout: int = 0
 @export_enum("Normal", "Move Only", "Rotate Only") var control_mode: int = 0
 @export_group("Solved Platform Motion")
 @export var moving_platform_path: NodePath
@@ -35,11 +35,18 @@ signal puzzle_solved(terminal: Node)
 @export_group("Solved Linked Object")
 @export var linked_object_path: NodePath
 @export var linked_object_method: StringName = &"on_terminal_solved"
+@export_group("Interact Visual")
+@export var interact_sprite_path: NodePath
+@export var interact_animation_name: StringName = &"flipped"
+
+const LOCKED_PROMPT_TEXT: String = "TERMINAL LOCKED, COMPLETE PREVIOUS STEP"
 
 var _bodies_inside: Array[Node] = []
 var _ui_layer: CanvasLayer = null
 var _minigame: Control = null
 var _solved: bool = false
+var _terminal_enabled: bool = true
+var _default_prompt_text: String = "[E] Pipe Control"
 var _puzzle: PipePuzzleDefinition = null
 var _randomized_once: bool = false
 var _platform_motion_started: bool = false
@@ -58,6 +65,7 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	if has_node("Prompt"):
+		_default_prompt_text = $Prompt.text
 		$Prompt.visible = false
 	# Initialize puzzle from export data or use default.
 	if puzzle_definition.is_empty():
@@ -76,11 +84,39 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x8()
 			7:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x9()
+			8:
+				_puzzle = PipePuzzleDefinition.create_wire_tree_9x8()
+			9:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x6()
+			10:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x7()
+			11:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x7()
+			12:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x3()
+			13:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x5()
+			14:
+				_puzzle = PipePuzzleDefinition.create_wire_full_4x5()
+			15:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x8()
+			16:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x4()
+			17:
+				_puzzle = PipePuzzleDefinition.create_wire_full_7x6()
+			18:
+				_puzzle = PipePuzzleDefinition.create_puzzle_3x3_hidden_ports()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
-		puzzle_definition = _puzzle.to_dict()
 	else:
 		_puzzle = PipePuzzleDefinition.from_dict(puzzle_definition)
+
+	# Normalize every puzzle to hidden in/out ports for consistent presentation.
+	_puzzle = PipePuzzleDefinition.with_hidden_ports(_puzzle)
+	puzzle_definition = _puzzle.to_dict()
+	_default_prompt_text = _puzzle_prompt_text()
+	if has_node("Prompt"):
+		$Prompt.text = _default_prompt_text
 
 	# Randomize at level load so puzzle state is ready before any interaction.
 	_randomize_puzzle_first_open()
@@ -92,6 +128,8 @@ func _ready() -> void:
 		_setup_embedded_preview()
 		call_deferred("_setup_embedded_preview")
 		call_deferred("_sync_embedded_preview_with_retries", 0)
+
+	call_deferred("_sync_interaction_overlaps")
 
 func _setup_embedded_preview() -> void:
 	var embedded := get_node_or_null(embedded_minigame_path) as Control
@@ -158,6 +196,14 @@ func _sync_embedded_preview_with_retries(attempt: int) -> void:
 	call_deferred("_sync_embedded_preview_with_retries", attempt + 1)
 
 func interact(player: CharacterBody2D) -> bool:
+	_play_terminal_interact_animation()
+
+	if not _terminal_enabled:
+		if has_node("Prompt"):
+			$Prompt.text = LOCKED_PROMPT_TEXT
+			$Prompt.visible = true
+		return false
+
 	if _solved:
 		if has_node("Prompt"):
 			$Prompt.text = "Solved"
@@ -202,6 +248,40 @@ func interact(player: CharacterBody2D) -> bool:
 
 	return false
 
+func _play_terminal_interact_animation() -> void:
+	var animated := _resolve_terminal_animated_sprite()
+	if animated == null or animated.sprite_frames == null:
+		return
+
+	var animation_name := String(interact_animation_name)
+	if animation_name.is_empty():
+		return
+	if not animated.sprite_frames.has_animation(animation_name):
+		return
+
+	animated.visible = true
+	animated.play(animation_name)
+
+func _resolve_terminal_animated_sprite() -> AnimatedSprite2D:
+	if not String(interact_sprite_path).is_empty():
+		var from_path := get_node_or_null(interact_sprite_path)
+		if from_path is AnimatedSprite2D:
+			return from_path as AnimatedSprite2D
+
+	var direct := get_node_or_null("AnimatedSprite2D")
+	if direct is AnimatedSprite2D:
+		return direct as AnimatedSprite2D
+
+	var named_sprite := get_node_or_null("Sprite2D")
+	if named_sprite is AnimatedSprite2D:
+		return named_sprite as AnimatedSprite2D
+
+	for child in get_children():
+		if child is AnimatedSprite2D:
+			return child as AnimatedSprite2D
+
+	return null
+
 func _on_minigame_completed(success: bool) -> void:
 	if success:
 		_solved = true
@@ -216,6 +296,8 @@ func _on_minigame_completed(success: bool) -> void:
 		_start_platform_motion_if_needed()
 
 func _physics_process(delta: float) -> void:
+	_sync_interaction_overlaps()
+
 	if (Global.fontChoice==0):
 		$Prompt.theme=load("res://Assets/Visual/Lingua.tres")
 	if (Global.fontChoice==1):
@@ -479,6 +561,17 @@ func _set_flow_visual_active(node: Node, active: bool) -> void:
 		(node as GPUParticles2D).emitting = active
 	elif node is CPUParticles2D:
 		(node as CPUParticles2D).emitting = active
+		
+	if node.has_node("WaterfallSound"):
+		var WaterfallSound := node.get_node("WaterfallSound") as AudioStreamPlayer2D
+		print("WaterSFX found: ", WaterfallSound, " active: ", active)
+		if WaterfallSound:
+			if active:
+				WaterfallSound.play()
+			else:
+				WaterfallSound.stop()
+	else:
+		print("No WaterSFX child on: ", node.name)
 
 	# Supports an AnimationPlayer child named FlowAnimation for custom visuals.
 	if node.has_node("FlowAnimation"):
@@ -510,6 +603,31 @@ func _start_wheel_spin(node: Node) -> void:
 			var tween := create_tween()
 			tween.set_loops()
 			tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+
+func _sync_interaction_overlaps() -> void:
+	var overlapping_players: Array[Node] = []
+	for body in get_overlapping_bodies():
+		if body is CharacterBody2D:
+			overlapping_players.append(body)
+			if body not in _bodies_inside:
+				_bodies_inside.append(body)
+				if body.has_method("_on_interactable_entered"):
+					body._on_interactable_entered(self)
+
+	for tracked in _bodies_inside.duplicate():
+		if tracked == null or not is_instance_valid(tracked) or tracked not in overlapping_players:
+			_bodies_inside.erase(tracked)
+			if tracked and tracked.has_method("_on_interactable_exited"):
+				tracked._on_interactable_exited(self)
+
+	if has_node("Prompt"):
+		if not _terminal_enabled:
+			$Prompt.text = LOCKED_PROMPT_TEXT
+		elif _solved:
+			$Prompt.text = "Solved"
+		else:
+			$Prompt.text = _default_prompt_text
+		$Prompt.visible = (not _bodies_inside.is_empty()) and (not _solved)
 			
 func _on_body_entered(body: Node2D) -> void:
 	if not (body is CharacterBody2D):
@@ -519,6 +637,12 @@ func _on_body_entered(body: Node2D) -> void:
 
 	_bodies_inside.append(body)
 	if has_node("Prompt"):
+		if not _terminal_enabled:
+			$Prompt.text = LOCKED_PROMPT_TEXT
+		elif _solved:
+			$Prompt.text = "Solved"
+		else:
+			$Prompt.text = _default_prompt_text
 		$Prompt.visible = true
 
 	if body.has_method("_on_interactable_entered"):
@@ -534,6 +658,12 @@ func _on_body_exited(body: Node2D) -> void:
 
 	if body.has_method("_on_interactable_exited"):
 		body._on_interactable_exited(self)
+
+func set_terminal_enabled(enabled: bool) -> void:
+	_terminal_enabled = enabled
+	monitoring = true
+	monitorable = true
+	_sync_interaction_overlaps()
 
 func _randomize_puzzle_first_open() -> void:
 	if _randomized_once or _puzzle == null:
@@ -627,6 +757,38 @@ func _randomize_puzzle_first_open() -> void:
 	_randomized_once = true
 	if debug_embedded_sync:
 		print("[PipePuzzleTerminal] randomized once for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
+
+func _puzzle_prompt_text() -> String:
+	if _puzzle == null:
+		return "[E] Hidden Ports"
+	var in_name := _port_location_name(_puzzle.source_pos)
+	var out_name := _port_location_name(_puzzle.sink_pos)
+	return "[E] %dx%d hidden ports (%s, %s)" % [_puzzle.grid_width, _puzzle.grid_height, in_name, out_name]
+
+func _port_location_name(pos: Vector2i) -> String:
+	if _puzzle == null:
+		return "Unknown"
+	if pos.y < 0:
+		return "TOP %s" % _axis_word(pos.x, _puzzle.grid_width, "column")
+	if pos.y >= _puzzle.grid_height:
+		return "BOTTOM %s" % _axis_word(pos.x, _puzzle.grid_width, "column")
+	if pos.x < 0:
+		return "LEFT %s" % _axis_word(pos.y, _puzzle.grid_height, "row")
+	if pos.x >= _puzzle.grid_width:
+		return "RIGHT %s" % _axis_word(pos.y, _puzzle.grid_height, "row")
+	return "INSIDE (%d,%d)" % [pos.x, pos.y]
+
+func _axis_word(index: int, count: int, axis: String) -> String:
+	if index == 0:
+		return "LEFT" if axis == "column" else "TOP"
+	if index == count - 1:
+		return "RIGHT" if axis == "column" else "BOTTOM"
+	if count % 2 == 1 and index == int(count / 2):
+		return "MIDDLE"
+	return "%s %d" % [axis.to_upper(), index + 1]
+
+
+
 
 func _start_platform_motion_if_needed() -> void:
 	if _platform_motion_started:

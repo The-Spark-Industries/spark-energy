@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0i7ehutb6a7s"
-path="res://.godot/imported/backgroundtest1.png-cd0bc0b4f8b0d92ffc5b6f98b85528d4.ctex"
+uid="uid://bn6eutr5naudr"
+path="res://.godot/imported/corner_yellow_pipe.png-4db33ebd5846449f02517b033e081fc4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Master Scenes/backgroundtest1.png"
-dest_files=["res://.godot/imported/backgroundtest1.png-cd0bc0b4f8b0d92ffc5b6f98b85528d4.ctex"]
+source_file="res://Level 1/Level 1 Art Assets/corner_yellow_pipe.png"
+dest_files=["res://.godot/imported/corner_yellow_pipe.png-4db33ebd5846449f02517b033e081fc4.ctex"]
 
 [params]
 

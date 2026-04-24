@@ -1,4 +1,4 @@
-// Made by PWira (modified — vertical falling water)
+// Made by PWira (modified)
 // MIT License
 shader_type canvas_item;
 

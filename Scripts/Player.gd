@@ -51,6 +51,11 @@ var _water_overlap_count: int = 0
 var _water_death_timer: Timer
 ## Tracks whether the water-walk grace has been used this life (one touch allowed per respawn).
 var _water_walk_used: bool = false
+var _scene_spawn_position: Vector2 = Vector2.ZERO
+
+var just_fell: bool = false
+var just_fell_hard: bool = false
+var just_fell_countdown: float = 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
@@ -67,10 +72,11 @@ func _ready() -> void:
 	if get_tree().current_scene:
 		scene_path = get_tree().current_scene.scene_file_path
 	var room_id := _current_room_id()
+	_scene_spawn_position = global_position
 
-	if Global.has_checkpoint_for_scene(scene_path):
+	if Global.checkpoints_enabled and Global.has_checkpoint_for_scene(scene_path):
 		global_position = Global.last_checkpoint_position
-	else:
+	elif Global.checkpoints_enabled:
 		Global.ensure_scene_defaults(scene_path, global_position, room_id)
 
 	_water_death_timer = Timer.new()
@@ -83,6 +89,31 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	just_fell_countdown -= delta
+	
+	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:
+		for i in get_slide_collision_count():
+			var collision := get_slide_collision(i)
+			var collider := collision.get_collider()
+			if collision.get_collider() is StaticBody2D and not collider.is_in_group("NotTileMap"):
+				if not $"SparkSFX/HardLandingSFX".playing:
+					$"SparkSFX/HardLandingSFX".play()
+				$BigLandingParticles.restart()
+				just_fell_countdown = 0.2
+				break
+	if is_on_floor() and just_fell and just_fell_countdown <= 0.0:
+		for i in get_slide_collision_count():
+			var collision := get_slide_collision(i)
+			var collider := collision.get_collider()
+			if collision.get_collider() is StaticBody2D and not collider.is_in_group("NotTileMap"):
+				if not $"SparkSFX/LandingSFX".playing:
+					$"SparkSFX/LandingSFX".play()
+				$SmallLandingParticles.restart()
+				just_fell_countdown = 0.2
+				break
+	just_fell = not is_on_floor() and velocity.y > 700
+	just_fell_hard = not is_on_floor() and velocity.y > 1200
+	
 	#fonts for the player prompt
 	if (Global.fontChoice==0):
 		$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
@@ -92,7 +123,6 @@ func _physics_process(delta: float) -> void:
 		$playerprompt.theme=load("res://Assets/Visual/Receipt.tres")
 		
 	pass
-	print (Global.tutorialchecker, Global.jumpcounter)
 
 	#moving the player prompt
 	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
@@ -126,7 +156,10 @@ func _physics_process(delta: float) -> void:
 		Global.tutorialchecker=2
 
 	
-	
+	if (Input.is_action_just_pressed("ui_down")):
+		self.global_position.x=5565
+		self.global_position.y=-210
+
 	
 	if (Global.laddermode==true):
 		if _is_jump_pressed():
@@ -176,15 +209,16 @@ func _physics_process(delta: float) -> void:
 			if sprite: sprite.play("jump")
 			if animPlayer:
 				animPlayer.stop()
-				animPlayer.plpay("jump")
+				animPlayer.play("jump")
 			state = States.AIR
+			$"SparkSFX/WalkingSFX".stop()
 
 		States.AIR:
 			if is_on_floor():
 				state = States.IDLE
 				_jump_arc_active = false
 				if animPlayer: animPlayer.play("land")
-			
+									
 			# Variable Jump Height [cite: 6]
 			if _is_jump_just_released():
 				if (Global.laddermode==false):
@@ -192,6 +226,8 @@ func _physics_process(delta: float) -> void:
 					velocity.y *= JUMP_CUT_MULTIPLIER
 			
 			_apply_run_logic(direction, delta)
+			
+			$"SparkSFX/WalkingSFX".stop()
 			
 			# Jump Input (with Coyote Time)
 			if _is_jump_just_pressed():
@@ -242,10 +278,12 @@ func _physics_process(delta: float) -> void:
 					sprite.play("idle")
 				if direction != 0:
 					state = States.RUN
-
+			$"SparkSFX/WalkingSFX".stop()
 		States.RUN:
 			if sprite: sprite.play("run")
 			_apply_run_logic(direction, delta)
+			if not $"SparkSFX/WalkingSFX".playing:
+				$"SparkSFX/WalkingSFX".play()
 			
 			if direction == 0:
 				state = States.IDLE
@@ -259,6 +297,7 @@ func _physics_process(delta: float) -> void:
 	# Final Smoothing and Terminal Velocity
 	velocity.y = lerp(prev_velocity.y, velocity.y, Y_SMOOTHING)
 	velocity.y = min(velocity.y, MAX_FALL_SPEED)
+	
 	
 	prev_velocity = velocity
 	move_and_slide()
@@ -365,7 +404,10 @@ func die() -> void:
 	get_tree().create_timer(0.001).timeout.connect(_respawn, CONNECT_ONE_SHOT)
 
 func _respawn() -> void:
-	global_position = Global.last_checkpoint_position
+	if Global.checkpoints_enabled and Global.has_checkpoint_for_scene(_current_scene_path()):
+		global_position = Global.last_checkpoint_position
+	else:
+		global_position = _scene_spawn_position
 	velocity = Vector2.ZERO
 	state = States.IDLE
 	_jump_arc_active = false
@@ -376,6 +418,11 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
+
+func _current_scene_path() -> String:
+	if get_tree().current_scene:
+		return get_tree().current_scene.scene_file_path
+	return ""
 
 func _current_room_id() -> String:
 	if not get_tree() or get_tree().current_scene == null:

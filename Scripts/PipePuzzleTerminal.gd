@@ -4,7 +4,7 @@ signal puzzle_solved(terminal: Node)
 
 @export var minigame_scene: PackedScene = preload("res://Master Scenes/PipeMinigame.tscn")
 @export var puzzle_definition: Dictionary = {}  # Serializable puzzle; auto-populate with default if empty.
-@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6") var puzzle_layout: int = 0
+@export_enum("Default 3x3", "3x3", "4x4", "5x5", "6x6", "7x7", "9x8", "9x9", "Wire Tree 9x8", "Wire Full 6x6", "Wire Full 6x7", "Wire Full 8x7", "Wire Full 6x3", "Wire Full 6x5", "Wire Full 4x5", "Wire Full 8x8", "Wire Full 8x4", "Wire Full 7x6") var puzzle_layout: int = 0
 @export_enum("Normal", "Move Only", "Rotate Only") var control_mode: int = 0
 @export_group("Solved Platform Motion")
 @export var moving_platform_path: NodePath
@@ -35,6 +35,9 @@ signal puzzle_solved(terminal: Node)
 @export_group("Solved Linked Object")
 @export var linked_object_path: NodePath
 @export var linked_object_method: StringName = &"on_terminal_solved"
+@export_group("Interact Visual")
+@export var interact_sprite_path: NodePath
+@export var interact_animation_name: StringName = &"flipped"
 
 var _bodies_inside: Array[Node] = []
 var _ui_layer: CanvasLayer = null
@@ -76,6 +79,26 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x8()
 			7:
 				_puzzle = PipePuzzleDefinition.create_puzzle_9x9()
+			8:
+				_puzzle = PipePuzzleDefinition.create_wire_tree_9x8()
+			9:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x6()
+			10:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x7()
+			11:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x7()
+			12:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x3()
+			13:
+				_puzzle = PipePuzzleDefinition.create_wire_full_6x5()
+			14:
+				_puzzle = PipePuzzleDefinition.create_wire_full_4x5()
+			15:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x8()
+			16:
+				_puzzle = PipePuzzleDefinition.create_wire_full_8x4()
+			17:
+				_puzzle = PipePuzzleDefinition.create_wire_full_7x6()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
 		puzzle_definition = _puzzle.to_dict()
@@ -158,6 +181,8 @@ func _sync_embedded_preview_with_retries(attempt: int) -> void:
 	call_deferred("_sync_embedded_preview_with_retries", attempt + 1)
 
 func interact(player: CharacterBody2D) -> bool:
+	_play_terminal_interact_animation()
+
 	if _solved:
 		if has_node("Prompt"):
 			$Prompt.text = "Solved"
@@ -201,6 +226,40 @@ func interact(player: CharacterBody2D) -> bool:
 		return true
 
 	return false
+
+func _play_terminal_interact_animation() -> void:
+	var animated := _resolve_terminal_animated_sprite()
+	if animated == null or animated.sprite_frames == null:
+		return
+
+	var animation_name := String(interact_animation_name)
+	if animation_name.is_empty():
+		return
+	if not animated.sprite_frames.has_animation(animation_name):
+		return
+
+	animated.visible = true
+	animated.play(animation_name)
+
+func _resolve_terminal_animated_sprite() -> AnimatedSprite2D:
+	if not String(interact_sprite_path).is_empty():
+		var from_path := get_node_or_null(interact_sprite_path)
+		if from_path is AnimatedSprite2D:
+			return from_path as AnimatedSprite2D
+
+	var direct := get_node_or_null("AnimatedSprite2D")
+	if direct is AnimatedSprite2D:
+		return direct as AnimatedSprite2D
+
+	var named_sprite := get_node_or_null("Sprite2D")
+	if named_sprite is AnimatedSprite2D:
+		return named_sprite as AnimatedSprite2D
+
+	for child in get_children():
+		if child is AnimatedSprite2D:
+			return child as AnimatedSprite2D
+
+	return null
 
 func _on_minigame_completed(success: bool) -> void:
 	if success:

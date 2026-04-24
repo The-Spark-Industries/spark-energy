@@ -12,7 +12,7 @@ diffuse_texture = ExtResource("2_4pvl5")
 normal_texture = ExtResource("3_xc2gw")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1hgnv"]
-size = Vector2(96, 12)
+size = Vector2(96, 19)
 
 [node name="Node2D3" type="Node2D"]
 script = ExtResource("1_risingplat")
@@ -23,10 +23,10 @@ script = ExtResource("1_risingplat")
 position = Vector2(48, 26)
 shape = SubResource("RectangleShape2D_gmpt8")
 
-[node name="Sprite2D" type="Sprite2D" parent="PlatformBody"]
-position = Vector2(46, 16)
-scale = Vector2(3.5624998, 1)
-texture = SubResource("CanvasTexture_ckyob")
+[node name="Sprite2D" type="Sprite2D" parent="PlatformBody" unique_id=1637247961]
+position = Vector2(47.500004, 16)
+scale = Vector2(1.0104167, 1)
+texture = ExtResource("2_4pvl5")
 
 [node name="ColorRect" type="ColorRect" parent="PlatformBody"]
 visible = false
@@ -37,6 +37,6 @@ color = Color(0.78039217, 0.6666667, 0.5411765, 1)
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(48, 26)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126918074]
+position = Vector2(48, 22.5)
 shape = SubResource("RectangleShape2D_1hgnv")

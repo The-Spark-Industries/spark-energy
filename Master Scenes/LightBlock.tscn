@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ga5fv1ri5exr"]
+
+[sub_resource type="Gradient" id="Gradient_lightblock"]
+colors = PackedColorArray(1, 0.95, 0.75, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lightblock"]
+gradient = SubResource("Gradient_lightblock")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[node name="LightBlock" type="Node2D" unique_id=1636900385]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=983647331]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+color = Color(0.95, 0.86, 0.5, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1698741910]
+position = Vector2(0, 27.2)
+scale = Vector2(1, 0.6136364)
+color = Color(1, 0.93, 0.75, 1)
+energy = 4.85
+texture = SubResource("GradientTexture2D_lightblock")
+texture_scale = 2.2

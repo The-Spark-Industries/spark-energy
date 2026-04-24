@@ -1198,7 +1198,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=663204550]
 z_index = 4
-position = Vector2(-4310, -451)
+position = Vector2(8000, -800)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1971021314]
@@ -2534,6 +2534,7 @@ panning_strength = 0.83
 bus = &"Environmental SFX"
 
 [node name="ColorRect6" type="ColorRect" parent="Water/Waterfalls" unique_id=418548038]
+visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
 offset_left = 7917.071
@@ -3200,6 +3201,7 @@ position = Vector2(4857, 702)
 [node name="WirePowerRelay13" parent="level2container/level3RightMiddleSmallnodes" unique_id=150655405 instance=ExtResource("50_nce0a")]
 z_index = 1
 position = Vector2(-3724, -584)
+target_paths = Array[NodePath]([NodePath(".."), NodePath("../WirePowerRelay14")])
 
 [node name="WirePowerRelay14" parent="level2container/level3RightMiddleSmallnodes" unique_id=1082226088 instance=ExtResource("50_nce0a")]
 z_index = 1
@@ -3274,12 +3276,14 @@ spin_time_per_turn = 8.0
 rotation_duration = 2.9
 metadata/_edit_lock_ = true
 
-[node name="Lever4" parent="level2container" unique_id=352792890 instance=ExtResource("13_1yw1p")]
+[node name="Lever4Level2MiddleRightSmallStream" parent="level2container" unique_id=352792890 instance=ExtResource("13_1yw1p")]
 position = Vector2(1321, 148)
 waterfall_path = NodePath("../../Water/Waterfalls/ColorRectNarrow")
 lift_target_path = NodePath("../RisingDoorLevel3RightMiddle")
 wheel_target_path = NodePath("../waterWheel3")
 output_target_paths = Array[NodePath]([NodePath("../level3RightMiddleSmallnodes/WirePowerRelay13")])
+output_off_method = &""
+single_use = true
 
 [node name="Lever5" parent="level2container" unique_id=537737765 instance=ExtResource("13_1yw1p")]
 position = Vector2(751, 16)
@@ -3296,6 +3300,7 @@ lift_target_path = NodePath("../risingdoor")
 wheel_target_path = NodePath("../waterWheelFirstElectric")
 lift_pixels = -105.0
 lift_duration = 0.5
+output_off_method = &""
 
 [node name="waterPuzzleLevel2_1" type="Node2D" parent="level2container" unique_id=535636665]
 position = Vector2(174, -185)
@@ -3317,8 +3322,9 @@ custom_minimum_size = Vector2(352, 352)
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
+offset_top = -32.0
 offset_right = 352.0
-offset_bottom = 352.0
+offset_bottom = 320.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(0.78, 0.78)

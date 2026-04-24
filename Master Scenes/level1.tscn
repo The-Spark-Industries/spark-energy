@@ -2791,10 +2791,10 @@ puzzle_layout = 10
 embedded_minigame_path = NodePath("../PipeMinigame2")
 
 [node name="PipeMinigame2" parent="Node2D5" unique_id=1299339473 instance=ExtResource("22_pipe_minigame")]
-offset_left = 2245.0
-offset_top = 2654.0
-offset_right = 2245.0
-offset_bottom = 2654.0
+offset_left = 2253.0
+offset_top = 2674.0
+offset_right = 2253.0
+offset_bottom = 2674.0
 
 [node name="Node2D2" parent="." unique_id=1421433164 instance=ExtResource("19_8ifkh")]
 position = Vector2(4351, 3798)
@@ -2894,7 +2894,7 @@ texture = ExtResource("27_occxo")
 
 [node name="Backgroundtest7" type="Sprite2D" parent="." unique_id=1980954463]
 z_index = -19
-position = Vector2(2544, 3287)
+position = Vector2(2543, 3251.0002)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("77_qqygo")
 
@@ -2916,7 +2916,7 @@ texture = ExtResource("80_gdcon")
 
 [node name="Backgroundtest8" type="Sprite2D" parent="." unique_id=214853177]
 z_index = -4
-position = Vector2(3666, 3694)
+position = Vector2(3584.0002, 3238.0002)
 scale = Vector2(2.550613, 2.550613)
 texture = ExtResource("80_yheyb")
 

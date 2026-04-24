@@ -260,17 +260,17 @@ static func _opposite_dir(d: int) -> int:
 	return (d + 2) % 4
 
 ## Create a 3x3 puzzle with hidden source/sink ports outside the visible grid.
-## Source is above the top-middle cell; sink is below the bottom-right cell.
+## Source is above the top-middle cell; sink is below the bottom-left cell.
 static func create_puzzle_3x3_hidden_ports() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(3)
 	puzzle.source_pos = Vector2i(1, -1)
-	puzzle.sink_pos = Vector2i(2, 3)
+	puzzle.sink_pos = Vector2i(0, 3)
 
-	# Solved route: (1,0) -> (1,1) -> (2,1) -> (2,2) -> sink(outside)
+	# Solved route: (1,0) -> (1,1) -> (0,1) -> (0,2) -> sink(outside)
 	puzzle.set_piece(1, 0, "straight", 0)
-	puzzle.set_piece(1, 1, "corner", 0)
-	puzzle.set_piece(2, 1, "corner", 2)
-	puzzle.set_piece(2, 2, "straight", 0)
+	puzzle.set_piece(1, 1, "corner", 3)
+	puzzle.set_piece(0, 1, "corner", 1)
+	puzzle.set_piece(0, 2, "straight", 0)
 
 	# Keep other cells empty so move-only shuffling still creates a valid challenge.
 	for y in range(3):

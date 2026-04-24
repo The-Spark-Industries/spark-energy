@@ -433,7 +433,7 @@ func _build_grid_ui() -> void:
 		_cell_labels.append(label)
 		_cell_icons.append(icon)
 
-	if embedded_mode and _embedded_anchor_node != null:
+	if embedded_mode and _embedded_anchor_node != null and not _active:
 		call_deferred("_update_embedded_anchor_position")
 
 func _resolve_embedded_anchor_node() -> void:
@@ -499,30 +499,30 @@ func _reset_puzzle() -> void:
 
 func _puzzle_display_name() -> String:
 	if _puzzle == null:
-		return "Pipe Control"
+		return "Hidden Ports"
 	var in_name := _port_location_name(_puzzle.source_pos)
 	var out_name := _port_location_name(_puzzle.sink_pos)
-	return "Pipe Control (IN: %s, OUT: %s)" % [in_name, out_name]
+	return "%dx%d hidden ports (%s, %s)" % [_grid_size, _grid_height, in_name, out_name]
 
 func _port_location_name(pos: Vector2i) -> String:
 	if pos.y < 0:
-		return "Top %s" % _axis_word(pos.x, _grid_size, "column")
+		return "TOP %s" % _axis_word(pos.x, _grid_size, "column")
 	if pos.y >= _grid_height:
-		return "Bottom %s" % _axis_word(pos.x, _grid_size, "column")
+		return "BOTTOM %s" % _axis_word(pos.x, _grid_size, "column")
 	if pos.x < 0:
-		return "Left %s" % _axis_word(pos.y, _grid_height, "row")
+		return "LEFT %s" % _axis_word(pos.y, _grid_height, "row")
 	if pos.x >= _grid_size:
-		return "Right %s" % _axis_word(pos.y, _grid_height, "row")
-	return "Inside (%d,%d)" % [pos.x, pos.y]
+		return "RIGHT %s" % _axis_word(pos.y, _grid_height, "row")
+	return "INSIDE (%d,%d)" % [pos.x, pos.y]
 
 func _axis_word(index: int, count: int, axis: String) -> String:
 	if index == 0:
-		return "left" if axis == "column" else "top"
+		return "LEFT" if axis == "column" else "TOP"
 	if index == count - 1:
-		return "right" if axis == "column" else "bottom"
+		return "RIGHT" if axis == "column" else "BOTTOM"
 	if count % 2 == 1 and index == int(count / 2):
-		return "middle"
-	return "%s %d" % [axis, index + 1]
+		return "MIDDLE"
+	return "%s %d" % [axis.to_upper(), index + 1]
 
 func _toggle_select() -> void:
 	if _grabbed_index == -1:
@@ -652,22 +652,6 @@ func _handle_solved(reached: Array[int], solved_text: String) -> void:
 	if solved_close_delay > 0.0:
 		await get_tree().create_timer(solved_close_delay).timeout
 	close_minigame()
-
-func _is_sink_reached(reached: Array[int]) -> bool:
-	if _puzzle == null:
-		return false
-	if not _is_in_grid(_puzzle.sink_pos):
-		var sink_attachment := _virtual_port_attachment(_puzzle.sink_pos)
-		if sink_attachment.is_empty():
-			return false
-		var sink_cell: Vector2i = sink_attachment["cell"]
-		var sink_connector: int = int(sink_attachment["connector"])
-		var sink_cell_idx := _idx(sink_cell.x, sink_cell.y)
-		if not reached.has(sink_cell_idx):
-			return false
-		return _connectors(_pieces[sink_cell_idx]).has(sink_connector)
-	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
-	return reached.has(sink_idx)
 
 func _trace_flow_from_source() -> Array[int]:
 	var visited: Array[int] = []

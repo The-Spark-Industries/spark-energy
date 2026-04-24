@@ -114,6 +114,9 @@ func _ready() -> void:
 	# Normalize every puzzle to hidden in/out ports for consistent presentation.
 	_puzzle = PipePuzzleDefinition.with_hidden_ports(_puzzle)
 	puzzle_definition = _puzzle.to_dict()
+	_default_prompt_text = _puzzle_prompt_text()
+	if has_node("Prompt"):
+		$Prompt.text = _default_prompt_text
 
 	# Randomize at level load so puzzle state is ready before any interaction.
 	_randomize_puzzle_first_open()
@@ -754,6 +757,35 @@ func _randomize_puzzle_first_open() -> void:
 	_randomized_once = true
 	if debug_embedded_sync:
 		print("[PipePuzzleTerminal] randomized once for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
+
+func _puzzle_prompt_text() -> String:
+	if _puzzle == null:
+		return "[E] Hidden Ports"
+	var in_name := _port_location_name(_puzzle.source_pos)
+	var out_name := _port_location_name(_puzzle.sink_pos)
+	return "[E] %dx%d hidden ports (%s, %s)" % [_puzzle.grid_width, _puzzle.grid_height, in_name, out_name]
+
+func _port_location_name(pos: Vector2i) -> String:
+	if _puzzle == null:
+		return "Unknown"
+	if pos.y < 0:
+		return "TOP %s" % _axis_word(pos.x, _puzzle.grid_width, "column")
+	if pos.y >= _puzzle.grid_height:
+		return "BOTTOM %s" % _axis_word(pos.x, _puzzle.grid_width, "column")
+	if pos.x < 0:
+		return "LEFT %s" % _axis_word(pos.y, _puzzle.grid_height, "row")
+	if pos.x >= _puzzle.grid_width:
+		return "RIGHT %s" % _axis_word(pos.y, _puzzle.grid_height, "row")
+	return "INSIDE (%d,%d)" % [pos.x, pos.y]
+
+func _axis_word(index: int, count: int, axis: String) -> String:
+	if index == 0:
+		return "LEFT" if axis == "column" else "TOP"
+	if index == count - 1:
+		return "RIGHT" if axis == "column" else "BOTTOM"
+	if count % 2 == 1 and index == int(count / 2):
+		return "MIDDLE"
+	return "%s %d" % [axis.to_upper(), index + 1]
 
 
 

@@ -81,14 +81,13 @@
 [ext_resource type="Texture2D" uid="uid://rv8j2n6sappr" path="res://Master Scenes/drop.png" id="65_nbn2v"]
 [ext_resource type="Texture2D" uid="uid://crxcicbxqc8st" path="res://Master Scenes/drop2.png" id="66_bljkt"]
 [ext_resource type="Texture2D" uid="uid://b5hl3t76uw2dk" path="res://Master Scenes/test4.png" id="67_bljkt"]
-[ext_resource type="Script" uid="uid://dvwfont5343rk" path="res://Scripts/ProgressiveTerminalPuzzle.gd" id="69_progressive_terminal"]
+[ext_resource type="Script" path="res://Scripts/ProgressiveTerminalPuzzle.gd" id="69_progressive_terminal"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaLarge.tscn" id="70_04pvr"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WirePuzzleTerminalRotateOnly.tscn" id="70_wire_terminal"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaSmall.tscn" id="71_8mt1v"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WireMinigame.tscn" id="71_wire_minigame"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaMedium.tscn" id="72_bhcpu"]
 [ext_resource type="PackedScene" uid="uid://bbo8uq11hicrl" path="res://Master Scenes/waterFall.tscn" id="89_ku2hk"]
-[ext_resource type="Script" uid="uid://drm1remupmp7w" path="res://Scripts/TerminalRotateOnce.gd" id="90_rotate_once"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lyd6k"]
 
@@ -1343,7 +1342,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1700906689]
 z_index = 3
-position = Vector2(2244, 3383)
+position = Vector2(507, 3273)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1626387251]
@@ -3227,6 +3226,12 @@ position = Vector2(1569, 3190.0002)
 scale = Vector2(2.255, 2.255)
 texture = ExtResource("62_vg4o2")
 
+[node name="PipeMinigame" parent="container" unique_id=816716628 instance=ExtResource("22_pipe_minigame")]
+offset_left = 4319.0
+offset_top = 3265.0
+offset_right = 4319.0
+offset_bottom = 3265.0
+
 [node name="floorBlocksLevel2" type="Node2D" parent="." unique_id=1947428971]
 position = Vector2(6697, -916)
 
@@ -4050,10 +4055,10 @@ position = Vector2(1201, 4306)
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = -162.0
-offset_top = -193.0
-offset_right = 190.0
-offset_bottom = 159.0
+offset_left = -22.0
+offset_top = -260.0
+offset_right = 330.0
+offset_bottom = 92.0
 grow_horizontal = 1
 grow_vertical = 1
 embedded_mode = true
@@ -4142,7 +4147,7 @@ position = Vector2(2774, 3846)
 water_stream_path = NodePath("../PipePuzzleTerminalMoveOnly/SolvedWaterStream")
 embedded_minigame_path = NodePath("../bigdoor")
 
-[node name="bigdoor" parent="." unique_id=816716628 instance=ExtResource("22_pipe_minigame")]
+[node name="bigdoor" parent="." unique_id=1857791255 instance=ExtResource("22_pipe_minigame")]
 visible = false
 
 [node name="Node2D40" parent="." unique_id=1853465269 instance=ExtResource("19_8ifkh")]
@@ -4973,7 +4978,7 @@ position = Vector2(352, 4546)
 [node name="PipeMinigame2" parent="." unique_id=1844622790 instance=ExtResource("22_pipe_minigame")]
 visible = false
 
-[node name="PipeMinigame3" parent="." unique_id=1466935245 instance=ExtResource("22_pipe_minigame")]
+[node name="pipe2" parent="." unique_id=1466935245 instance=ExtResource("22_pipe_minigame")]
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -4987,19 +4992,20 @@ embedded_mode = true
 embedded_anchor_path = NodePath("Node2D")
 metadata/_edit_use_anchors_ = true
 
-[node name="Node2D" type="Node2D" parent="PipeMinigame3" unique_id=1759304483]
-position = Vector2(64, 222)
+[node name="Node2D" type="Node2D" parent="pipe2" unique_id=1759304483]
+position = Vector2(125, 190)
 
 [node name="Node2D41" parent="." unique_id=174636635 instance=ExtResource("19_8ifkh")]
 position = Vector2(2464, 3428)
+spin_clockwise = false
 
 [node name="PipePuzzleTerminalMoveOnly4" parent="." unique_id=438812162 instance=ExtResource("59_xhqtr")]
 position = Vector2(2157, 3368)
 puzzle_layout = 18
 water_stream_path = NodePath("../waterfallfirst")
 water_wheel_path = NodePath("../Node2D41")
-embedded_minigame_path = NodePath("../PipeMinigame3")
-debug_embedded_sync = true
+water_to_wheel_delay = 0.0
+embedded_minigame_path = NodePath("../pipe2")
 linked_object_path = NodePath("../risingdoorfirstonePivot")
 
 [node name="WaterBlock2" parent="." unique_id=1305812998 instance=ExtResource("7_rgorn")]
@@ -5013,7 +5019,9 @@ position = Vector2(2465, 3115)
 
 [node name="risingdoorfirstonePivot" type="Node2D" parent="." unique_id=1008970089]
 position = Vector2(2880, 3113)
-script = ExtResource("90_rotate_once")
+script = ExtResource("60_rotate_loop")
+target_path = NodePath(".")
+angle_degrees = -90.0
 
 [node name="risingdoorfirstone" parent="risingdoorfirstonePivot" unique_id=1008970090 instance=ExtResource("25_2rbmd")]
 position = Vector2(-32, 0)

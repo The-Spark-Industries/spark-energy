@@ -228,9 +228,9 @@ func interact(player: CharacterBody2D) -> bool:
 				return false
 
 			_ui_layer.add_child(_minigame)
-			_ui_layer.move_child(_minigame, _ui_layer.get_child_count() - 1)
-	elif _ui_layer:
-		_ui_layer.move_child(_minigame, _ui_layer.get_child_count() - 1)
+			_ui_layer.move_child(_minigame, -1)
+	elif _ui_layer and _minigame.get_parent() == _ui_layer:
+		_ui_layer.move_child(_minigame, -1)
 
 	if _minigame.has_signal("completed") and not _minigame.is_connected("completed", _on_minigame_completed):
 		_minigame.connect("completed", _on_minigame_completed)

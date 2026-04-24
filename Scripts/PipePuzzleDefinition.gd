@@ -283,25 +283,24 @@ static func create_puzzle_3x3_hidden_ports() -> PipePuzzleDefinition:
 ## Create a unique 4x4 puzzle.
 static func create_puzzle_4x4() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4)
-	puzzle.source_pos = Vector2i(3, 0)
-	puzzle.sink_pos = Vector2i(0, 3)
+	puzzle.source_pos = Vector2i(-1, 0)
+	puzzle.sink_pos = Vector2i(2, 4)
 
+	# Fill entire board with locked blocks.
 	for y in range(4):
 		for x in range(4):
 			puzzle.set_piece(x, y, "block", 0, true)
 
-	puzzle.set_piece(3, 0, "source", 2, true)
-	puzzle.set_piece(0, 3, "sink", 1, true)
+	# Route: source(-1,0) → (0,0) ↓ (0,1) ↓ (0,2) → (1,2) → (2,2) ↓ (2,3) → sink(2,4)
+	puzzle.set_piece(0, 0, "corner",   2)  # connects left (source) + down
+	puzzle.set_piece(0, 1, "straight", 0)  # connects up + down
+	puzzle.set_piece(0, 2, "corner",   0)  # connects up + right
+	puzzle.set_piece(1, 2, "straight", 1)  # connects left + right
+	puzzle.set_piece(2, 2, "corner",   2)  # connects left + down
+	puzzle.set_piece(2, 3, "straight", 0)  # connects up + down (exits to sink)
 
-	# Friendly zig-zag path already faces the right way, so no rotation is needed.
-	puzzle.set_piece(2, 0, "corner", 1)
-	puzzle.set_piece(2, 1, "straight", 0)
-	puzzle.set_piece(2, 2, "corner", 3)
-	puzzle.set_piece(1, 2, "straight", 1)
-	puzzle.set_piece(0, 2, "corner", 1)
-	
 	return puzzle
-
+	
 ## Create a unique 5x5 puzzle.
 static func create_puzzle_5x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(5)

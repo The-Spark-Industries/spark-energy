@@ -115,6 +115,8 @@ func _ready() -> void:
 	if not _active and not embedded_mode:
 		visible = false
 	_apply_visual_overrides()
+	_send_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_status_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_send_button.pressed.connect(_on_send_water_pressed)
 	_send_button.visible = not auto_flow_completes
 	if embedded_mode:
@@ -123,7 +125,8 @@ func _ready() -> void:
 		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = true
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.modulate = Color(1, 1, 1, 0)
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
 		_ensure_embedded_rect_size()
 		if Engine.is_editor_hint():
@@ -141,7 +144,7 @@ func _ready() -> void:
 	if embedded_mode:
 		# Embedded boards should render immediately as in-world previews.
 		# Input remains locked because _active is still false until interact().
-		visible = false
+		visible = true
 		if _puzzle == null:
 			_puzzle = PipePuzzleDefinition.create_default()
 			_grid_size = _puzzle.grid_width
@@ -256,11 +259,11 @@ func open_for_player(player: CharacterBody2D) -> void:
 	_player = player
 	_active = true
 	_solved = false
+	Global.minigame_active = true
 	visible = true
 	if embedded_mode:
-		_title_label.visible = true
-		_info_label.visible = true
 		_status_label.visible = true
+		_status_label.modulate = Color(1, 1, 1, 1)
 	call_deferred("_ensure_visible_on_top")
 	_status_label.text = _controls_hint_text()
 	if not _puzzle:
@@ -277,14 +280,16 @@ func close_minigame() -> void:
 	else:
 		_title_label.visible = false
 		_info_label.visible = false
-		_status_label.visible = false
+		_status_label.visible = true
+		_status_label.modulate = Color(1, 1, 1, 0)
 	_grabbed_index = -1
 	get_tree().paused = false
+	Global.minigame_active = false
 
 func _ensure_visible_on_top() -> void:
 	visible = true
 	if get_parent():
-		get_parent().move_child(self, get_parent().get_child_count() - 1)
+		get_parent().move_child(self, -1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _active:
@@ -491,7 +496,6 @@ func _reset_puzzle() -> void:
 	_cursor_index = _idx(center_x, center_y)
 	_grabbed_index = -1
 	_title_label.text = _puzzle_display_name()
-	_info_label.text = "Build a connected pipe route from source to drain."
 	_status_label.text = _controls_hint_text()
 	_refresh_flow_state(false)
 	# Re-apply visuals on next frame so TextureRect sizes are valid before rotation pivots are used.
@@ -581,9 +585,9 @@ func _can_rotate_pieces() -> bool:
 func _controls_hint_text() -> String:
 	match _control_mode:
 		1:
-			return "WASD: Move  Enter: Pick/Drop  Rotation disabled"
+			return "WASD: Move  Enter: Pick/Drop"
 		2:
-			return "WASD: Cursor  Q/E: Rotate  Piece moving disabled"
+			return "WASD: Cursor  Q/E: Rotate"
 		_:
 			return "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
 

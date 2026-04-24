@@ -304,25 +304,23 @@ static func create_puzzle_4x4() -> PipePuzzleDefinition:
 ## Create a unique 5x5 puzzle.
 static func create_puzzle_5x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(5)
-	puzzle.source_pos = Vector2i(0, 4)
-	puzzle.sink_pos = Vector2i(4, 2)
+	puzzle.source_pos = Vector2i(5, 1)
+	puzzle.sink_pos = Vector2i(2, 5)
 
+	# Fill entire board with locked blocks.
 	for y in range(5):
 		for x in range(5):
 			puzzle.set_piece(x, y, "block", 0, true)
 
-	puzzle.set_piece(0, 4, "source", 0, true)
-	puzzle.set_piece(4, 2, "sink", 0, true)
+	# Route: source(5,1) → (4,1) ↓ (4,2) ↓ (4,3) ↓ (4,4) ← (3,4) ← (2,4) → sink(2,5)
+	puzzle.set_piece(4, 1, "corner",   1)  # connects right (source) + down
+	puzzle.set_piece(4, 2, "straight", 0)  # connects up + down
+	puzzle.set_piece(4, 3, "straight", 0)  # connects up + down
+	puzzle.set_piece(4, 4, "corner",   3)  # connects up + left
+	puzzle.set_piece(3, 4, "straight", 1)  # connects left + right
+	puzzle.set_piece(2, 4, "corner",   1)  # connects right + down (exits to sink)
 
-	# Playful snake path already faces the right way, so no rotation is needed.
-	puzzle.set_piece(1, 4, "straight", 1)
-	puzzle.set_piece(2, 4, "corner", 3)
-	puzzle.set_piece(2, 3, "straight", 0)
-	puzzle.set_piece(2, 2, "corner", 1)
-	puzzle.set_piece(3, 2, "straight", 1)
-	
 	return puzzle
-
 ## Create a unique 6x6 puzzle.
 static func create_puzzle_6x6() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(6)
@@ -772,7 +770,64 @@ static func create_wire_full_6x5() -> PipePuzzleDefinition:
 			puzzle.set_piece(x, y, kind, rot, false)
 
 	return puzzle
+	
+## Create a full 5x5 wire board — source above top-middle, sink below bottom-right.
+static func create_wire_full_5x5_a() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(5, 5)
+	puzzle.source_pos = Vector2i(2, -1)
+	puzzle.sink_pos = Vector2i(4, 5)
 
+	for y in range(5):
+		for x in range(5):
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	# Route: source(2,-1) → (2,0) ↓ (2,1) ↓ (2,2) → (3,2) → (4,2) ↓ (4,3) ↓ (4,4) → sink(4,5)
+	puzzle.set_piece(2, 0, "straight", 0)  # [up, down]   — enters from source above, continues down
+	puzzle.set_piece(2, 1, "straight", 0)  # [up, down]   — passes through vertically
+	puzzle.set_piece(2, 2, "corner",   0)  # [up, right]  — receives from above, turns right
+	puzzle.set_piece(3, 2, "straight", 1)  # [left, right] — passes through horizontally
+	puzzle.set_piece(4, 2, "corner",   1)  # [right, down] — receives from left, turns down
+	puzzle.set_piece(4, 3, "straight", 0)  # [up, down]   — passes through vertically
+	puzzle.set_piece(4, 4, "straight", 0)  # [up, down]   — exits down into sink
+
+	return puzzle
+
+## Create a full 5x5 wire board — source above top-middle, sink below bottom-middle.
+static func create_wire_full_5x5_b() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(5, 5)
+	puzzle.source_pos = Vector2i(2, -1)
+	puzzle.sink_pos = Vector2i(2, 5)
+
+	for y in range(5):
+		for x in range(5):
+			var selector := (x + y) % 3
+			var kind := "straight"
+			if selector == 1:
+				kind = "corner"
+			elif selector == 2:
+				kind = "tee"
+			var rot := posmod((x * 2) + y, 4)
+			puzzle.set_piece(x, y, kind, rot, false)
+
+	# Route: source(2,-1) → (2,0) → (3,0) → (4,0) ↓ (4,1) ↓ (4,2) ↓ (4,3) ↓ (4,4) ← (3,4) ← (2,4) → sink(2,5)
+	puzzle.set_piece(2, 0, "corner",   0)  # [up, right]  — enters from source above, turns right
+	puzzle.set_piece(3, 0, "straight", 1)  # [left, right] — passes through horizontally
+	puzzle.set_piece(4, 0, "corner",   1)  # [right, down] — receives from left, turns down
+	puzzle.set_piece(4, 1, "straight", 0)  # [up, down]   — passes through vertically
+	puzzle.set_piece(4, 2, "straight", 0)  # [up, down]   — passes through vertically
+	puzzle.set_piece(4, 3, "straight", 0)  # [up, down]   — passes through vertically
+	puzzle.set_piece(4, 4, "corner",   3)  # [left, up]   — receives from above, turns left
+	puzzle.set_piece(3, 4, "straight", 1)  # [left, right] — passes through horizontally
+	puzzle.set_piece(2, 4, "corner",   1)  # [right, down] — receives from right, exits down into sink
+
+	return puzzle
 ## Create a full 4x5 wire board (every cell is a wire node).
 static func create_wire_full_4x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4, 5)

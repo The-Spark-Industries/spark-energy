@@ -3792,6 +3792,7 @@ offset_left = 4319.0
 offset_top = 3265.0
 offset_right = 4319.0
 offset_bottom = 3265.0
+embedded_mode = true
 
 [node name="floorBlocksLevel2" type="Node2D" parent="." unique_id=1947428971]
 position = Vector2(6697, -916)

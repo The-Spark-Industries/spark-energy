@@ -1076,7 +1076,6 @@ script = ExtResource("3_roomcam")
 [node name="pauseMenu" parent="RoomCamera" unique_id=835859163 instance=ExtResource("4_nuwp2")]
 visible = false
 light_mask = 1
-z_index = 2
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -3291,6 +3290,8 @@ waterfall_path = NodePath("../../Water/Waterfalls/ColorRectWide")
 lift_target_path = NodePath("../RisingDoorLevel3RightMiddle2")
 wheel_target_path = NodePath("../waterWheel2")
 lift_duration = 0.5
+output_target_paths = Array[NodePath]([NodePath("../level3RightMiddleLargeNodes/WirePowerRelay21")])
+single_use = true
 
 [node name="Lever6" parent="level2container" unique_id=2020671789 instance=ExtResource("13_1yw1p")]
 position = Vector2(941, 624)
@@ -3462,6 +3463,81 @@ lift_duration = 3.0
 z_index = -1
 position = Vector2(-416, -520)
 scale = Vector2(1, 1.6)
+
+[node name="level3RightMiddleLargeNodes" type="Node2D" parent="level2container" unique_id=1815693116]
+position = Vector2(4857, 702)
+
+[node name="WirePowerRelay20" parent="level2container/level3RightMiddleLargeNodes" unique_id=316016597 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -863)
+
+[node name="WirePowerRelay30" parent="level2container/level3RightMiddleLargeNodes" unique_id=123525068 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3976, -863)
+
+[node name="WirePowerRelay31" parent="level2container/level3RightMiddleLargeNodes" unique_id=1873030359 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3946, -863)
+
+[node name="WirePowerRelay29" parent="level2container/level3RightMiddleLargeNodes" unique_id=1986975171 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3916, -863)
+
+[node name="WirePowerRelay32" parent="level2container/level3RightMiddleLargeNodes" unique_id=1278121361 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3886, -863)
+
+[node name="WirePowerRelay33" parent="level2container/level3RightMiddleLargeNodes" unique_id=1261459536 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3856, -863)
+
+[node name="WirePowerRelay34" parent="level2container/level3RightMiddleLargeNodes" unique_id=387619791 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3826, -863)
+
+[node name="WirePowerRelay35" parent="level2container/level3RightMiddleLargeNodes" unique_id=766436719 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3796, -863)
+
+[node name="WirePowerRelay36" parent="level2container/level3RightMiddleLargeNodes" unique_id=699943219 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3766, -863)
+
+[node name="WirePowerRelay37" parent="level2container/level3RightMiddleLargeNodes" unique_id=1123164948 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-3736, -863)
+
+[node name="WirePowerRelay21" parent="level2container/level3RightMiddleLargeNodes" unique_id=1541060665 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -676)
+rotation = -1.5707964
+target_paths = Array[NodePath]([NodePath(".."), NodePath("../WirePowerRelay22")])
+
+[node name="WirePowerRelay22" parent="level2container/level3RightMiddleLargeNodes" unique_id=1861784245 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -706)
+rotation = -1.5707964
+
+[node name="WirePowerRelay23" parent="level2container/level3RightMiddleLargeNodes" unique_id=283908538 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -736)
+rotation = -1.5707964
+
+[node name="WirePowerRelay24" parent="level2container/level3RightMiddleLargeNodes" unique_id=1484752814 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -766)
+rotation = -1.5707964
+
+[node name="WirePowerRelay25" parent="level2container/level3RightMiddleLargeNodes" unique_id=1471086050 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -796)
+rotation = -1.5707964
+
+[node name="WirePowerRelay26" parent="level2container/level3RightMiddleLargeNodes" unique_id=256784330 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-4002, -826)
+rotation = -1.5707964
+scale = Vector2(1.22, 1)
 
 [node name="container2" type="Node2D" parent="." unique_id=43960126]
 
@@ -4457,30 +4533,38 @@ position = Vector2(8, -96)
 [node name="Node2D11" type="Node2D" parent="." unique_id=219923928]
 
 [node name="WirePowerRelay" parent="." unique_id=1153620522 instance=ExtResource("50_nce0a")]
+visible = false
 position = Vector2(5838, -276)
 
 [node name="WirePowerRelay2" parent="." unique_id=1122481424 instance=ExtResource("50_nce0a")]
+visible = false
 position = Vector2(5805, -478)
 rotation = 1.5707964
 
 [node name="WirePowerRelayCorner" parent="." unique_id=1748584683 instance=ExtResource("51_f7m78")]
+visible = false
 position = Vector2(5725, -496)
 
 [node name="WirePowerRelayCorner2" parent="." unique_id=1319664133 instance=ExtResource("51_f7m78")]
+visible = false
 position = Vector2(5885, -276)
 rotation = 3.1415927
 
 [node name="WirePowerRelayCorner3" parent="." unique_id=664508033 instance=ExtResource("51_f7m78")]
+visible = false
 position = Vector2(6027, -356)
 rotation = 1.5707964
 
 [node name="WirePowerRelay3" parent="." unique_id=187731552 instance=ExtResource("50_nce0a")]
+visible = false
 position = Vector2(6028, -308)
 
 [node name="WirePowerRelay4" parent="." unique_id=1658840746 instance=ExtResource("50_nce0a")]
+visible = false
 position = Vector2(6158, -308)
 
 [node name="WirePowerRelay5" parent="." unique_id=1180834525 instance=ExtResource("50_nce0a")]
+visible = false
 position = Vector2(6291, -308)
 target_paths = Array[NodePath]([NodePath("../WirePowerRelay4"), NodePath("../WirePowerRelay3"), NodePath("../WirePowerRelayCorner3"), NodePath("../WirePowerRelayCorner2"), NodePath("../WirePowerRelayCorner"), NodePath("../WirePowerRelay2"), NodePath("../WirePowerRelay")])
 
@@ -4489,9 +4573,11 @@ position = Vector2(6220, -340)
 output_target_paths = Array[NodePath]([NodePath("../WirePowerRelay5")])
 
 [node name="PipePuzzleTerminalMoveOnly" parent="." unique_id=1482711027 instance=ExtResource("48_d0cqg")]
+visible = false
 position = Vector2(5596, -1027)
 
 [node name="Node2D12" parent="." unique_id=2018383489 instance=ExtResource("26_211ka")]
+visible = false
 position = Vector2(5948, -1412)
 motion_mode = 1
 motion_distance = 320.0

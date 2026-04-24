@@ -1026,7 +1026,7 @@ position = Vector2(-394, -632)
 scale = Vector2(2, 2)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1700906689]
-position = Vector2(2694, 3970)
+position = Vector2(146, 3352)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1236941784]
@@ -2192,7 +2192,7 @@ output_target_paths = Array[NodePath]([NodePath("..")])
 
 [node name="Node2D3" parent="Node2D6" unique_id=1225719657 instance=ExtResource("19_8ifkh")]
 z_index = -1
-position = Vector2(2454, 4020)
+position = Vector2(2486, 4020)
 
 [node name="Node2D9RotateLoop" type="Node" parent="Node2D6" unique_id=370832482]
 script = ExtResource("60_rotate_loop")
@@ -2200,16 +2200,19 @@ target_path = NodePath("../../Node2D17")
 
 [node name="PipePuzzleTerminalMoveOnly3" parent="Node2D6" unique_id=1345377873 instance=ExtResource("59_xhqtr")]
 position = Vector2(2679, 3882)
-puzzle_layout = 3
+puzzle_layout = 21
 water_stream_path = NodePath("../../Node2D10")
 water_wheel_path = NodePath("../Node2D3")
+wheel_spin_time_per_turn = 1.5
 embedded_minigame_path = NodePath("../PipeMinigame")
 linked_object_path = NodePath("../Node2D9RotateLoop")
 
 [node name="PipeMinigame" parent="Node2D6" unique_id=794506974 instance=ExtResource("22_pipe_minigame")]
-visible = false
-offset_right = 0.0
-offset_bottom = 0.0
+offset_left = 2431.0
+offset_top = 3604.0
+offset_right = 2431.0
+offset_bottom = 3604.0
+embedded_mode = true
 
 [node name="PipePuzzleTerminalMoveOnly" parent="Node2D6" unique_id=1789298164 instance=ExtResource("59_xhqtr")]
 position = Vector2(1, 0)
@@ -2219,6 +2222,15 @@ puzzle_layout = 3
 z_index = 1
 position = Vector2(1239, 3702)
 texture = ExtResource("63_ovtw8")
+
+[node name="Node2D" parent="Node2D6" unique_id=587438118 instance=ExtResource("89_ku2hk")]
+z_index = 2
+position = Vector2(2577, 3565)
+scale = Vector2(0.7, 0.2)
+
+[node name="Lilypad" parent="Node2D6" unique_id=2100481318 instance=ExtResource("30_bmo44")]
+z_index = -1
+position = Vector2(2243, 3992)
 
 [node name="Node2D9" parent="." unique_id=34768998 instance=ExtResource("21_wqik4")]
 position = Vector2(1527, -194.00002)
@@ -2871,6 +2883,7 @@ position = Vector2(11, 302)
 position = Vector2(-310, 152)
 puzzle_layout = 19
 embedded_minigame_path = NodePath("../WireMinigameStage2")
+linked_object_path = NodePath("../../../wirepowersecond/WirePowerRelay7")
 
 [node name="Node2D3" type="Node2D" parent="Room10ProgressivePuzzle" unique_id=1271310955]
 
@@ -3841,9 +3854,9 @@ tile_map_data = PackedByteArray("AABUACQAAAAGAAMAAABUACMAAAAGAAIAAABUACIAAAAGAAc
 tile_set = SubResource("TileSet_hea5a")
 
 [node name="pipeTileMap4" type="TileMapLayer" parent="." unique_id=1855323604]
-z_index = -1
+z_index = 1
 position = Vector2(0, 3433)
-tile_map_data = PackedByteArray("AABIACQAAAAQAAYAAABIACMAAAAQAAYAAABIACIAAAAQAAEAAABIACEAAAAQAAUAAABIACAAAAAQAAEAAABIAB8AAAAQAAYAAABIAB4AAAAQAAUAAABIAB0AAAAQAAEAAABIABwAAAAQAAUAAABIABsAAAAQAAEAAABIABoAAAAQAAMAAABIABkAAAAQAAUAAABIABgAAAAQAAIAAABIABcAAAAQAAIAAABIABYAAAAQAAUAAABIABUAAAAQAAQAAABLABUAAAAVAAIAAABLABYAAAAVAAYAAABLABcAAAAVAAEAAABLABgAAAAVAAIAAABLABkAAAAVAAIAAABLABoAAAAVAAEAAABLABsAAAAVAAUAAABLABwAAAAVAAUAAABLAB0AAAAVAAUAAABLAB4AAAAVAAEAAABLAB8AAAAVAAMAAABLACAAAAAVAAMAAABLACEAAAAVAAYAAABLACIAAAAVAAEAAABLACMAAAAVAAYAAABLACQAAAAVAAUAAAAkABwAAAANAAYAAAAoABcAAAAGAAcAAFApABcAAAAGAAgAAFAqABcAAAAGAAYAAFArABcAAAAGAAYAAFAsABcAAAAGAAUAAFAtABcAAAAGAAgAAFAuABcAAAAGAAYAAFAvABcAAAAGAAYAAFAwABcAAAAGAAYAAFAxABcAAAAGAAUAAFAyABcAAAAGAAYAAFAzABcAAAAGAAUAAFA0ABcAAAAGAAYAAFA1ABcAAAAGAAYAAFA2ABcAAAAGAAcAAFA3ABcAAAAGAAUAAFA4ABcAAAAGAAYAAFA4ABUAAAAGAAUAAHA3ABUAAAAGAAUAAHA2ABUAAAAGAAYAAHA1ABUAAAAGAAUAAHA0ABUAAAAGAAcAAHAzABUAAAAGAAYAAHAyABUAAAAGAAgAAHAxABUAAAAGAAgAAHAwABUAAAAGAAcAAHAvABUAAAAGAAUAAHAuABUAAAAGAAgAAHAtABUAAAAGAAYAAHAsABUAAAAGAAcAAHArABUAAAAGAAcAAHAqABUAAAAGAAYAAHApABUAAAAGAAgAAHAoABUAAAAGAAcAAHA5ABUAAAABAAQAAFA6ABUAAAABAAQAAFA7ABUAAAABAAcAAFA8ABUAAAABAAUAAFA9ABUAAAABAAQAAFA+ABUAAAABAAcAAFA/ABUAAAABAAUAAFBAABUAAAABAAcAAFA5ABcAAAABAAUAAHA6ABcAAAABAAUAAHA7ABcAAAABAAcAAHA8ABcAAAABAAcAAHA9ABcAAAABAAQAAHA+ABcAAAABAAQAAHA/ABcAAAABAAcAAHBAABcAAAABAAYAAHA=")
+tile_map_data = PackedByteArray("AABIACQAAAAQAAYAAABIACMAAAAQAAYAAABIACIAAAAQAAEAAABIACEAAAAQAAUAAABIACAAAAAQAAEAAABIAB8AAAAQAAYAAABIAB4AAAAQAAUAAABIAB0AAAAQAAEAAABIABwAAAAQAAUAAABIABsAAAAQAAEAAABIABoAAAAQAAMAAABIABkAAAAQAAUAAABIABgAAAAQAAIAAABIABcAAAAQAAIAAABIABYAAAAQAAUAAABIABUAAAAQAAQAAABLABUAAAAVAAIAAABLABYAAAAVAAYAAABLABcAAAAVAAEAAABLABgAAAAVAAIAAABLABkAAAAVAAIAAABLABoAAAAVAAEAAABLABsAAAAVAAUAAABLABwAAAAVAAUAAABLAB0AAAAVAAUAAABLAB4AAAAVAAEAAABLAB8AAAAVAAMAAABLACAAAAAVAAMAAABLACEAAAAVAAYAAABLACIAAAAVAAEAAABLACMAAAAVAAYAAABLACQAAAAVAAUAAAAkABwAAAANAAYAAAAoABcAAAAGAAcAAFApABcAAAAGAAgAAFAqABcAAAAGAAYAAFArABcAAAAGAAYAAFAsABcAAAAGAAUAAFAtABcAAAAGAAgAAFAuABcAAAAGAAYAAFAvABcAAAAGAAYAAFAwABcAAAAGAAYAAFAxABcAAAAGAAUAAFAyABcAAAAGAAYAAFAzABcAAAAGAAUAAFA0ABcAAAAGAAYAAFA1ABcAAAAGAAYAAFA2ABcAAAAGAAcAAFA3ABcAAAAGAAUAAFA4ABcAAAAGAAYAAFA4ABUAAAAGAAUAAHA3ABUAAAAGAAUAAHA2ABUAAAAGAAYAAHA1ABUAAAAGAAUAAHA0ABUAAAAGAAcAAHAzABUAAAAGAAYAAHAyABUAAAAGAAgAAHAxABUAAAAGAAgAAHAwABUAAAAGAAcAAHAvABUAAAAGAAUAAHAuABUAAAAGAAgAAHAtABUAAAAGAAYAAHAsABUAAAAGAAcAAHArABUAAAAGAAcAAHAqABUAAAAGAAYAAHApABUAAAAGAAgAAHAoABUAAAAGAAcAAHA5ABUAAAABAAQAAFA6ABUAAAABAAQAAFA7ABUAAAABAAcAAFA8ABUAAAABAAUAAFA9ABUAAAABAAQAAFA+ABUAAAABAAcAAFA/ABUAAAABAAUAAFBAABUAAAABAAcAAFA5ABcAAAABAAUAAHA6ABcAAAABAAUAAHA7ABcAAAABAAcAAHA8ABcAAAABAAcAAHA9ABcAAAABAAQAAHA+ABcAAAABAAQAAHA/ABcAAAABAAcAAHBAABcAAAABAAYAAHBQAAUAAAANAAYAACA=")
 tile_set = SubResource("TileSet_hea5a")
 
 [node name="Lilypad20" parent="." unique_id=1309280506 instance=ExtResource("30_bmo44")]
@@ -3922,7 +3935,7 @@ position = Vector2(465, 4313)
 [node name="Node2D10" parent="." unique_id=649801763 instance=ExtResource("89_ku2hk")]
 visible = false
 z_index = -1
-position = Vector2(2389, 3743)
+position = Vector2(2436, 3835)
 
 [node name="WaterBlock4" parent="." unique_id=1015904292 instance=ExtResource("7_rgorn")]
 z_index = -2
@@ -3942,7 +3955,7 @@ scale = Vector2(1.9545455, 1.8181747)
 texture = ExtResource("81_72bxo")
 
 [node name="Checkpoint4" parent="." unique_id=1163228828 instance=ExtResource("8_tiul6")]
-position = Vector2(34, 3304)
+position = Vector2(146, 3305)
 
 [node name="Checkpoint5" parent="." unique_id=1678466757 instance=ExtResource("8_tiul6")]
 position = Vector2(996, 3303)
@@ -4009,6 +4022,82 @@ z_index = -1
 position = Vector2(2091, 4153)
 rotation = 1.5707964
 scale = Vector2(2, 2)
+
+[node name="wirepowersecond" type="Node2D" parent="." unique_id=1515078945]
+
+[node name="WirePowerRelay7" parent="wirepowersecond" unique_id=1014172041 instance=ExtResource("50_nce0a")]
+position = Vector2(741, 4281)
+target_paths = Array[NodePath]([NodePath("..")])
+
+[node name="WirePowerRelayCorner5" parent="wirepowersecond" unique_id=1875494118 instance=ExtResource("51_f7m78")]
+position = Vector2(821, 4281)
+rotation = 1.5707964
+
+[node name="WirePowerRelay8" parent="wirepowersecond" unique_id=1620746049 instance=ExtResource("50_nce0a")]
+position = Vector2(709, 4281)
+
+[node name="WirePowerRelay40" parent="wirepowersecond" unique_id=266469489 instance=ExtResource("50_nce0a")]
+position = Vector2(773.00006, 4281)
+rotation = 0.017453292
+
+[node name="WirePowerRelay41" parent="wirepowersecond" unique_id=333430020 instance=ExtResource("50_nce0a")]
+position = Vector2(677, 4281)
+rotation = -3.1415925
+
+[node name="WirePowerRelay42" parent="wirepowersecond" unique_id=1582231886 instance=ExtResource("50_nce0a")]
+position = Vector2(645, 4281)
+rotation = -3.1415925
+
+[node name="WirePowerRelay43" parent="wirepowersecond" unique_id=496330580 instance=ExtResource("50_nce0a")]
+position = Vector2(613, 4281)
+rotation = -3.1415925
+
+[node name="WirePowerRelayCorner8" parent="wirepowersecond" unique_id=796614912 instance=ExtResource("51_f7m78")]
+position = Vector2(565, 4281)
+rotation = -1.5707964
+
+[node name="WirePowerRelay44" parent="wirepowersecond" unique_id=1234930301 instance=ExtResource("50_nce0a")]
+position = Vector2(566, 4265)
+rotation = -1.5707964
+
+[node name="WirePowerRelayCorner7" parent="wirepowersecond" unique_id=2027168576 instance=ExtResource("96_n4cid")]
+position = Vector2(693, 4281)
+rotation = -3.1415925
+
+[node name="WirePowerRelay45" parent="wirepowersecond" unique_id=220412554 instance=ExtResource("50_nce0a")]
+position = Vector2(566, 4233)
+rotation = -1.5707964
+
+[node name="WirePowerRelay46" parent="wirepowersecond" unique_id=349200756 instance=ExtResource("50_nce0a")]
+position = Vector2(566, 4201)
+rotation = -1.5707964
+
+[node name="WirePowerRelay47" parent="wirepowersecond" unique_id=133534884 instance=ExtResource("50_nce0a")]
+position = Vector2(566, 4169)
+rotation = -1.5707964
+
+[node name="WirePowerRelay48" parent="wirepowersecond" unique_id=2053821010 instance=ExtResource("50_nce0a")]
+position = Vector2(566, 4137)
+rotation = -1.5707964
+
+[node name="WirePowerRelayCorner6" parent="wirepowersecond" unique_id=387644837 instance=ExtResource("51_f7m78")]
+position = Vector2(566, 4089)
+rotation = 1.5707964
+
+[node name="WirePowerRelay49" parent="wirepowersecond" unique_id=781023016 instance=ExtResource("50_nce0a")]
+position = Vector2(549, 4089)
+rotation = -3.1415925
+
+[node name="WirePowerRelayCorner9" parent="wirepowersecond" unique_id=1346501827 instance=ExtResource("51_f7m78")]
+position = Vector2(469, 4089)
+
+[node name="WirePowerRelay50" parent="wirepowersecond" unique_id=125284187 instance=ExtResource("50_nce0a")]
+position = Vector2(517, 4089)
+rotation = -3.1415925
+
+[node name="WirePowerRelay51" parent="wirepowersecond" unique_id=1844225424 instance=ExtResource("50_nce0a")]
+position = Vector2(469, 4105)
+rotation = 1.5707964
 
 [node name="wiresconnectionpuz" type="Node2D" parent="." unique_id=53058439]
 z_index = -1
@@ -4173,44 +4262,6 @@ rotation = 1.5707964
 [node name="WirePowerRelay4" parent="wiresconnectionpuz" unique_id=1471240191 instance=ExtResource("50_nce0a")]
 position = Vector2(720, 4092)
 rotation = 3.1415927
-
-[node name="WirePowerRelay5" parent="wiresconnectionpuz" unique_id=1014172041 instance=ExtResource("50_nce0a")]
-position = Vector2(605, 4289)
-
-[node name="WirePowerRelayCorner3" parent="wiresconnectionpuz" unique_id=1875494118 instance=ExtResource("51_f7m78")]
-position = Vector2(685, 4289)
-rotation = -4.712389
-
-[node name="WirePowerRelay6" parent="wiresconnectionpuz" unique_id=1620746049 instance=ExtResource("50_nce0a")]
-position = Vector2(573, 4289)
-
-[node name="WirePowerRelay40" parent="wiresconnectionpuz" unique_id=266469489 instance=ExtResource("50_nce0a")]
-position = Vector2(637.00006, 4289)
-rotation = 0.017453292
-
-[node name="WirePowerRelayCorner7" parent="wiresconnectionpuz" unique_id=2027168576 instance=ExtResource("96_n4cid")]
-position = Vector2(557, 4289)
-rotation = 3.1415927
-
-[node name="WirePowerRelay7" parent="." unique_id=333430020 instance=ExtResource("50_nce0a")]
-position = Vector2(677, 4281)
-rotation = 3.1415927
-
-[node name="WirePowerRelay8" parent="." unique_id=1582231886 instance=ExtResource("50_nce0a")]
-position = Vector2(645, 4281)
-rotation = 3.1415927
-
-[node name="WirePowerRelay9" parent="." unique_id=496330580 instance=ExtResource("50_nce0a")]
-position = Vector2(613, 4281)
-rotation = 3.1415927
-
-[node name="WirePowerRelayCorner5" parent="." unique_id=796614912 instance=ExtResource("51_f7m78")]
-position = Vector2(565, 4281)
-rotation = -1.5707964
-
-[node name="WirePowerRelay10" parent="." unique_id=1234930301 instance=ExtResource("50_nce0a")]
-position = Vector2(566, 4265)
-rotation = -1.5707964
 
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D18" method="on_terminal_solved"]
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D19" method="on_terminal_solved"]

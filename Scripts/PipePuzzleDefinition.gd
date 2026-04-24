@@ -828,6 +828,28 @@ static func create_wire_full_5x5_b() -> PipePuzzleDefinition:
 	puzzle.set_piece(2, 4, "corner",   1)  # [right, down] — receives from right, exits down into sink
 
 	return puzzle
+	
+static func create_puzzle_4x4_b() -> PipePuzzleDefinition:
+	var puzzle := PipePuzzleDefinition.new(4)
+	puzzle.source_pos = Vector2i(3, -1)
+	puzzle.sink_pos = Vector2i(0, 4)
+
+	# Fill entire board with locked blocks.
+	for y in range(4):
+		for x in range(4):
+			puzzle.set_piece(x, y, "block", 0, true)
+
+	# Route: source(3,-1) → (3,0) ↓ (3,1) ↓ (3,2) ↓ (3,3) ← (2,3) ← (1,3) ← (0,3) → sink(0,4)
+	puzzle.set_piece(3, 0, "straight", 0)  # [up, down]    — enters from source above, continues down
+	puzzle.set_piece(3, 1, "straight", 0)  # [up, down]    — passes through vertically
+	puzzle.set_piece(3, 2, "straight", 0)  # [up, down]    — passes through vertically
+	puzzle.set_piece(3, 3, "corner",   3)  # [left, up]    — receives from above, turns left
+	puzzle.set_piece(2, 3, "straight", 1)  # [left, right] — passes through horizontally
+	puzzle.set_piece(1, 3, "straight", 1)  # [left, right] — passes through horizontally
+	puzzle.set_piece(0, 3, "corner",   1)  # [right, down] — receives from right, exits down into sink
+
+	return puzzle
+	
 ## Create a full 4x5 wire board (every cell is a wire node).
 static func create_wire_full_4x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4, 5)

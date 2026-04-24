@@ -1,5 +1,7 @@
 extends Control
 
+static var _input_owner: Node = null
+
 @onready var oM =$optionsMenu
 @onready var _ambience_bus_idx: int = AudioServer.get_bus_index("Ambience")
 
@@ -9,9 +11,19 @@ var _ambience_previous_mute_state: bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.theme=load("res://Assets/Visual/Lingua.tres")
-	
+
+	if _input_owner == null:
+		_input_owner = self
+	else:
+		set_process_input(false)
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		visible = false
+		return
+
 	visible = false
+	oM.visible = false
 	_bring_to_front()
+	z_index = 200
 
 func _exit_tree() -> void:
 	_restore_ambience_if_needed()
@@ -27,6 +39,27 @@ func _process(delta: float) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
+	if _input_owner != self:
+		return
+
+	if event.is_action_pressed("pause") and not event.is_echo() and (Global.wiremode == false):
+		if (Global.tutorialchecker == 2):
+			Global.tutorialchecker = 3
+
+		_set_pause_state(not get_tree().paused)
+		get_viewport().set_input_as_handled()
+
+
+func _set_pause_state(paused: bool) -> void:
+	if paused:
+		_bring_to_front()
+		get_tree().paused = true
+		oM.visible = false
+		visible = true
+	else:
+		get_tree().paused = false
+		visible = false
+		oM.visible = false
 	if Input.is_action_just_pressed("pause") and (Global.wiremode== false):
 		if (Global.tutorialchecker==2):
 				Global.tutorialchecker=3

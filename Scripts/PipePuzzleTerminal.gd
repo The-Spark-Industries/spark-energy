@@ -35,6 +35,7 @@ signal puzzle_solved(terminal: Node)
 @export_group("Solved Linked Object")
 @export var linked_object_path: NodePath
 @export var linked_object_method: StringName = &"on_terminal_solved"
+@export var linked_object_delay: float =0.0
 @export_group("Interact Visual")
 @export var interact_sprite_path: NodePath
 @export var interact_animation_name: StringName = &"flipped"
@@ -346,6 +347,7 @@ func _notify_linked_object_on_solve() -> void:
 		return
 
 	if not String(linked_object_method).is_empty() and linked.has_method(String(linked_object_method)):
+		await get_tree().create_timer(linked_object_delay).timeout
 		linked.call(String(linked_object_method), self)
 		return
 

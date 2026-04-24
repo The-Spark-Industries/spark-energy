@@ -17,6 +17,7 @@ var readyToPress: bool= false
 @export var output_off_method: StringName = &"deactivate"
 @export var output_on_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
 @export var output_off_fallback_methods: Array[StringName] = [&"power_off", &"deactivate", &"stop", &"stop_spin", &"disable"]
+@export var lift_loop: bool = false
 
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
@@ -70,8 +71,15 @@ func _apply_configured_actions() -> void:
 		if lift_target:
 			if _lift_tween and _lift_tween.is_valid():
 				_lift_tween.kill()
+			var start_y := lift_target.position.y
 			_lift_tween = create_tween()
-			_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			_lift_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+			if lift_loop:
+				_lift_tween.set_loops()
+				_lift_tween.tween_property(lift_target, "position:y", start_y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				_lift_tween.tween_property(lift_target, "position:y", start_y, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			else:
+				_lift_tween.tween_property(lift_target, "position:y", start_y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 	_triggered_once = true
 
@@ -195,7 +203,7 @@ func _call_output_method(target: Object, method_name: StringName) -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if (body is CharacterBody2D):
+	if (body is CharacterBody2D) and (Global.tutorialchecker<3):
 		readyToPress= true
 		if has_node("Prompt"):
 			$Prompt.visible = true

@@ -146,6 +146,8 @@ func _ensure_embedded_rect_size() -> void:
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	_puzzle = puzzle
+	if _puzzle == null:
+		_puzzle = PipePuzzleDefinition.create_default()
 	if _puzzle:
 		_grid_size = _puzzle.grid_width
 		_grid_height = _puzzle.grid_height

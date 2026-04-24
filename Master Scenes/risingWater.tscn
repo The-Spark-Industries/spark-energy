@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bgghmej6vq8sr"]
+
+[ext_resource type="Shader" uid="uid://cudwhx57lsypv" path="res://Level 1/Level 1 Art Assets/Shaders/StillWater.gdshader" id="1_g5pn6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7j1da"]
+shader = ExtResource("1_g5pn6")
+shader_parameter/liquid_level = 0.5
+shader_parameter/liquid_color = Color(0.2, 0.4, 0.9, 0.8)
+shader_parameter/wave_amplitude = 0.02
+shader_parameter/wave_frequency = 1.0
+shader_parameter/wave_speed = 0.3
+shader_parameter/gravity_angle = 0.0
+shader_parameter/gravity_direction = Vector2(0, 1)
+shader_parameter/shine_intensity = 0.3
+shader_parameter/add_bubble = true
+shader_parameter/bubble_scale = 10.0
+shader_parameter/bubble_speed = 0.07
+shader_parameter/speck_pixel_size = 3.0
+shader_parameter/speck_density = 0.4
+shader_parameter/speck_brightness = 0.15
+shader_parameter/speck_dark_brightness = -0.08
+shader_parameter/speck_drift_speed = 0.03
+shader_parameter/speck_shimmer_speed = 0.15
+shader_parameter/edge_darken = 0.45
+shader_parameter/edge_width = 0.12
+shader_parameter/edge_color = Color(0.08, 0.15, 0.4, 1)
+shader_parameter/edge_noise_scale = 25.0
+shader_parameter/edge_noise_strength = 0.06
+shader_parameter/reflection_strength = 0.4
+shader_parameter/reflection_distortion = 0.012
+shader_parameter/reflection_fade = 1.0
+shader_parameter/reflection_pixel_snap = 4.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrnk2"]
+size = Vector2(32, 18)
+
+[node name="risingWater" type="Node2D" unique_id=337325096 groups=["risingWater"]]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=652183361]
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=1015032861]
+material = SubResource("ShaderMaterial_7j1da")
+offset_left = -16.0
+offset_top = -27.0
+offset_right = 16.0
+offset_bottom = 9.0
+pivot_offset_ratio = Vector2(0.5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1892578782]
+shape = SubResource("RectangleShape2D_lrnk2")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=965888998]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1820515051]
+shape = SubResource("RectangleShape2D_lrnk2")

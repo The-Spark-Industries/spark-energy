@@ -7,8 +7,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yg5hk"]
 size = Vector2(40, 26)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oqdeu"]
-atlas = ExtResource("2_yg5hk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_vffm3"]
+atlas = ExtResource("2_oqdeu")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x32ih"]
@@ -19,7 +19,10 @@ region = Rect2(0, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oqdeu")
+"texture": SubResource("AtlasTexture_vffm3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgbjs")
 }],
 "loop": false,
 "name": &"default",
@@ -34,20 +37,21 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Lever" type="Area2D" unique_id=1287015382]
+[node name="Lever" type="Area2D"]
 script = ExtResource("1_yg5hk")
 
 [node name="leverCollision" type="CollisionShape2D" parent="." unique_id=1833193169]
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_yg5hk")
 
-[node name="leverSprites" type="AnimatedSprite2D" parent="." unique_id=1874664651]
+[node name="leverSprites" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ybjgq")
 animation = &"flipped"
 
-[node name="leverSound" type="AudioStreamPlayer" parent="." unique_id=922319105]
+[node name="leverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_x32ih")
 
-[node name="Prompt" type="Label" parent="." unique_id=188004533]
+[node name="Prompt" type="Label" parent="."]
 visible = false
 offset_left = -56.0
 offset_top = -46.0

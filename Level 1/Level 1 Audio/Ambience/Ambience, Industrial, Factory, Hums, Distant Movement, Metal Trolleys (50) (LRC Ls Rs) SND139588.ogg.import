@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bdhafu5d4yhhy"
+path="res://.godot/imported/Ambience, Industrial, Factory, Hums, Distant Movement, Metal Trolleys (50) (LRC Ls Rs) SND139588.ogg-8ab778f3283e52018845c83a40d006cc.oggvorbisstr"
+
+[deps]
+
+source_file="res://Level 1/Level 1 Audio/Ambience/Ambience, Industrial, Factory, Hums, Distant Movement, Metal Trolleys (50) (LRC Ls Rs) SND139588.ogg"
+dest_files=["res://.godot/imported/Ambience, Industrial, Factory, Hums, Distant Movement, Metal Trolleys (50) (LRC Ls Rs) SND139588.ogg-8ab778f3283e52018845c83a40d006cc.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.51
+bpm=0
+beat_count=0
+bar_beats=4

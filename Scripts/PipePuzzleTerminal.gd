@@ -19,6 +19,7 @@ signal puzzle_solved(terminal: Node)
 @export var solved_rise_target_path: NodePath
 @export var solved_rise_distance: float = 0.0
 @export var solved_rise_duration: float = 1.0
+@export var solved_rise_loop: bool = false
 @export_enum("Rise", "Ellipse Conveyor") var solved_motion_type: int = 0
 @export_group("Solved Ellipse Motion")
 @export var solved_ellipse_target_path: NodePath
@@ -518,7 +519,12 @@ func _raise_platform(target: Node2D) -> void:
 	var start_y := target.position.y
 	_rise_tween = create_tween()
 	_rise_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-	_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	if solved_rise_loop:
+		_rise_tween.set_loops()
+		_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_rise_tween.tween_property(target, "position:y", start_y, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	else:
+		_rise_tween.tween_property(target, "position:y", start_y - solved_rise_distance, solved_rise_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _set_flow_visual_active(node: Node, active: bool) -> void:
 	if node == null:
@@ -532,6 +538,17 @@ func _set_flow_visual_active(node: Node, active: bool) -> void:
 		(node as GPUParticles2D).emitting = active
 	elif node is CPUParticles2D:
 		(node as CPUParticles2D).emitting = active
+		
+	if node.has_node("WaterfallSound"):
+		var WaterfallSound := node.get_node("WaterfallSound") as AudioStreamPlayer2D
+		print("WaterSFX found: ", WaterfallSound, " active: ", active)
+		if WaterfallSound:
+			if active:
+				WaterfallSound.play()
+			else:
+				WaterfallSound.stop()
+	else:
+		print("No WaterSFX child on: ", node.name)
 
 	# Supports an AnimationPlayer child named FlowAnimation for custom visuals.
 	if node.has_node("FlowAnimation"):
@@ -544,17 +561,26 @@ func _set_flow_visual_active(node: Node, active: bool) -> void:
 				flow_anim.stop()
 
 func _start_wheel_spin(node: Node) -> void:
+	var wheel := node as Node2D
 	if _wheel_spin_started:
 		return
-	var wheel := node as Node2D
 	if wheel == null:
 		return
 
 	_wheel_spin_started = true
-	var tween := create_tween()
-	tween.set_loops()
-	tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
-
+	
+	if wheel.has_method("start_spin"):
+		# Optionally override the spin speed to match this terminal's setting
+		if "spin_time_per_turn" in node:
+			node.spin_time_per_turn = wheel_spin_time_per_turn
+		wheel.start_spin()
+	else:
+		# Fallback to old behavior if the wheel doesn't have a start_spin method
+		if wheel:
+			var tween := create_tween()
+			tween.set_loops()
+			tween.tween_property(wheel, "rotation", TAU, wheel_spin_time_per_turn).as_relative().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+			
 func _on_body_entered(body: Node2D) -> void:
 	if not (body is CharacterBody2D):
 		return
@@ -671,6 +697,9 @@ func _randomize_puzzle_first_open() -> void:
 	_randomized_once = true
 	if debug_embedded_sync:
 		print("[PipePuzzleTerminal] randomized once for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
+
+
+
 
 func _start_platform_motion_if_needed() -> void:
 	if _platform_motion_started:

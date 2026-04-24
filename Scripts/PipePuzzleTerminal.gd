@@ -106,9 +106,12 @@ func _ready() -> void:
 				_puzzle = PipePuzzleDefinition.create_wire_full_7x6()
 			_:
 				_puzzle = PipePuzzleDefinition.create_default()
-		puzzle_definition = _puzzle.to_dict()
 	else:
 		_puzzle = PipePuzzleDefinition.from_dict(puzzle_definition)
+
+	# Normalize every puzzle to hidden in/out ports for consistent presentation.
+	_puzzle = PipePuzzleDefinition.with_hidden_ports(_puzzle)
+	puzzle_definition = _puzzle.to_dict()
 
 	# Randomize at level load so puzzle state is ready before any interaction.
 	_randomize_puzzle_first_open()

@@ -122,6 +122,143 @@ static func create_puzzle_3x3() -> PipePuzzleDefinition:
 	puzzle.set_piece(2, 2, "corner", 3)
 	return puzzle
 
+## Convert in-grid source/sink endpoints to hidden ports just outside the board.
+## Endpoint cells are converted to bridge pieces so puzzles remain solvable.
+static func with_hidden_ports(puzzle: PipePuzzleDefinition) -> PipePuzzleDefinition:
+	if puzzle == null:
+		return null
+
+	if _is_in_grid_pos(puzzle, puzzle.source_pos):
+		_convert_endpoint_to_hidden_port(puzzle, puzzle.source_pos, true)
+	if _is_in_grid_pos(puzzle, puzzle.sink_pos):
+		_convert_endpoint_to_hidden_port(puzzle, puzzle.sink_pos, false)
+
+	return puzzle
+
+static func _convert_endpoint_to_hidden_port(puzzle: PipePuzzleDefinition, pos: Vector2i, is_source: bool) -> void:
+	var piece := puzzle.get_piece(pos.x, pos.y)
+	if piece.is_empty():
+		return
+
+	var connectors := _piece_connectors(piece)
+	if connectors.is_empty():
+		return
+
+	var inner_dir := int(connectors[0])
+	var preferred_outside := _opposite_dir(inner_dir)
+	var outside_dir := _pick_outside_dir_for_edge_pos(puzzle, pos, preferred_outside)
+	if outside_dir == -1:
+		return
+
+	var bridge := _bridge_piece_for_dirs(outside_dir, inner_dir)
+	puzzle.set_piece(pos.x, pos.y, String(bridge.get("kind", "empty")), int(bridge.get("rot", 0)), bool(piece.get("locked", true)))
+
+	var hidden_pos := pos + _dir_to_vec(outside_dir)
+	if is_source:
+		puzzle.source_pos = hidden_pos
+	else:
+		puzzle.sink_pos = hidden_pos
+
+static func _is_in_grid_pos(puzzle: PipePuzzleDefinition, pos: Vector2i) -> bool:
+	return pos.x >= 0 and pos.x < puzzle.grid_width and pos.y >= 0 and pos.y < puzzle.grid_height
+
+static func _pick_outside_dir_for_edge_pos(puzzle: PipePuzzleDefinition, pos: Vector2i, preferred_dir: int) -> int:
+	var candidates: Array[int] = []
+	if pos.x == 0:
+		candidates.append(3)
+	if pos.x == puzzle.grid_width - 1:
+		candidates.append(1)
+	if pos.y == 0:
+		candidates.append(0)
+	if pos.y == puzzle.grid_height - 1:
+		candidates.append(2)
+
+	for d in candidates:
+		if d == preferred_dir:
+			return d
+	if candidates.is_empty():
+		return -1
+	return candidates[0]
+
+static func _bridge_piece_for_dirs(a: int, b: int) -> Dictionary:
+	if (a == 0 and b == 2) or (a == 2 and b == 0):
+		return {"kind": "straight", "rot": 0}
+	if (a == 1 and b == 3) or (a == 3 and b == 1):
+		return {"kind": "straight", "rot": 1}
+	if (a == 0 and b == 1) or (a == 1 and b == 0):
+		return {"kind": "corner", "rot": 0}
+	if (a == 1 and b == 2) or (a == 2 and b == 1):
+		return {"kind": "corner", "rot": 1}
+	if (a == 2 and b == 3) or (a == 3 and b == 2):
+		return {"kind": "corner", "rot": 2}
+	return {"kind": "corner", "rot": 3}
+
+static func _piece_connectors(piece: Dictionary) -> Array[int]:
+	var kind := String(piece.get("kind", "empty"))
+	var rot := posmod(int(piece.get("rot", 0)), 4)
+
+	match kind:
+		"source":
+			match rot:
+				0:
+					return [1]
+				1:
+					return [2]
+				2:
+					return [3]
+				_:
+					return [0]
+		"sink":
+			match rot:
+				0:
+					return [3]
+				1:
+					return [0]
+				2:
+					return [1]
+				_:
+					return [2]
+		"straight":
+			if rot % 2 == 0:
+				return [0, 2]
+			return [1, 3]
+		"corner":
+			match rot:
+				0:
+					return [0, 1]
+				1:
+					return [1, 2]
+				2:
+					return [2, 3]
+				_:
+					return [3, 0]
+		"tee":
+			match rot:
+				0:
+					return [0, 3, 1]
+				1:
+					return [0, 1, 2]
+				2:
+					return [3, 1, 2]
+				_:
+					return [0, 3, 2]
+		_:
+			return []
+
+static func _dir_to_vec(d: int) -> Vector2i:
+	match d:
+		0:
+			return Vector2i(0, -1)
+		1:
+			return Vector2i(1, 0)
+		2:
+			return Vector2i(0, 1)
+		_:
+			return Vector2i(-1, 0)
+
+static func _opposite_dir(d: int) -> int:
+	return (d + 2) % 4
+
 ## Create a unique 4x4 puzzle.
 static func create_puzzle_4x4() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4)

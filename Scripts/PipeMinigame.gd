@@ -257,6 +257,10 @@ func open_for_player(player: CharacterBody2D) -> void:
 	_active = true
 	_solved = false
 	visible = true
+	if embedded_mode:
+		_title_label.visible = true
+		_info_label.visible = true
+		_status_label.visible = true
 	call_deferred("_ensure_visible_on_top")
 	_status_label.text = _controls_hint_text()
 	if not _puzzle:
@@ -270,6 +274,10 @@ func close_minigame() -> void:
 	_active = false
 	if not embedded_mode:
 		visible = false
+	else:
+		_title_label.visible = false
+		_info_label.visible = false
+		_status_label.visible = false
 	_grabbed_index = -1
 	get_tree().paused = false
 
@@ -482,11 +490,39 @@ func _reset_puzzle() -> void:
 	var center_y: int = _grid_height / 2
 	_cursor_index = _idx(center_x, center_y)
 	_grabbed_index = -1
+	_title_label.text = _puzzle_display_name()
 	_info_label.text = "Build a connected pipe route from source to drain."
 	_status_label.text = _controls_hint_text()
 	_refresh_flow_state(false)
 	# Re-apply visuals on next frame so TextureRect sizes are valid before rotation pivots are used.
 	call_deferred("_refresh_flow_state", false)
+
+func _puzzle_display_name() -> String:
+	if _puzzle == null:
+		return "Pipe Control"
+	var in_name := _port_location_name(_puzzle.source_pos)
+	var out_name := _port_location_name(_puzzle.sink_pos)
+	return "Pipe Control (IN: %s, OUT: %s)" % [in_name, out_name]
+
+func _port_location_name(pos: Vector2i) -> String:
+	if pos.y < 0:
+		return "Top %s" % _axis_word(pos.x, _grid_size, "column")
+	if pos.y >= _grid_height:
+		return "Bottom %s" % _axis_word(pos.x, _grid_size, "column")
+	if pos.x < 0:
+		return "Left %s" % _axis_word(pos.y, _grid_height, "row")
+	if pos.x >= _grid_size:
+		return "Right %s" % _axis_word(pos.y, _grid_height, "row")
+	return "Inside (%d,%d)" % [pos.x, pos.y]
+
+func _axis_word(index: int, count: int, axis: String) -> String:
+	if index == 0:
+		return "left" if axis == "column" else "top"
+	if index == count - 1:
+		return "right" if axis == "column" else "bottom"
+	if count % 2 == 1 and index == int(count / 2):
+		return "middle"
+	return "%s %d" % [axis, index + 1]
 
 func _toggle_select() -> void:
 	if _grabbed_index == -1:
@@ -560,7 +596,13 @@ func _on_send_water_pressed() -> void:
 
 	var reached := _trace_flow_from_source()
 	if _is_sink_reached(reached):
-		await _handle_solved(reached, "Water reached the end. Puzzle solved!")
+		_solved = true
+		_status_label.text = "Water reached the end. Puzzle solved!"
+		#$"PuzzleComplete".play()
+		_update_cells(reached)
+		completed.emit(true)
+		await get_tree().create_timer(2.7).timeout
+		close_minigame()
 	else:
 		_status_label.text = "Flow failed before the end. Re-route the pipes."
 		_update_cells(reached)
@@ -601,10 +643,39 @@ func _handle_solved(reached: Array[int], solved_text: String) -> void:
 		await get_tree().create_timer(solved_close_delay).timeout
 	close_minigame()
 
+func _is_sink_reached(reached: Array[int]) -> bool:
+	if _puzzle == null:
+		return false
+	if not _is_in_grid(_puzzle.sink_pos):
+		var sink_attachment := _virtual_port_attachment(_puzzle.sink_pos)
+		if sink_attachment.is_empty():
+			return false
+		var sink_cell: Vector2i = sink_attachment["cell"]
+		var sink_connector: int = int(sink_attachment["connector"])
+		var sink_cell_idx := _idx(sink_cell.x, sink_cell.y)
+		if not reached.has(sink_cell_idx):
+			return false
+		return _connectors(_pieces[sink_cell_idx]).has(sink_connector)
+	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
+	return reached.has(sink_idx)
+
 func _trace_flow_from_source() -> Array[int]:
-	var source_idx := _idx(_puzzle.source_pos.x, _puzzle.source_pos.y)
 	var visited: Array[int] = []
-	var queue: Array[int] = [source_idx]
+	var queue: Array[int] = []
+
+	if _is_in_grid(_puzzle.source_pos):
+		queue.append(_idx(_puzzle.source_pos.x, _puzzle.source_pos.y))
+	else:
+		var source_attachment := _virtual_port_attachment(_puzzle.source_pos)
+		if source_attachment.is_empty():
+			return visited
+		var source_cell: Vector2i = source_attachment["cell"]
+		var source_connector: int = int(source_attachment["connector"])
+		var source_cell_idx := _idx(source_cell.x, source_cell.y)
+		if _connectors(_pieces[source_cell_idx]).has(source_connector):
+			queue.append(source_cell_idx)
+		else:
+			return visited
 
 	while queue.size() > 0:
 		var current: int = queue.pop_front()
@@ -626,6 +697,20 @@ func _trace_flow_from_source() -> Array[int]:
 				queue.append(nidx)
 
 	return visited
+
+func _is_in_grid(pos: Vector2i) -> bool:
+	return pos.x >= 0 and pos.x < _grid_size and pos.y >= 0 and pos.y < _grid_height
+
+func _virtual_port_attachment(port_pos: Vector2i) -> Dictionary:
+	if port_pos.y < 0 and port_pos.x >= 0 and port_pos.x < _grid_size:
+		return {"cell": Vector2i(port_pos.x, 0), "connector": DIR_UP}
+	if port_pos.y >= _grid_height and port_pos.x >= 0 and port_pos.x < _grid_size:
+		return {"cell": Vector2i(port_pos.x, _grid_height - 1), "connector": DIR_DOWN}
+	if port_pos.x < 0 and port_pos.y >= 0 and port_pos.y < _grid_height:
+		return {"cell": Vector2i(0, port_pos.y), "connector": DIR_LEFT}
+	if port_pos.x >= _grid_size and port_pos.y >= 0 and port_pos.y < _grid_height:
+		return {"cell": Vector2i(_grid_size - 1, port_pos.y), "connector": DIR_RIGHT}
+	return {}
 
 func _update_cells(flow_cells: Array[int] = []) -> void:
 	for i in range(_pieces.size()):

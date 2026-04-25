@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://m5q437d56g3t"]
+[gd_scene load_steps=0 format=3 uid="uid://m5q437d56g3t"]
 
 [ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="44_4aqsm"]
 

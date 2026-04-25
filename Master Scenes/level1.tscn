@@ -1,4 +1,4 @@
-[gd_scene load_steps=174 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
 [ext_resource type="Script" uid="uid://dnkk2yrrfrm1n" path="res://Scripts/DeathBox.gd" id="2_deathbox"]
@@ -1198,7 +1198,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=663204550]
 z_index = 4
-position = Vector2(8000, -800)
+position = Vector2(5600, -200)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1971021314]
@@ -2635,13 +2635,12 @@ offset_right = 7594.0
 offset_bottom = -756.0
 
 [node name="ColorRectTopMiddlePuzzle" type="ColorRect" parent="Water/Waterfalls" unique_id=1768896223]
-visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
-offset_left = 6702.0
-offset_top = -1589.0
-offset_right = 6731.0
-offset_bottom = -1476.0
+offset_left = 6697.0
+offset_top = -1504.0
+offset_right = 6744.0
+offset_bottom = -1299.0
 
 [node name="Standing Water" type="Node" parent="Water" unique_id=650182506]
 
@@ -2821,6 +2820,11 @@ script = ExtResource("63_waterhaz")
 position = Vector2(2751.5, -163)
 collision_layer = 0
 script = ExtResource("63_waterhaz")
+
+[node name="WaterBlock" parent="Water/Standing Water" unique_id=1305812998 instance=ExtResource("7_rgorn")]
+z_index = -1
+position = Vector2(7711, -735)
+scale = Vector2(1, 0.5)
 
 [node name="Node2D" parent="." unique_id=1546081287 instance=ExtResource("21_wqik4")]
 position = Vector2(3391, -707)
@@ -3317,6 +3321,8 @@ solved_rise_target_path = NodePath("../../doorcentralroom")
 solved_rise_distance = 300.0
 solved_rise_duration = 5.0
 embedded_minigame_path = NodePath("../PipeMinigame")
+linked_object_path = NodePath("../../Level2MiniWiresCentralMiddle2/WirePowerRelay42")
+linked_object_delay = 4.5
 
 [node name="PipeMinigame" parent="level2container/waterPuzzleLevel2_1" unique_id=1513937600 instance=ExtResource("22_pipe_minigame")]
 visible = true
@@ -3330,7 +3336,6 @@ offset_bottom = 320.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(0.78, 0.78)
-size_flags_horizontal = 4
 straight_texture = ExtResource("31_vv672")
 corner_texture = ExtResource("30_gnar4")
 tee_texture = ExtResource("31_wn5ge")
@@ -3355,26 +3360,35 @@ position = Vector2(300, -670)
 
 [node name="PipePuzzleTerminal" parent="level2container/WaterPuzzleLevel2_2" unique_id=341930040 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(9, 190)
-puzzle_layout = 4
+puzzle_layout = 2
 control_mode = 1
 water_stream_path = NodePath("../../../Water/Waterfalls/ColorRectTopMiddlePuzzle")
 water_wheel_path = NodePath("../waterWheel5")
+water_to_wheel_delay = 0.1
 solved_rise_target_path = NodePath("../../risingdoorTopMiddle")
-solved_rise_distance = 100.0
+solved_rise_distance = -100.0
+solved_rise_duration = 1.7
 embedded_minigame_path = NodePath("../PipeMinigame2_2")
+linked_object_path = NodePath("../../Level2MiniWiresTopMiddle/WirePowerRelay16")
+linked_object_delay = 3.0
+
+[node name="Prompt" parent="level2container/WaterPuzzleLevel2_2/PipePuzzleTerminal" index="2"]
+offset_top = -90.0
+offset_bottom = -45.0
 
 [node name="waterWheel5" parent="level2container/WaterPuzzleLevel2_2" unique_id=682669911 instance=ExtResource("19_8ifkh")]
-position = Vector2(-287, 180)
+position = Vector2(-283, 214)
+spin_time_per_turn = 10.0
+rotation_duration = 1.6
 
 [node name="PipeMinigame2_2" parent="level2container/WaterPuzzleLevel2_2" unique_id=1950323197 instance=ExtResource("22_pipe_minigame")]
-visible = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = -416.0
-offset_top = -180.0
+offset_top = -116.0
 offset_right = -64.0
-offset_bottom = 172.0
+offset_bottom = 236.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(0.8, 0.8)
@@ -3415,8 +3429,8 @@ scale = Vector2(1, 1.05)
 
 [node name="risingdoorTopMiddle" parent="level2container" unique_id=1403215890 instance=ExtResource("25_2rbmd")]
 z_index = -2
-position = Vector2(-160, -613)
-rotation = -6.2831855
+position = Vector2(-159, -513)
+rotation = -3.1415927
 scale = Vector2(1, 1.05)
 
 [node name="risingPlatformBottomMiddle" parent="level2container" unique_id=1093233330 instance=ExtResource("26_211ka")]
@@ -3539,6 +3553,48 @@ z_index = 1
 position = Vector2(-4002, -826)
 rotation = -1.5707964
 scale = Vector2(1.22, 1)
+
+[node name="Level2MiniWiresTopMiddle" type="Node2D" parent="level2container" unique_id=2121129980]
+
+[node name="WirePowerRelay15" parent="level2container/Level2MiniWiresTopMiddle" unique_id=1749911721 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-87, -507)
+rotation = -3.1415927
+
+[node name="WirePowerRelay17" parent="level2container/Level2MiniWiresTopMiddle" unique_id=2125809733 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-119, -507)
+rotation = -3.1415927
+
+[node name="WirePowerRelay16" parent="level2container/Level2MiniWiresTopMiddle" unique_id=1450540405 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-55, -507)
+rotation = -3.1415927
+target_paths = Array[NodePath]([NodePath(".."), NodePath("../WirePowerRelay15")])
+
+[node name="Level2MiniWiresCentralMiddle2" type="Node2D" parent="level2container" unique_id=21877219]
+position = Vector2(635, 640)
+
+[node name="WirePowerRelay38" parent="level2container/Level2MiniWiresCentralMiddle2" unique_id=1173397052 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-117, -503)
+
+[node name="WirePowerRelay42" parent="level2container/Level2MiniWiresCentralMiddle2" unique_id=1507437122 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-149, -503)
+target_paths = Array[NodePath]([NodePath(".."), NodePath("../WirePowerRelay38")])
+
+[node name="WirePowerRelay39" parent="level2container/Level2MiniWiresCentralMiddle2" unique_id=1787912327 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-87, -503)
+
+[node name="WirePowerRelay40" parent="level2container/Level2MiniWiresCentralMiddle2" unique_id=1995821822 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-57, -503)
+
+[node name="WirePowerRelay41" parent="level2container/Level2MiniWiresCentralMiddle2" unique_id=844703137 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-27, -503)
 
 [node name="container2" type="Node2D" parent="." unique_id=43960126]
 
@@ -3917,7 +3973,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.3
 
 [node name="LeverLight3" type="PointLight2D" parent="Lighting" unique_id=34830294]
-position = Vector2(7226, -514.00006)
+position = Vector2(7225, -516)
 scale = Vector2(5.6823215, 5.613343)
 color = Color(0.7434591, 0.9398656, 0.79085165, 1)
 energy = 1.44
@@ -3925,7 +3981,8 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.3
 
 [node name="LeverLight4" type="PointLight2D" parent="Lighting" unique_id=1941136576]
-position = Vector2(7637, -294)
+visible = false
+position = Vector2(7638, -292)
 scale = Vector2(5.6823215, 5.613343)
 color = Color(0.7434591, 0.9398656, 0.79085165, 1)
 energy = 1.44
@@ -4025,12 +4082,12 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
 metadata/_edit_lock_ = true
 
-[node name="Light15" type="Sprite2D" parent="Lighting"]
+[node name="Light15" type="Sprite2D" parent="Lighting" unique_id=1858486821]
 z_index = -1
 position = Vector2(6469, -1134)
 texture = ExtResource("69_rdmwp")
 
-[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light15"]
+[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light15" unique_id=1938048798]
 position = Vector2(-8.999939, -31.994785)
 scale = Vector2(5.6926575, 2.9244685)
 color = Color(1, 0.8862745, 0.1254902, 1)
@@ -4039,12 +4096,12 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
 metadata/_edit_lock_ = true
 
-[node name="Light16" type="Sprite2D" parent="Lighting"]
+[node name="Light16" type="Sprite2D" parent="Lighting" unique_id=1323797639]
 z_index = -1
 position = Vector2(6571, -848)
 texture = ExtResource("69_rdmwp")
 
-[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light16"]
+[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light16" unique_id=413076434]
 position = Vector2(-8.999939, -31.994785)
 scale = Vector2(5.6926575, 2.9244685)
 color = Color(1, 0.8862745, 0.1254902, 1)
@@ -4053,12 +4110,12 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
 metadata/_edit_lock_ = true
 
-[node name="Light17" type="Sprite2D" parent="Lighting"]
+[node name="Light17" type="Sprite2D" parent="Lighting" unique_id=127548562]
 z_index = -1
 position = Vector2(7277, -814)
 texture = ExtResource("69_rdmwp")
 
-[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light17"]
+[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light17" unique_id=1968742725]
 position = Vector2(-8.999939, -31.994785)
 scale = Vector2(5.6926575, 2.9244685)
 color = Color(1, 0.8862745, 0.1254902, 1)
@@ -4067,7 +4124,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
 metadata/_edit_lock_ = true
 
-[node name="Light8" type="Sprite2D" parent="Lighting"]
+[node name="Light8" type="Sprite2D" parent="Lighting" unique_id=665544285]
 z_index = -1
 position = Vector2(5869, -1084)
 texture = ExtResource("69_rdmwp")
@@ -4109,12 +4166,12 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
 metadata/_edit_lock_ = true
 
-[node name="Light14" type="Sprite2D" parent="Lighting"]
+[node name="Light14" type="Sprite2D" parent="Lighting" unique_id=348187769]
 z_index = -1
 position = Vector2(7458, -535)
 texture = ExtResource("69_rdmwp")
 
-[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light14"]
+[node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light14" unique_id=992029261]
 position = Vector2(-8.999939, -31.994785)
 scale = Vector2(5.6926575, 2.9244685)
 color = Color(1, 0.8862745, 0.1254902, 1)
@@ -4123,7 +4180,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
 metadata/_edit_lock_ = true
 
-[node name="container3" type="Node2D" parent="."]
+[node name="container3" type="Node2D" parent="." unique_id=68295109]
 
 [node name="ColorRect3" type="ColorRect" parent="." unique_id=1628050864]
 z_index = -2
@@ -4230,13 +4287,13 @@ volume_db = 8.11
 autoplay = true
 bus = &"Ambience"
 
-[node name="Music" type="AudioStreamPlayer" parent="Ambience?"]
+[node name="Music" type="AudioStreamPlayer" parent="Ambience?" unique_id=853429566]
 stream = ExtResource("73_rdmwp")
 volume_db = -5.725
 autoplay = true
 bus = &"Music"
 
-[node name="SpikeBlock" parent="." instance=ExtResource("47_hjx3g")]
+[node name="SpikeBlock" parent="." unique_id=1337488593 instance=ExtResource("47_hjx3g")]
 position = Vector2(-2725, -660)
 
 [node name="SpikeBlock2" parent="." unique_id=553804752 instance=ExtResource("47_hjx3g")]
@@ -4455,7 +4512,6 @@ embedded_minigame_path = NodePath("../WireMinigameRoom9")
 linked_object_path = NodePath("../../../WirePowerRelay11")
 
 [node name="WireMinigameRoom9" parent="Node2D16/Node2D9Room" unique_id=1499376845 instance=ExtResource("52_wire_minigame")]
-visible = true
 offset_left = -15.429
 offset_top = 11.588
 offset_right = 247.66634
@@ -4509,7 +4565,6 @@ spin_time_per_turn = 14.0
 rotation_duration = 2.0
 
 [node name="PipeMinigame2Level3First" parent="waterPuzzle" unique_id=1050451246 instance=ExtResource("22_pipe_minigame")]
-visible = true
 offset_left = -127.429
 offset_top = 1.588
 offset_right = 135.66634
@@ -4550,7 +4605,6 @@ embedded_minigame_path = NodePath("../PipeMinigame2Level3First")
 position = Vector2(-2083, -1123)
 
 [node name="PipeMinigameRotateOnlyC" parent="PipePuzzleFinalWaterLevel3" unique_id=254375490 instance=ExtResource("22_pipe_minigame")]
-visible = true
 offset_left = 316.0
 offset_top = -319.0
 offset_right = 668.0
@@ -4575,7 +4629,6 @@ puzzle_layout = 11
 embedded_minigame_path = NodePath("../WireMinigameRoom10")
 
 [node name="WireMinigameRoom10" parent="Node2D10Room" unique_id=1263850707 instance=ExtResource("52_wire_minigame")]
-visible = true
 offset_left = 10.571411
 offset_top = -15.412323
 offset_right = 273.66675
@@ -4632,7 +4685,7 @@ position = Vector2(6291, -308)
 target_paths = Array[NodePath]([NodePath("../WirePowerRelay4"), NodePath("../WirePowerRelay3"), NodePath("../WirePowerRelayCorner3"), NodePath("../WirePowerRelayCorner2"), NodePath("../WirePowerRelayCorner"), NodePath("../WirePowerRelay2"), NodePath("../WirePowerRelay")])
 
 [node name="Lever5" parent="." unique_id=1292124215 instance=ExtResource("13_1yw1p")]
-position = Vector2(6220, -340)
+position = Vector2(6243, -307)
 output_target_paths = Array[NodePath]([NodePath("../WirePowerRelay5")])
 
 [node name="PipePuzzleTerminalMoveOnly" parent="." unique_id=1482711027 instance=ExtResource("48_d0cqg")]
@@ -4647,10 +4700,10 @@ motion_distance = 320.0
 
 [node name="Node2D13" parent="." unique_id=588362445 instance=ExtResource("26_211ka")]
 position = Vector2(6076, -1540)
-motion_mode = 1
 motion_distance = 224.0
 
 [node name="Node2D14" parent="." unique_id=633807112 instance=ExtResource("26_211ka")]
+visible = false
 position = Vector2(5564, -1668)
 motion_mode = 1
 motion_distance = 704.0
@@ -4725,7 +4778,6 @@ embedded_minigame_path = NodePath("../WireMinigameRoom13")
 linked_object_path = NodePath("../WirePowerRoom3_2Final/WirePowerRelay42")
 
 [node name="WireMinigameRoom13" parent="." unique_id=189733604 instance=ExtResource("52_wire_minigame")]
-visible = true
 offset_left = -3721.0
 offset_top = -1352.0
 offset_right = -3457.9048
@@ -4742,7 +4794,6 @@ puzzle_layout = 2
 embedded_minigame_path = NodePath("../PipeMinigameRoom12")
 
 [node name="PipeMinigameRoom12" parent="waterPuzzleBoxRoom12" unique_id=989949936 instance=ExtResource("22_pipe_minigame")]
-visible = true
 offset_left = -5.428589
 offset_top = 64.58768
 offset_right = 257.66675
@@ -5224,7 +5275,6 @@ embedded_minigame_path = NodePath("../WireMinigame")
 linked_object_path = NodePath("../../Level3_4_Wires/WirePowerRelay4")
 
 [node name="WireMinigame" parent="WirePuzzleLevel3BottomMiddle" unique_id=2070328899 instance=ExtResource("52_wire_minigame")]
-visible = true
 custom_minimum_size = Vector2(352, 352)
 offset_left = -3449.0
 offset_top = -804.0
@@ -5299,7 +5349,6 @@ solved_rise_distance = 100.0
 embedded_minigame_path = NodePath("../WireMinigame")
 
 [node name="WireMinigame" parent="WirePuzzleLevel3Final" unique_id=955689965 instance=ExtResource("52_wire_minigame")]
-visible = true
 custom_minimum_size = Vector2(352, 352)
 offset_left = -2019.0
 offset_top = -1412.0
@@ -5310,6 +5359,20 @@ offset_bottom = -1060.0
 position = Vector2(-2133, -1380)
 rotation = -1.5707964
 
+[node name="WaterBlock2" parent="." unique_id=277620505 instance=ExtResource("7_rgorn")]
+z_index = -4
+position = Vector2(6836, -172)
+scale = Vector2(4, 1)
+
+[node name="WaterBlock3" parent="." unique_id=1552344061 instance=ExtResource("7_rgorn")]
+z_index = -1
+position = Vector2(6085, -1022)
+scale = Vector2(0.7, 0.5)
+
+[node name="WaterBlock4" parent="." unique_id=86910340 instance=ExtResource("7_rgorn")]
+z_index = -2
+position = Vector2(6112, -1327)
+
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D18" method="on_terminal_solved"]
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D19" method="on_terminal_solved"]
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D20" method="on_terminal_solved"]
@@ -5317,3 +5380,4 @@ rotation = -1.5707964
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D22" method="on_terminal_solved"]
 
 [editable path="RoomCamera/pauseMenu"]
+[editable path="level2container/WaterPuzzleLevel2_2/PipePuzzleTerminal"]

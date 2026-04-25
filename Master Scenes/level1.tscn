@@ -2932,7 +2932,7 @@ z_index = -6
 position = Vector2(2928, -45)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.46618086, 0.4661808, 0.4661808, 1)
+color = Color(0.6113596, 0.6113596, 0.6113595, 1)
 
 [node name="waterPuzzleLevel1" type="Node2D" parent="."]
 z_index = -1

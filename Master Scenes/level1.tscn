@@ -1511,6 +1511,7 @@ solved_rise_distance = 96.0
 embedded_minigame_path = NodePath("../PipeMinigameTerminalA")
 
 [node name="PipeMinigameTerminalA" parent="." unique_id=492766359 instance=ExtResource("22_pipe_minigame")]
+visible = true
 offset_left = 1404.0
 offset_top = 822.0
 offset_right = 1756.0
@@ -1604,6 +1605,7 @@ puzzle_layout = 6
 embedded_minigame_path = NodePath("../PipeMinigameTerminalB")
 
 [node name="PipeMinigameTerminalB" parent="." unique_id=1798281134 instance=ExtResource("22_pipe_minigame")]
+visible = true
 offset_left = 1772.0
 offset_top = 822.0
 offset_right = 2124.0
@@ -3285,6 +3287,7 @@ lift_target_path = NodePath("../RisingDoorLevel3RightMiddle")
 wheel_target_path = NodePath("../waterWheel3")
 output_target_paths = Array[NodePath]([NodePath("../level3RightMiddleSmallnodes/WirePowerRelay13")])
 output_off_method = &""
+single_use = true
 
 [node name="Lever5" parent="level2container" unique_id=537737765 instance=ExtResource("13_1yw1p")]
 position = Vector2(751, 16)
@@ -3293,6 +3296,7 @@ lift_target_path = NodePath("../RisingDoorLevel3RightMiddle2")
 wheel_target_path = NodePath("../waterWheel2")
 lift_duration = 0.5
 output_target_paths = Array[NodePath]([NodePath("../level3RightMiddleLargeNodes/WirePowerRelay21")])
+single_use = true
 
 [node name="Lever6" parent="level2container" unique_id=2020671789 instance=ExtResource("13_1yw1p")]
 position = Vector2(941, 624)
@@ -3321,13 +3325,14 @@ linked_object_path = NodePath("../../Level2MiniWiresCentralMiddle2/WirePowerRela
 linked_object_delay = 4.5
 
 [node name="PipeMinigame" parent="level2container/waterPuzzleLevel2_1" unique_id=1513937600 instance=ExtResource("22_pipe_minigame")]
+visible = true
 custom_minimum_size = Vector2(352, 352)
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = -56.0
+offset_top = -32.0
 offset_right = 352.0
-offset_bottom = 296.0
+offset_bottom = 320.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(0.78, 0.78)
@@ -3347,7 +3352,7 @@ offset_right = 258.0
 offset_bottom = 131.0
 
 [node name="waterWheel4" parent="level2container/waterPuzzleLevel2_1" unique_id=2101310821 instance=ExtResource("19_8ifkh")]
-position = Vector2(243, 275)
+position = Vector2(243, 260)
 rotation_duration = 5.2
 
 [node name="WaterPuzzleLevel2_2" type="Node2D" parent="level2container" unique_id=412784224]
@@ -3627,6 +3632,7 @@ z_index = -1
 position = Vector2(3391, -675)
 
 [node name="PipeMinigame1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=98860582 instance=ExtResource("22_pipe_minigame")]
+visible = true
 offset_left = -46.713867
 offset_top = 37.57141
 offset_right = 305.28613
@@ -3712,6 +3718,7 @@ offset_bottom = 455.73038
 metadata/_edit_use_anchors_ = true
 
 [node name="PipeMinigame2" parent="waterPuzzleLevel1/Node2D" unique_id=1461208999 instance=ExtResource("22_pipe_minigame")]
+visible = true
 offset_left = -5.428589
 offset_top = 64.58768
 offset_right = 257.66675

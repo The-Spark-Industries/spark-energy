@@ -1,4 +1,4 @@
-[gd_scene load_steps=190 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=188 format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="1_pausemenu"]
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
@@ -12,7 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://cfm3gatrvi6f" path="res://SPARKNormalMappedRUN.tres" id="7_xhqtr"]
 [ext_resource type="PackedScene" uid="uid://bmat7fpcdqhtd" path="res://Master Scenes/Checkpoint.tscn" id="8_tiul6"]
 [ext_resource type="AudioStream" uid="uid://bgtxnqb0crkcs" path="res://1_Main Character Assets/Spark Audio/Spark SFX/Jump_1.wav" id="10_hjx3g"]
-[ext_resource type="Texture2D" uid="uid://bmxr8o4qujd85" path="res://1_Main Character Assets/Spark Assets/Spark Animations/new_run.png" id="11_bljkt"]
 [ext_resource type="AudioStream" uid="uid://cxsi5kpbbms5e" path="res://1_Main Character Assets/Spark Audio/Spark SFX/Death_1.wav" id="11_d0cqg"]
 [ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="12_pipe_terminal"]
 [ext_resource type="AudioStream" uid="uid://ddixlvahgepyh" path="res://Level 1/Level 1 Audio/SFX/SparkLanding.wav" id="12_sfx35"]
@@ -172,37 +171,33 @@ region = Rect2(128, 64, 64, 64)
 atlas = ExtResource("7_sfx35")
 region = Rect2(192, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f15sg"]
-atlas = ExtResource("11_bljkt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkcx0"]
+atlas = ExtResource("7_xhqtr")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v7bru"]
-atlas = ExtResource("11_bljkt")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p5s51"]
-atlas = ExtResource("11_bljkt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4cid"]
+atlas = ExtResource("7_xhqtr")
 region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pwujj"]
-atlas = ExtResource("11_bljkt")
-region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_04pvr"]
-atlas = ExtResource("11_bljkt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6hfn"]
+atlas = ExtResource("7_xhqtr")
 region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8mt1v"]
-atlas = ExtResource("11_bljkt")
-region = Rect2(128, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cldkx"]
-atlas = ExtResource("11_bljkt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_jy7yw"]
+atlas = ExtResource("7_xhqtr")
 region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y14pt"]
-atlas = ExtResource("11_bljkt")
-region = Rect2(192, 64, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbwyi"]
+atlas = ExtResource("7_xhqtr")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nw2d2"]
+atlas = ExtResource("7_xhqtr")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bqhm"]
+atlas = ExtResource("7_xhqtr")
+region = Rect2(128, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_njswl"]
 atlas = ExtResource("6_dmeoo")
@@ -347,28 +342,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_f15sg")
+"texture": SubResource("AtlasTexture_dkcx0")
 }, {
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_v7bru")
+"texture": SubResource("AtlasTexture_n4cid")
 }, {
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_p5s51")
+"texture": SubResource("AtlasTexture_f6hfn")
 }, {
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_pwujj")
+"texture": SubResource("AtlasTexture_jy7yw")
 }, {
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_04pvr")
+"texture": SubResource("AtlasTexture_mbwyi")
 }, {
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_8mt1v")
+"texture": SubResource("AtlasTexture_nw2d2")
 }, {
 "duration": 0.4,
-"texture": SubResource("AtlasTexture_cldkx")
-}, {
-"duration": 0.4,
-"texture": SubResource("AtlasTexture_y14pt")
+"texture": SubResource("AtlasTexture_4bqhm")
 }],
 "loop": true,
 "name": &"run",

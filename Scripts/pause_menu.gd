@@ -103,7 +103,7 @@ func _on_resume_pressed() -> void:
 
 
 func _on_options_pressed() -> void:
-	oM.visible=true
+	_show_options_menu()
 
 
 func _on_quit_pressed() -> void:
@@ -116,6 +116,14 @@ func _on_quit_pressed() -> void:
 
 func _on_back_button_pressed() -> void:
 	oM.visible=false
+
+func _show_options_menu() -> void:
+	var viewport_size := get_viewport_rect().size
+	# Keep legacy option children on-screen even if their authored offsets are negative.
+	oM.position = Vector2(viewport_size.x * 0.5, viewport_size.y + 120.0)
+	oM.z_index = z_index + 1
+	oM.visible = true
+	oM.move_to_front()
 
 func _on_check_button_pressed() -> void:
 	if (Global.turboMode ==false):

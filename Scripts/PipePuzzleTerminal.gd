@@ -375,7 +375,7 @@ func _notify_linked_object_on_solve() -> void:
 		return
 
 	if not String(linked_object_method).is_empty() and linked.has_method(String(linked_object_method)):
-		await get_tree().create_timer(linked_object_delay).timeout
+		#await get_tree().create_timer(linked_object_delay).timeout
 		linked.call(String(linked_object_method), self)
 		return
 

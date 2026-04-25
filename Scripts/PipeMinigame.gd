@@ -165,6 +165,11 @@ func _process(delta: float) -> void:
 	if (Global.fontChoice==2):
 		self.theme=load("res://Assets/Visual/Receipt.tres")
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Receipt.tres")
+	if not embedded_mode:
+		return
+	if _embedded_anchor_is_internal:
+		return
+	_update_embedded_anchor_position()
 
 func _ensure_embedded_rect_size() -> void:
 	if not embedded_mode:
@@ -196,13 +201,6 @@ func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 
 func set_control_mode(mode: int) -> void:
 	_control_mode = clampi(mode, 0, 2)
-
-func _process(_delta: float) -> void:
-	if not embedded_mode:
-		return
-	if _embedded_anchor_is_internal:
-		return
-	_update_embedded_anchor_position()
 
 func refresh_embedded_preview() -> void:
 	if not embedded_mode or _puzzle == null:
@@ -337,27 +335,27 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
 		if _grabbed_index != -1:
-			_play_optional_sound(_pipe_move_sound)
+			_play_optional_sound(_sfx_move)
 		if _grabbed_index == -1:
-			_play_optional_sound(_terminal_move_sound)
+			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
 		if _grabbed_index != -1:
-			_play_optional_sound(_pipe_move_sound)
+			_play_optional_sound(_sfx_move)
 		if _grabbed_index == -1:
-			_play_optional_sound(_terminal_move_sound)
+			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
 		if _grabbed_index != -1:
-			_play_optional_sound(_pipe_move_sound)
+			_play_optional_sound(_sfx_move)
 		if _grabbed_index == -1:
-			_play_optional_sound(_terminal_move_sound)
+			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
 		if _grabbed_index != -1:
-			_play_optional_sound(_pipe_move_sound)
+			_play_optional_sound(_sfx_move)
 		if _grabbed_index == -1:
-			_play_optional_sound(_terminal_move_sound)
+			_play_optional_sound(_sfx_move)
 
 	if dx != 0 or dy != 0:
 		_move_cursor(dx, dy)

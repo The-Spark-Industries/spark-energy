@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://m5q437d56g3t"]
+
+[ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="44_4aqsm"]
+
+[node name="Level1" type="Node2D" unique_id=1496564441]
+
+[node name="waterPuzzleLevel1_waterPuzzle1#PipePuzzleTerminal2" parent="." unique_id=1840089672 instance=ExtResource("44_4aqsm")]
+position = Vector2(145.00012, 486)
+puzzle_layout = 3
+control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream1")
+wheel_spin_time_per_turn = 0.8
+solved_rise_distance = 96.0
+solved_rise_loop = true
+embedded_minigame_path = NodePath("../PipeMinigame1")

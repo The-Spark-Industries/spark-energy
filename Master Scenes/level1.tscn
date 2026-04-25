@@ -1,4 +1,4 @@
-[gd_scene load_steps=187 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=190 format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="1_pausemenu"]
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
@@ -944,6 +944,44 @@ polygon = PackedVector2Array(-30.068298, -46.01367, -31.890625, -15.945435, -45.
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_f6hfn"]
 polygon = PackedVector2Array(-14.122925, -105.23926, 13.66748, -31.43518, 38.2688, -20.50122, 109.33948, -23.690308, 242.8247, -38.2688, 931.66296, -28.70166, 936.6743, -73.34863, 771.754, -73.34863, 771.754, -146.69714, 501.13904, -161.27563, 267.42603, -143.50806)
+
+[sub_resource type="Animation" id="Animation_n4cid"]
+resource_name = "LightFlicker"
+length = 20.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 7.9666667, 8.1, 8.2, 10.866667, 10.9, 10.929562, 10.966666, 11, 20),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.22, 1.22, 0.0, 1.22, 1.22, 0.0, 1.6, 0.0, 1.22, 1.22]
+}
+
+[sub_resource type="Animation" id="Animation_f6hfn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.22]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jy7yw"]
+_data = {
+&"LightFlicker": SubResource("Animation_n4cid"),
+&"RESET": SubResource("Animation_f6hfn")
+}
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_2rbmd"]
 scenes/1/scene = ExtResource("17_naso3")
@@ -3106,15 +3144,21 @@ texture = SubResource("NoiseTexture2D_vg4o2")
 texture_scale = 5.32
 
 [node name="PointLight2D2" type="PointLight2D" parent="Light1"]
-position = Vector2(1.3061523, 120.81641)
+position = Vector2(-14.39839, 198.13129)
 rotation = -2.474928
-scale = Vector2(1.8550352, 1.940567)
+scale = Vector2(2.4892251, 3.0553021)
 skew = 0.066809416
 color = Color(0.8244664, 0.81622666, 0.36653507, 1)
 energy = 1.22
 shadow_filter = 2
 texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 1.98
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Light1/PointLight2D2"]
+libraries = {
+&"": SubResource("AnimationLibrary_jy7yw")
+}
+autoplay = "LightFlicker"
 
 [node name="Drop7" type="Sprite2D" parent="."]
 position = Vector2(2832, 3417)

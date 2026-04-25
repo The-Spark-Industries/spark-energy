@@ -4,8 +4,8 @@
 
 [node name="pauseMenu" type="Control" unique_id=1118913350]
 process_mode = 3
-light_mask = 0
 z_index = 200
+light_mask = 0
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

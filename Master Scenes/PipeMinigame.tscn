@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://cknx1i8d6ojmr"]
 
 [ext_resource type="Script" uid="uid://dplhbc4yvnf0y" path="res://Scripts/PipeMinigame.gd" id="1_pipe_script"]
+[ext_resource type="Theme" uid="uid://60rj30lepwcb" path="res://Assets/Visual/Lingua.tres" id="2_o6pxk"]
 
 [node name="PipeMinigame" type="Control" unique_id=816716628]
 process_mode = 2
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,6 +91,7 @@ theme_override_constants/separation = 50
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+theme = ExtResource("2_o6pxk")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Send Water"
 

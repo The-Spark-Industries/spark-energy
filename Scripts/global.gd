@@ -5,6 +5,10 @@ const SAVE_FILE_PATH := "user://savegame.json"
 var checkpoints_enabled: bool = true
 
 
+## Toggle all checkpoint behavior globally.
+## When false, checkpoint triggers are ignored and player spawn uses scene placement.
+@export var checkpoints_enabled: bool = false
+
 ## Last checkpoint position the player touched.
 var last_checkpoint_position: Vector2 = Vector2.ZERO
 ## Scene path where the last checkpoint was touched.

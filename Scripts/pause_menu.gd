@@ -53,7 +53,28 @@ func _process(delta: float) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("pause") and (Global.wiremode == false) and (Global.minigame_active == false):
+	if _input_owner != self:
+		return
+
+	if event.is_action_pressed("pause") and not event.is_echo() and (Global.wiremode == false) and (Global.minigame_active == false):
+		if (Global.tutorialchecker == 2):
+			Global.tutorialchecker = 3
+
+		_set_pause_state(not get_tree().paused)
+		get_viewport().set_input_as_handled()
+
+
+func _set_pause_state(paused: bool) -> void:
+	if paused:
+		_bring_to_front()
+		get_tree().paused = true
+		oM.visible = false
+		visible = true
+	else:
+		get_tree().paused = false
+		visible = false
+		oM.visible = false
+	if Input.is_action_just_pressed("pause") and (Global.wiremode== false):
 		if (Global.tutorialchecker==2):
 				Global.tutorialchecker=3
 		if (get_tree().paused==false ):

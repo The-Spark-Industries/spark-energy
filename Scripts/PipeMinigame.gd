@@ -153,6 +153,19 @@ func _ready() -> void:
 		return
 	_reset_puzzle()
 
+
+func _process(delta: float) -> void:
+	if (Global.fontChoice==0):
+		self.theme=load("res://Assets/Visual/Lingua.tres")
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Lingua.tres")
+		
+	if (Global.fontChoice==1):
+		self.theme=load("res://Assets/Visual/lingualight.tres")
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		self.theme=load("res://Assets/Visual/Receipt.tres")
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Receipt.tres")
+
 func _ensure_embedded_rect_size() -> void:
 	if not embedded_mode:
 		return
@@ -253,7 +266,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
-		_play_sfx(_sfx_init)
+		#$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -324,27 +337,27 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
 		if _grabbed_index != -1:
-			_play_sfx(_sfx_pipe)
+			_play_optional_sound(_pipe_move_sound)
 		if _grabbed_index == -1:
-			_play_sfx(_sfx_move)
+			_play_optional_sound(_terminal_move_sound)
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
 		if _grabbed_index != -1:
-			_play_sfx(_sfx_pipe)
+			_play_optional_sound(_pipe_move_sound)
 		if _grabbed_index == -1:
-			_play_sfx(_sfx_move)
+			_play_optional_sound(_terminal_move_sound)
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
 		if _grabbed_index != -1:
-			_play_sfx(_sfx_pipe)
+			_play_optional_sound(_pipe_move_sound)
 		if _grabbed_index == -1:
-			_play_sfx(_sfx_move)
+			_play_optional_sound(_terminal_move_sound)
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
 		if _grabbed_index != -1:
-			_play_sfx(_sfx_pipe)
+			_play_optional_sound(_pipe_move_sound)
 		if _grabbed_index == -1:
-			_play_sfx(_sfx_move)
+			_play_optional_sound(_terminal_move_sound)
 
 	if dx != 0 or dy != 0:
 		_move_cursor(dx, dy)

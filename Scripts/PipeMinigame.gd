@@ -41,9 +41,30 @@ const CELL_FLOW := Color("2b6d8a")
 ]
 @export var block_texture: Texture2D
 @export var empty_texture: Texture2D
+@export_group("Powered Visuals")
+@export var powered_source_texture: Texture2D
+@export var powered_sink_texture: Texture2D
+@export var powered_straight_texture: Texture2D
+@export var powered_corner_texture: Texture2D
+@export var powered_tee_texture: Texture2D
+@export var powered_block_texture: Texture2D
+@export var powered_empty_texture: Texture2D
+@export var powered_straight_textures: Array[Texture2D] = []
+@export var powered_corner_textures: Array[Texture2D] = []
+@export var powered_tee_textures: Array[Texture2D] = []
+@export_group("Flow")
+@export var auto_flow_preview: bool = false
+@export var auto_flow_completes: bool = false
+@export var corner_connector_rot_offset: int = 0
+@export var tee_connector_rot_offset: int = 0
+@export var solved_close_delay: float = 2.7
 @export var embedded_mode: bool = false
 @export var embedded_use_glyphs: bool = false
 @export var embedded_cell_size: float = 48.0
+@export_group("Embedded Placement")
+@export var embedded_anchor_path: NodePath
+@export var embedded_anchor_centered: bool = true
+@export var embedded_anchor_offset: Vector2 = Vector2.ZERO
 
 @onready var _root_panel: PanelContainer = $CenterContainer/PanelContainer
 @onready var _title_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Title
@@ -52,8 +73,10 @@ const CELL_FLOW := Color("2b6d8a")
 @onready var _status_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Footer/Status
 @onready var _send_button: Button = $CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton
 @onready var _backdrop: ColorRect = $Backdrop
-@onready var _pipe_move_sound: Node = get_node_or_null("PipeSoundTest")
-@onready var _terminal_move_sound: Node = get_node_or_null("TerminalMoveSound")
+@onready var _sfx_init: AudioStreamPlayer = get_node_or_null("TerminalInitialize")
+@onready var _sfx_move: AudioStreamPlayer = get_node_or_null("TerminalMoveSound")
+@onready var _sfx_pipe: AudioStreamPlayer = get_node_or_null("PipeSoundTest")
+@onready var _sfx_complete: AudioStreamPlayer = get_node_or_null("PuzzleComplete")
 
 var _player: CharacterBody2D = null
 var _cells: Array[PanelContainer] = []
@@ -71,6 +94,9 @@ var _solved: bool = false
 var _control_mode: int = 0  # 0: normal, 1: move-only, 2: rotate-only
 var _embedded_refresh_pending: bool = false
 var _debug_preview: bool = false
+var _embedded_anchor_node: Node2D = null
+var _embedded_anchor_is_internal: bool = false
+var _embedded_anchor_global_target: Vector2 = Vector2.ZERO
 
 func set_debug_preview(enabled: bool) -> void:
 	_debug_preview = enabled
@@ -89,14 +115,18 @@ func _ready() -> void:
 	if not _active and not embedded_mode:
 		visible = false
 	_apply_visual_overrides()
+	_send_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_status_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_send_button.pressed.connect(_on_send_water_pressed)
+	_send_button.visible = not auto_flow_completes
 	if embedded_mode:
 		$Backdrop.visible = false
 		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = true
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.modulate = Color(1, 1, 1, 0)
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
 		_ensure_embedded_rect_size()
 		if Engine.is_editor_hint():
@@ -107,10 +137,14 @@ func _ready() -> void:
 				_grid_height = _puzzle.grid_height
 			_reset_puzzle()
 			return
+		_resolve_embedded_anchor_node()
+		set_process(_embedded_anchor_node != null and not _embedded_anchor_is_internal)
+		if _embedded_anchor_node != null:
+			call_deferred("_update_embedded_anchor_position")
 	if embedded_mode:
 		# Embedded boards should render immediately as in-world previews.
 		# Input remains locked because _active is still false until interact().
-		visible = false
+		visible = true
 		if _puzzle == null:
 			_puzzle = PipePuzzleDefinition.create_default()
 			_grid_size = _puzzle.grid_width
@@ -145,9 +179,10 @@ func _ensure_embedded_rect_size() -> void:
 		offset_bottom = offset_top + fallback_size.y
 
 func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
-	_puzzle = puzzle
-	if _puzzle == null:
+	if puzzle == null:
 		_puzzle = PipePuzzleDefinition.create_default()
+	else:
+		_puzzle = puzzle
 	if _puzzle:
 		_grid_size = _puzzle.grid_width
 		_grid_height = _puzzle.grid_height
@@ -161,6 +196,13 @@ func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 
 func set_control_mode(mode: int) -> void:
 	_control_mode = clampi(mode, 0, 2)
+
+func _process(_delta: float) -> void:
+	if not embedded_mode:
+		return
+	if _embedded_anchor_is_internal:
+		return
+	_update_embedded_anchor_position()
 
 func refresh_embedded_preview() -> void:
 	if not embedded_mode or _puzzle == null:
@@ -230,7 +272,11 @@ func open_for_player(player: CharacterBody2D) -> void:
 	_player = player
 	_active = true
 	_solved = false
+	Global.minigame_active = true
 	visible = true
+	if embedded_mode:
+		_status_label.visible = true
+		_status_label.modulate = Color(1, 1, 1, 1)
 	call_deferred("_ensure_visible_on_top")
 	_status_label.text = _controls_hint_text()
 	if not _puzzle:
@@ -244,13 +290,19 @@ func close_minigame() -> void:
 	_active = false
 	if not embedded_mode:
 		visible = false
+	else:
+		_title_label.visible = false
+		_info_label.visible = false
+		_status_label.visible = true
+		_status_label.modulate = Color(1, 1, 1, 0)
 	_grabbed_index = -1
 	get_tree().paused = false
+	Global.minigame_active = false
 
 func _ensure_visible_on_top() -> void:
 	visible = true
 	if get_parent():
-		get_parent().move_child(self, get_parent().get_child_count() - 1)
+		get_parent().move_child(self, -1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _active:
@@ -399,6 +451,40 @@ func _build_grid_ui() -> void:
 		_cell_labels.append(label)
 		_cell_icons.append(icon)
 
+	if embedded_mode and _embedded_anchor_node != null and not _active:
+		call_deferred("_update_embedded_anchor_position")
+
+func _resolve_embedded_anchor_node() -> void:
+	_embedded_anchor_node = null
+	_embedded_anchor_is_internal = false
+	if String(embedded_anchor_path).is_empty():
+		return
+	_embedded_anchor_node = get_node_or_null(embedded_anchor_path) as Node2D
+	if _embedded_anchor_node == null:
+		push_warning("PipeMinigame: embedded_anchor_path does not point to a Node2D on %s" % name)
+		return
+
+	_embedded_anchor_is_internal = is_ancestor_of(_embedded_anchor_node)
+	_embedded_anchor_global_target = _embedded_anchor_node.global_position
+
+func _update_embedded_anchor_position() -> void:
+	if not embedded_mode:
+		return
+	if _embedded_anchor_node == null:
+		if not String(embedded_anchor_path).is_empty():
+			_resolve_embedded_anchor_node()
+		if _embedded_anchor_node == null:
+			return
+
+	var anchor_global := _embedded_anchor_global_target if _embedded_anchor_is_internal else _embedded_anchor_node.global_position
+	var target_position := anchor_global + embedded_anchor_offset
+	if embedded_anchor_centered:
+		var panel_size := _root_panel.size
+		if panel_size.x <= 0.0 or panel_size.y <= 0.0:
+			panel_size = _root_panel.get_combined_minimum_size()
+		target_position -= panel_size * 0.5
+	global_position = target_position
+
 func _reset_puzzle() -> void:
 	if not _puzzle:
 		_puzzle = PipePuzzleDefinition.create_default()
@@ -422,11 +508,38 @@ func _reset_puzzle() -> void:
 	var center_y: int = _grid_height / 2
 	_cursor_index = _idx(center_x, center_y)
 	_grabbed_index = -1
-	_info_label.text = "Build a connected pipe route from source to drain."
+	_title_label.text = _puzzle_display_name()
 	_status_label.text = _controls_hint_text()
-	_update_cells()
+	_refresh_flow_state(false)
 	# Re-apply visuals on next frame so TextureRect sizes are valid before rotation pivots are used.
-	call_deferred("_update_cells")
+	call_deferred("_refresh_flow_state", false)
+
+func _puzzle_display_name() -> String:
+	if _puzzle == null:
+		return "Hidden Ports"
+	var in_name := _port_location_name(_puzzle.source_pos)
+	var out_name := _port_location_name(_puzzle.sink_pos)
+	return "%dx%d hidden ports (%s, %s)" % [_grid_size, _grid_height, in_name, out_name]
+
+func _port_location_name(pos: Vector2i) -> String:
+	if pos.y < 0:
+		return "TOP %s" % _axis_word(pos.x, _grid_size, "column")
+	if pos.y >= _grid_height:
+		return "BOTTOM %s" % _axis_word(pos.x, _grid_size, "column")
+	if pos.x < 0:
+		return "LEFT %s" % _axis_word(pos.y, _grid_height, "row")
+	if pos.x >= _grid_size:
+		return "RIGHT %s" % _axis_word(pos.y, _grid_height, "row")
+	return "INSIDE (%d,%d)" % [pos.x, pos.y]
+
+func _axis_word(index: int, count: int, axis: String) -> String:
+	if index == 0:
+		return "LEFT" if axis == "column" else "TOP"
+	if index == count - 1:
+		return "RIGHT" if axis == "column" else "BOTTOM"
+	if count % 2 == 1 and index == int(count / 2):
+		return "MIDDLE"
+	return "%s %d" % [axis.to_upper(), index + 1]
 
 func _toggle_select() -> void:
 	if _grabbed_index == -1:
@@ -435,9 +548,12 @@ func _toggle_select() -> void:
 			_status_label.text = "Selected. Move with WASD, Enter to place."
 	else:
 		_grabbed_index = -1
-		_status_label.text = "Piece placed. Press Send Water when ready."
+		if auto_flow_completes:
+			_status_label.text = "Piece placed. Power propagates automatically."
+		else:
+			_status_label.text = "Piece placed. Press Send Water when ready."
 
-	_update_cells()
+	_refresh_flow_state()
 
 func _move_cursor(dx: int, dy: int) -> void:
 	var current := _to_xy(_cursor_index)
@@ -454,7 +570,7 @@ func _move_cursor(dx: int, dy: int) -> void:
 		_grabbed_index = target_index
 
 	_cursor_index = target_index
-	_update_cells()
+	_refresh_flow_state()
 
 func _rotate_at_selection(dir: int) -> void:
 	if not _can_rotate_pieces():
@@ -471,7 +587,7 @@ func _rotate_at_selection(dir: int) -> void:
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
 	_status_label.text = "Rotated piece."
-	_update_cells()
+	_refresh_flow_state()
 
 func _can_move_pieces() -> bool:
 	return _control_mode != 2
@@ -482,9 +598,9 @@ func _can_rotate_pieces() -> bool:
 func _controls_hint_text() -> String:
 	match _control_mode:
 		1:
-			return "WASD: Move  Enter: Pick/Drop  Rotation disabled"
+			return "WASD: Move  Enter: Pick/Drop"
 		2:
-			return "WASD: Cursor  Q/E: Rotate  Piece moving disabled"
+			return "WASD: Cursor  Q/E: Rotate"
 		_:
 			return "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
 
@@ -492,9 +608,11 @@ func _on_send_water_pressed() -> void:
 	if not _active:
 		return
 
+	if auto_flow_completes:
+		return
+
 	var reached := _trace_flow_from_source()
-	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
-	if reached.has(sink_idx):
+	if _is_sink_reached(reached):
 		_solved = true
 		_status_label.text = "Water reached the end. Puzzle solved!"
 		#$"PuzzleComplete".play()
@@ -506,10 +624,69 @@ func _on_send_water_pressed() -> void:
 		_status_label.text = "Flow failed before the end. Re-route the pipes."
 		_update_cells(reached)
 
+func _refresh_flow_state(allow_autocomplete: bool = true) -> void:
+	if auto_flow_preview or auto_flow_completes:
+		var reached := _trace_flow_from_source()
+		_update_cells(reached)
+		if allow_autocomplete and auto_flow_completes and _is_sink_reached(reached):
+			call_deferred("_complete_from_auto_flow", reached)
+		return
+
+	_update_cells()
+
+func _complete_from_auto_flow(reached: Array[int]) -> void:
+	if not _active or _solved or not auto_flow_completes:
+		return
+	if not _is_sink_reached(reached):
+		return
+	await _handle_solved(reached, "Circuit complete. Tree is powered!")
+
+func _is_sink_reached(reached: Array[int]) -> bool:
+	if _puzzle == null:
+		return false
+	if not _is_in_grid(_puzzle.sink_pos):
+		var sink_attachment := _virtual_port_attachment(_puzzle.sink_pos)
+		if sink_attachment.is_empty():
+			return false
+		var sink_cell: Vector2i = sink_attachment["cell"]
+		var sink_connector: int = int(sink_attachment["connector"])
+		var sink_cell_idx := _idx(sink_cell.x, sink_cell.y)
+		if not reached.has(sink_cell_idx):
+			return false
+		return _connectors(_pieces[sink_cell_idx]).has(sink_connector)
+	var sink_idx := _idx(_puzzle.sink_pos.x, _puzzle.sink_pos.y)
+	return reached.has(sink_idx)
+
+func _handle_solved(reached: Array[int], solved_text: String) -> void:
+	if _solved:
+		return
+
+	_solved = true
+	_status_label.text = solved_text
+	_play_sfx(_sfx_complete)
+	_update_cells(reached)
+	completed.emit(true)
+	if solved_close_delay > 0.0:
+		await get_tree().create_timer(solved_close_delay).timeout
+	close_minigame()
+
 func _trace_flow_from_source() -> Array[int]:
-	var source_idx := _idx(_puzzle.source_pos.x, _puzzle.source_pos.y)
 	var visited: Array[int] = []
-	var queue: Array[int] = [source_idx]
+	var queue: Array[int] = []
+
+	if _is_in_grid(_puzzle.source_pos):
+		queue.append(_idx(_puzzle.source_pos.x, _puzzle.source_pos.y))
+	else:
+		var source_attachment := _virtual_port_attachment(_puzzle.source_pos)
+		if source_attachment.is_empty():
+			return visited
+		var source_cell: Vector2i = source_attachment["cell"]
+		var source_connector: int = int(source_attachment["connector"])
+		var source_cell_idx := _idx(source_cell.x, source_cell.y)
+		if _connectors(_pieces[source_cell_idx]).has(source_connector):
+			queue.append(source_cell_idx)
+		else:
+			return visited
 
 	while queue.size() > 0:
 		var current: int = queue.pop_front()
@@ -532,11 +709,25 @@ func _trace_flow_from_source() -> Array[int]:
 
 	return visited
 
+func _is_in_grid(pos: Vector2i) -> bool:
+	return pos.x >= 0 and pos.x < _grid_size and pos.y >= 0 and pos.y < _grid_height
+
+func _virtual_port_attachment(port_pos: Vector2i) -> Dictionary:
+	if port_pos.y < 0 and port_pos.x >= 0 and port_pos.x < _grid_size:
+		return {"cell": Vector2i(port_pos.x, 0), "connector": DIR_UP}
+	if port_pos.y >= _grid_height and port_pos.x >= 0 and port_pos.x < _grid_size:
+		return {"cell": Vector2i(port_pos.x, _grid_height - 1), "connector": DIR_DOWN}
+	if port_pos.x < 0 and port_pos.y >= 0 and port_pos.y < _grid_height:
+		return {"cell": Vector2i(0, port_pos.y), "connector": DIR_LEFT}
+	if port_pos.x >= _grid_size and port_pos.y >= 0 and port_pos.y < _grid_height:
+		return {"cell": Vector2i(_grid_size - 1, port_pos.y), "connector": DIR_RIGHT}
+	return {}
+
 func _update_cells(flow_cells: Array[int] = []) -> void:
 	for i in range(_pieces.size()):
 		var piece: Dictionary = _pieces[i]
 		var use_texture := not (embedded_mode and embedded_use_glyphs)
-		var piece_tex: Texture2D = _piece_texture(piece) if use_texture else null
+		var piece_tex: Texture2D = _piece_texture(piece, i in flow_cells) if use_texture else null
 		if piece_tex:
 			_cell_icons[i].texture = piece_tex
 			var pivot_basis := _cells[i].custom_minimum_size
@@ -592,7 +783,7 @@ func _make_piece(kind: String, rot: int, locked: bool) -> Dictionary:
 
 func _connectors(piece: Dictionary) -> Array[int]:
 	var kind := String(piece.get("kind", "empty"))
-	var rot := posmod(int(piece.get("rot", 0)), 4)
+	var rot := _connector_rot(piece)
 
 	match kind:
 		"source":
@@ -646,7 +837,7 @@ func _connectors(piece: Dictionary) -> Array[int]:
 
 func _glyph_for_piece(piece: Dictionary) -> String:
 	var kind := String(piece.get("kind", "empty"))
-	var rot := int(piece.get("rot", 0))
+	var rot := _connector_rot(piece)
 
 	match kind:
 		"source":
@@ -681,6 +872,16 @@ func _glyph_for_piece(piece: Dictionary) -> String:
 			return "■"
 		_:
 			return "·"
+
+func _connector_rot(piece: Dictionary) -> int:
+	var kind := String(piece.get("kind", "empty"))
+	var rot := int(piece.get("rot", 0))
+	match kind:
+		"corner":
+			rot += corner_connector_rot_offset
+		"tee":
+			rot += tee_connector_rot_offset
+	return posmod(rot, 4)
 
 func _idx(x: int, y: int) -> int:
 	return y * _grid_size + x
@@ -732,22 +933,36 @@ func _make_texture_stylebox(tex: Texture2D) -> StyleBoxTexture:
 	style.texture = tex
 	return style
 
-func _piece_texture(piece: Dictionary) -> Texture2D:
+func _piece_texture(piece: Dictionary, is_powered: bool = false) -> Texture2D:
 	var dirt_level := int(piece.get("dirt_level", 0))
 	match String(piece.get("kind", "empty")):
 		"source":
+			if is_powered and powered_source_texture:
+				return powered_source_texture
 			return source_texture
 		"sink":
+			if is_powered and powered_sink_texture:
+				return powered_sink_texture
 			return sink_texture
 		"straight":
+			if is_powered:
+				return _resolve_variant_texture(powered_straight_textures, dirt_level, powered_straight_texture if powered_straight_texture else straight_texture)
 			return _resolve_variant_texture(straight_textures, dirt_level, straight_texture)
 		"corner":
+			if is_powered:
+				return _resolve_variant_texture(powered_corner_textures, dirt_level, powered_corner_texture if powered_corner_texture else corner_texture)
 			return _resolve_variant_texture(corner_textures, dirt_level, corner_texture)
 		"tee":
+			if is_powered:
+				return _resolve_variant_texture(powered_tee_textures, dirt_level, powered_tee_texture if powered_tee_texture else tee_texture)
 			return _resolve_variant_texture(tee_textures, dirt_level, tee_texture)
 		"block":
+			if is_powered and powered_block_texture:
+				return powered_block_texture
 			return block_texture
 		"empty":
+			if is_powered and powered_empty_texture:
+				return powered_empty_texture
 			return empty_texture
 		_:
 			return null
@@ -768,3 +983,7 @@ func _piece_rotation_radians(piece: Dictionary) -> float:
 		# Pipe1 artwork is authored as horizontal while rot=0 logic is vertical.
 		return float(posmod(int(piece.get("rot", 0)) + 1, 4)) * (PI * 0.5)
 	return float(int(piece.get("rot", 0))) * (PI * 0.5)
+
+func _play_sfx(player: AudioStreamPlayer) -> void:
+	if player:
+		player.play()

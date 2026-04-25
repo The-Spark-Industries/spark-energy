@@ -49,12 +49,21 @@ func _input(event: InputEvent) -> void:
 		if (leverstatus==0):
 			leverstatus=1
 			_apply_configured_actions()
-			$"leverSound".play()
+			_play_lever_sound()
 		elif (leverstatus==1):
 			if (single_use==false):
 				_revert_configured_actions()
 				$"leverSound".play()
 				leverstatus=0
+
+			
+
+func _play_lever_sound() -> void:
+	var sfx := get_node_or_null("leverSound") as AudioStreamPlayer
+	if sfx == null:
+		sfx = get_node_or_null("leverSound2") as AudioStreamPlayer
+	if sfx:
+		sfx.play()
 
 func _apply_configured_actions() -> void:
 	_trigger_wheel_spin()

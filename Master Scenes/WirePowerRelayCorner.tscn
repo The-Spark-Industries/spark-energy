@@ -1,16 +1,39 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b71hmjypbxrqi"]
 
-[ext_resource type="Script" path="res://Scripts/WirePowerRelay.gd" id="1_relay"]
+[ext_resource type="Script" uid="uid://bqqq3qqpuatk5" path="res://Scripts/WirePowerRelay.gd" id="1_relay"]
+[ext_resource type="Texture2D" uid="uid://b0674tjuchm2x" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_corner_red.png" id="2_hx1py"]
+[ext_resource type="Texture2D" uid="uid://dw782fb2a36xp" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/corner_red.png" id="3_kmxvk"]
 
-[node name="WirePowerRelayCorner" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sod7"]
+atlas = ExtResource("2_hx1py")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn1q7"]
+atlas = ExtResource("3_kmxvk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4f2qq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sod7")
+}],
+"loop": true,
+"name": &"powered",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn1q7")
+}],
+"loop": true,
+"name": &"unpowered",
+"speed": 5.0
+}]
+
+[node name="WirePowerRelayCorner" type="Node2D" unique_id=2056404878]
 script = ExtResource("1_relay")
-visual_node_path = NodePath("Visual")
-target_method = &"activate"
 
-[node name="Visual" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 80, 0, 80, 80)
-width = 8.0
-default_color = Color(0.35, 0.35, 0.35, 1)
-begin_cap_mode = 2
-end_cap_mode = 2
-joint_mode = 1
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1141823054]
+sprite_frames = SubResource("SpriteFrames_4f2qq")
+animation = &"unpowered"

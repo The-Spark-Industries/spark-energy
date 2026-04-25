@@ -1,6 +1,9 @@
 extends Node
 
 const SAVE_FILE_PATH := "user://savegame.json"
+## Set to false to ignore checkpoint saves/loads and spawn from scene start.
+var checkpoints_enabled: bool = true
+
 
 ## Toggle all checkpoint behavior globally.
 ## When false, checkpoint triggers are ignored and player spawn uses scene placement.
@@ -28,6 +31,7 @@ var inventory: Array = []
 var max_inventory_size= 100
 
 var wiremode: bool = false
+var minigame_active: bool = false
 
 var fontChoice: int
 
@@ -81,6 +85,13 @@ func ensure_scene_defaults(scene_path: String, spawn_pos: Vector2, room_id: Stri
 	_register_first_checkpoint_if_missing(scene_path, spawn_pos, room_id)
 	_register_room_checkpoint_if_missing(scene_path, room_id, spawn_pos)
 
+	if not checkpoints_enabled:
+		last_checkpoint_position = spawn_pos
+		last_checkpoint_scene_path = scene_path
+		last_checkpoint_room_id = room_id
+		has_saved_checkpoint = true
+		return
+
 	if not has_saved_checkpoint or not has_checkpoint_for_scene(scene_path):
 		last_checkpoint_position = spawn_pos
 		last_checkpoint_scene_path = scene_path
@@ -90,6 +101,9 @@ func ensure_scene_defaults(scene_path: String, spawn_pos: Vector2, room_id: Stri
 	save_game()
 
 func reset_level_to_first_checkpoint(scene_path: String = "") -> bool:
+	if not checkpoints_enabled:
+		return false
+
 	if scene_path == "":
 		scene_path = _current_scene_path()
 
@@ -111,6 +125,9 @@ func reset_level_to_first_checkpoint(scene_path: String = "") -> bool:
 	return true
 
 func reset_room_to_checkpoint(scene_path: String = "", room_id: String = "") -> bool:
+	if not checkpoints_enabled:
+		return false
+
 	if scene_path == "":
 		scene_path = _current_scene_path()
 
@@ -180,13 +197,17 @@ func load_game() -> void:
 	var save_data: Dictionary = parsed_data
 	var checkpoint_data: Dictionary = save_data.get("checkpoint", {})
 
-	if checkpoint_data.get("has_saved_checkpoint", false):
+	if checkpoints_enabled and checkpoint_data.get("has_saved_checkpoint", false):
 		var x: float = float(checkpoint_data.get("x", 0.0))
 		var y: float = float(checkpoint_data.get("y", 0.0))
 		last_checkpoint_position = Vector2(x, y)
 		last_checkpoint_scene_path = String(checkpoint_data.get("scene_path", ""))
 		last_checkpoint_room_id = String(checkpoint_data.get("room_id", ""))
 		has_saved_checkpoint = true
+	elif not checkpoints_enabled:
+		has_saved_checkpoint = false
+		last_checkpoint_scene_path = ""
+		last_checkpoint_room_id = ""
 
 	var loaded_first_checkpoints: Variant = save_data.get("first_checkpoints", first_checkpoint_by_scene)
 	if typeof(loaded_first_checkpoints) == TYPE_DICTIONARY:

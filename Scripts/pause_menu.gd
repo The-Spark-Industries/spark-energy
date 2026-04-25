@@ -12,7 +12,12 @@ var _ambience_previous_mute_state: bool = false
 func _ready() -> void:
 	self.theme=load("res://Assets/Visual/Lingua.tres")
 
-	if _input_owner == null:
+	if not get_parent() is CanvasLayer:
+		call_deferred("_setup_canvas_layer")
+
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+	if _input_owner == null or not is_instance_valid(_input_owner):
 		_input_owner = self
 	else:
 		set_process_input(false)
@@ -22,11 +27,20 @@ func _ready() -> void:
 
 	visible = false
 	oM.visible = false
-	_bring_to_front()
+	call_deferred("_bring_to_front")
 	z_index = 200
+
+func _setup_canvas_layer() -> void:
+	if not get_parent() is CanvasLayer:
+		var cl := CanvasLayer.new()
+		cl.layer = 200
+		get_tree().current_scene.add_child(cl)
+		reparent(cl, false)
 
 func _exit_tree() -> void:
 	_restore_ambience_if_needed()
+	if _input_owner == self:
+		_input_owner = null
 
 func _process(delta: float) -> void:
 	if (Global.fontChoice==0):
@@ -42,7 +56,7 @@ func _input(event: InputEvent) -> void:
 	if _input_owner != self:
 		return
 
-	if event.is_action_pressed("pause") and not event.is_echo() and (Global.wiremode == false):
+	if event.is_action_pressed("pause") and not event.is_echo() and (Global.wiremode == false) and (Global.minigame_active == false):
 		if (Global.tutorialchecker == 2):
 			Global.tutorialchecker = 3
 
@@ -77,10 +91,7 @@ func _set_pause_state(paused: bool) -> void:
 
 
 func _bring_to_front() -> void:
-	var parent_node := get_parent()
-	if parent_node:
-		parent_node.call_deferred("move_child", self, parent_node.get_child_count() - 1)
-		parent_node.call_deferred("move_child", self, parent_node.get_child_count() - 1)
+	pass
 
 
 func _on_resume_pressed() -> void:

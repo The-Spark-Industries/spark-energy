@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bpr7vpbsdhr74"
+path="res://.godot/imported/SparkTrackOneNODRUMS.wav-41fed4ceb1f7cc4887fb39c71790de6d.sample"
+
+[deps]
+
+source_file="res://Level 1/Level 1 Audio/Music/SparkTrackOneNODRUMS.wav"
+dest_files=["res://.godot/imported/SparkTrackOneNODRUMS.wav-41fed4ceb1f7cc4887fb39c71790de6d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

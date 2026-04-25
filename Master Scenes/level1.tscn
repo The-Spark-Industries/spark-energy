@@ -594,12 +594,16 @@ seamless_blend_skirt = 1.0
 polygon = PackedVector2Array(-141.48364, 63.840607, 196.28146, 66.636475, 515.78064, 66.636475, 513.30396, 80.05652, -446.74155, 78.5188, -448.59912, 63.840607)
 
 [sub_resource type="Gradient" id="Gradient_n4cid"]
+offsets = PackedFloat32Array(0, 0.62666667)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_f6hfn"]
 gradient = SubResource("Gradient_n4cid")
+width = 40
+height = 74
 fill = 1
-fill_from = Vector2(0.5373832, 0.44859812)
+fill_from = Vector2(0.49260354, 0.68162394)
+fill_to = Vector2(0.9669625, 0.16025642)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m1dw6"]
 texture = ExtResource("31_es5gu")
@@ -2139,13 +2143,41 @@ texture_scale = 0.75
 position = Vector2(7.739805, 5.5471897)
 occluder = SubResource("OccluderPolygon2D_n4cid")
 
-[node name="PointLight2D" type="PointLight2D" parent="Lighting/IntroAreaLighting"]
-visible = false
-position = Vector2(524.5354, 3175.1602)
-scale = Vector2(2.1321995, 0.8891051)
-energy = 0.53
+[node name="WallLight1" type="PointLight2D" parent="Lighting/IntroAreaLighting"]
+position = Vector2(3080, 3242.0002)
+scale = Vector2(2.1321995, 1.4877383)
+color = Color(0.89138675, 0.83651763, 0.5928256, 1)
+energy = 1.3
 texture = SubResource("GradientTexture2D_f6hfn")
-texture_scale = 17.99
+offset = Vector2(1.06, 0)
+texture_scale = 4.65
+
+[node name="WallLight2" type="PointLight2D" parent="Lighting/IntroAreaLighting"]
+position = Vector2(3336, 3243)
+scale = Vector2(2.1321995, 1.4877383)
+color = Color(0.89138675, 0.83651763, 0.5928256, 1)
+energy = 1.3
+texture = SubResource("GradientTexture2D_f6hfn")
+offset = Vector2(1.06, 0)
+texture_scale = 4.65
+
+[node name="WallLight3" type="PointLight2D" parent="Lighting/IntroAreaLighting"]
+position = Vector2(3592, 3244.0002)
+scale = Vector2(2.1321995, 1.4877383)
+color = Color(0.89138675, 0.83651763, 0.5928256, 1)
+energy = 1.3
+texture = SubResource("GradientTexture2D_f6hfn")
+offset = Vector2(1.06, 0)
+texture_scale = 4.65
+
+[node name="WallLight4" type="PointLight2D" parent="Lighting/IntroAreaLighting"]
+position = Vector2(3846, 3242.0002)
+scale = Vector2(2.1321995, 1.4877383)
+color = Color(0.89138675, 0.83651763, 0.5928256, 1)
+energy = 1.3
+texture = SubResource("GradientTexture2D_f6hfn")
+offset = Vector2(1.06, 0)
+texture_scale = 4.65
 
 [node name="container2" type="Node2D" parent="."]
 
@@ -3167,6 +3199,7 @@ z_index = -4
 position = Vector2(3589, 3224)
 scale = Vector2(2.550613, 2.550613)
 texture = ExtResource("80_yheyb")
+metadata/_edit_lock_ = true
 
 [node name="Light4" type="Sprite2D" parent="."]
 position = Vector2(3080.2502, 3235.7502)
@@ -4023,6 +4056,7 @@ visible = false
 position = Vector2(2465, 3115)
 
 [node name="risingdoorfirstonePivot" type="Node2D" parent="."]
+z_index = 1
 position = Vector2(2880, 3113)
 script = ExtResource("60_rotate_loop")
 target_path = NodePath(".")

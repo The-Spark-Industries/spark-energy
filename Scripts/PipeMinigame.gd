@@ -82,6 +82,7 @@ var _player: CharacterBody2D = null
 var _cells: Array[PanelContainer] = []
 var _cell_labels: Array[Label] = []
 var _cell_icons: Array[Sprite2D] = []
+var _cell_highlights: Array[Panel] = []
 var _pieces: Array[Dictionary] = []
 var _puzzle: PipePuzzleDefinition = null
 var _grid_size: int = 3
@@ -372,6 +373,7 @@ func _build_grid_ui() -> void:
 	_cells.clear()
 	_cell_labels.clear()
 	_cell_icons.clear()
+	_cell_highlights.clear()
 	_grid.columns = _grid_size
 
 	var separation_basis: int = max(_grid_size, _grid_height)
@@ -444,10 +446,24 @@ func _build_grid_ui() -> void:
 			label.add_theme_font_override("font", ui_font)
 
 		cell.add_child(label)
+
+		var highlight := Panel.new()
+		highlight.set_anchors_preset(Control.PRESET_FULL_RECT)
+		highlight.offset_left = 2.0
+		highlight.offset_top = 2.0
+		highlight.offset_right = -2.0
+		highlight.offset_bottom = -2.0
+		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		highlight.z_index = 30
+		highlight.visible = false
+		highlight.add_theme_stylebox_override("panel", _make_cell_highlight_stylebox())
+		cell.add_child(highlight)
+
 		_grid.add_child(cell)
 		_cells.append(cell)
 		_cell_labels.append(label)
 		_cell_icons.append(icon)
+		_cell_highlights.append(highlight)
 
 	if embedded_mode and _embedded_anchor_node != null and not _active:
 		call_deferred("_update_embedded_anchor_position")
@@ -724,6 +740,8 @@ func _virtual_port_attachment(port_pos: Vector2i) -> Dictionary:
 func _update_cells(flow_cells: Array[int] = []) -> void:
 	for i in range(_pieces.size()):
 		var piece: Dictionary = _pieces[i]
+		var kind := String(piece.get("kind", "empty"))
+		var is_block := kind == "block"
 		var use_texture := not (embedded_mode and embedded_use_glyphs)
 		var piece_tex: Texture2D = _piece_texture(piece, i in flow_cells) if use_texture else null
 		if piece_tex:
@@ -743,12 +761,15 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 				_cell_icons[i].scale = Vector2.ONE
 			_cell_icons[i].rotation = _piece_rotation_radians(piece)
 			_cell_icons[i].visible = true
+			_cell_icons[i].modulate = Color(1.0, 0.56, 0.56, 1.0) if is_block else Color(1, 1, 1, 1)
 			_cell_labels[i].text = ""
 		else:
 			_cell_icons[i].visible = false
 			_cell_labels[i].text = _glyph_for_piece(piece)
 
 		var color := CELL_NORMAL
+		if is_block:
+			color = Color("7b2424")
 		if i in flow_cells:
 			color = CELL_FLOW
 		if i == _cursor_index:
@@ -757,15 +778,41 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 			color = CELL_SELECTED
 
 		_cells[i].self_modulate = color
+		var highlight := _cell_highlights[i]
 		if i == _grabbed_index:
 			_cells[i].scale = Vector2(1.14, 1.14)
 			_cells[i].z_index = 20
+			highlight.visible = true
+			highlight.self_modulate = Color(1.0, 0.72, 0.1, 1.0)
+			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif i == _cursor_index:
 			_cells[i].scale = Vector2(1.06, 1.06)
 			_cells[i].z_index = 10
+			highlight.visible = true
+			highlight.self_modulate = Color(0.25, 0.92, 1.0, 1.0)
+			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		else:
 			_cells[i].scale = Vector2.ONE
 			_cells[i].z_index = 0
+			highlight.visible = is_block
+			highlight.self_modulate = Color(1.0, 0.32, 0.32, 0.88)
+			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+func _make_cell_highlight_stylebox() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1, 1, 1, 0.0)
+	style.border_width_left = 5
+	style.border_width_top = 5
+	style.border_width_right = 5
+	style.border_width_bottom = 5
+	style.border_color = Color(1, 1, 1, 1)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_right = 8
+	style.corner_radius_bottom_left = 8
+	style.shadow_size = 10
+	style.shadow_color = Color(1, 1, 1, 0.35)
+	return style
 
 func _can_pick(index: int) -> bool:
 	if _pieces[index].get("locked", false):

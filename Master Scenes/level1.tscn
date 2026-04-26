@@ -565,7 +565,7 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_bmo44"]
 gradient = SubResource("Gradient_21p6t")
 fill = 2
-fill_from = Vector2(0.7266355, 0.7313084)
+fill_from = Vector2(0.49532712, 0.52102804)
 fill_to = Vector2(0, 0)
 
 [sub_resource type="Gradient" id="Gradient_xhqtr"]
@@ -1507,10 +1507,10 @@ offset_bottom = -756.0
 [node name="ColorRectTopMiddlePuzzle" type="ColorRect" parent="Water/Waterfalls"]
 z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
-offset_left = 6697.0
-offset_top = -1504.0
-offset_right = 6744.0
-offset_bottom = -1299.0
+offset_left = 2189.0
+offset_top = 5405.0
+offset_right = 2236.0
+offset_bottom = 5610.0
 
 [node name="Standing Water" type="Node" parent="Water"]
 
@@ -1552,10 +1552,10 @@ metadata/_edit_use_anchors_ = true
 [node name="ColorRect3" type="ColorRect" parent="Water/Standing Water"]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 5634.0
-offset_top = -297.0
-offset_right = 7882.0
-offset_bottom = -114.0
+offset_left = 1126.0
+offset_top = 6612.0
+offset_right = 3374.0
+offset_bottom = 6795.0
 
 [node name="ColorRect4" type="ColorRect" parent="Water/Standing Water"]
 z_index = 1
@@ -1587,18 +1587,18 @@ metadata/_edit_use_anchors_ = true
 [node name="ColorRect8" type="ColorRect" parent="Water/Standing Water"]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 6280.0
-offset_top = -448.0
-offset_right = 6377.0
-offset_bottom = -373.0
+offset_left = 1772.0
+offset_top = 6461.0
+offset_right = 1869.0
+offset_bottom = 6536.0
 
 [node name="ColorRect9" type="ColorRect" parent="Water/Standing Water"]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 5940.0
-offset_top = -530.0
-offset_right = 6036.0
-offset_bottom = -455.0
+offset_left = 1432.0
+offset_top = 6379.0
+offset_right = 1528.0
+offset_bottom = 6454.0
 
 [node name="ColorRect10" type="ColorRect" parent="Water/Standing Water"]
 z_index = 1
@@ -1622,18 +1622,18 @@ metadata/_edit_use_anchors_ = true
 [node name="ColorRect14" type="ColorRect" parent="Water/Standing Water"]
 z_index = -1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 6183.0
-offset_top = -1080.0
-offset_right = 6285.0
-offset_bottom = -1002.0
+offset_left = 1675.0
+offset_top = 5829.0
+offset_right = 1777.0
+offset_bottom = 5907.0
 
 [node name="ColorRect15" type="ColorRect" parent="Water/Standing Water"]
 z_index = -1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = 5899.0
-offset_top = -1077.0
-offset_right = 6060.0
-offset_bottom = -1010.0
+offset_left = 1391.0
+offset_top = 5832.0
+offset_right = 1552.0
+offset_bottom = 5899.0
 
 [node name="ColorRect16" type="ColorRect" parent="Water/Standing Water"]
 z_index = -1
@@ -3206,7 +3206,7 @@ texture_scale = 5.32
 
 [node name="Light1" type="Sprite2D" parent="Lighting"]
 z_index = 1
-position = Vector2(6106, -326)
+position = Vector2(1598, 6583)
 texture = SubResource("CanvasTexture_p5s51")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light1"]
@@ -3220,7 +3220,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light11" type="Sprite2D" parent="Lighting"]
 z_index = 1
-position = Vector2(7779, -469)
+position = Vector2(3271, 6440)
 texture = SubResource("CanvasTexture_p5s51")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light11"]
@@ -3234,7 +3234,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light12" type="Sprite2D" parent="Lighting"]
 z_index = 1
-position = Vector2(8184, -644)
+position = Vector2(3676, 6265)
 texture = SubResource("CanvasTexture_p5s51")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light12"]
@@ -3248,7 +3248,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light13" type="Sprite2D" parent="Lighting"]
 z_index = 1
-position = Vector2(8270, -341)
+position = Vector2(3762, 6568)
 texture = SubResource("CanvasTexture_p5s51")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light13"]
@@ -3262,7 +3262,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light2" type="Sprite2D" parent="Lighting"]
 z_index = 1
-position = Vector2(5593, -584)
+position = Vector2(1085, 6325)
 texture = ExtResource("66_v7bru")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light2"]
@@ -3275,7 +3275,7 @@ texture_scale = 3.21
 metadata/_edit_lock_ = true
 
 [node name="LeverLight1" type="PointLight2D" parent="Lighting"]
-position = Vector2(8019, -764)
+position = Vector2(3511, 6145)
 scale = Vector2(5.6823215, 5.613343)
 color = Color(0.7434591, 0.9398656, 0.79085165, 1)
 energy = 1.44
@@ -3283,7 +3283,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.3
 
 [node name="LeverLight2" type="PointLight2D" parent="Lighting"]
-position = Vector2(7449, -897.00006)
+position = Vector2(2941, 6012)
 scale = Vector2(5.6823215, 5.613343)
 color = Color(0.7434591, 0.9398656, 0.79085165, 1)
 energy = 1.44
@@ -3291,7 +3291,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.3
 
 [node name="LeverLight3" type="PointLight2D" parent="Lighting"]
-position = Vector2(7225, -516)
+position = Vector2(2717, 6393)
 scale = Vector2(5.6823215, 5.613343)
 color = Color(0.7434591, 0.9398656, 0.79085165, 1)
 energy = 1.44
@@ -3308,7 +3308,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.3
 
 [node name="LeverLight5" type="PointLight2D" parent="Lighting"]
-position = Vector2(5786, -780)
+position = Vector2(1278, 6129)
 scale = Vector2(5.6823215, 5.613343)
 color = Color(0.7434591, 0.9398656, 0.79085165, 1)
 energy = 1.44
@@ -3334,7 +3334,7 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.3
 
 [node name="Light3" type="Sprite2D" parent="Lighting"]
-position = Vector2(5737, -787)
+position = Vector2(1229, 6122)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light3"]
@@ -3348,7 +3348,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light4" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(5964, -786)
+position = Vector2(1456, 6123)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light4"]
@@ -3358,10 +3358,11 @@ color = Color(1, 0.8862745, 0.1254902, 1)
 energy = 1.76
 texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
+metadata/_edit_lock_ = true
 
 [node name="Light5" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(5883, -916)
+position = Vector2(1375, 5993)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light5"]
@@ -3371,10 +3372,11 @@ color = Color(1, 0.8862745, 0.1254902, 1)
 energy = 1.76
 texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 0.78
+metadata/_edit_lock_ = true
 
 [node name="Light6" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(6203, -918)
+position = Vector2(1695, 5991)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light6"]
@@ -3388,7 +3390,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light7" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(6156, -1113)
+position = Vector2(1648, 5796)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light7"]
@@ -3402,7 +3404,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light15" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(6469, -1134)
+position = Vector2(1961, 5775)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light15"]
@@ -3416,7 +3418,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light16" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(6571, -848)
+position = Vector2(2063, 6061)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light16"]
@@ -3430,7 +3432,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light17" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(7277, -814)
+position = Vector2(2769, 6095)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light17"]
@@ -3444,7 +3446,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light8" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(5869, -1084)
+position = Vector2(1361, 5825)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light8"]
@@ -3458,7 +3460,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light9" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(6681, -531)
+position = Vector2(2173, 6378)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light9"]
@@ -3472,7 +3474,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light10" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(6854, -530)
+position = Vector2(2346, 6379)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light10"]
@@ -3486,7 +3488,7 @@ metadata/_edit_lock_ = true
 
 [node name="Light14" type="Sprite2D" parent="Lighting"]
 z_index = -1
-position = Vector2(7458, -535)
+position = Vector2(2950, 6374)
 texture = ExtResource("69_rdmwp")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light14"]
@@ -3580,7 +3582,7 @@ position = Vector2(2880, 250)
 
 [node name="BigBackground" type="Sprite2D" parent="."]
 z_index = -17
-position = Vector2(6979, -939.5)
+position = Vector2(2471, 5969.5)
 scale = Vector2(3.1166668, 3.2018518)
 texture = ExtResource("67_p5s51")
 
@@ -5464,17 +5466,17 @@ rotation = -1.5707964
 
 [node name="WaterBlock2" parent="." instance=ExtResource("7_rgorn")]
 z_index = -4
-position = Vector2(6836, -172)
+position = Vector2(2328, 6737)
 scale = Vector2(4, 1)
 
 [node name="WaterBlock3" parent="." instance=ExtResource("7_rgorn")]
 z_index = -1
-position = Vector2(6085, -1022)
+position = Vector2(1577, 5887)
 scale = Vector2(0.7, 0.5)
 
 [node name="WaterBlock4" parent="." instance=ExtResource("7_rgorn")]
 z_index = -2
-position = Vector2(6112, -1327)
+position = Vector2(1604, 5582)
 
 [node name="WaterBlock7" parent="." instance=ExtResource("7_rgorn")]
 z_index = -2

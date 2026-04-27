@@ -415,6 +415,10 @@ func _build_grid_ui() -> void:
 	var glyph_font_size: int = int(clampf(cell_size * 0.6, 24.0, 62.0))
 
 	for i in range(_grid_size * _grid_height):
+		var piece_kind := "empty"
+		if _puzzle != null and i < _puzzle.pieces.size():
+			piece_kind = String(_puzzle.pieces[i].get("kind", "empty"))
+		var is_block := piece_kind == "block"
 		var cell := PanelContainer.new()
 		cell.custom_minimum_size = Vector2(cell_size, cell_size)
 		cell.pivot_offset = Vector2(cell_size * 0.5, cell_size * 0.5)
@@ -440,7 +444,7 @@ func _build_grid_ui() -> void:
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", glyph_font_size)
+		label.add_theme_font_size_override("font_size", glyph_font_size + (16 if is_block else 0))
 		label.add_theme_color_override("font_color", ui_text_color)
 		if ui_font:
 			label.add_theme_font_override("font", ui_font)
@@ -755,6 +759,8 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 			var tex_size := piece_tex.get_size()
 			if tex_size.x > 0.0 and tex_size.y > 0.0:
 				var target := Vector2(embedded_cell_size, embedded_cell_size) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
+				if is_block:
+					target = Vector2(embedded_cell_size, embedded_cell_size) if embedded_mode else (pivot_basis - Vector2(2.0, 2.0))
 				var fit_scale := minf(target.x / tex_size.x, target.y / tex_size.y)
 				_cell_icons[i].scale = Vector2.ONE * fit_scale
 			else:
@@ -782,21 +788,19 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 		if i == _grabbed_index:
 			_cells[i].scale = Vector2(1.14, 1.14)
 			_cells[i].z_index = 20
-			highlight.visible = true
+			highlight.visible = _active
 			highlight.self_modulate = Color(1.0, 0.72, 0.1, 1.0)
 			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif i == _cursor_index:
 			_cells[i].scale = Vector2(1.06, 1.06)
 			_cells[i].z_index = 10
-			highlight.visible = true
+			highlight.visible = _active
 			highlight.self_modulate = Color(0.25, 0.92, 1.0, 1.0)
 			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		else:
 			_cells[i].scale = Vector2.ONE
 			_cells[i].z_index = 0
-			highlight.visible = is_block
-			highlight.self_modulate = Color(1.0, 0.32, 0.32, 0.88)
-			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			highlight.visible = false
 
 func _make_cell_highlight_stylebox() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()

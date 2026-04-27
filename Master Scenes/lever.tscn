@@ -8,7 +8,7 @@
 size = Vector2(40, 26)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vffm3"]
-atlas = ExtResource("2_oqdeu")
+atlas = ExtResource("2_yg5hk")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x32ih"]
@@ -22,7 +22,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_vffm3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lgbjs")
+"texture": SubResource("AtlasTexture_x32ih")
 }],
 "loop": false,
 "name": &"default",
@@ -49,7 +49,6 @@ sprite_frames = SubResource("SpriteFrames_ybjgq")
 animation = &"flipped"
 
 [node name="leverSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_x32ih")
 
 [node name="Prompt" type="Label" parent="."]
 visible = false

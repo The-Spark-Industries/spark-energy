@@ -3980,18 +3980,18 @@ offset_bottom = -1059.0
 [node name="ColorRect7" type="ColorRect" parent="." unique_id=368344346]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = -2773.0
+offset_left = -2709.0
 offset_top = -674.0
-offset_right = -2645.0
+offset_right = -2581.0
 offset_bottom = -611.0
 
 [node name="ColorRect8" type="ColorRect" parent="." unique_id=1750294928]
 z_index = 1
 material = SubResource("ShaderMaterial_m1dw6")
-offset_left = -3189.0
-offset_top = -669.0
-offset_right = -2997.0
-offset_bottom = -548.0
+offset_left = -3127.0
+offset_top = -673.0
+offset_right = -2935.0
+offset_bottom = -552.0
 
 [node name="TilemapLevel3" type="TileMapLayer" parent="." unique_id=1433439392]
 z_index = 1
@@ -4007,7 +4007,7 @@ position = Vector2(-3992, -765)
 
 [node name="WirePuzzleTerminalRoom9" parent="Node2D16/Node2D9Room" unique_id=761937962 instance=ExtResource("48_f7m78")]
 position = Vector2(210, 434)
-puzzle_layout = 17
+puzzle_layout = 14
 embedded_minigame_path = NodePath("../WireMinigameRoom9")
 linked_object_path = NodePath("../../../WirePowerRelay11")
 
@@ -4036,7 +4036,6 @@ position = Vector2(-3697, -1859)
 [node name="WirePowerRelay33" parent="waterPuzzle/WirePowerRoom3_2" unique_id=1749911721 instance=ExtResource("50_nce0a")]
 z_index = 1
 position = Vector2(-68, 464)
-target_paths = Array[NodePath]([NodePath("..")])
 
 [node name="WirePowerRelay34" parent="waterPuzzle/WirePowerRoom3_2" unique_id=1849382732 instance=ExtResource("50_nce0a")]
 z_index = 1
@@ -4053,6 +4052,27 @@ position = Vector2(22, 464)
 [node name="WirePowerRelay38" parent="waterPuzzle/WirePowerRoom3_2" unique_id=2016011314 instance=ExtResource("50_nce0a")]
 z_index = 1
 position = Vector2(52, 464)
+
+[node name="WirePowerRelay37" parent="waterPuzzle/WirePowerRoom3_2" unique_id=821949066 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-220, 464)
+target_paths = Array[NodePath]([NodePath("..")])
+
+[node name="WirePowerRelay44" parent="waterPuzzle/WirePowerRoom3_2" unique_id=1482193340 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-190, 464)
+
+[node name="WirePowerRelay45" parent="waterPuzzle/WirePowerRoom3_2" unique_id=1581752060 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-160, 464)
+
+[node name="WirePowerRelay46" parent="waterPuzzle/WirePowerRoom3_2" unique_id=662837809 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-130, 464)
+
+[node name="WirePowerRelay47" parent="waterPuzzle/WirePowerRoom3_2" unique_id=935631009 instance=ExtResource("50_nce0a")]
+z_index = 1
+position = Vector2(-100, 464)
 
 [node name="WirePowerRelay39" parent="waterPuzzle/WirePowerRoom3_2" unique_id=674251821 instance=ExtResource("50_nce0a")]
 z_index = 1
@@ -4076,11 +4096,13 @@ rotation = 1.5707964
 z_index = 1
 position = Vector2(143, 522)
 rotation = 1.5707964
+target_paths = Array[NodePath]([NodePath(".."), NodePath("../../../RisingSlidingDoorLevel3")])
 
 [node name="Node2D5" parent="waterPuzzle" unique_id=488124887 instance=ExtResource("19_8ifkh")]
 position = Vector2(-68, 406)
 spin_time_per_turn = 14.0
 rotation_duration = 2.0
+metadata/_edit_lock_ = true
 
 [node name="PipeMinigame2Level3First" parent="waterPuzzle" unique_id=816716628 instance=ExtResource("22_pipe_minigame")]
 visible = true
@@ -4118,15 +4140,16 @@ puzzle_layout = 2
 water_stream_path = NodePath("../../Water/Waterfalls/ColorRect6")
 water_wheel_path = NodePath("../Node2D5")
 wheel_spin_time_per_turn = 0.4
+solved_rise_target_path = NodePath("../../RisingSlidingDoorLevel4")
 embedded_minigame_path = NodePath("../PipeMinigame2Level3First")
-linked_object_path = NodePath("../WirePowerRoom3_3")
+linked_object_path = NodePath("../WirePowerRoom3_3/WirePowerRelay33")
 
 [node name="WirePowerRoom3_3" type="Node2D" parent="waterPuzzle" unique_id=88777389]
 
 [node name="WirePowerRelay33" parent="waterPuzzle/WirePowerRoom3_3" unique_id=839689913 instance=ExtResource("50_nce0a")]
 z_index = 1
 position = Vector2(-9, 337)
-target_paths = Array[NodePath]([NodePath("..")])
+target_paths = Array[NodePath]([NodePath(".."), NodePath("")])
 
 [node name="WirePowerRelay34" parent="waterPuzzle/WirePowerRoom3_3" unique_id=1262855737 instance=ExtResource("50_nce0a")]
 z_index = 1
@@ -4293,9 +4316,13 @@ z_index = -1
 position = Vector2(64, 48)
 
 [node name="RisingSlidingDoorLevel3" parent="." unique_id=337325096 instance=ExtResource("25_2rbmd")]
-position = Vector2(-3989, -1380)
+position = Vector2(-4117, -1379)
 rotation = -1.5707964
-scale = Vector2(1, 0.666)
+scale = Vector2(1, 2)
+
+[node name="RisingSlidingDoorLevel4" parent="." unique_id=1949959018 instance=ExtResource("25_2rbmd")]
+position = Vector2(-3509, -1555.0001)
+scale = Vector2(1, 1.5)
 
 [node name="WirePuzzleTerminalRoom13" parent="." unique_id=1540700879 instance=ExtResource("48_f7m78")]
 position = Vector2(-3671, -867)
@@ -4598,7 +4625,8 @@ position = Vector2(-1819, -1406)
 position = Vector2(-1532, -1439)
 
 [node name="WaterHazardAreaMedium" parent="." unique_id=946889739 instance=ExtResource("72_bhcpu")]
-position = Vector2(-3109, -562)
+position = Vector2(-3060, -567)
+metadata/_edit_lock_ = true
 
 [node name="Level3_4_Wires" type="Node2D" parent="." unique_id=1404876241]
 position = Vector2(-3109, -562)

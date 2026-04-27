@@ -214,7 +214,7 @@ func _call_output_method(target: Object, method_name: StringName) -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if (body is CharacterBody2D) and (Global.tutorialchecker<3) and (leverstatus==1 and single_use==false):
+	if (body is CharacterBody2D) and (Global.tutorialchecker<3) and (leverstatus==0 and single_use==false):
 		readyToPress= true
 		if has_node("Prompt"):
 			$Prompt.visible = true

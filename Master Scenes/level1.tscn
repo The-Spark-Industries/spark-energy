@@ -1,4 +1,4 @@
-[gd_scene load_steps=203 format=4 uid="uid://c812w5iknq1es"]
+[gd_scene load_steps=204 format=4 uid="uid://c812w5iknq1es"]
 
 [ext_resource type="PackedScene" uid="uid://b3wrn5c1q8iuw" path="res://Master Scenes/pauseMenu.tscn" id="1_pausemenu"]
 [ext_resource type="Script" uid="uid://ddurd58npppi" path="res://Scripts/Player.gd" id="1_vly50"]
@@ -108,6 +108,7 @@
 [ext_resource type="PackedScene" uid="uid://b7f76a30f5nj4" path="res://Master Scenes/downlight.tscn" id="102_0htr3"]
 [ext_resource type="Texture2D" uid="uid://fjjo0ngncl34" path="res://Level 1/Level 1 Art Assets/Environment/Props/yellow_water_puzzle.png" id="103_1c22u"]
 [ext_resource type="Texture2D" uid="uid://cf3334x0yrerd" path="res://Level 1/Level 1 Art Assets/Environment/Props/hanging_light.png" id="104_t5wof"]
+[ext_resource type="Texture2D" uid="uid://shm04hsmh823" path="res://Level 1/Level 1 Art Assets/Items/Sprites/straight_yellow_pipe.png" id="109_hgqis"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4dr7"]
 size = Vector2(12.5, 55)
@@ -5758,8 +5759,13 @@ scale = Vector2(2, 1)
 position = Vector2(147, 3305)
 
 [node name="YellowWaterPuzzle" type="Sprite2D" parent="."]
-position = Vector2(2421, 5897.75)
-scale = Vector2(0.5, 0.5019505)
+position = Vector2(2419, 5896)
+scale = Vector2(0.50781274, 0.5078118)
+texture = ExtResource("103_1c22u")
+
+[node name="YellowWaterPuzzle2" type="Sprite2D" parent="."]
+position = Vector2(2129.5, 5330)
+scale = Vector2(0.51953065, 0.523438)
 texture = ExtResource("103_1c22u")
 
 [node name="HangingLight" type="Sprite2D" parent="."]
@@ -5920,5 +5926,149 @@ z_index = -18
 position = Vector2(-392, 57)
 scale = Vector2(1, 2.654321)
 texture = ExtResource("63_hgqis")
+
+[node name="yellowPipeHolders" type="Node" parent="."]
+
+[node name="StraightYellowPipe" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2478, 5835.0005)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe2" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2478, 5816.0005)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe3" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2477.9998, 5797.0005)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe4" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2478, 5779)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe5" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2477.9998, 5760.0005)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe6" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2359.68, 5835.0005)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe7" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2359.68, 5816.0005)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe8" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2359.68, 5797.0005)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe9" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2359.68, 5779)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe10" type="Sprite2D" parent="yellowPipeHolders"]
+z_index = -1
+position = Vector2(2359.68, 5760.0005)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="yellowPipeHolders2" type="Node" parent="."]
+
+[node name="StraightYellowPipe" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2189.8203, 5269.5)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe2" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2189.8203, 5250.5)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe3" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2189.82, 5231.5)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe4" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2189.8203, 5213.4995)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe5" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2189.82, 5194.5)
+rotation = 1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe6" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2071.5002, 5269.5)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe7" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2071.5002, 5250.5)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe8" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2071.5002, 5231.5)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe9" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2071.5002, 5213.4995)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
+
+[node name="StraightYellowPipe10" type="Sprite2D" parent="yellowPipeHolders2"]
+z_index = -1
+position = Vector2(2071.5002, 5194.5)
+rotation = -1.5707964
+scale = Vector2(0.5937424, 0.5312576)
+texture = ExtResource("109_hgqis")
 
 [editable path="level2container/WaterPuzzleLevel2_2/PipePuzzleTerminal"]

@@ -19,11 +19,10 @@ position = Vector2(48, 26)
 shape = SubResource("RectangleShape2D_gmpt8")
 
 [node name="Sprite2D" type="Sprite2D" parent="PlatformBody" unique_id=1637247961]
-position = Vector2(47.500004, 16)
-scale = Vector2(3.5, 1)
+position = Vector2(45.5, 16)
 texture = ExtResource("2_4pvl5")
 
-[node name="ColorRect" type="ColorRect" parent="PlatformBody" unique_id=59240422]
+[node name="ColorRect" type="ColorRect" parent="PlatformBody" unique_id=752058166]
 visible = false
 offset_right = 96.0
 offset_bottom = 32.0

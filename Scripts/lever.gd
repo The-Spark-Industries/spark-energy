@@ -18,6 +18,7 @@ var readyToPress: bool= false
 @export var output_on_fallback_methods: Array[StringName] = [&"power_on", &"on_terminal_solved", &"activate", &"trigger", &"start"]
 @export var output_off_fallback_methods: Array[StringName] = [&"power_off", &"deactivate", &"stop", &"stop_spin", &"disable"]
 @export var lift_loop: bool = false
+@export var single_use : bool =false
 
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
@@ -48,11 +49,20 @@ func _input(event: InputEvent) -> void:
 		if (leverstatus==0):
 			leverstatus=1
 			_apply_configured_actions()
-			$"leverSound".play()
+			_play_lever_sound()
 		elif (leverstatus==1):
-			leverstatus=0
-			_revert_configured_actions()
-			$"leverSound".play()
+			if (single_use==false):
+				_revert_configured_actions()
+				$"leverSound".play()
+				leverstatus=0
+
+			
+func _play_lever_sound() -> void:
+	var sfx := get_node_or_null("leverSound") as AudioStreamPlayer
+	if sfx == null:
+		sfx = get_node_or_null("leverSound2") as AudioStreamPlayer
+	if sfx:
+		sfx.play()
 
 func _apply_configured_actions() -> void:
 	_trigger_wheel_spin()
@@ -203,7 +213,7 @@ func _call_output_method(target: Object, method_name: StringName) -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if (body is CharacterBody2D) and (Global.tutorialchecker<3):
+	if (body is CharacterBody2D) and (Global.tutorialchecker<3) and (leverstatus==0 and single_use==false):
 		readyToPress= true
 		if has_node("Prompt"):
 			$Prompt.visible = true

@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var SPEED := 20000.0
-@export var JUMP_VELOCITY := -75000.0
+@export var SPEED := 17000.0
+@export var JUMP_VELOCITY := -70000.0
 @export var START_GRAVITY := 6000.0
 @export var COYOTE_TIME_MS := 100 # in ms
 @export var JUMP_BUFFER_MS := 100 # in ms
@@ -89,6 +89,13 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	
+	
+	#TEST 
+	
+	if Input.is_action_just_pressed("ui_down"):
+		self.position.x=1200
+		self.position.y=6100
 	just_fell_countdown -= delta
 	
 	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:
@@ -125,7 +132,7 @@ func _physics_process(delta: float) -> void:
 	pass
 
 	#moving the player prompt
-	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
+	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
 		if (Global.tutorialchecker == 0):
 			await get_tree().create_timer(3.5).timeout
 			Global.tutorialchecker = 1
@@ -154,12 +161,6 @@ func _physics_process(delta: float) -> void:
 	if (Global.jumpcounter >=3) and (Global.tutorialchecker==1):
 		$playerprompt.text = "             Press ESC to pause"
 		Global.tutorialchecker=2
-
-	
-	if (Input.is_action_just_pressed("ui_down")):
-		self.global_position.x=5565
-		self.global_position.y=-210
-
 	
 	if (Global.laddermode==true):
 		if _is_jump_pressed():
@@ -191,7 +192,7 @@ func _physics_process(delta: float) -> void:
 
 
 
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction := clampf(Input.get_axis("move_left", "move_right") + Input.get_axis("ui_left", "ui_right"), -1.0, 1.0)
 	
 	# Update Floor/Coyote Timing
 	if is_on_floor():

@@ -81,7 +81,7 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaLarge.tscn" id="70_04pvr"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WirePuzzleTerminalRotateOnly.tscn" id="70_wire_terminal"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaSmall.tscn" id="71_8mt1v"]
-[ext_resource type="PackedScene" path="res://Master Scenes/WireMinigame.tscn" id="71_wire_minigame"]
+[ext_resource type="PackedScene" uid="uid://gullcfsshs4t" path="res://Master Scenes/WireMinigame.tscn" id="71_wire_minigame"]
 [ext_resource type="Texture2D" uid="uid://c04p18jshq7c7" path="res://Master Scenes/backgroundtest6.png" id="72_04pvr"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaMedium.tscn" id="72_bhcpu"]
 [ext_resource type="Texture2D" uid="uid://deca2fl43io7k" path="res://Master Scenes/cliff1.png" id="74_7jm0d"]
@@ -1124,7 +1124,7 @@ position = Vector2(-394, -632)
 scale = Vector2(2, 2)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=219333940]
-position = Vector2(146, 3352)
+position = Vector2(1554, 4522)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1365849058]
@@ -2038,9 +2038,9 @@ stream = ExtResource("46_uapay")
 
 [node name="PipePuzzleTerminal1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=672001272 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(145.00012, 486)
-water_stream_path = NodePath("../PuzzleWaterStream1")
 puzzle_layout = 3
 control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream1")
 wheel_spin_time_per_turn = 0.8
 solved_rise_distance = 96.0
 embedded_minigame_path = NodePath("../PipeMinigame1")
@@ -2114,9 +2114,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="PipePuzzleTerminal2" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=958566029 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(145.00012, 486)
-water_stream_path = NodePath("../PuzzleWaterStream1")
 puzzle_layout = 3
 control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream1")
 wheel_spin_time_per_turn = 0.8
 solved_rise_distance = 96.0
 solved_rise_loop = true
@@ -2153,9 +2153,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="PipePuzzleTerminal3" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=1712485269 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(145.00012, 486)
-water_stream_path = NodePath("../PuzzleWaterStream1")
 puzzle_layout = 3
 control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream1")
 water_wheel_path = NodePath("../waterWheelPuzzle1")
 wheel_spin_time_per_turn = 0.8
 solved_rise_target_path = NodePath("../doorPuzzle1")
@@ -2277,9 +2277,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="PipePuzzleTerminal3" parent="waterPuzzleLevel1/Node2D" unique_id=1047996429 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(210, 360)
-water_stream_path = NodePath("../PuzzleWaterStream2")
 puzzle_layout = 10
 control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream2")
 water_wheel_path = NodePath("../waterWheelPuzzle2")
 wheel_spin_time_per_turn = 8.0
 solved_rise_target_path = NodePath("../platformPuzzle2")
@@ -2336,9 +2336,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="PipePuzzleTerminal4" parent="waterPuzzleLevel1/Node2D" unique_id=1409760053 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(210, 360)
-water_stream_path = NodePath("../PuzzleWaterStream2")
 puzzle_layout = 2
 control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream2")
 water_wheel_path = NodePath("../waterWheelPuzzle2")
 wheel_spin_time_per_turn = 8.0
 solved_rise_target_path = NodePath("../platformPuzzle2")
@@ -2683,10 +2683,8 @@ offset = Vector2(1.06, 0)
 texture_scale = 4.65
 
 [node name="PointLight2D18" type="PointLight2D" parent="Lighting" unique_id=1174013907]
-visible = false
 
 [node name="PointLight2D19" type="PointLight2D" parent="Lighting" unique_id=1275057010]
-visible = false
 position = Vector2(3695.9998, 131.00009)
 rotation = 0.58294
 scale = Vector2(5.6926575, 4.6807876)
@@ -2695,7 +2693,6 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 3.2
 
 [node name="PointLight2D20" type="PointLight2D" parent="Lighting" unique_id=1471759183]
-visible = false
 position = Vector2(3212.9998, 420.00006)
 rotation = 0.58294
 scale = Vector2(5.6926575, 4.6807876)
@@ -2704,7 +2701,6 @@ texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 1.73
 
 [node name="PointLight2D21" type="PointLight2D" parent="Lighting" unique_id=332446204]
-visible = false
 position = Vector2(3563, 419.99994)
 rotation = 0.58294
 scale = Vector2(5.6926575, 4.6807876)
@@ -2724,7 +2720,6 @@ texture_scale = 2.7
 metadata/_edit_lock_ = true
 
 [node name="PointLight2D23" type="PointLight2D" parent="Lighting" unique_id=485369387]
-visible = false
 position = Vector2(6677.7505, -2141.946)
 rotation = 0.58294
 scale = Vector2(4.1592875, 0.48497495)
@@ -2735,7 +2730,6 @@ offset = Vector2(-0.88, -5.44)
 texture_scale = 2.7
 
 [node name="PointLight2D24" type="PointLight2D" parent="Lighting" unique_id=204488246]
-visible = false
 position = Vector2(2930.25, 453)
 scale = Vector2(28.507809, 1)
 texture = SubResource("GradientTexture2D_bmo44")
@@ -3223,8 +3217,8 @@ target_path = NodePath("../../Node2D17")
 
 [node name="PipePuzzleTerminalMoveOnly3" parent="Node2D6" unique_id=1310761229 instance=ExtResource("59_xhqtr")]
 position = Vector2(2679, 3882)
-water_stream_path = NodePath("../../Node2D10")
 puzzle_layout = 21
+water_stream_path = NodePath("../../Node2D10")
 water_wheel_path = NodePath("../Node2D3")
 wheel_spin_time_per_turn = 1.5
 embedded_minigame_path = NodePath("../PipeMinigame")
@@ -3709,9 +3703,9 @@ position = Vector2(173, -120)
 
 [node name="PipePuzzleTerminal2" parent="level2container/waterPuzzleLevel2_1" unique_id=1421676101 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(0, 219)
-water_stream_path = NodePath("../ColorRectMiddlePuzzle")
 puzzle_layout = 4
 control_mode = 1
+water_stream_path = NodePath("../ColorRectMiddlePuzzle")
 water_wheel_path = NodePath("../waterWheel4")
 solved_rise_target_path = NodePath("../../doorcentralroom")
 solved_rise_distance = 300.0
@@ -3751,9 +3745,9 @@ position = Vector2(300, -670)
 
 [node name="PipePuzzleTerminal" parent="level2container/WaterPuzzleLevel2_2" unique_id=341930040 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(9, 190)
-water_stream_path = NodePath("../../../Water/Waterfalls/ColorRectTopMiddlePuzzle")
 puzzle_layout = 2
 control_mode = 1
+water_stream_path = NodePath("../../../Water/Waterfalls/ColorRectTopMiddlePuzzle")
 water_wheel_path = NodePath("../waterWheel5")
 water_to_wheel_delay = 0.1
 solved_rise_target_path = NodePath("../../risingdoorTopMiddle")
@@ -4121,8 +4115,8 @@ bus = &"Ambience"
 
 [node name="PipePuzzleTerminalMoveOnly2" parent="." unique_id=2075052458 instance=ExtResource("59_xhqtr")]
 position = Vector2(4541, 3465)
-water_stream_path = NodePath("../Water/Node2D")
 puzzle_layout = 2
+water_stream_path = NodePath("../Water/Node2D")
 water_wheel_path = NodePath("../Node2D14")
 solved_rise_target_path = NodePath("../Node2D15")
 solved_rise_distance = 96.0
@@ -4208,6 +4202,7 @@ scale = Vector2(1, 3.333)
 position = Vector2(1201, 4306)
 
 [node name="PipeMinigameStage1" parent="Room10ProgressivePuzzle" unique_id=1910990443 instance=ExtResource("22_pipe_minigame")]
+visible = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -4239,9 +4234,9 @@ stream = ExtResource("46_uapay")
 
 [node name="PipePuzzleTerminalStage1" parent="Room10ProgressivePuzzle" unique_id=723828387 instance=ExtResource("12_pipe_terminal")]
 position = Vector2(171, 216)
-water_stream_path = NodePath("../PuzzleWaterStream")
 puzzle_layout = 3
 control_mode = 1
+water_stream_path = NodePath("../PuzzleWaterStream")
 water_wheel_path = NodePath("../../Node2D12")
 wheel_spin_time_per_turn = 3.0
 embedded_minigame_path = NodePath("../PipeMinigameStage1")
@@ -4807,8 +4802,8 @@ bus = &"Music"
 
 [node name="PipePuzzleTerminalMoveOnly" parent="waterPuzzle" unique_id=645324742 instance=ExtResource("59_xhqtr")]
 position = Vector2(-422, 315)
-water_stream_path = NodePath("../../Water/Waterfalls/ColorRect6")
 puzzle_layout = 2
+water_stream_path = NodePath("../../Water/Waterfalls/ColorRect6")
 water_wheel_path = NodePath("../Node2D5")
 wheel_spin_time_per_turn = 0.4
 embedded_minigame_path = NodePath("../PipeMinigame2Level3First")
@@ -5662,8 +5657,8 @@ spin_clockwise = false
 [node name="PipePuzzleTerminalMoveOnly5" parent="." unique_id=2003634589 instance=ExtResource("59_xhqtr")]
 z_index = -2
 position = Vector2(2761, 3399)
-water_stream_path = NodePath("../waterfallfirst")
 puzzle_layout = 18
+water_stream_path = NodePath("../waterfallfirst")
 water_wheel_path = NodePath("../Node2D43")
 water_to_wheel_delay = 0.1
 embedded_minigame_path = NodePath("../pipe2")
@@ -6175,11 +6170,5 @@ z_index = -3
 position = Vector2(4509, 3416.0002)
 scale = Vector2(1.3359381, 1.3359381)
 texture = ExtResource("113_8rwbn")
-
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D18" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D20" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D21" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D22" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D19" method="on_terminal_solved"]
 
 [editable path="level2container/WaterPuzzleLevel2_2/PipePuzzleTerminal"]

@@ -2,7 +2,7 @@ extends Node
 
 const SAVE_FILE_PATH := "user://savegame.json"
 ## Set to false to ignore checkpoint saves/loads and spawn from scene start.
-var checkpoints_enabled: bool = true
+var checkpoints_enabled: bool = false
 
 ## Last checkpoint position the player touched.
 var last_checkpoint_position: Vector2 = Vector2.ZERO

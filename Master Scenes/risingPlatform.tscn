@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dviqp60rlqwhw"]
 
 [ext_resource type="Script" uid="uid://dcndpvw5hsbqr" path="res://Scripts/rising_platform.gd" id="1_risingplat"]
-[ext_resource type="Texture2D" uid="uid://ix6wo2e8ktlb" path="res://Level 1/Level 1 Art Assets/Items/Sprites/rising_plat.png" id="2_4pvl5"]
+[ext_resource type="Texture2D" uid="uid://dt1f5ibjoirug" path="res://Level 1/Level 1 Art Assets/Items/Sprites/long_rising_platform.png" id="2_4pvl5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gmpt8"]
 size = Vector2(96, 12)

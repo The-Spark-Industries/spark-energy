@@ -1,5 +1,7 @@
 extends Control
 
+static var _input_owner: Node = null
+
 @onready var oM =$optionsMenu
 @onready var _ambience_bus_idx: int = AudioServer.get_bus_index("Ambience")
 

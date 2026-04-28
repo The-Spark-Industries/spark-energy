@@ -17,6 +17,47 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l10vn"]
 
 [node name="WireMinigame" unique_id=50798521 instance=ExtResource("1_base_minigame")]
+visible = true
+ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
+source_texture = ExtResource("2_plus_red")
+sink_texture = ExtResource("2_plus_red")
+block_texture = ExtResource("2_plus_red")
+empty_texture = ExtResource("2_plus_red")
+embedded_mode = true
+embedded_use_glyphs = true
+embedded_cell_size = 32.0
+
+[node name="Backdrop" parent="." index="0" unique_id=2087983901]
+visible = false
+
+[node name="PanelContainer" parent="CenterContainer" parent_id_path=PackedInt32Array(1394595627) index="0" unique_id=1163156292]
+custom_minimum_size = Vector2(112, 180)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_l10vn")
+
+[node name="Title" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(972430594) index="0" unique_id=509321678]
+visible = false
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+
+[node name="Info" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(972430594) index="1" unique_id=452963937]
+visible = false
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+
+[node name="Grid" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(972430594) index="2" unique_id=1234549175]
+custom_minimum_size = Vector2(96, 96)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Status" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" parent_id_path=PackedInt32Array(1081479325) index="0" unique_id=752601829]
+visible = false
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+
+[node name="SendWaterButton" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" parent_id_path=PackedInt32Array(1081479325) index="1" unique_id=1852465570]
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+text = "Send Power"
 ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
 embedded_mode = true
 embedded_use_glyphs = false

@@ -85,7 +85,14 @@ columns = 3
 
 [node name="Footer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1081479325]
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 12
+
+[node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=752601829]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
+autowrap_mode = 2
 
 [node name="SendWaterButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1852465570]
 layout_mode = 2

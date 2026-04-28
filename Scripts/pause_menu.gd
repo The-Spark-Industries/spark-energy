@@ -1,5 +1,7 @@
 extends Control
 
+static var _input_owner: Node = null
+
 @onready var oM =$optionsMenu
 @onready var _ambience_bus_idx: int = AudioServer.get_bus_index("Ambience")
 
@@ -88,7 +90,20 @@ func _set_pause_state(paused: bool) -> void:
 		get_tree().paused = false
 		visible = false
 		oM.visible = false
-		_set_ambience_paused_for_menu(false)
+	if Input.is_action_just_pressed("pause") and (Global.wiremode== false):
+		if (Global.tutorialchecker==2):
+				Global.tutorialchecker=3
+		if (get_tree().paused==false ):
+			_bring_to_front()
+			get_tree().paused= true
+			oM.visible =false
+			visible=true
+			_set_ambience_paused_for_menu(true)
+		elif (get_tree().paused ==true):
+			get_tree().paused= false
+			visible=false
+			oM.visible =false
+			_set_ambience_paused_for_menu(false)
 
 
 func _bring_to_front() -> void:

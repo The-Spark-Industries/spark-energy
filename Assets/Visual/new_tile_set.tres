@@ -1,8 +1,7 @@
-[gd_resource type="TileSet" format=3 uid="uid://b00cjcsw4h5sx"]
+[gd_resource type="TileSet" format=3 uid="uid://nsfuqpcymoww"]
 
 [ext_resource type="Texture2D" uid="uid://dhdd4ualamvrq" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_128px_by_128px.png" id="1_upkhe"]
 [ext_resource type="Texture2D" uid="uid://dxb8umw8vqbth" path="res://Level 1/Level 1 Art Assets/Environment/Texture Maps/tile_sheet_NORMAL.png" id="2_8gpms"]
-[ext_resource type="PackedScene" uid="uid://vi688nohxxfl" path="res://Master Scenes/floorBlock.tscn" id="3_kow2g"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_upkhe"]
 tile_data = PackedInt32Array(0, 393216, 8, 65537, 393216, 8, 65538, 393216, 8, 65539, 393216, 8, 4, 393216, 8)
@@ -80,12 +79,8 @@ texture_region_size = Vector2i(32, 32)
 6:8/0 = 0
 7:8/0 = 0
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_vjxpy"]
-scenes/1/scene = ExtResource("3_kow2g")
-
 [resource]
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_ahjvc")
-sources/1 = SubResource("TileSetScenesCollectionSource_vjxpy")
 pattern_0 = SubResource("TileMapPattern_upkhe")
 pattern_1 = SubResource("TileMapPattern_8gpms")

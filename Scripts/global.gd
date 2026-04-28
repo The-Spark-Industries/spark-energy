@@ -42,6 +42,8 @@ var maze_decider: int= 0
 
 var maze_resetter: int= 0
 
+var speedrunshow: bool = true
+
 func _ready() -> void:
 	load_game()
 

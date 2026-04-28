@@ -67,4 +67,4 @@ func _on_text_mode_button_item_selected(index: int) -> void:
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	pass # Replace with function body.
+	Global.speedrunshow=toggled_on

@@ -6,6 +6,11 @@ var minutecounter= 0
 func _physics_process(delta):
 	time = float(time) + delta
 	update_ui()
+	if (Global.speedrunshow==true):
+		self.show()
+	if (Global.speedrunshow==false):
+		self.hide()
+	
 	
 func update_ui():
 	var formatted_time

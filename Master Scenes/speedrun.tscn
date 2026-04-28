@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c7xd70w8nfqm0"]
 
-[ext_resource type="Script" uid="uid://bq2a6lpg45jwj" path="res://Master Scenes/speedrun.gd" id="1_33k4c"]
+[ext_resource type="Script" uid="uid://bq2a6lpg45jwj" path="res://Scripts/speedrun.gd" id="1_33k4c"]
 
 [node name="Speedrun" type="CanvasLayer" unique_id=1981076829]
 script = ExtResource("1_33k4c")

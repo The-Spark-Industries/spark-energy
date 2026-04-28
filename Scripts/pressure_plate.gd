@@ -38,26 +38,29 @@ func _on_body_entered(body: Node2D) -> void:
 	if (body is CharacterBody2D) or (body.is_in_group("risingWater")):
 		readyToPress= true
 		pressurePlateStatus=1
+		await get_tree().create_timer(1.25).timeout
+		#pressurePlateStatus=0
 		if (body.get_meta("tag", "") == "risingWater"):
 			print("yesyes")
 		
 		if not String(lift_target_path).is_empty() and not is_zero_approx(lift_pixels):
 			
-			if (stopper==0):
+			if (stopper==0) and (Global.maze_resetter!=1):
 				var lift_target := get_node_or_null(lift_target_path) as Node2D
 				if lift_target:
 					if _lift_tween and _lift_tween.is_valid():
 						_lift_tween.kill()
 					_lift_tween = create_tween()
 					_lift_tween.tween_property(lift_target, "position:y", lift_target.position.y - lift_pixels, lift_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+					if (Global.maze_resetter==1):
+						_lift_tween.kill()
 					stopper=1
-				while (body is CharacterBody2D) and (lift_target.is_in_group("risingWater")) and (i<=lift_duration*5):
+				while (body is CharacterBody2D) and (lift_target.is_in_group("risingWater")) and (i<=lift_duration*5) and (Global.maze_resetter!=1):
 					lift_target.scale.y+=0.240
 					await get_tree().create_timer(0.08).timeout
 					i+=1
-					print(i)
-			
-				
+					#print(i)
+		
 
 				
 func _on_body_exited(body: Node2D) -> void:

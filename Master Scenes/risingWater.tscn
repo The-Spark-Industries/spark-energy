@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bgghmej6vq8sr"]
 
+[ext_resource type="Script" uid="uid://cjyxhad100q2a" path="res://Master Scenes/rising_water.gd" id="1_7j1da"]
 [ext_resource type="Shader" uid="uid://cudwhx57lsypv" path="res://Level 1/Level 1 Art Assets/Shaders/StillWater.gdshader" id="1_g5pn6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7j1da"]
@@ -35,6 +36,7 @@ shader_parameter/reflection_pixel_snap = 4.0
 size = Vector2(32, 18)
 
 [node name="risingWater" type="Node2D" unique_id=337325096 groups=["risingWater"]]
+script = ExtResource("1_7j1da")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=652183361]
 

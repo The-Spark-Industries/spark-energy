@@ -170,7 +170,7 @@ func _reload_current_scene() -> void:
 	visible = false
 	oM.visible = false
 	_set_ambience_paused_for_menu(false)
-	get_tree().reload_current_scene()
+	
 
 func _set_ambience_paused_for_menu(paused_for_menu: bool) -> void:
 	if _ambience_bus_idx < 0:

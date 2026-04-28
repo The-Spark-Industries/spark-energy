@@ -15,6 +15,15 @@ func _ready() -> void:
 	_door_body = get_node_or_null("StaticBody2D") as StaticBody2D
 	_prev_global_position = global_position
 
+func _process(delta: float) -> void:
+	if (self.name=="risingDoorLeftMiddle"):
+		print("confirm")
+		if (Global.maze_resetter==1):
+			self.position.x=-416
+			self.position.y=-520
+
+
+
 func _physics_process(delta: float) -> void:
 	if delta <= 0.0:
 		return

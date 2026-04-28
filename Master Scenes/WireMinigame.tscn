@@ -19,10 +19,10 @@
 [node name="WireMinigame" unique_id=50798521 instance=ExtResource("1_base_minigame")]
 visible = true
 ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
-source_texture = ExtResource("2_wire_tex")
-sink_texture = ExtResource("2_wire_tex")
-block_texture = ExtResource("2_wire_tex")
-empty_texture = ExtResource("2_wire_tex")
+source_texture = ExtResource("2_plus_red")
+sink_texture = ExtResource("2_plus_red")
+block_texture = ExtResource("2_plus_red")
+empty_texture = ExtResource("2_plus_red")
 embedded_mode = true
 embedded_use_glyphs = true
 embedded_cell_size = 32.0

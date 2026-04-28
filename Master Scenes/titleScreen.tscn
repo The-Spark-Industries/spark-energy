@@ -39,6 +39,7 @@ offset_top = -31.0
 offset_right = 35.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.8, 0.8)
 size_flags_vertical = 8
 
 [node name="Options" type="Button" parent="VBoxContainer2" unique_id=470976601]
@@ -56,7 +57,7 @@ anchor_bottom = 0.5
 offset_left = -91.0
 offset_top = 210.02
 offset_right = 151.0
-offset_bottom = 226.0
+offset_bottom = 238.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -69,7 +70,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 79
 text = "Start"
 
+[node name="CheckButton" type="CheckButton" parent="Container/VBoxContainer" unique_id=683744414]
+layout_mode = 2
+size_flags_vertical = 8
+button_pressed = true
+text = "     Speedrun Mode"
+
 [node name="optionsMenu" type="Control" parent="." unique_id=959929399]
+visible = false
 anchors_preset = 0
 offset_right = 1148.0
 offset_bottom = 647.0
@@ -208,6 +216,7 @@ parameters/looping = true
 
 [connection signal="pressed" from="VBoxContainer2/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Container/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="toggled" from="Container/VBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="value_changed" from="optionsMenu/masterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="optionsMenu/musicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="optionsMenu/soundSlider" to="." method="_on_sound_slider_value_changed"]

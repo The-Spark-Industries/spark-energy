@@ -409,6 +409,13 @@ func _respawn() -> void:
 		global_position = Global.last_checkpoint_position
 	else:
 		global_position = _scene_spawn_position
+	var scene_path := ""
+	if get_tree().current_scene:
+		scene_path = get_tree().current_scene.scene_file_path
+
+	var room_id := _current_room_id()
+	if Global.reset_room_to_checkpoint(scene_path, room_id):
+		get_tree().reload_current_scene()
 	velocity = Vector2.ZERO
 	state = States.IDLE
 	_jump_arc_active = false
@@ -419,6 +426,7 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
+	
 
 func _current_scene_path() -> String:
 	if get_tree().current_scene:

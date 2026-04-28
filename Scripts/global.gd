@@ -36,6 +36,8 @@ var tutorialchecker: int = 0
 
 var jumpcounter : int =0
 
+var speedrun_time =0
+
 func _ready() -> void:
 	load_game()
 

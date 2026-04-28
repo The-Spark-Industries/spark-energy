@@ -1345,6 +1345,9 @@ position = Vector2(1488, 5390)
 [node name="Room_64" type="Node2D" parent="camera_points" unique_id=772570534]
 position = Vector2(1488, 5930)
 
+[node name="Room_65" type="Node2D" parent="camera_points" unique_id=2075827998]
+position = Vector2(2373, 5930)
+
 [node name="Water" type="Node" parent="." unique_id=344634717]
 
 [node name="Waterfalls" type="Node" parent="Water" unique_id=837175961]
@@ -2820,7 +2823,7 @@ position = Vector2(-1133, 653)
 position = Vector2(-89, 386)
 
 [node name="Checkpoint2)3" parent="level2container" unique_id=1620881572 instance=ExtResource("8_tiul6")]
-position = Vector2(-995, 127)
+position = Vector2(-1001, 210)
 
 [node name="Checkpoint2)4" parent="level2container" unique_id=159940173 instance=ExtResource("8_tiul6")]
 position = Vector2(-318, -238)

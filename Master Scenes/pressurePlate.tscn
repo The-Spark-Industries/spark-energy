@@ -26,8 +26,8 @@ script = ExtResource("1_4uor8")
 lift_duration = 15.0
 
 [node name="pressurePlateSprites" type="AnimatedSprite2D" parent="." unique_id=24121763]
-position = Vector2(2, -10)
-scale = Vector2(1, 0.1484375)
+position = Vector2(2, -13.3125)
+scale = Vector2(1, 0.35546875)
 sprite_frames = SubResource("SpriteFrames_aesoq")
 
 [node name="pressurePlateCollision" type="CollisionShape2D" parent="." unique_id=1312803927]

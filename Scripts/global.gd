@@ -38,6 +38,10 @@ var jumpcounter : int =0
 
 var speedrun_time =0
 
+var maze_decider: int= 0
+
+var maze_resetter: int= 0
+
 func _ready() -> void:
 	load_game()
 

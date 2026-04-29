@@ -96,6 +96,7 @@ var _debug_preview: bool = false
 var _embedded_anchor_node: Node2D = null
 var _embedded_anchor_is_internal: bool = false
 var _embedded_anchor_global_target: Vector2 = Vector2.ZERO
+var _joy_axis_prev: Dictionary = {}
 
 func set_debug_preview(enabled: bool) -> void:
 	_debug_preview = enabled
@@ -297,6 +298,60 @@ func _ensure_visible_on_top() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _active:
 		return
+
+	if event is InputEventJoypadButton and event.pressed:
+		# A button => pick/place
+		if event.button_index == JOY_BUTTON_A:
+			if _can_move_pieces():
+				_toggle_select()
+			get_viewport().set_input_as_handled()
+			return
+
+		# Y button => send water (pipe puzzles)
+		if event.button_index == JOY_BUTTON_Y:
+			if not auto_flow_completes:
+				_on_send_water_pressed()
+			get_viewport().set_input_as_handled()
+			return
+
+
+	if event is InputEventJoypadMotion:
+		var axis := int(event.axis)
+		var val := float(event.axis_value)
+		var prev := float(_joy_axis_prev.get(axis, 0.0))
+		_joy_axis_prev[axis] = val
+
+		if axis == JOY_AXIS_0 or axis == JOY_AXIS_1:
+			var threshold := 0.6
+			var dx := 0
+			var dy := 0
+			if axis == JOY_AXIS_0:
+				if val > threshold and prev <= threshold:
+					dx = 1
+				elif val < -threshold and prev >= -threshold:
+					dx = -1
+			elif axis == JOY_AXIS_1:
+				if val > threshold and prev <= threshold:
+					dy = 1
+				elif val < -threshold and prev >= -threshold:
+					dy = -1
+
+			if dx != 0 or dy != 0:
+				_move_cursor(dx, dy)
+				get_viewport().set_input_as_handled()
+				return
+
+		if axis == JOY_AXIS_2 or axis == JOY_AXIS_5:
+			var t_threshold := 0.6
+			if val > t_threshold and prev <= t_threshold:
+				if _can_rotate_pieces():
+					if axis == JOY_AXIS_2:
+						_rotate_at_selection(-1)
+					else:
+						_rotate_at_selection(1)
+				get_viewport().set_input_as_handled()
+				return
+
 
 	if event.is_action_pressed("ui_cancel"):
 		close_minigame()

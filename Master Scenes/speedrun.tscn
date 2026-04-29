@@ -1,4 +1,4 @@
-[gd_scene load_steps=0 format=3 uid="uid://c7xd70w8nfqm0"]
+[gd_scene format=3 uid="uid://c7xd70w8nfqm0"]
 
 [ext_resource type="Script" uid="uid://bq2a6lpg45jwj" path="res://Scripts/speedrun.gd" id="1_33k4c"]
 

@@ -321,16 +321,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		var prev := float(_joy_axis_prev.get(axis, 0.0))
 		_joy_axis_prev[axis] = val
 
-		if axis == JOY_AXIS_0 or axis == JOY_AXIS_1:
+		if axis == JOY_AXIS_LEFT_X or axis == JOY_AXIS_LEFT_Y:
 			var threshold := 0.6
 			var dx := 0
 			var dy := 0
-			if axis == JOY_AXIS_0:
+			if axis == JOY_AXIS_LEFT_X:
 				if val > threshold and prev <= threshold:
 					dx = 1
 				elif val < -threshold and prev >= -threshold:
 					dx = -1
-			elif axis == JOY_AXIS_1:
+			elif axis == JOY_AXIS_LEFT_Y:
 				if val > threshold and prev <= threshold:
 					dy = 1
 				elif val < -threshold and prev >= -threshold:
@@ -341,11 +341,11 @@ func _unhandled_input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				return
 
-		if axis == JOY_AXIS_2 or axis == JOY_AXIS_5:
+		if axis == JOY_AXIS_RIGHT_X or axis == JOY_AXIS_RIGHT_Y:
 			var t_threshold := 0.6
 			if val > t_threshold and prev <= t_threshold:
 				if _can_rotate_pieces():
-					if axis == JOY_AXIS_2:
+					if axis == JOY_AXIS_RIGHT_X:
 						_rotate_at_selection(-1)
 					else:
 						_rotate_at_selection(1)
@@ -621,7 +621,7 @@ func _move_cursor(dx: int, dy: int) -> void:
 		_pieces[_grabbed_index] = _pieces[target_index]
 		_pieces[target_index] = moved_piece
 		_grabbed_index = target_index
-		$"TerminalMoveSound".play()
+		_play_sfx(_sfx_move)
 
 	_cursor_index = target_index
 	_refresh_flow_state()
@@ -640,7 +640,7 @@ func _rotate_at_selection(dir: int) -> void:
 		return
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
-	$"RotationElectricity".play()
+	# $"RotationElectricity".play()
 	_status_label.text = "Rotated piece."
 	_refresh_flow_state()
 
@@ -670,7 +670,7 @@ func _on_send_water_pressed() -> void:
 	if _is_sink_reached(reached):
 		_solved = true
 		_status_label.text = "Water reached the end. Puzzle solved!"
-		$"PuzzleComplete".play()
+		_play_sfx(_sfx_complete)
 		_update_cells(reached)
 		completed.emit(true)
 		await get_tree().create_timer(2.7).timeout

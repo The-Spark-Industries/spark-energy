@@ -1,4 +1,4 @@
-[gd_scene load_steps=0 format=3 uid="uid://bdlbgvbx1vc1t"]
+[gd_scene format=3 uid="uid://bdlbgvbx1vc1t"]
 
 [ext_resource type="Script" uid="uid://cb7x1f3ux2yz" path="res://Scripts/TerminalTutorialOverlay.gd" id="1_script"]
 

@@ -566,6 +566,7 @@ func _move_cursor(dx: int, dy: int) -> void:
 		_pieces[_grabbed_index] = _pieces[target_index]
 		_pieces[target_index] = moved_piece
 		_grabbed_index = target_index
+		$"TerminalMoveSound".play()
 
 	_cursor_index = target_index
 	_refresh_flow_state()
@@ -584,6 +585,7 @@ func _rotate_at_selection(dir: int) -> void:
 		return
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
+	$"RotationElectricity".play()
 	_status_label.text = "Rotated piece."
 	_refresh_flow_state()
 
@@ -613,7 +615,7 @@ func _on_send_water_pressed() -> void:
 	if _is_sink_reached(reached):
 		_solved = true
 		_status_label.text = "Water reached the end. Puzzle solved!"
-		#$"PuzzleComplete".play()
+		$"PuzzleComplete".play()
 		_update_cells(reached)
 		completed.emit(true)
 		await get_tree().create_timer(2.7).timeout

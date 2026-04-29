@@ -1,23 +1,25 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://dwry7usrfarv3"]
 
-[ext_resource type="PackedScene" path="res://Master Scenes/PipeMinigame.tscn" id="1_base_minigame"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/plus_red_wire.png" id="2_plus_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/blue_wire.png" id="3_blue"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/red_wire.png" id="4_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/corner_red.png" id="5_corner_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/t_red.png" id="6_t_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/corner_blue.png" id="7_corner_blue"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_plus_red.png" id="8_powered_plus"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_red_wire.png" id="9_powered_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_corner_red.png" id="10_powered_corner_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_t_red.png" id="11_powered_t_red"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_blue_wire.png" id="12_powered_blue"]
-[ext_resource type="Texture2D" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_corner_blue.png" id="13_powered_corner_blue"]
+[ext_resource type="PackedScene" uid="uid://cknx1i8d6ojmr" path="res://Master Scenes/PipeMinigame.tscn" id="1_base_minigame"]
+[ext_resource type="Texture2D" uid="uid://cgoqt0xuu04f3" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/plus_red_wire.png" id="2_plus_red"]
+[ext_resource type="AudioStream" uid="uid://cgk03hugt3db6" path="res://Level 1/Level 1 Audio/SFX/ElectricySound.wav" id="3_xq6mu"]
+[ext_resource type="AudioStream" uid="uid://civg58i5oib5p" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_1.wav" id="4_14v1f"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l10vn"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xq6mu"]
 
-[node name="WireMinigame" unique_id=50798521 instance=ExtResource("1_base_minigame")]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_14v1f"]
+random_pitch = 1.08
+random_volume_offset_db = 0.6
+streams_count = 1
+stream_0/stream = ExtResource("3_xq6mu")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jnki5"]
+streams_count = 1
+stream_0/stream = ExtResource("4_14v1f")
+
+[node name="WireMinigame" instance=ExtResource("1_base_minigame")]
 visible = true
+custom_minimum_size = Vector2(352, 352)
 ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
 source_texture = ExtResource("2_plus_red")
 sink_texture = ExtResource("2_plus_red")
@@ -27,75 +29,41 @@ embedded_mode = true
 embedded_use_glyphs = true
 embedded_cell_size = 32.0
 
-[node name="Backdrop" parent="." index="0" unique_id=2087983901]
+[node name="Backdrop" parent="." index="0"]
 visible = false
 
-[node name="PanelContainer" parent="CenterContainer" parent_id_path=PackedInt32Array(1394595627) index="0" unique_id=1163156292]
+[node name="PanelContainer" parent="CenterContainer" index="0"]
 custom_minimum_size = Vector2(112, 180)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxEmpty_l10vn")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xq6mu")
 
-[node name="Title" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(972430594) index="0" unique_id=509321678]
-visible = false
+[node name="Title" parent="CenterContainer/PanelContainer/VBoxContainer" index="0"]
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="Info" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(972430594) index="1" unique_id=452963937]
-visible = false
+[node name="Info" parent="CenterContainer/PanelContainer/VBoxContainer" index="1"]
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="Grid" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(972430594) index="2" unique_id=1234549175]
+[node name="Grid" parent="CenterContainer/PanelContainer/VBoxContainer" index="2"]
 custom_minimum_size = Vector2(96, 96)
-size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 
-[node name="Status" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" parent_id_path=PackedInt32Array(1081479325) index="0" unique_id=752601829]
-visible = false
+[node name="Status" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" index="0"]
+modulate = Color(1, 1, 1, 0)
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="SendWaterButton" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" parent_id_path=PackedInt32Array(1081479325) index="1" unique_id=1852465570]
+[node name="SendWaterButton" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" index="1"]
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
-text = "Send Power"
-ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
-embedded_mode = true
-embedded_use_glyphs = false
-embedded_cell_size = 32.0
-piece_tint = Color(0.984314, 0.909804, 0.298039, 1)
-source_piece_tint = Color(0.321569, 1, 0.615686, 1)
-sink_piece_tint = Color(1, 0.737255, 0.305882, 1)
-show_cell_background = false
-auto_flow_preview = true
-auto_flow_completes = true
-corner_connector_rot_offset = 1
-tee_connector_rot_offset = 2
-source_texture = ExtResource("2_plus_red")
-sink_texture = ExtResource("3_blue")
-straight_texture = ExtResource("4_red")
-corner_texture = ExtResource("5_corner_red")
-tee_texture = ExtResource("6_t_red")
-straight_textures = Array[Texture2D]([ExtResource("4_red"), ExtResource("3_blue"), ExtResource("4_red")])
-corner_textures = Array[Texture2D]([ExtResource("5_corner_red"), ExtResource("7_corner_blue"), ExtResource("5_corner_red")])
-tee_textures = Array[Texture2D]([ExtResource("6_t_red"), ExtResource("6_t_red"), ExtResource("6_t_red")])
-block_texture = ExtResource("2_plus_red")
-empty_texture = ExtResource("2_plus_red")
-powered_source_texture = ExtResource("8_powered_plus")
-powered_sink_texture = ExtResource("12_powered_blue")
-powered_straight_texture = ExtResource("9_powered_red")
-powered_corner_texture = ExtResource("10_powered_corner_red")
-powered_tee_texture = ExtResource("11_powered_t_red")
-powered_block_texture = ExtResource("8_powered_plus")
-powered_empty_texture = ExtResource("8_powered_plus")
-powered_straight_textures = Array[Texture2D]([ExtResource("9_powered_red"), ExtResource("12_powered_blue"), ExtResource("9_powered_red")])
-powered_corner_textures = Array[Texture2D]([ExtResource("10_powered_corner_red"), ExtResource("13_powered_corner_blue"), ExtResource("10_powered_corner_red")])
-powered_tee_textures = Array[Texture2D]([ExtResource("11_powered_t_red"), ExtResource("11_powered_t_red"), ExtResource("11_powered_t_red")])
-cell_color_normal = Color(0.113725, 0.109804, 0.0509804, 1)
-cell_color_cursor = Color(1, 0.964706, 0.462745, 1)
-cell_color_selected = Color(1, 0.764706, 0.188235, 1)
-cell_color_flow = Color(0.690196, 0.529412, 0.0745098, 1)
-puzzle_title_text = "Tree Circuit"
-puzzle_info_text = "Rotate nodes to route live electricity from start to end."
-action_button_text = "Power"
-solved_status_text = "Circuit complete. Tree is powered!"
-failed_status_text = "Current dropped. Rotate nodes and try again."
+
+[node name="RotationElectricity" type="AudioStreamPlayer" parent="." index="2"]
+stream = SubResource("AudioStreamRandomizer_14v1f")
+pitch_scale = 0.85
+
+[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="." index="3"]
+stream = SubResource("AudioStreamRandomizer_jnki5")
+volume_db = -6.679
+pitch_scale = 1.43
+
+[node name="ElectricityRestored" type="AudioStreamPlayer" parent="." index="4"]

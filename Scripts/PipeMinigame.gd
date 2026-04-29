@@ -71,7 +71,6 @@ const CELL_FLOW := Color("2b6d8a")
 @onready var _info_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Info
 @onready var _grid: GridContainer = $CenterContainer/PanelContainer/VBoxContainer/Grid
 @onready var _status_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Footer/Status
-@onready var _send_button: Button = $CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton
 @onready var _backdrop: ColorRect = $Backdrop
 @onready var _sfx_init: AudioStreamPlayer = get_node_or_null("TerminalInitialize")
 @onready var _sfx_move: AudioStreamPlayer = get_node_or_null("TerminalMoveSound")
@@ -115,10 +114,7 @@ func _ready() -> void:
 	if not _active and not embedded_mode:
 		visible = false
 	_apply_visual_overrides()
-	_send_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_status_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_send_button.pressed.connect(_on_send_water_pressed)
-	_send_button.visible = not auto_flow_completes
 	if embedded_mode:
 		$Backdrop.visible = false
 		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
@@ -127,7 +123,6 @@ func _ready() -> void:
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.modulate = Color(1, 1, 1, 0)
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
 		_ensure_embedded_rect_size()
 		if Engine.is_editor_hint():
 			visible = true
@@ -157,14 +152,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if (Global.fontChoice==0):
 		self.theme=load("res://Assets/Visual/Lingua.tres")
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Lingua.tres")
 		
 	if (Global.fontChoice==1):
 		self.theme=load("res://Assets/Visual/lingualight.tres")
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/lingualight.tres")
 	if (Global.fontChoice==2):
 		self.theme=load("res://Assets/Visual/Receipt.tres")
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Receipt.tres")
 	if not embedded_mode:
 		return
 	if _embedded_anchor_is_internal:
@@ -311,9 +303,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
-	if event.is_action_pressed("ui_accept"):
+	# Only SPACE should pick up/place pieces; avoid using ui_accept (Enter+Space)
+	if event is InputEventKey and event.keycode == KEY_SPACE and event.pressed:
 		if _can_move_pieces():
 			_toggle_select()
+		get_viewport().set_input_as_handled()
+		return
+
+	## Check for ENTER key to send water (only for pipe puzzles, not wire which auto-flows)
+	if event is InputEventKey and event.keycode == KEY_ENTER and event.pressed:
+		if not auto_flow_completes:
+			_on_send_water_pressed()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -598,11 +598,11 @@ func _can_rotate_pieces() -> bool:
 func _controls_hint_text() -> String:
 	match _control_mode:
 		1:
-			return "WASD: Move  Enter: Pick/Drop"
+			return "WASD: Move  SPACE: Pick/Drop  ENTER: Send"
 		2:
 			return "WASD: Cursor  Q/E: Rotate"
 		_:
-			return "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
+			return "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate  ENTER: Send"
 
 func _on_send_water_pressed() -> void:
 	if not _active:
@@ -922,7 +922,7 @@ func _apply_visual_overrides() -> void:
 	if panel_texture:
 		_root_panel.add_theme_stylebox_override("panel", _make_texture_stylebox(panel_texture))
 
-	var text_controls: Array[Control] = [_title_label, _info_label, _status_label, _send_button]
+	var text_controls: Array[Control] = [_title_label, _info_label, _status_label]
 	for c in text_controls:
 		c.add_theme_color_override("font_color", ui_text_color)
 		if ui_font:

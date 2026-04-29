@@ -54,9 +54,6 @@ theme_override_constants/v_separation = 0
 modulate = Color(1, 1, 1, 0)
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="SendWaterButton" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" index="1"]
-theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
-
 [node name="RotationElectricity" type="AudioStreamPlayer" parent="." index="2"]
 stream = SubResource("AudioStreamRandomizer_14v1f")
 pitch_scale = 0.85

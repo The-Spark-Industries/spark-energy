@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://b3nmvu7phpmdm"]
+[gd_scene load_steps=0 format=4 uid="uid://b3nmvu7phpmdm"]
 
 [ext_resource type="PackedScene" uid="uid://bmat7fpcdqhtd" path="res://Master Scenes/Checkpoint.tscn" id="17_gapqn"]
 [ext_resource type="PackedScene" uid="uid://cry8t43cly03v" path="res://Master Scenes/waterWheel.tscn" id="26_bngau"]

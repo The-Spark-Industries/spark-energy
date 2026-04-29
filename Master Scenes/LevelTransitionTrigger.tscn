@@ -1,0 +1,13 @@
+[gd_scene load_steps=0 format=3 uid="uid://bd70cooo6fss"]
+
+[ext_resource type="Script" path="res://Scripts/LevelTransitionTrigger.gd" id="1_script"]
+
+[node name="LevelTransitionTrigger" type="Area2D"]
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+# Replace the shape in editor to suit your level geometry
+shape = SubResource("RectangleShape2D_s1")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1"]
+extents = Vector2(32, 32)

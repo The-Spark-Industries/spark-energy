@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bd70cooo6fss"]
+[gd_scene load_steps=0 format=3 uid="uid://bd70cooo6fss"]
 
 [ext_resource type="Script" path="res://Scripts/LevelTransitionTrigger.gd" id="1_script"]
 

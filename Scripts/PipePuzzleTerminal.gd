@@ -60,6 +60,8 @@ var _ellipse_center: Vector2 = Vector2.ZERO
 var _ellipse_angle: float = 0.0
 var _ellipse_riders: Dictionary = {}
 var _embedded_sync_attempts: int = 0
+var _tutorial_overlay: Node = null
+var _minigame_player: CharacterBody2D = null
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -201,21 +203,51 @@ func _sync_embedded_preview_with_retries(attempt: int) -> void:
 
 	call_deferred("_sync_embedded_preview_with_retries", attempt + 1)
 
-func interact(player: CharacterBody2D) -> bool:
-	_play_terminal_interact_animation()
+func _is_wire_terminal() -> bool:
+	## Check if this is a wire puzzle terminal (vs pipe puzzle)
+	## Wire puzzles are layouts 8-20 (Wire Tree 9x8 through Wire Full 5x5 B)
+	return puzzle_layout >= 8 and puzzle_layout <= 20
 
-	if not _terminal_enabled:
-		if has_node("Prompt"):
-			$Prompt.text = LOCKED_PROMPT_TEXT
-			$Prompt.visible = true
-		return false
+func _get_tutorial_type_key() -> String:
+	## Returns the key used to track this tutorial in Global.tutorials
+	return "wire_terminal" if _is_wire_terminal() else "pipe_terminal"
 
-	if _solved:
-		if has_node("Prompt"):
-			$Prompt.text = "Solved"
-			$Prompt.visible = true
-		return false
+func _get_tutorial_instruction_text() -> String:
+	## Returns the appropriate tutorial text for this terminal type
+	if _is_wire_terminal():
+		return "WASD to move\nQ and E to rotate\nElectricity will flow automatically"
+	else:
+		return "WASD to move\nSPACE to pick up/place a piece\nENTER to send water"
 
+func _should_show_tutorial() -> bool:
+	## Check if tutorial should be shown for this terminal
+	var tutorial_key := _get_tutorial_type_key()
+	return not Global.tutorials.get(tutorial_key, false)
+
+func _show_tutorial_overlay() -> void:
+	## Create and display the tutorial overlay
+	if _tutorial_overlay != null and is_instance_valid(_tutorial_overlay):
+		_tutorial_overlay.queue_free()
+	
+	var tutorial_scene = preload("res://Master Scenes/TerminalTutorialOverlay.tscn")
+	_tutorial_overlay = tutorial_scene.instantiate()
+	get_tree().current_scene.add_child(_tutorial_overlay)
+	
+	if _tutorial_overlay.has_method("set_tutorial"):
+		_tutorial_overlay.call("set_tutorial", _get_tutorial_type_key(), _get_tutorial_instruction_text())
+	
+	if _tutorial_overlay.has_signal("dismissed"):
+		_tutorial_overlay.connect("dismissed", _on_tutorial_dismissed)
+
+func _on_tutorial_dismissed() -> void:
+	## Called when tutorial overlay is dismissed
+	if _minigame_player != null:
+		_open_minigame_for_player(_minigame_player)
+	_minigame_player = null
+	_tutorial_overlay = null
+
+func _open_minigame_for_player(player: CharacterBody2D) -> bool:
+	## Internal method to set up and open the minigame
 	if _minigame == null:
 		if not String(embedded_minigame_path).is_empty():
 			_minigame = get_node_or_null(embedded_minigame_path) as Control
@@ -253,6 +285,29 @@ func interact(player: CharacterBody2D) -> bool:
 		return true
 
 	return false
+
+func interact(player: CharacterBody2D) -> bool:
+	_play_terminal_interact_animation()
+
+	if not _terminal_enabled:
+		if has_node("Prompt"):
+			$Prompt.text = LOCKED_PROMPT_TEXT
+			$Prompt.visible = true
+		return false
+
+	if _solved:
+		if has_node("Prompt"):
+			$Prompt.text = "Solved"
+			$Prompt.visible = true
+		return false
+
+	## Check if tutorial should be shown
+	if _should_show_tutorial():
+		_minigame_player = player
+		_show_tutorial_overlay()
+		return true
+
+	return _open_minigame_for_player(player)
 
 func _play_terminal_interact_animation() -> void:
 	var animated := _resolve_terminal_animated_sprite()

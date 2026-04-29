@@ -44,6 +44,13 @@ var maze_resetter: int= 0
 
 var speedrunshow: bool = true
 
+## Tutorial seen flags: tracks which tutorials have been viewed
+## Format: {"pipe_terminal": bool, "wire_terminal": bool}
+var tutorials: Dictionary = {
+	"pipe_terminal": false,
+	"wire_terminal": false
+}
+
 func _ready() -> void:
 	load_game()
 

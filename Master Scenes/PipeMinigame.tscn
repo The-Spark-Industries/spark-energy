@@ -91,19 +91,5 @@ theme_override_constants/separation = 12
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
+text = "WASD: Move  SPACE: Pick/Drop  ENTER: Send"
 autowrap_mode = 2
-
-[node name="SendWaterButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1852465570]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-theme = ExtResource("2_o6pxk")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Send Water"
-
-[node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=752601829]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"

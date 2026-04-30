@@ -1586,7 +1586,7 @@ z_index = -2
 material = SubResource("ShaderMaterial_0xmx1")
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -26.75426
+anchor_left = -26.86058
 anchor_top = 0.35705858
 anchor_right = -26.86058
 anchor_bottom = 1.9294938
@@ -1790,7 +1790,6 @@ offset_left = 1391.0
 offset_top = 6593.0
 offset_right = 1485.0
 offset_bottom = 6668.0
-metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect6" type="ColorRect" parent="Water/Standing Water" unique_id=363060064]
 z_index = 1
@@ -1929,8 +1928,6 @@ position = Vector2(3391, -707)
 scale = Vector2(0.84, 0.84)
 
 [node name="PipeMinigame2" parent="Node2D5" unique_id=1771109868 instance=ExtResource("22_pipe_minigame")]
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="WirePuzzleTerminalRotateOnly" parent="Node2D5" unique_id=965825178 instance=ExtResource("70_wire_terminal")]
 position = Vector2(-3186, -327)
@@ -1945,8 +1942,6 @@ offset_bottom = -452.0
 metadata/_edit_use_anchors_ = true
 
 [node name="PipeMinigame3" parent="Node2D5" unique_id=573481477 instance=ExtResource("22_pipe_minigame")]
-offset_right = 0.0
-offset_bottom = 0.0
 metadata/_edit_use_anchors_ = true
 
 [node name="container#TileMapLayer2" type="TileMapLayer" parent="." unique_id=449330311]
@@ -2343,8 +2338,6 @@ tile_set = ExtResource("27_6lof3")
 [node name="Node2D7" type="Node2D" parent="." unique_id=87145349]
 
 [node name="PipeMinigame" parent="Node2D7" unique_id=1307642338 instance=ExtResource("22_pipe_minigame")]
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="Lever4" parent="Node2D7" unique_id=100359816 instance=ExtResource("13_1yw1p")]
 position = Vector2(75, 4)
@@ -3016,12 +3009,12 @@ position = Vector2(-316, -175)
 rotation = -3.1415927
 scale = Vector2(2, 2)
 lift_target_path = NodePath("../risingDoorLeftMiddle")
-lift_pixels = -200.0
+lift_pixels = -128.0
 lift_duration = 3.0
 
 [node name="risingDoorLeftMiddle" parent="level2container" unique_id=660229671 instance=ExtResource("25_2rbmd")]
-z_index = -1
-position = Vector2(-416, -520)
+z_index = -2
+position = Vector2(-416, -474)
 scale = Vector2(1, 1.6)
 
 [node name="level3RightMiddleLargeNodes" type="Node2D" parent="level2container" unique_id=1933429573]
@@ -3238,21 +3231,21 @@ offset_bottom = 389.5714
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
-[node name="PipeSoundTest" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=1797322943]
+[node name="PipeSoundTest2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=1797322943]
 stream = SubResource("AudioStreamRandomizer_uapay")
 volume_db = 5.553
 pitch_scale = 1.93
 
-[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=1386982539]
+[node name="TerminalMoveSound2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=1386982539]
 stream = SubResource("AudioStreamRandomizer_t5me0")
 volume_db = -6.679
 pitch_scale = 1.43
 
-[node name="TerminalInitialize" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=1331657950]
+[node name="TerminalInitialize2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=1331657950]
 stream = SubResource("AudioStreamPlaylist_fs2l7")
 pitch_scale = 1.42
 
-[node name="PuzzleComplete" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=782656424]
+[node name="PuzzleComplete2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/waterPuzzle1/PipeMinigame1" unique_id=782656424]
 stream = ExtResource("46_uapay")
 
 [node name="PipePuzzleTerminal1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=2129556919 instance=ExtResource("12_pipe_terminal")]
@@ -3327,21 +3320,21 @@ tee_texture = ExtResource("30_gnar4")
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
-[node name="PipeSoundTest" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=1568813626]
+[node name="PipeSoundTest2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=1568813626]
 stream = SubResource("AudioStreamRandomizer_uapay")
 volume_db = 5.553
 pitch_scale = 1.93
 
-[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=965480255]
+[node name="TerminalMoveSound2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=965480255]
 stream = SubResource("AudioStreamRandomizer_t5me0")
 volume_db = -6.679
 pitch_scale = 1.43
 
-[node name="TerminalInitialize" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=1051118541]
+[node name="TerminalInitialize2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=1051118541]
 stream = SubResource("AudioStreamPlaylist_fs2l7")
 pitch_scale = 1.42
 
-[node name="PuzzleComplete" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=1896841723]
+[node name="PuzzleComplete2" type="AudioStreamPlayer" parent="waterPuzzleLevel1/Node2D/PipeMinigame2" unique_id=1896841723]
 stream = ExtResource("46_uapay")
 bus = &"Music"
 
@@ -4027,8 +4020,6 @@ position = Vector2(4351, 3734)
 spin_clockwise = false
 
 [node name="PipeMinigame" parent="." unique_id=341051103 instance=ExtResource("22_pipe_minigame")]
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="Node2D15" parent="." unique_id=1235085027 instance=ExtResource("25_2rbmd")]
 position = Vector2(3936, 3849)
@@ -4054,21 +4045,21 @@ grow_vertical = 1
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
-[node name="PipeSoundTest" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=441262759]
+[node name="PipeSoundTest2" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=441262759]
 stream = SubResource("AudioStreamRandomizer_uapay")
 volume_db = 5.553
 pitch_scale = 1.93
 
-[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=1554888397]
+[node name="TerminalMoveSound2" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=1554888397]
 stream = SubResource("AudioStreamRandomizer_t5me0")
 volume_db = -6.679
 pitch_scale = 1.43
 
-[node name="TerminalInitialize" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=797216778]
+[node name="TerminalInitialize2" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=797216778]
 stream = SubResource("AudioStreamPlaylist_fs2l7")
 pitch_scale = 1.42
 
-[node name="PuzzleComplete" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=2000837696]
+[node name="PuzzleComplete2" type="AudioStreamPlayer" parent="Room10ProgressivePuzzle/PipeMinigameStage1" unique_id=2000837696]
 stream = ExtResource("46_uapay")
 
 [node name="PipePuzzleTerminalStage1" parent="Room10ProgressivePuzzle" unique_id=1940714577 instance=ExtResource("12_pipe_terminal")]
@@ -4645,21 +4636,21 @@ tee_texture = ExtResource("33_k1ypo")
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
-[node name="PipeSoundTest" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=1181034787]
+[node name="PipeSoundTest2" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=1181034787]
 stream = SubResource("AudioStreamRandomizer_uapay")
 volume_db = 5.553
 pitch_scale = 1.93
 
-[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=558971168]
+[node name="TerminalMoveSound2" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=558971168]
 stream = SubResource("AudioStreamRandomizer_t5me0")
 volume_db = -6.679
 pitch_scale = 1.43
 
-[node name="TerminalInitialize" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=109659760]
+[node name="TerminalInitialize2" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=109659760]
 stream = SubResource("AudioStreamPlaylist_fs2l7")
 pitch_scale = 1.42
 
-[node name="PuzzleComplete" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=1552278837]
+[node name="PuzzleComplete2" type="AudioStreamPlayer" parent="waterPuzzle/PipeMinigame2Level3First" unique_id=1552278837]
 stream = ExtResource("46_uapay")
 bus = &"Music"
 
@@ -4841,66 +4832,6 @@ target_paths = Array[NodePath]([NodePath("../WirePowerRelay4"), NodePath("../Wir
 [node name="Lever5" parent="." unique_id=975433408 instance=ExtResource("13_1yw1p")]
 position = Vector2(1705, 6915)
 output_target_paths = Array[NodePath]([NodePath("../WirePowerRelay5")])
-
-[node name="Node2D19" parent="." unique_id=859392769 instance=ExtResource("26_211ka")]
-position = Vector2(1433, 5499)
-motion_mode = 1
-motion_distance = 320.0
-
-[node name="LightBlock" parent="Node2D19" unique_id=584890528 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(32, 48)
-
-[node name="LightBlock2" parent="Node2D19" unique_id=172707696 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(64, 48)
-
-[node name="Node2D21" parent="." unique_id=136267447 instance=ExtResource("26_211ka")]
-position = Vector2(1561, 5371)
-motion_mode = 1
-motion_distance = 224.0
-
-[node name="LightBlock" parent="Node2D21" unique_id=1152115030 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(32, 48)
-
-[node name="LightBlock2" parent="Node2D21" unique_id=139777884 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(64, 48)
-
-[node name="LightBlock3" parent="Node2D21" unique_id=1278017510 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(32, 48)
-
-[node name="LightBlock4" parent="Node2D21" unique_id=907196117 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(64, 48)
-
-[node name="Node2D22" parent="." unique_id=1493761514 instance=ExtResource("26_211ka")]
-position = Vector2(1049, 5243)
-motion_mode = 1
-motion_distance = 704.0
-
-[node name="LightBlock" parent="Node2D22" unique_id=1885348962 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(32, 48)
-
-[node name="LightBlock2" parent="Node2D22" unique_id=473140320 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(64, 48)
-
-[node name="LightBlock3" parent="Node2D22" unique_id=476506328 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(32, 48)
-
-[node name="LightBlock4" parent="Node2D22" unique_id=182174487 instance=ExtResource("60_nbn2v")]
-z_index = -1
-position = Vector2(64, 48)
-
-[node name="Node2D23" parent="." unique_id=1374568048 instance=ExtResource("26_211ka")]
-position = Vector2(1177, 5115)
-motion_mode = 1
-motion_distance = 576.0
 
 [node name="Node2D24" parent="." unique_id=796188608 instance=ExtResource("26_211ka")]
 z_index = 1
@@ -5600,8 +5531,6 @@ tile_map_data = PackedByteArray("AABIACQAAAAQAAYAAABIACMAAAAQAAYAAABIACIAAAAQAAE
 tile_set = SubResource("TileSet_hea5a")
 
 [node name="PipeMinigame2" parent="." unique_id=347352053 instance=ExtResource("22_pipe_minigame")]
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="pipe2" parent="." unique_id=131382403 instance=ExtResource("22_pipe_minigame")]
 visible = true
@@ -6505,8 +6434,5 @@ lift_duration = 1.4
 
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D20" method="on_terminal_solved"]
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D18" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D19" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D21" method="on_terminal_solved"]
-[connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D22" method="on_terminal_solved"]
 
 [editable path="level2container/WaterPuzzleLevel2_2/PipePuzzleTerminal"]

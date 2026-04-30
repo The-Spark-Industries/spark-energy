@@ -257,7 +257,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
-		#$"TerminalInitialize".play()
+		$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -390,25 +390,25 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 
@@ -621,7 +621,6 @@ func _move_cursor(dx: int, dy: int) -> void:
 		_pieces[_grabbed_index] = _pieces[target_index]
 		_pieces[target_index] = moved_piece
 		_grabbed_index = target_index
-		_play_sfx(_sfx_move)
 
 	_cursor_index = target_index
 	_refresh_flow_state()
@@ -640,7 +639,7 @@ func _rotate_at_selection(dir: int) -> void:
 		return
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
-	# $"RotationElectricity".play()
+	$"RotationElectricity".play()
 	_status_label.text = "Rotated piece."
 	_refresh_flow_state()
 

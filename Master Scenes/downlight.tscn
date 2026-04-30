@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b7f76a30f5nj4"]
+[gd_scene load_steps=0 format=3 uid="uid://b7f76a30f5nj4"]
 
 [sub_resource type="Gradient" id="Gradient_lightblock"]
 colors = PackedColorArray(1, 0.95, 0.75, 1, 0, 0, 0, 0)

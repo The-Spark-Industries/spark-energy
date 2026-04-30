@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cajr8gi261a7b"]
 
 [ext_resource type="Script" uid="uid://buq37mcyld3m5" path="res://Scripts/title_screen.gd" id="1_qcgwx"]
-[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_ppmyv"]
+[ext_resource type="Texture2D" uid="uid://dekdfi4yrounn" path="res://Assets/Visual/sticker copy.png" id="2_pdvyb"]
 [ext_resource type="AudioStream" uid="uid://cp1r61ccuk3ye" path="res://Assets/Audio/Monkeys%20Spinning%20Monkeys.mp3" id="3_pdvyb"]
 
 [node name="titleScreen" type="Control" unique_id=101879355]
@@ -14,11 +14,12 @@ grow_vertical = 2
 script = ExtResource("1_qcgwx")
 
 [node name="LogoOption1" type="Sprite2D" parent="." unique_id=767443607]
-position = Vector2(473.5, 260.625)
-scale = Vector2(6.5859375, 1.4628906)
-texture = ExtResource("2_ppmyv")
+position = Vector2(485, 249.5)
+scale = Vector2(5.302084, 3.140625)
+texture = ExtResource("2_pdvyb")
 
 [node name="LogoOption2" type="Label" parent="." unique_id=1502954281]
+visible = false
 layout_mode = 0
 offset_left = 48.0
 offset_top = 63.0
@@ -39,6 +40,7 @@ offset_top = -31.0
 offset_right = 35.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.8, 0.8)
 size_flags_vertical = 8
 
 [node name="Options" type="Button" parent="VBoxContainer2" unique_id=470976601]
@@ -56,7 +58,7 @@ anchor_bottom = 0.5
 offset_left = -91.0
 offset_top = 210.02
 offset_right = 151.0
-offset_bottom = 226.0
+offset_bottom = 238.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -69,7 +71,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 79
 text = "Start"
 
+[node name="CheckButton" type="CheckButton" parent="Container/VBoxContainer" unique_id=683744414]
+layout_mode = 2
+size_flags_vertical = 8
+button_pressed = true
+text = "     Speedrun Mode"
+
 [node name="optionsMenu" type="Control" parent="." unique_id=959929399]
+visible = false
 anchors_preset = 0
 offset_right = 1148.0
 offset_bottom = 647.0
@@ -208,6 +217,7 @@ parameters/looping = true
 
 [connection signal="pressed" from="VBoxContainer2/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Container/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="toggled" from="Container/VBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="value_changed" from="optionsMenu/masterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="optionsMenu/musicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="optionsMenu/soundSlider" to="." method="_on_sound_slider_value_changed"]

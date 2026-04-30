@@ -2,6 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://cknx1i8d6ojmr" path="res://Master Scenes/PipeMinigame.tscn" id="1_base_minigame"]
 [ext_resource type="Texture2D" uid="uid://cgoqt0xuu04f3" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/plus_red_wire.png" id="2_plus_red"]
+[ext_resource type="AudioStream" uid="uid://cgk03hugt3db6" path="res://Level 1/Level 1 Audio/SFX/ElectricySound.wav" id="3_xq6mu"]
+[ext_resource type="AudioStream" uid="uid://civg58i5oib5p" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_1.wav" id="4_14v1f"]
+[ext_resource type="Texture2D" uid="uid://cgoqt0xuu04f3" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/plus_red_wire.png" id="2_plus_red"]
 [ext_resource type="Texture2D" uid="uid://b7f8wysam5kus" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/blue_wire.png" id="3_blue"]
 [ext_resource type="Texture2D" uid="uid://dl0uv6c4jrf" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/red_wire.png" id="4_red"]
 [ext_resource type="Texture2D" uid="uid://dw782fb2a36xp" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/corner_red.png" id="5_corner_red"]
@@ -13,6 +16,18 @@
 [ext_resource type="Texture2D" uid="uid://bqtymq4j8r4uj" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_t_red.png" id="11_powered_t_red"]
 [ext_resource type="Texture2D" uid="uid://dkuo816npfb57" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_blue_wire.png" id="12_powered_blue"]
 [ext_resource type="Texture2D" uid="uid://uqnvddiurfp" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_corner_blue.png" id="13_powered_corner_blue"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c41uq"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_14v1f"]
+random_pitch = 1.08
+random_volume_offset_db = 0.6
+streams_count = 1
+stream_0/stream = ExtResource("3_xq6mu")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jnki5"]
+streams_count = 1
+stream_0/stream = ExtResource("4_14v1f")
 
 [node name="WireMinigame" unique_id=50798521 instance=ExtResource("1_base_minigame")]
 visible = true
@@ -57,3 +72,39 @@ puzzle_info_text = "Rotate nodes to route live electricity from start to end."
 action_button_text = "Power"
 solved_status_text = "Circuit complete. Tree is powered!"
 failed_status_text = "Current dropped. Rotate nodes and try again."
+
+[node name="Backdrop" parent="." index="0"]
+visible = false
+
+[node name="PanelContainer" parent="CenterContainer" index="0"]
+custom_minimum_size = Vector2(112, 180)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c41uq")
+
+[node name="Title" parent="CenterContainer/PanelContainer/VBoxContainer" index="0"]
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+
+[node name="Info" parent="CenterContainer/PanelContainer/VBoxContainer" index="1"]
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+
+[node name="Grid" parent="CenterContainer/PanelContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(96, 96)
+size_flags_vertical = 4
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Status" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" index="0"]
+modulate = Color(1, 1, 1, 0)
+theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
+
+[node name="RotationElectricity" type="AudioStreamPlayer" parent="." index="2"]
+stream = SubResource("AudioStreamRandomizer_14v1f")
+pitch_scale = 0.85
+
+[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="." index="3"]
+stream = SubResource("AudioStreamRandomizer_jnki5")
+volume_db = -6.679
+pitch_scale = 1.43
+
+[node name="ElectricityRestored" type="AudioStreamPlayer" parent="." index="4"]

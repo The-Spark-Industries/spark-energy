@@ -61,6 +61,7 @@ var just_fell_countdown: float = 0.0
 @onready var animPlayer: AnimationPlayer = get_node_or_null("AnimationPlayer")
 
 func _ready() -> void:
+	Global.maze_resetter=0
 	$playerprompt.theme=load("res://Assets/Visual/Lingua.tres")
 	Global.tutorialchecker = 0
 	set_meta("tag", "player")
@@ -89,6 +90,13 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	
+	
+	
+	#if Input.is_action_just_pressed("ui_down"):
+		#self.position.x=1200
+	#	self.position.y=6500
+	#	Global.timerstopper=true
 	just_fell_countdown -= delta
 	
 	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:
@@ -389,6 +397,9 @@ func _on_water_death_timeout() -> void:
 	die()
 
 func die() -> void:
+	
+	if (Global.maze_decider==1):
+		Global.maze_resetter=1
 	state = States.DEAD
 	velocity = Vector2.ZERO
 	$"SparkSFX/DeathSFX".play()
@@ -402,6 +413,7 @@ func _respawn() -> void:
 		global_position = Global.last_checkpoint_position
 	else:
 		global_position = _scene_spawn_position
+	
 	velocity = Vector2.ZERO
 	state = States.IDLE
 	_jump_arc_active = false
@@ -412,6 +424,12 @@ func _respawn() -> void:
 		_water_death_timer.stop()
 	if sprite:
 		sprite.play("idle")
+	if (Global.maze_decider==1):
+		Global.maze_resetter=1
+		var scene_path := ""
+		scene_path = get_tree().current_scene.scene_file_path
+		get_tree().reload_current_scene()		
+	
 
 func _current_scene_path() -> String:
 	if get_tree().current_scene:

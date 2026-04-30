@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bcfe7qbhbt8xv"]
 
-[ext_resource type="PackedScene" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="1_base_terminal"]
+[ext_resource type="PackedScene" uid="uid://ctu446b65pai6" path="res://Master Scenes/PipePuzzleTerminal.tscn" id="1_base_terminal"]
 
 [node name="WirePuzzleTerminalRotateOnly" instance=ExtResource("1_base_terminal")]
 puzzle_layout = 10

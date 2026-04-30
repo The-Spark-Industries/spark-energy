@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://bggtirfbma714"]
+[gd_scene format=3 uid="uid://chabelt0001"]
 
-[ext_resource type="Script" path="res://Scripts/chain_belt.gd" id="1_belt"]
+[ext_resource type="Script" uid="uid://2d2q4hjw2qpm" path="res://Scripts/chain_belt.gd" id="1_belt"]
 [ext_resource type="Texture2D" uid="uid://b4gymdee5kvrp" path="res://Level 1/Level 1 Art Assets/Items/Sprites/chain.png" id="2_chain"]
 
 [node name="ChainBelt" type="Node2D" unique_id=1310722216]

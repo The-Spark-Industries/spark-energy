@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ctu446b65pai6"]
+[gd_scene format=3 uid="uid://ctu446b65pai6"]
 
 [ext_resource type="Script" uid="uid://cmoblano7wpdw" path="res://Scripts/PipePuzzleTerminal.gd" id="1_terminal_script"]
 [ext_resource type="Texture2D" uid="uid://g3ol17l1csgd" path="res://Level 1/Level 1 Art Assets/Items/Sprites/TERMINAL.png" id="2_nxd6q"]
@@ -36,19 +36,19 @@ stream_0/stream = ExtResource("10_wcv65")
 stream_count = 1
 stream_0 = ExtResource("11_ssj04")
 
-[node name="PipePuzzleTerminal" type="Area2D"]
+[node name="PipePuzzleTerminal" type="Area2D" unique_id=672873688]
 collision_layer = 0
 script = ExtResource("1_terminal_script")
 water_stream_path = NodePath("SolvedWaterStream")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1359537476]
 position = Vector2(-0.5, -2.5)
 shape = SubResource("RectangleShape2D_nnowx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=596716845]
 texture = SubResource("CanvasTexture_iv4xa")
 
-[node name="Prompt" type="Label" parent="."]
+[node name="Prompt" type="Label" parent="." unique_id=842486999]
 visible = false
 offset_left = -140.0
 offset_top = -122.0
@@ -58,30 +58,30 @@ theme_override_font_sizes/font_size = 32
 text = "E: Interact"
 horizontal_alignment = 1
 
-[node name="SolvedWaterStream" type="Line2D" parent="."]
+[node name="SolvedWaterStream" type="Line2D" parent="." unique_id=1209253209]
 visible = false
 position = Vector2(36, -10)
 points = PackedVector2Array(0, 0, 55, 12, 110, 34)
 width = 9.0
 default_color = Color(0.211765, 0.682353, 0.905882, 1)
 
-[node name="PipeInitializeSound" type="AudioStreamPlayer" parent="."]
+[node name="PipeInitializeSound" type="AudioStreamPlayer" parent="." unique_id=1315088099]
 stream = ExtResource("4_iv4xa")
 volume_db = -4.771
 
-[node name="PipeSoundTest" type="AudioStreamPlayer" parent="."]
+[node name="PipeSoundTest" type="AudioStreamPlayer" parent="." unique_id=493663812]
 stream = SubResource("AudioStreamRandomizer_l13ml")
 volume_db = 5.553
 pitch_scale = 1.93
 
-[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="."]
+[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="." unique_id=913111691]
 stream = SubResource("AudioStreamRandomizer_bo2d3")
 volume_db = -6.679
 pitch_scale = 1.43
 
-[node name="TerminalInitialize" type="AudioStreamPlayer" parent="."]
+[node name="TerminalInitialize" type="AudioStreamPlayer" parent="." unique_id=1552367409]
 stream = SubResource("AudioStreamPlaylist_tcdtk")
 pitch_scale = 1.42
 
-[node name="PuzzleComplete" type="AudioStreamPlayer" parent="."]
+[node name="PuzzleComplete" type="AudioStreamPlayer" parent="." unique_id=94766742]
 stream = ExtResource("12_8rcg5")

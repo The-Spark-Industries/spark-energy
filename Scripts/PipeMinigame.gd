@@ -622,13 +622,13 @@ func _toggle_select() -> void:
 	if _grabbed_index == -1:
 		if _can_pick(_cursor_index):
 			_grabbed_index = _cursor_index
-			_status_label.text = "Selected. Move with WASD, Enter to place."
+			_status_label.text = "Selected. Move with WASD or left stick, Space to place."
 	else:
 		_grabbed_index = -1
 		if auto_flow_completes:
 			_status_label.text = "Piece placed. Power propagates automatically."
 		else:
-			_status_label.text = "Piece placed. Press Send Water when ready."
+			_status_label.text = "Piece placed. Press Enter or Y when ready."
 
 	_refresh_flow_state()
 
@@ -676,9 +676,9 @@ func _can_rotate_pieces() -> bool:
 func _controls_hint_text() -> String:
 	match _control_mode:
 		1:
-			return "WASD: Move  SPACE: Pick/Drop  ENTER: Send"
+			return "WASD/Left Stick: Move  SPACE/A: Pick/Drop  ENTER/Y: Send"
 		2:
-			return "WASD: Cursor  Q/E: Rotate"
+			return "WASD/Left Stick: Move  Q/E or Right/Left Trigger: Rotate"
 		_:
 			return "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate  ENTER: Send"
 

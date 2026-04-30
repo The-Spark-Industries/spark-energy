@@ -36,6 +36,23 @@ var tutorialchecker: int = 0
 
 var jumpcounter : int =0
 
+var speedrun_time =0
+
+var maze_decider: int= 0
+
+var maze_resetter: int= 0
+
+var speedrunshow: bool = true
+
+var timerstopper: bool = false
+
+## Tutorial seen flags: tracks which tutorials have been viewed
+## Format: {"pipe_terminal": bool, "wire_terminal": bool}
+var tutorials: Dictionary = {
+	"pipe_terminal": false,
+	"wire_terminal": false
+}
+
 func _ready() -> void:
 	load_game()
 

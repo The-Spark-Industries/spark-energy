@@ -200,6 +200,9 @@ func _apply_visual_state(play_power_transition: bool) -> void:
 		var powered_anim := _resolve_powered_animation_name(sprite)
 		if not powered_anim.is_empty():
 			sprite.play(powered_anim)
+			var frame_count := sprite.sprite_frames.get_frame_count(powered_anim)
+			if frame_count > 1:
+				sprite.frame = randi() % frame_count
 	else:
 		if _sprite_has_animation(sprite, unpowered_animation):
 			sprite.play(String(unpowered_animation))

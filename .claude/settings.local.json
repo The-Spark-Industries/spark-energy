@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk -F/ '{print $NF}')",
+      "Bash(identify \"/Users/carlofedolfi/Documents/GitHub/spark-energy/Level 1/Level 1 Art Assets/Items/Sprites/chain.png\")",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -n \"Sound\\\\|AudioStreamPlayer\\\\|\\\\$\\\\\"\" /Users/carlofedolfi/Documents/GitHub/spark-energy/Scripts/PipeMinigame.gd)"
+    ]
+  }
+}

@@ -1,9 +1,33 @@
 [gd_scene format=3 uid="uid://cknx1i8d6ojmr"]
 
 [ext_resource type="Script" uid="uid://dplhbc4yvnf0y" path="res://Scripts/PipeMinigame.gd" id="1_pipe_script"]
-[ext_resource type="Theme" uid="uid://60rj30lepwcb" path="res://Assets/Visual/Lingua.tres" id="2_o6pxk"]
+[ext_resource type="AudioStream" uid="uid://du84kw3i4cth7" path="res://Level 1/Level 1 Audio/SFX/PuzzleSolved_2.wav" id="2_yofxr"]
+[ext_resource type="AudioStream" uid="uid://bw6tc0g3mhww7" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_1.wav" id="3_vgrmu"]
+[ext_resource type="AudioStream" uid="uid://dpfm6sormrp7d" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_2.wav" id="4_qb332"]
+[ext_resource type="AudioStream" uid="uid://y1jmepwjlnb0" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_3.wav" id="5_vq52m"]
+[ext_resource type="AudioStream" uid="uid://oe86a7by6ahf" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_4.wav" id="6_hs71i"]
+[ext_resource type="AudioStream" uid="uid://ban0kguqhf8ly" path="res://Level 1/Level 1 Audio/SFX/PipeRotate_5.wav" id="7_63e3a"]
+[ext_resource type="AudioStream" uid="uid://civg58i5oib5p" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_1.wav" id="8_v2bkk"]
+[ext_resource type="AudioStream" uid="uid://wecos68iu24f" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_2.wav" id="9_s3x4o"]
+[ext_resource type="AudioStream" uid="uid://cltuows3gcovu" path="res://Level 1/Level 1 Audio/SFX/PuzzleSolved_3.wav" id="10_fddil"]
 
-[node name="PipeMinigame" type="Control" unique_id=816716628]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pjvoo"]
+streams_count = 5
+stream_0/stream = ExtResource("3_vgrmu")
+stream_1/stream = ExtResource("4_qb332")
+stream_2/stream = ExtResource("5_vq52m")
+stream_3/stream = ExtResource("6_hs71i")
+stream_4/stream = ExtResource("7_63e3a")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_f2lci"]
+streams_count = 1
+stream_0/stream = ExtResource("8_v2bkk")
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_7tr6k"]
+stream_count = 1
+stream_0 = ExtResource("9_s3x4o")
+
+[node name="PipeMinigame" type="Control" unique_id=2008423307]
 process_mode = 2
 visible = false
 layout_mode = 3
@@ -20,7 +44,7 @@ size_flags_stretch_ratio = 0.0
 mouse_filter = 2
 script = ExtResource("1_pipe_script")
 
-[node name="Backdrop" type="ColorRect" parent="." unique_id=2087983901]
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1506985334]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.694
@@ -34,7 +58,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.66)
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1394595627]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1753486676]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
@@ -48,19 +72,19 @@ offset_bottom = 241.35999
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1163156292]
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=478549438]
 custom_minimum_size = Vector2(380, 483)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=972430594]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=87195765]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Title" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=509321678]
+[node name="Title" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=656161858]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -68,14 +92,14 @@ theme_override_font_sizes/font_size = 32
 text = "3x3 hidden ports (INSIDE (0,1), INSIDE (2,1))"
 horizontal_alignment = 1
 
-[node name="Info" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=452963937]
+[node name="Info" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1524639290]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Build a connected pipe route from source to drain."
 horizontal_alignment = 1
 
-[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1234549175]
+[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1784833602]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
@@ -83,7 +107,7 @@ theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 3
 
-[node name="Footer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1081479325]
+[node name="Footer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1604971685]
 layout_mode = 2
 theme_override_constants/separation = 50
 
@@ -95,8 +119,30 @@ theme = ExtResource("2_o6pxk")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Send Water"
 
-[node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=752601829]
+[node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1018764949]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
+text = "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate  ENTER: Send"
+autowrap_mode = 2
+
+[node name="PipeInitializeSound" type="AudioStreamPlayer" parent="." unique_id=1706258381]
+stream = ExtResource("2_yofxr")
+volume_db = -4.771
+
+[node name="PipeSoundTest" type="AudioStreamPlayer" parent="." unique_id=2078658150]
+stream = SubResource("AudioStreamRandomizer_pjvoo")
+volume_db = 5.553
+pitch_scale = 1.93
+
+[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="." unique_id=1305109986]
+stream = SubResource("AudioStreamRandomizer_f2lci")
+volume_db = -6.679
+pitch_scale = 1.43
+
+[node name="TerminalInitialize" type="AudioStreamPlayer" parent="." unique_id=1973840618]
+stream = SubResource("AudioStreamPlaylist_7tr6k")
+pitch_scale = 1.42
+
+[node name="PuzzleComplete" type="AudioStreamPlayer" parent="." unique_id=1010454011]
+stream = ExtResource("10_fddil")

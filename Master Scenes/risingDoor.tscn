@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dbc7g8fnav7jf"]
 
-[ext_resource type="Script" path="res://Scripts/rising_door.gd" id="1_risingdoor"]
+[ext_resource type="Script" uid="uid://lplpt8m1t2f4" path="res://Scripts/rising_door.gd" id="1_risingdoor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lrnk2"]
 size = Vector2(32, 96)

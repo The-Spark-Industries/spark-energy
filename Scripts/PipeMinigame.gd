@@ -71,7 +71,6 @@ const CELL_FLOW := Color("2b6d8a")
 @onready var _info_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Info
 @onready var _grid: GridContainer = $CenterContainer/PanelContainer/VBoxContainer/Grid
 @onready var _status_label: Label = $CenterContainer/PanelContainer/VBoxContainer/Footer/Status
-@onready var _send_button: Button = $CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton
 @onready var _backdrop: ColorRect = $Backdrop
 @onready var _sfx_init: AudioStreamPlayer = get_node_or_null("TerminalInitialize")
 @onready var _sfx_move: AudioStreamPlayer = get_node_or_null("TerminalMoveSound")
@@ -82,6 +81,7 @@ var _player: CharacterBody2D = null
 var _cells: Array[PanelContainer] = []
 var _cell_labels: Array[Label] = []
 var _cell_icons: Array[Sprite2D] = []
+var _cell_highlights: Array[Panel] = []
 var _pieces: Array[Dictionary] = []
 var _puzzle: PipePuzzleDefinition = null
 var _grid_size: int = 3
@@ -97,6 +97,7 @@ var _debug_preview: bool = false
 var _embedded_anchor_node: Node2D = null
 var _embedded_anchor_is_internal: bool = false
 var _embedded_anchor_global_target: Vector2 = Vector2.ZERO
+var _joy_axis_prev: Dictionary = {}
 
 func set_debug_preview(enabled: bool) -> void:
 	_debug_preview = enabled
@@ -157,14 +158,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if (Global.fontChoice==0):
 		self.theme=load("res://Assets/Visual/Lingua.tres")
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Lingua.tres")
 		
 	if (Global.fontChoice==1):
 		self.theme=load("res://Assets/Visual/lingualight.tres")
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/lingualight.tres")
 	if (Global.fontChoice==2):
 		self.theme=load("res://Assets/Visual/Receipt.tres")
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.theme=load("res://Assets/Visual/Receipt.tres")
+	if not embedded_mode:
+		return
+	if _embedded_anchor_is_internal:
+		return
+	_update_embedded_anchor_position()
 
 func _ensure_embedded_rect_size() -> void:
 	if not embedded_mode:
@@ -259,7 +262,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
-		#$"TerminalInitialize".play()
+		$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -301,14 +304,76 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _active:
 		return
 
+	if event is InputEventJoypadButton and event.pressed:
+		# A button => pick/place
+		if event.button_index == JOY_BUTTON_A:
+			if _can_move_pieces():
+				_toggle_select()
+			get_viewport().set_input_as_handled()
+			return
+
+		# Y button => send water (pipe puzzles)
+		if event.button_index == JOY_BUTTON_Y:
+			if not auto_flow_completes:
+				_on_send_water_pressed()
+			get_viewport().set_input_as_handled()
+			return
+
+
+	if event is InputEventJoypadMotion:
+		var axis := int(event.axis)
+		var val := float(event.axis_value)
+		var prev := float(_joy_axis_prev.get(axis, 0.0))
+		_joy_axis_prev[axis] = val
+
+		if axis == JOY_AXIS_LEFT_X or axis == JOY_AXIS_LEFT_Y:
+			var threshold := 0.6
+			var dx := 0
+			var dy := 0
+			if axis == JOY_AXIS_LEFT_X:
+				if val > threshold and prev <= threshold:
+					dx = 1
+				elif val < -threshold and prev >= -threshold:
+					dx = -1
+			elif axis == JOY_AXIS_LEFT_Y:
+				if val > threshold and prev <= threshold:
+					dy = 1
+				elif val < -threshold and prev >= -threshold:
+					dy = -1
+
+			if dx != 0 or dy != 0:
+				_move_cursor(dx, dy)
+				get_viewport().set_input_as_handled()
+				return
+
+		if axis == JOY_AXIS_RIGHT_X or axis == JOY_AXIS_RIGHT_Y:
+			var t_threshold := 0.6
+			if val > t_threshold and prev <= t_threshold:
+				if _can_rotate_pieces():
+					if axis == JOY_AXIS_RIGHT_X:
+						_rotate_at_selection(-1)
+					else:
+						_rotate_at_selection(1)
+				get_viewport().set_input_as_handled()
+				return
+
+
 	if event.is_action_pressed("ui_cancel"):
 		close_minigame()
 		get_viewport().set_input_as_handled()
 		return
 
-	if event.is_action_pressed("ui_accept"):
+	# Only SPACE should pick up/place pieces; avoid using ui_accept (Enter+Space)
+	if event is InputEventKey and event.keycode == KEY_SPACE and event.pressed:
 		if _can_move_pieces():
 			_toggle_select()
+		get_viewport().set_input_as_handled()
+		return
+
+	## Check for ENTER key to send water (only for pipe puzzles, not wire which auto-flows)
+	if event is InputEventKey and event.keycode == KEY_ENTER and event.pressed:
+		if not auto_flow_completes:
+			_on_send_water_pressed()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -367,6 +432,7 @@ func _build_grid_ui() -> void:
 	_cells.clear()
 	_cell_labels.clear()
 	_cell_icons.clear()
+	_cell_highlights.clear()
 	_grid.columns = _grid_size
 
 	var separation_basis: int = max(_grid_size, _grid_height)
@@ -408,6 +474,10 @@ func _build_grid_ui() -> void:
 	var glyph_font_size: int = int(clampf(cell_size * 0.6, 24.0, 62.0))
 
 	for i in range(_grid_size * _grid_height):
+		var piece_kind := "empty"
+		if _puzzle != null and i < _puzzle.pieces.size():
+			piece_kind = String(_puzzle.pieces[i].get("kind", "empty"))
+		var is_block := piece_kind == "block"
 		var cell := PanelContainer.new()
 		cell.custom_minimum_size = Vector2(cell_size, cell_size)
 		cell.pivot_offset = Vector2(cell_size * 0.5, cell_size * 0.5)
@@ -433,16 +503,64 @@ func _build_grid_ui() -> void:
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", glyph_font_size)
+		label.add_theme_font_size_override("font_size", glyph_font_size + (16 if is_block else 0))
 		label.add_theme_color_override("font_color", ui_text_color)
 		if ui_font:
 			label.add_theme_font_override("font", ui_font)
 
 		cell.add_child(label)
+
+		var highlight := Panel.new()
+		highlight.set_anchors_preset(Control.PRESET_FULL_RECT)
+		highlight.offset_left = 2.0
+		highlight.offset_top = 2.0
+		highlight.offset_right = -2.0
+		highlight.offset_bottom = -2.0
+		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		highlight.z_index = 30
+		highlight.visible = false
+		highlight.add_theme_stylebox_override("panel", _make_cell_highlight_stylebox())
+		cell.add_child(highlight)
+
 		_grid.add_child(cell)
 		_cells.append(cell)
 		_cell_labels.append(label)
 		_cell_icons.append(icon)
+		_cell_highlights.append(highlight)
+
+	if embedded_mode and _embedded_anchor_node != null and not _active:
+		call_deferred("_update_embedded_anchor_position")
+
+func _resolve_embedded_anchor_node() -> void:
+	_embedded_anchor_node = null
+	_embedded_anchor_is_internal = false
+	if String(embedded_anchor_path).is_empty():
+		return
+	_embedded_anchor_node = get_node_or_null(embedded_anchor_path) as Node2D
+	if _embedded_anchor_node == null:
+		push_warning("PipeMinigame: embedded_anchor_path does not point to a Node2D on %s" % name)
+		return
+
+	_embedded_anchor_is_internal = is_ancestor_of(_embedded_anchor_node)
+	_embedded_anchor_global_target = _embedded_anchor_node.global_position
+
+func _update_embedded_anchor_position() -> void:
+	if not embedded_mode:
+		return
+	if _embedded_anchor_node == null:
+		if not String(embedded_anchor_path).is_empty():
+			_resolve_embedded_anchor_node()
+		if _embedded_anchor_node == null:
+			return
+
+	var anchor_global := _embedded_anchor_global_target if _embedded_anchor_is_internal else _embedded_anchor_node.global_position
+	var target_position := anchor_global + embedded_anchor_offset
+	if embedded_anchor_centered:
+		var panel_size := _root_panel.size
+		if panel_size.x <= 0.0 or panel_size.y <= 0.0:
+			panel_size = _root_panel.get_combined_minimum_size()
+		target_position -= panel_size * 0.5
+	global_position = target_position
 
 	if embedded_mode and _embedded_anchor_node != null and not _active:
 		call_deferred("_update_embedded_anchor_position")
@@ -579,6 +697,7 @@ func _rotate_at_selection(dir: int) -> void:
 		return
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
+	$"RotationElectricity".play()
 	_status_label.text = "Rotated piece."
 	_refresh_flow_state()
 
@@ -591,11 +710,11 @@ func _can_rotate_pieces() -> bool:
 func _controls_hint_text() -> String:
 	match _control_mode:
 		1:
-			return "WASD: Move  Enter: Pick/Drop"
+			return "WASD: Move  SPACE: Pick/Drop  ENTER: Send"
 		2:
 			return "WASD: Cursor  Q/E: Rotate"
 		_:
-			return "WASD: Move  Enter: Pick/Drop  Q/E: Rotate"
+			return "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate  ENTER: Send"
 
 func _on_send_water_pressed() -> void:
 	if not _active:
@@ -607,14 +726,14 @@ func _on_send_water_pressed() -> void:
 	var reached := _trace_flow_from_source()
 	if _is_sink_reached(reached):
 		_solved = true
-		_status_label.text = "Water reached the end. Puzzle solved!"
-		#$"PuzzleComplete".play()
+		_status_label.text = "Puzzle solved!"
+		_play_sfx(_sfx_complete)
 		_update_cells(reached)
 		completed.emit(true)
 		await get_tree().create_timer(2.7).timeout
 		close_minigame()
 	else:
-		_status_label.text = "Flow failed before the end. Re-route the pipes."
+		_status_label.text = "Flow failed. Re-route the pipes."
 		_update_cells(reached)
 
 func _refresh_flow_state(allow_autocomplete: bool = true) -> void:
@@ -719,6 +838,8 @@ func _virtual_port_attachment(port_pos: Vector2i) -> Dictionary:
 func _update_cells(flow_cells: Array[int] = []) -> void:
 	for i in range(_pieces.size()):
 		var piece: Dictionary = _pieces[i]
+		var kind := String(piece.get("kind", "empty"))
+		var is_block := kind == "block"
 		var use_texture := not (embedded_mode and embedded_use_glyphs)
 		var piece_tex: Texture2D = _piece_texture(piece, i in flow_cells) if use_texture else null
 		if piece_tex:
@@ -732,18 +853,23 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 			var tex_size := piece_tex.get_size()
 			if tex_size.x > 0.0 and tex_size.y > 0.0:
 				var target := Vector2(embedded_cell_size, embedded_cell_size) if embedded_mode else (pivot_basis - Vector2(12.0, 12.0))
+				if is_block:
+					target = Vector2(embedded_cell_size, embedded_cell_size) if embedded_mode else (pivot_basis - Vector2(2.0, 2.0))
 				var fit_scale := minf(target.x / tex_size.x, target.y / tex_size.y)
 				_cell_icons[i].scale = Vector2.ONE * fit_scale
 			else:
 				_cell_icons[i].scale = Vector2.ONE
 			_cell_icons[i].rotation = _piece_rotation_radians(piece)
 			_cell_icons[i].visible = true
+			_cell_icons[i].modulate = Color(1.0, 0.56, 0.56, 1.0) if is_block else Color(1, 1, 1, 1)
 			_cell_labels[i].text = ""
 		else:
 			_cell_icons[i].visible = false
 			_cell_labels[i].text = _glyph_for_piece(piece)
 
 		var color := CELL_NORMAL
+		if is_block:
+			color = Color("7b2424")
 		if i in flow_cells:
 			color = CELL_FLOW
 		if i == _cursor_index:
@@ -752,15 +878,39 @@ func _update_cells(flow_cells: Array[int] = []) -> void:
 			color = CELL_SELECTED
 
 		_cells[i].self_modulate = color
+		var highlight := _cell_highlights[i]
 		if i == _grabbed_index:
 			_cells[i].scale = Vector2(1.14, 1.14)
 			_cells[i].z_index = 20
+			highlight.visible = _active
+			highlight.self_modulate = Color(1.0, 0.72, 0.1, 1.0)
+			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif i == _cursor_index:
 			_cells[i].scale = Vector2(1.06, 1.06)
 			_cells[i].z_index = 10
+			highlight.visible = _active
+			highlight.self_modulate = Color(0.25, 0.92, 1.0, 1.0)
+			highlight.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		else:
 			_cells[i].scale = Vector2.ONE
 			_cells[i].z_index = 0
+			highlight.visible = false
+
+func _make_cell_highlight_stylebox() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1, 1, 1, 0.0)
+	style.border_width_left = 5
+	style.border_width_top = 5
+	style.border_width_right = 5
+	style.border_width_bottom = 5
+	style.border_color = Color(1, 1, 1, 1)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_right = 8
+	style.corner_radius_bottom_left = 8
+	style.shadow_size = 10
+	style.shadow_color = Color(1, 1, 1, 0.35)
+	return style
 
 func _can_pick(index: int) -> bool:
 	if _pieces[index].get("locked", false):
@@ -915,7 +1065,7 @@ func _apply_visual_overrides() -> void:
 	if panel_texture:
 		_root_panel.add_theme_stylebox_override("panel", _make_texture_stylebox(panel_texture))
 
-	var text_controls: Array[Control] = [_title_label, _info_label, _status_label, _send_button]
+	var text_controls: Array[Control] = [_title_label, _info_label, _status_label]
 	for c in text_controls:
 		c.add_theme_color_override("font_color", ui_text_color)
 		if ui_font:

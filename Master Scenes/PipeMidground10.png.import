@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr4hpxe8hu5is"
-path="res://.godot/imported/PipeMidground.png-46db784c23525057c21580d70bf83543.ctex"
+uid="uid://cnglwpdm7oucp"
+path="res://.godot/imported/PipeMidground10.png-a578cda80e4802ff0dd946ed86422833.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Master Scenes/PipeMidground.png"
-dest_files=["res://.godot/imported/PipeMidground.png-46db784c23525057c21580d70bf83543.ctex"]
+source_file="res://Master Scenes/PipeMidground10.png"
+dest_files=["res://.godot/imported/PipeMidground10.png-a578cda80e4802ff0dd946ed86422833.ctex"]
 
 [params]
 

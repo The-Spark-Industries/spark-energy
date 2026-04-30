@@ -33,6 +33,8 @@ func _setup_canvas_layer() -> void:
 
 func _exit_tree() -> void:
 	_restore_ambience_if_needed()
+	if _input_owner == self:
+		_input_owner = null
 
 func _process(delta: float) -> void:
 	if (Global.fontChoice==0):
@@ -54,8 +56,9 @@ func _handle_pause_input(event: InputEvent) -> void:
 	if Global.wiremode or Global.minigame_active:
 		return
 
-	if not _is_pause_event(event):
-		return
+	if event.is_action_pressed("pause") and not event.is_echo() and (Global.wiremode == false) and (Global.minigame_active == false):
+		if (Global.tutorialchecker == 2):
+			Global.tutorialchecker = 3
 
 	if Global.tutorialchecker == 2:
 		Global.tutorialchecker = 3

@@ -71,4 +71,4 @@ script = ExtResource("1_relay")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1141823054]
 sprite_frames = SubResource("SpriteFrames_4f2qq")
-animation = &"powered"
+animation = &"unpowered"

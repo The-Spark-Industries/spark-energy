@@ -54,15 +54,13 @@ func _input(event: InputEvent) -> void:
 			leverstatus=1
 			_apply_configured_actions()
 			_play_lever_sound()
-			
-			
 		elif (leverstatus==1):
 			if (single_use==false):
 				_revert_configured_actions()
 				$"leverSound".play()
 				leverstatus=0
 
-			
+
 func _play_lever_sound() -> void:
 	var sfx := get_node_or_null("leverSound") as AudioStreamPlayer
 	if sfx == null:

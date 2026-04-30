@@ -34,6 +34,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -960.0
+offset_bottom = -540.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -99,7 +101,7 @@ horizontal_alignment = 1
 
 [node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1784833602]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
@@ -107,7 +109,15 @@ columns = 3
 
 [node name="Footer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1604971685]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 50
+
+[node name="SendWaterButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1852465570]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme = ExtResource("2_o6pxk")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Send Water"
 
 [node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1018764949]
 layout_mode = 2

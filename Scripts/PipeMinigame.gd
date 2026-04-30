@@ -116,10 +116,7 @@ func _ready() -> void:
 	if not _active and not embedded_mode:
 		visible = false
 	_apply_visual_overrides()
-	_send_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_status_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_send_button.pressed.connect(_on_send_water_pressed)
-	_send_button.visible = not auto_flow_completes
 	if embedded_mode:
 		$Backdrop.visible = false
 		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
@@ -128,7 +125,6 @@ func _ready() -> void:
 		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = true
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.modulate = Color(1, 1, 1, 0)
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/SendWaterButton.text = "Send Water"
 		_ensure_embedded_rect_size()
 		if Engine.is_editor_hint():
 			visible = true
@@ -527,40 +523,6 @@ func _build_grid_ui() -> void:
 		_cell_labels.append(label)
 		_cell_icons.append(icon)
 		_cell_highlights.append(highlight)
-
-	if embedded_mode and _embedded_anchor_node != null and not _active:
-		call_deferred("_update_embedded_anchor_position")
-
-func _resolve_embedded_anchor_node() -> void:
-	_embedded_anchor_node = null
-	_embedded_anchor_is_internal = false
-	if String(embedded_anchor_path).is_empty():
-		return
-	_embedded_anchor_node = get_node_or_null(embedded_anchor_path) as Node2D
-	if _embedded_anchor_node == null:
-		push_warning("PipeMinigame: embedded_anchor_path does not point to a Node2D on %s" % name)
-		return
-
-	_embedded_anchor_is_internal = is_ancestor_of(_embedded_anchor_node)
-	_embedded_anchor_global_target = _embedded_anchor_node.global_position
-
-func _update_embedded_anchor_position() -> void:
-	if not embedded_mode:
-		return
-	if _embedded_anchor_node == null:
-		if not String(embedded_anchor_path).is_empty():
-			_resolve_embedded_anchor_node()
-		if _embedded_anchor_node == null:
-			return
-
-	var anchor_global := _embedded_anchor_global_target if _embedded_anchor_is_internal else _embedded_anchor_node.global_position
-	var target_position := anchor_global + embedded_anchor_offset
-	if embedded_anchor_centered:
-		var panel_size := _root_panel.size
-		if panel_size.x <= 0.0 or panel_size.y <= 0.0:
-			panel_size = _root_panel.get_combined_minimum_size()
-		target_position -= panel_size * 0.5
-	global_position = target_position
 
 	if embedded_mode and _embedded_anchor_node != null and not _active:
 		call_deferred("_update_embedded_anchor_position")

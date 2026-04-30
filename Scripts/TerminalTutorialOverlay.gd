@@ -22,11 +22,11 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	if (Global.fontChoice==0):
-		self.theme=load("res://Assets/Visual/Lingua.tres")
+		$PanelContainer.theme=load("res://Assets/Visual/Lingua.tres")
 	if (Global.fontChoice==1):
-		self.theme=load("res://Assets/Visual/lingualight.tres")
+		$PanelContainer.theme=load("res://Assets/Visual/lingualight.tres")
 	if (Global.fontChoice==2):
-		self.theme=load("res://Assets/Visual/Receipt.tres")
+		$PanelContainer.theme=load("res://Assets/Visual/Receipt.tres")
 
 func _input(event: InputEvent) -> void:
 	if not _can_dismiss:

@@ -6,4 +6,4 @@
 control_mode = 2
 
 [node name="Prompt" parent="." index="2"]
-text = "[E] Pipe Control (Rotate Only)"
+text = "E: Interact"

@@ -7,4 +7,4 @@ z_index = -1
 control_mode = 1
 
 [node name="Prompt" parent="." index="2"]
-text = "[E] Pipe Control (Move Only)"
+text = "E: Interact"

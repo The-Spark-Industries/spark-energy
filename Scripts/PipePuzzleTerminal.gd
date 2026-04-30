@@ -40,14 +40,14 @@ signal puzzle_solved(terminal: Node)
 @export var interact_sprite_path: NodePath
 @export var interact_animation_name: StringName = &"flipped"
 
-const LOCKED_PROMPT_TEXT: String = "TERMINAL LOCKED, COMPLETE PREVIOUS STEP"
+const LOCKED_PROMPT_TEXT: String = "LOCKED"
 
 var _bodies_inside: Array[Node] = []
 var _ui_layer: CanvasLayer = null
 var _minigame: Control = null
 var _solved: bool = false
 var _terminal_enabled: bool = true
-var _default_prompt_text: String = "[E] Pipe Control"
+var _default_prompt_text: String = "E: Interact"
 var _puzzle: PipePuzzleDefinition = null
 var _randomized_once: bool = false
 var _platform_motion_started: bool = false
@@ -215,7 +215,7 @@ func _get_tutorial_type_key() -> String:
 
 func _get_tutorial_instruction_text() -> String:
 	## Returns the appropriate tutorial text for this terminal type
-	if _is_wire_terminal() != true:
+	if _is_wire_terminal():
 		return "WASD to move\nQ and E to rotate\nElectricity will flow automatically"
 	else:
 		return "WASD to move\nSPACE to pick up/place a piece\nENTER to send water"
@@ -826,11 +826,10 @@ func _randomize_puzzle_first_open() -> void:
 		print("[PipePuzzleTerminal] randomized once for ", name, " layout=", puzzle_layout, " pieces=", _puzzle.pieces.size())
 
 func _puzzle_prompt_text() -> String:
+	# Simplified prompt: don't expose puzzle details on hover.
 	if _puzzle == null:
-		return "[E] Hidden Ports"
-	var in_name := _port_location_name(_puzzle.source_pos)
-	var out_name := _port_location_name(_puzzle.sink_pos)
-	return "[E] %dx%d hidden ports (%s, %s)" % [_puzzle.grid_width, _puzzle.grid_height, in_name, out_name]
+		return "E: Interact"
+	return "E: Interact"
 
 func _port_location_name(pos: Vector2i) -> String:
 	if _puzzle == null:

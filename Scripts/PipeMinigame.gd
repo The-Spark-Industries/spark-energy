@@ -688,14 +688,14 @@ func _on_send_water_pressed() -> void:
 	var reached := _trace_flow_from_source()
 	if _is_sink_reached(reached):
 		_solved = true
-		_status_label.text = "Water reached the end. Puzzle solved!"
+		_status_label.text = "Puzzle solved!"
 		_play_sfx(_sfx_complete)
 		_update_cells(reached)
 		completed.emit(true)
 		await get_tree().create_timer(2.7).timeout
 		close_minigame()
 	else:
-		_status_label.text = "Flow failed before the end. Re-route the pipes."
+		_status_label.text = "Flow failed. Re-route the pipes."
 		_update_cells(reached)
 
 func _refresh_flow_state(allow_autocomplete: bool = true) -> void:

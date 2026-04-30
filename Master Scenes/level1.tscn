@@ -2843,7 +2843,6 @@ position = Vector2(243, 260)
 rotation_duration = 5.2
 
 [node name="PipePuzzleTerminal3" parent="level2container/waterPuzzleLevel2_1" unique_id=411238800 instance=ExtResource("12_pipe_terminal")]
-z_index = -1
 position = Vector2(14, 283)
 puzzle_layout = 3
 control_mode = 1
@@ -2863,11 +2862,6 @@ offset_left = 170.0
 offset_top = 136.0
 offset_right = 197.0
 offset_bottom = 425.0
-
-[node name="waterWheel5" parent="level2container/waterPuzzleLevel2_1" unique_id=153737335 instance=ExtResource("19_8ifkh")]
-position = Vector2(243, 260)
-spin_clockwise = false
-rotation_duration = 5.2
 
 [node name="WaterPuzzleLevel2_2" type="Node2D" parent="level2container" unique_id=881181711]
 position = Vector2(300, -670)
@@ -3425,9 +3419,6 @@ position = Vector2(-259, -551)
 
 [node name="risingPlatformBottomMiddle2" parent="level2container" unique_id=1571059998 instance=ExtResource("26_211ka")]
 position = Vector2(316, 272)
-
-[node name="risingPlatformTopLeft2" parent="level2container" unique_id=1764095980 instance=ExtResource("26_211ka")]
-position = Vector2(-911, -206)
 
 [node name="PressurePlateMiddleLeft2" parent="level2container" unique_id=1771522596 instance=ExtResource("16_wnyvq")]
 position = Vector2(-914, 138.00003)
@@ -6750,8 +6741,7 @@ position = Vector2(-4309, -456)
 position = Vector2(1064, 6642)
 
 [node name="BigBackground2" type="Sprite2D" parent="." unique_id=98744922]
-visible = false
-z_index = -1
+z_index = -4
 position = Vector2(2451.5, 5975)
 scale = Vector2(3.1322916, 3.1777778)
 texture = ExtResource("67_p5s51")
@@ -6955,3 +6945,7 @@ spawn_offset = Vector2(0, -24)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level2RoomTrigger2" unique_id=1574165171]
 scale = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_room39_to_room57")
+
+[node name="WaterBlock10" parent="." unique_id=1592413579 instance=ExtResource("7_rgorn")]
+position = Vector2(822, 4618)
+scale = Vector2(4, 1)

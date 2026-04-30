@@ -2957,7 +2957,7 @@ position = Vector2(1305, 116)
 position = Vector2(1127, -479)
 
 [node name="Checkpoint2)8" parent="level2container" unique_id=344812068 instance=ExtResource("8_tiul6")]
-position = Vector2(-195, -551)
+position = Vector2(-259, -551)
 
 [node name="risingdoor" parent="level2container" unique_id=1481092705 instance=ExtResource("25_2rbmd")]
 z_index = 1

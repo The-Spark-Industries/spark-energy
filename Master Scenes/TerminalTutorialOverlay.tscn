@@ -1,29 +1,28 @@
 [gd_scene format=3 uid="uid://bdlbgvbx1vc1t"]
 
-[ext_resource type="Script" uid="uid://cb7x1f3ux2yz" path="res://Scripts/TerminalTutorialOverlay.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://lohy6pvtk88" path="res://Scripts/TerminalTutorialOverlay.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_x0v6a"]
 bg_color = Color(0.133333, 0.145098, 0.156863, 0.9)
-border_color = Color(0.984314, 0.909804, 0.298039, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
+border_color = Color(0.984314, 0.909804, 0.298039, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="TutorialOverlay" type="CanvasLayer"]
+[node name="TutorialOverlay" type="CanvasLayer" unique_id=980619042]
 layer = 100
 script = ExtResource("1_script")
 
-[node name="Backdrop" type="ColorRect" parent="."]
-anchors_fill_parent = true
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1156738581]
 color = Color(0, 0, 0, 0.5)
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_fill_parent = true
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2065724637]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -34,31 +33,33 @@ offset_right = 200.0
 offset_bottom = 100.0
 theme_override_styles/panel = SubResource("StyleBox_x0v6a")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 392.0
-margin_bottom = 192.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1422786906]
+layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1339979119]
 custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "TERMINAL CONTROLS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+[node name="Separator" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=1942379480]
 custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
-[node name="InstructionLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="InstructionLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1534664745]
+layout_mode = 2
 text = "WASD to move, SPACE to pick up/place a piece, and ENTER to send water."
 autowrap_mode = 2
 
-[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer" unique_id=225003277]
 custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
-[node name="DismissLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="DismissLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=74549920]
+modulate = Color(0.7, 0.7, 0.7, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Press any key to continue"
 horizontal_alignment = 1
-modulate = Color(0.7, 0.7, 0.7, 1)
-theme_override_font_sizes/font_size = 12

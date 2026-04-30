@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bggtirfbma714"]
+
+[ext_resource type="Script" path="res://Scripts/chain_belt.gd" id="1_belt"]
+[ext_resource type="Texture2D" uid="uid://b4gymdee5kvrp" path="res://Level 1/Level 1 Art Assets/Items/Sprites/chain.png" id="2_chain"]
+
+[node name="ChainBelt" type="Node2D" unique_id=1310722216]
+script = ExtResource("1_belt")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1011866370]
+texture_repeat = 2
+texture = ExtResource("2_chain")
+centered = false

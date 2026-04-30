@@ -499,7 +499,7 @@ func _build_grid_ui() -> void:
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", glyph_font_size + (16 if is_block else 0))
+		label.add_theme_font_size_override("font_size", glyph_font_size)
 		label.add_theme_color_override("font_color", ui_text_color)
 		if ui_font:
 			label.add_theme_font_override("font", ui_font)

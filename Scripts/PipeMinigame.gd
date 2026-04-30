@@ -621,7 +621,6 @@ func _move_cursor(dx: int, dy: int) -> void:
 		_pieces[_grabbed_index] = _pieces[target_index]
 		_pieces[target_index] = moved_piece
 		_grabbed_index = target_index
-		_play_sfx(_sfx_move)
 
 	_cursor_index = target_index
 	_refresh_flow_state()

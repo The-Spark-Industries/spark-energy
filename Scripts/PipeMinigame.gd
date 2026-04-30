@@ -257,7 +257,7 @@ func _signature_from_pieces(pieces: Array) -> String:
 
 func open_for_player(player: CharacterBody2D) -> void:
 	if _active:
-		#$"TerminalInitialize".play()
+		$"TerminalInitialize".play()
 		return
 
 	_player = player
@@ -640,7 +640,7 @@ func _rotate_at_selection(dir: int) -> void:
 		return
 
 	_pieces[idx]["rot"] = posmod(int(_pieces[idx].get("rot", 0)) + dir, 4)
-	# $"RotationElectricity".play()
+	$"RotationElectricity".play()
 	_status_label.text = "Rotated piece."
 	_refresh_flow_state()
 

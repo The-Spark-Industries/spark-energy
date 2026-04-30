@@ -92,6 +92,7 @@ var _grabbed_index: int = -1
 var _active: bool = false
 var _solved: bool = false
 var _control_mode: int = 0  # 0: normal, 1: move-only, 2: rotate-only
+var _is_wire_mode: bool = false
 var _embedded_refresh_pending: bool = false
 var _debug_preview: bool = false
 var _embedded_anchor_node: Node2D = null
@@ -185,6 +186,9 @@ func set_puzzle(puzzle: PipePuzzleDefinition) -> void:
 	if _puzzle:
 		_grid_size = _puzzle.grid_width
 		_grid_height = _puzzle.grid_height
+		_is_wire_mode = _puzzle.is_wire
+		if _is_wire_mode:
+			_apply_wire_textures()
 	if embedded_mode:
 		visible = false
 		if is_node_ready():
@@ -1008,6 +1012,21 @@ func _dir_to_vec(d: int) -> Vector2i:
 func _opposite_dir(d: int) -> int:
 	return (d + 2) % 4
 
+func _apply_wire_textures() -> void:
+	var base := "res://Level 1/Level 1 Art Assets/Environment/Props/Wires/"
+	straight_texture = load(base + "red_wire.png")
+	powered_straight_texture = load(base + "powered_red_wire.png")
+	straight_textures.clear()
+	powered_straight_textures.clear()
+	corner_texture = load(base + "corner_red.png")
+	powered_corner_texture = load(base + "powered_corner_red.png")
+	corner_textures.clear()
+	powered_corner_textures.clear()
+	tee_texture = load(base + "t_red.png")
+	powered_tee_texture = load(base + "powered_t_red.png")
+	tee_textures.clear()
+	powered_tee_textures.clear()
+
 func _apply_visual_overrides() -> void:
 	if backdrop_texture:
 		var bg := get_node_or_null("BackdropTexture") as TextureRect
@@ -1084,10 +1103,18 @@ func _piece_rotation_radians(piece: Dictionary) -> float:
 	var kind := String(piece.get("kind", "empty"))
 	if kind == "empty" or kind == "block":
 		return 0.0
+	var rot := int(piece.get("rot", 0))
 	if kind == "straight":
-		# Pipe1 artwork is authored as horizontal while rot=0 logic is vertical.
-		return float(posmod(int(piece.get("rot", 0)) + 1, 4)) * (PI * 0.5)
-	return float(int(piece.get("rot", 0))) * (PI * 0.5)
+		# Both pipe and wire straight sprites are authored horizontal; rot=0 logic is vertical.
+		return float(posmod(rot + 1, 4)) * (PI * 0.5)
+	if _is_wire_mode:
+		if kind == "corner":
+			# Wire corner sprite faces down+right (rot=1); offset by -1.
+			return float(posmod(rot + 4, 4)) * (PI * 0.5)
+		if kind == "tee":
+			# Wire tee sprite faces down (rot=2); offset by -2.
+			return float(posmod(rot + 4, 4)) * (PI * 0.5)
+	return float(rot) * (PI * 0.5)
 
 func _play_sfx(player: AudioStreamPlayer) -> void:
 	if player:

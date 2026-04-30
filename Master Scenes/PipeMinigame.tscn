@@ -29,6 +29,7 @@ stream_0 = ExtResource("9_s3x4o")
 
 [node name="PipeMinigame" type="Control" unique_id=2008423307]
 process_mode = 2
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,7 +99,7 @@ horizontal_alignment = 1
 
 [node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1784833602]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
@@ -109,8 +110,8 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Status" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" unique_id=1018764949]
-layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate  ENTER: Send"

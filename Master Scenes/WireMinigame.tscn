@@ -1,15 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwry7usrfarv3"]
+[gd_scene format=3 uid="uid://gullcfsshs4t"]
 
 [ext_resource type="PackedScene" uid="uid://cknx1i8d6ojmr" path="res://Master Scenes/PipeMinigame.tscn" id="1_base_minigame"]
 [ext_resource type="Texture2D" uid="uid://cgoqt0xuu04f3" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/plus_red_wire.png" id="2_plus_red"]
 [ext_resource type="AudioStream" uid="uid://cgk03hugt3db6" path="res://Level 1/Level 1 Audio/SFX/ElectricySound.wav" id="3_xq6mu"]
 [ext_resource type="AudioStream" uid="uid://civg58i5oib5p" path="res://Level 1/Level 1 Audio/SFX/TerminalBeep_1.wav" id="4_14v1f"]
-[ext_resource type="Texture2D" uid="uid://cgoqt0xuu04f3" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/plus_red_wire.png" id="2_plus_red"]
-[ext_resource type="Texture2D" uid="uid://b7f8wysam5kus" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/blue_wire.png" id="3_blue"]
-[ext_resource type="Texture2D" uid="uid://dl0uv6c4jrf" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/red_wire.png" id="4_red"]
-[ext_resource type="Texture2D" uid="uid://dw782fb2a36xp" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/corner_red.png" id="5_corner_red"]
-[ext_resource type="Texture2D" uid="uid://bf3j6urdl1pfw" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/t_red.png" id="6_t_red"]
-[ext_resource type="Texture2D" uid="uid://w2mjkd7pughf" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/corner_blue.png" id="7_corner_blue"]
 [ext_resource type="Texture2D" uid="uid://3mj7e2egp3ul" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_plus_red.png" id="8_powered_plus"]
 [ext_resource type="Texture2D" uid="uid://dm6s0oadlt5vo" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_red_wire.png" id="9_powered_red"]
 [ext_resource type="Texture2D" uid="uid://b0674tjuchm2x" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_corner_red.png" id="10_powered_corner_red"]
@@ -17,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dkuo816npfb57" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_blue_wire.png" id="12_powered_blue"]
 [ext_resource type="Texture2D" uid="uid://uqnvddiurfp" path="res://Level 1/Level 1 Art Assets/Environment/Props/Wires/powered_corner_blue.png" id="13_powered_corner_blue"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c41uq"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pu6h0"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_14v1f"]
 random_pitch = 1.08
@@ -29,8 +23,7 @@ stream_0/stream = ExtResource("3_xq6mu")
 streams_count = 1
 stream_0/stream = ExtResource("4_14v1f")
 
-[node name="WireMinigame" instance=ExtResource("1_base_minigame")]
-visible = true
+[node name="WireMinigame" unique_id=1038243188 instance=ExtResource("1_base_minigame")]
 custom_minimum_size = Vector2(352, 352)
 ui_text_color = Color(0.984314, 0.909804, 0.298039, 1)
 source_texture = ExtResource("2_plus_red")
@@ -54,38 +47,38 @@ tee_connector_rot_offset = 2
 embedded_mode = true
 embedded_cell_size = 32.0
 
-[node name="Backdrop" parent="." index="0"]
+[node name="Backdrop" parent="." index="0" unique_id=1506985334]
 visible = false
 
-[node name="PanelContainer" parent="CenterContainer" index="0"]
+[node name="PanelContainer" parent="CenterContainer" parent_id_path=PackedInt32Array(1753486676) index="0" unique_id=478549438]
 custom_minimum_size = Vector2(112, 180)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxEmpty_c41uq")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_pu6h0")
 
-[node name="Title" parent="CenterContainer/PanelContainer/VBoxContainer" index="0"]
+[node name="Title" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(87195765) index="0" unique_id=656161858]
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="Info" parent="CenterContainer/PanelContainer/VBoxContainer" index="1"]
+[node name="Info" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(87195765) index="1" unique_id=1524639290]
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="Grid" parent="CenterContainer/PanelContainer/VBoxContainer" index="2"]
+[node name="Grid" parent="CenterContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(87195765) index="2" unique_id=1784833602]
 custom_minimum_size = Vector2(96, 96)
 size_flags_vertical = 4
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 
-[node name="Status" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" index="0"]
+[node name="Status" parent="CenterContainer/PanelContainer/VBoxContainer/Footer" parent_id_path=PackedInt32Array(1604971685) index="0" unique_id=1018764949]
 modulate = Color(1, 1, 1, 0)
 theme_override_colors/font_color = Color(0.984314, 0.909804, 0.298039, 1)
 
-[node name="RotationElectricity" type="AudioStreamPlayer" parent="." index="2"]
+[node name="RotationElectricity" type="AudioStreamPlayer" parent="." index="2" unique_id=930075870]
 stream = SubResource("AudioStreamRandomizer_14v1f")
 pitch_scale = 0.85
 
-[node name="TerminalMoveSound" type="AudioStreamPlayer" parent="." index="3"]
+[node name="TerminalMoveSound2" type="AudioStreamPlayer" parent="." index="3" unique_id=2009484854]
 stream = SubResource("AudioStreamRandomizer_jnki5")
 volume_db = -6.679
 pitch_scale = 1.43
 
-[node name="ElectricityRestored" type="AudioStreamPlayer" parent="." index="4"]
+[node name="ElectricityRestored" type="AudioStreamPlayer" parent="." index="4" unique_id=398301474]

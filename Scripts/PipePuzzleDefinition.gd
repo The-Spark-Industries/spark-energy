@@ -16,6 +16,9 @@ var pieces: Array[Dictionary] = []
 
 const DEFAULT_DIRT_LEVEL := 0
 
+## True for wire/electricity puzzles; false for pipe/water puzzles.
+var is_wire: bool = false
+
 ## (x, y) where water source is located.
 var source_pos: Vector2i = Vector2i(0, 1)
 
@@ -57,7 +60,8 @@ func to_dict() -> Dictionary:
 		"grid_height": grid_height,
 		"pieces": pieces,
 		"source_pos": [source_pos.x, source_pos.y],
-		"sink_pos": [sink_pos.x, sink_pos.y]
+		"sink_pos": [sink_pos.x, sink_pos.y],
+		"is_wire": is_wire
 	}
 
 ## Helper: create from dict.
@@ -78,6 +82,7 @@ static func from_dict(data: Dictionary) -> PipePuzzleDefinition:
 	var snk_arr = data.get("sink_pos", [max(0, width - 1), 1])
 	puzzle.source_pos = Vector2i(src_arr[0], src_arr[1])
 	puzzle.sink_pos = Vector2i(snk_arr[0], snk_arr[1])
+	puzzle.is_wire = bool(data.get("is_wire", false))
 	return puzzle
 
 ## Create a default 3x3 puzzle suitable for testing.
@@ -504,6 +509,7 @@ static func create_puzzle_9x9() -> PipePuzzleDefinition:
 ## Create a rotate-focused wire puzzle in a Christmas-tree layout (9x8).
 static func create_wire_tree_9x8() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(9, 8)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(4, 0)
 	puzzle.sink_pos = Vector2i(4, 7)
 
@@ -558,6 +564,7 @@ static func create_wire_tree_9x8() -> PipePuzzleDefinition:
 ## Create a full 6x6 wire board (every cell is a wire node).
 static func create_wire_full_6x6() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(6, 6)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 2)
 	puzzle.sink_pos = Vector2i(5, 3)
 
@@ -585,6 +592,7 @@ static func create_wire_full_6x6() -> PipePuzzleDefinition:
 ## Create a full 6x7 wire board (every cell is a wire node).
 static func create_wire_full_6x7() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(6, 7)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 3)
 	puzzle.sink_pos = Vector2i(5, 3)
 
@@ -612,6 +620,7 @@ static func create_wire_full_6x7() -> PipePuzzleDefinition:
 ## Create a full 7x6 wire board (every cell is a wire node).
 static func create_wire_full_7x6() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(7, 6)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 3)
 	puzzle.sink_pos = Vector2i(6, 3)
 
@@ -639,6 +648,7 @@ static func create_wire_full_7x6() -> PipePuzzleDefinition:
 ## Create a full 8x7 wire board (every cell is a wire node).
 static func create_wire_full_8x7() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(8, 7)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 3)
 	puzzle.sink_pos = Vector2i(7, 3)
 
@@ -666,6 +676,7 @@ static func create_wire_full_8x7() -> PipePuzzleDefinition:
 ## Create a full 8x8 wire board (every cell is a wire node).
 static func create_wire_full_8x8() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(8, 8)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 4)
 	puzzle.sink_pos = Vector2i(7, 4)
 
@@ -693,6 +704,7 @@ static func create_wire_full_8x8() -> PipePuzzleDefinition:
 ## Create a full 8x4 wire board (every cell is a wire node).
 static func create_wire_full_8x4() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(8, 4)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 2)
 	puzzle.sink_pos = Vector2i(7, 2)
 
@@ -720,6 +732,7 @@ static func create_wire_full_8x4() -> PipePuzzleDefinition:
 ## Create a full 6x3 wire board (every cell is a wire node).
 static func create_wire_full_6x3() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(6, 3)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 1)
 	puzzle.sink_pos = Vector2i(5, 1)
 
@@ -747,6 +760,7 @@ static func create_wire_full_6x3() -> PipePuzzleDefinition:
 ## Create a full 6x5 wire board (every cell is a wire node).
 static func create_wire_full_6x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(6, 5)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 2)
 	puzzle.sink_pos = Vector2i(5, 2)
 
@@ -774,6 +788,7 @@ static func create_wire_full_6x5() -> PipePuzzleDefinition:
 ## Create a full 5x5 wire board — source above top-middle, sink below bottom-right.
 static func create_wire_full_5x5_a() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(5, 5)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(2, -1)
 	puzzle.sink_pos = Vector2i(4, 5)
 
@@ -802,6 +817,7 @@ static func create_wire_full_5x5_a() -> PipePuzzleDefinition:
 ## Create a full 5x5 wire board — source above top-middle, sink below bottom-middle.
 static func create_wire_full_5x5_b() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(5, 5)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(2, -1)
 	puzzle.sink_pos = Vector2i(2, 5)
 
@@ -853,6 +869,7 @@ static func create_puzzle_4x4_b() -> PipePuzzleDefinition:
 ## Create a full 4x5 wire board (every cell is a wire node).
 static func create_wire_full_4x5() -> PipePuzzleDefinition:
 	var puzzle := PipePuzzleDefinition.new(4, 5)
+	puzzle.is_wire = true
 	puzzle.source_pos = Vector2i(0, 2)
 	puzzle.sink_pos = Vector2i(3, 2)
 

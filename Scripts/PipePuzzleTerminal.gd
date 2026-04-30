@@ -205,20 +205,19 @@ func _sync_embedded_preview_with_retries(attempt: int) -> void:
 	call_deferred("_sync_embedded_preview_with_retries", attempt + 1)
 
 func _is_wire_terminal() -> bool:
-	## Check if this is a wire puzzle terminal (vs pipe puzzle)
-	## Wire puzzles are layouts 8-20 (Wire Tree 9x8 through Wire Full 5x5 B)
-	return puzzle_layout >= 8 and puzzle_layout <= 20
+	if _puzzle != null:
+		return _puzzle.is_wire
+	return false
 
 func _get_tutorial_type_key() -> String:
 	## Returns the key used to track this tutorial in Global.tutorials
 	return "wire_terminal" if _is_wire_terminal() else "pipe_terminal"
 
 func _get_tutorial_instruction_text() -> String:
-	## Returns the appropriate tutorial text for this terminal type
 	if _is_wire_terminal():
 		return "WASD to move\nQ and E to rotate\nElectricity will flow automatically"
 	else:
-		return "WASD to move\nSPACE to pick up/place a piece\nENTER to send water"
+		return "WASD to move\nSPACE to pick up/place a piece\nQ and E to rotate\nENTER to send water"
 
 func _should_show_tutorial() -> bool:
 	## Check if tutorial should be shown for this terminal

@@ -5,7 +5,9 @@ var minutecounter= 0
  
 func _physics_process(delta):
 	time = float(time) + delta
-	update_ui()
+	
+	if (Global.timerstopper==false):
+		update_ui()
 	if (Global.speedrunshow==true):
 		self.show()
 	if (Global.speedrunshow==false):

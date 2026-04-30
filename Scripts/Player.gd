@@ -92,11 +92,11 @@ func _physics_process(delta: float) -> void:
 	
 	
 	
-	#TEST 
 	
-	if Input.is_action_just_pressed("ui_down"):
-		self.position.x=1200
-		self.position.y=6500
+	#if Input.is_action_just_pressed("ui_down"):
+		#self.position.x=1200
+	#	self.position.y=6500
+	#	Global.timerstopper=true
 	just_fell_countdown -= delta
 	
 	if is_on_floor() and just_fell_hard and just_fell_countdown <= 0.0:

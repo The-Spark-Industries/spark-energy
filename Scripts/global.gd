@@ -44,6 +44,8 @@ var maze_resetter: int= 0
 
 var speedrunshow: bool = true
 
+var timerstopper: bool = false
+
 ## Tutorial seen flags: tracks which tutorials have been viewed
 ## Format: {"pipe_terminal": bool, "wire_terminal": bool}
 var tutorials: Dictionary = {

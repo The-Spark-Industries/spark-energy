@@ -25,7 +25,7 @@ func _on_body_entered(body: Node2D) -> void:
 		Global.maze_decider=0
 		print (Global.maze_decider)
 	if (self.name =="Checkpoint3)8"):
-		Global.timerstopper==true
+		Global.timerstopper=true
 		
 
 func _room_id_for_position(world_pos: Vector2) -> String:

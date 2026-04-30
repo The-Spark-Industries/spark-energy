@@ -1146,7 +1146,7 @@ position = Vector2(-394, -632)
 scale = Vector2(2, 2)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1464226249]
-position = Vector2(3000, 6500)
+position = Vector2(2224, 3401)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1193333986]
@@ -4019,7 +4019,7 @@ tile_set = SubResource("TileSet_hea5a")
 
 [node name="Node2D12" parent="." unique_id=1671813292 instance=ExtResource("19_8ifkh")]
 z_index = -2
-position = Vector2(1202, 4566)
+position = Vector2(1213, 4566)
 
 [node name="Node2D13" type="Node2D" parent="." unique_id=296588219]
 
@@ -4082,11 +4082,12 @@ embedded_minigame_path = NodePath("../PipeMinigameStage1")
 linked_object_path = NodePath("../../wiresconnectionpuz/WirePowerRelay3")
 
 [node name="PuzzleWaterStream" type="ColorRect" parent="Room10ProgressivePuzzle" unique_id=247054174]
+visible = false
 z_index = -3
 material = SubResource("ShaderMaterial_0xmx1")
-offset_left = -55.0
+offset_left = -49.0
 offset_top = 41.0
-offset_right = -23.0
+offset_right = -17.0
 offset_bottom = 295.0
 
 [node name="Node2D2" type="Node2D" parent="Room10ProgressivePuzzle" unique_id=1307095936]
@@ -4249,6 +4250,7 @@ scale = Vector2(1.53125, 1.53125)
 texture = ExtResource("79_y14pt")
 
 [node name="PointLight2D7" type="PointLight2D" parent="Light1" unique_id=2114855576]
+visible = false
 z_index = -4
 position = Vector2(-1008.97955, 701.3878)
 scale = Vector2(0.37907177, 0.3542057)
@@ -5546,10 +5548,10 @@ visible = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 2659.9998
-offset_top = 2996.9998
-offset_right = 3011.9998
-offset_bottom = 3348.9998
+offset_left = 2560.9995
+offset_top = 3058.0
+offset_right = 2912.9995
+offset_bottom = 3410.0
 grow_horizontal = 1
 grow_vertical = 1
 rotation = -0.0006892347
@@ -6014,14 +6016,15 @@ scale = Vector2(3.2479167, 3.362963)
 texture = ExtResource("67_p5s51")
 
 [node name="ChainBelt" parent="." unique_id=1310722216 instance=ExtResource("108_g7f5f")]
-position = Vector2(2311.9998, 3472)
-rotation = -0.88662726
+position = Vector2(2699, 3133.0002)
+rotation = -3.8676496
 scale = Vector2(16, 0.197)
 tile_count = 4.0
 
 [node name="ChainBelt2" parent="." unique_id=880775368 instance=ExtResource("108_g7f5f")]
-position = Vector2(2542, 3448)
-rotation = -2.5778513
+position = Vector2(2521.0002, 3460)
+rotation = -0.9128072
+scale = Vector2(16, 0.197)
 tile_count = 4.0
 
 [node name="FloorBlock" parent="." unique_id=1347350038 instance=ExtResource("17_naso3")]

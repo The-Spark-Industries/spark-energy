@@ -20,6 +20,8 @@ var readyToPress: bool= false
 @export var lift_loop: bool = false
 @export var single_use : bool =false
 
+@onready var singleusestats: int=0
+
 var _triggered_once: bool = false
 var _lift_tween: Tween = null
 
@@ -45,11 +47,15 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if (Input.is_action_just_pressed("interact")) and (readyToPress==true):
+	if (Input.is_action_just_pressed("interact")) and (readyToPress==true) and (singleusestats==0):
 		if (leverstatus==0):
+			if (single_use==true):
+				singleusestats=1
 			leverstatus=1
 			_apply_configured_actions()
 			_play_lever_sound()
+			
+			
 		elif (leverstatus==1):
 			if (single_use==false):
 				_revert_configured_actions()
@@ -213,7 +219,7 @@ func _call_output_method(target: Object, method_name: StringName) -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if (body is CharacterBody2D) and (Global.tutorialchecker<3) and (leverstatus==0 and single_use==false):
+	if (body is CharacterBody2D) and (Global.tutorialchecker<3) and (leverstatus==0 and singleusestats==0):
 		readyToPress= true
 		if has_node("Prompt"):
 			$Prompt.visible = true

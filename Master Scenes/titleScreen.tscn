@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cajr8gi261a7b"]
 
 [ext_resource type="Script" uid="uid://buq37mcyld3m5" path="res://Scripts/title_screen.gd" id="1_qcgwx"]
-[ext_resource type="Texture2D" uid="uid://03g8lcmq571u" path="res://icon.svg" id="2_ppmyv"]
+[ext_resource type="Texture2D" uid="uid://dekdfi4yrounn" path="res://Assets/Visual/sticker copy.png" id="2_pdvyb"]
 [ext_resource type="AudioStream" uid="uid://cp1r61ccuk3ye" path="res://Assets/Audio/Monkeys%20Spinning%20Monkeys.mp3" id="3_pdvyb"]
 
 [node name="titleScreen" type="Control" unique_id=101879355]
@@ -14,11 +14,12 @@ grow_vertical = 2
 script = ExtResource("1_qcgwx")
 
 [node name="LogoOption1" type="Sprite2D" parent="." unique_id=767443607]
-position = Vector2(473.5, 260.625)
-scale = Vector2(6.5859375, 1.4628906)
-texture = ExtResource("2_ppmyv")
+position = Vector2(485, 249.5)
+scale = Vector2(5.302084, 3.140625)
+texture = ExtResource("2_pdvyb")
 
 [node name="LogoOption2" type="Label" parent="." unique_id=1502954281]
+visible = false
 layout_mode = 0
 offset_left = 48.0
 offset_top = 63.0

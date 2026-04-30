@@ -19,6 +19,14 @@ func _ready() -> void:
 	# Defer to next frame to allow animation/visibility setup
 	await get_tree().process_frame
 	_can_dismiss = true
+	
+func _process(delta: float) -> void:
+	if (Global.fontChoice==0):
+		$PanelContainer.theme=load("res://Assets/Visual/Lingua.tres")
+	if (Global.fontChoice==1):
+		$PanelContainer.theme=load("res://Assets/Visual/lingualight.tres")
+	if (Global.fontChoice==2):
+		$PanelContainer.theme=load("res://Assets/Visual/Receipt.tres")
 
 func _input(event: InputEvent) -> void:
 	if not _can_dismiss:
@@ -44,3 +52,4 @@ func _dismiss() -> void:
 	
 	dismissed.emit()
 	queue_free()
+	

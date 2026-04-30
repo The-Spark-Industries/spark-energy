@@ -89,7 +89,7 @@
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaLarge.tscn" id="70_04pvr"]
 [ext_resource type="PackedScene" uid="uid://bcfe7qbhbt8xv" path="res://Master Scenes/WirePuzzleTerminalRotateOnly.tscn" id="70_wire_terminal"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaSmall.tscn" id="71_8mt1v"]
-[ext_resource type="PackedScene" uid="uid://dwry7usrfarv3" path="res://Master Scenes/WireMinigame.tscn" id="71_wire_minigame"]
+[ext_resource type="PackedScene" uid="uid://gullcfsshs4t" path="res://Master Scenes/WireMinigame.tscn" id="71_wire_minigame"]
 [ext_resource type="Texture2D" uid="uid://c04p18jshq7c7" path="res://Master Scenes/backgroundtest6.png" id="72_04pvr"]
 [ext_resource type="PackedScene" path="res://Master Scenes/WaterHazardAreaMedium.tscn" id="72_bhcpu"]
 [ext_resource type="AudioStream" uid="uid://bdhafu5d4yhhy" path="res://Level 1/Level 1 Audio/Ambience/Ambience, Industrial, Factory, Hums, Distant Movement, Metal Trolleys (50) (LRC Ls Rs) SND139588.ogg" id="73_4bqhm"]
@@ -1088,7 +1088,7 @@ position = Vector2(-394, -632)
 scale = Vector2(2, 2)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1464226249]
-position = Vector2(2835, 3848)
+position = Vector2(139, 3312)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1375035323]
@@ -3678,6 +3678,7 @@ attenuation = 1.7411016
 panning_strength = 1.63
 
 [node name="Node2D" parent="waterPuzzleLevel1/waterPuzzle1/waterWheelPuzzle1" unique_id=216903372 instance=ExtResource("89_ku2hk")]
+visible = false
 position = Vector2(1060.8574, 3132.9043)
 
 [node name="doorPuzzle1" parent="waterPuzzleLevel1/waterPuzzle1" unique_id=2118217210 instance=ExtResource("25_2rbmd")]
@@ -4686,7 +4687,7 @@ autoplay = true
 [node name="PipePuzzleTerminalMoveOnly2" parent="." unique_id=2014809259 instance=ExtResource("59_xhqtr")]
 position = Vector2(4541, 3465)
 puzzle_layout = 2
-water_stream_path = NodePath("../Water/Node2D")
+water_stream_path = NodePath("../waterPuzzleLevel1/waterPuzzle1/waterWheelPuzzle1/Node2D")
 water_wheel_path = NodePath("../Node2D14")
 solved_rise_target_path = NodePath("../Node2D15")
 solved_rise_distance = 96.0

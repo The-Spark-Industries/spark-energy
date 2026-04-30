@@ -2132,7 +2132,6 @@ offset = Vector2(-0.88, -5.44)
 texture_scale = 2.7
 
 [node name="Lighting#PointLight2D16" type="PointLight2D" parent="." unique_id=113706422]
-visible = false
 z_index = -4
 position = Vector2(1962, 4430)
 scale = Vector2(1.4635103, 1.3034896)
@@ -2142,7 +2141,6 @@ texture = SubResource("NoiseTexture2D_vg4o2")
 texture_scale = 5.32
 
 [node name="Lighting#Room10LeftLight" type="PointLight2D" parent="." unique_id=2038683961]
-visible = false
 z_index = -4
 position = Vector2(1208, 4380)
 scale = Vector2(1.4635103, 1.3034896)
@@ -2152,7 +2150,6 @@ texture = SubResource("NoiseTexture2D_vg4o2")
 texture_scale = 5.32
 
 [node name="Lighting#Room10MidLight" type="PointLight2D" parent="." unique_id=1531002725]
-visible = false
 z_index = -4
 position = Vector2(1452, 4380)
 scale = Vector2(1.4635103, 1.3034896)
@@ -2162,7 +2159,6 @@ texture = SubResource("NoiseTexture2D_vg4o2")
 texture_scale = 5.32
 
 [node name="Lighting#Room10ExitLight" type="PointLight2D" parent="." unique_id=1708857052]
-visible = false
 z_index = -4
 position = Vector2(1710, 4380)
 scale = Vector2(1.4635103, 1.3034896)
@@ -3508,7 +3504,6 @@ position = Vector2(1598, 6583)
 texture = SubResource("CanvasTexture_p5s51")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light1" unique_id=1209011995]
-visible = false
 position = Vector2(1.0000606, 2.9999838)
 scale = Vector2(5.6926575, 4.6807876)
 color = Color(1, 0.8862745, 0.1254902, 1)
@@ -3575,7 +3570,6 @@ position = Vector2(1085, 6325)
 texture = ExtResource("66_v7bru")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/Light2" unique_id=965412836]
-visible = false
 position = Vector2(1.0000606, 2.9999838)
 scale = Vector2(5.6926575, 4.6807876)
 color = Color(1, 0.8862745, 0.1254902, 1)

@@ -1169,6 +1169,9 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bljkt"]
 scenes/1/scene = ExtResource("60_nbn2v")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_room39_to_room57"]
+size = Vector2(160, 96)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v7bru"]
 texture = ExtResource("62_f15sg")
 texture_region_size = Vector2i(32, 32)

@@ -34,7 +34,6 @@ signal puzzle_solved(terminal: Node)
 @export var debug_embedded_sync: bool = false
 @export_group("Solved Linked Object")
 @export var linked_object_path: NodePath
-@export var linked_object_paths: Array[NodePath] = []
 @export var linked_object_method: StringName = &"on_terminal_solved"
 @export_group("Interact Visual")
 @export var interact_sprite_path: NodePath
@@ -422,30 +421,26 @@ func _physics_process(delta: float) -> void:
 func _notify_linked_object_on_solve() -> void:
 	puzzle_solved.emit(self)
 
-	var all_paths: Array[NodePath] = []
-	if not String(linked_object_path).is_empty():
-		all_paths.append(linked_object_path)
-	for p in linked_object_paths:
-		if not String(p).is_empty():
-			all_paths.append(p)
+	if String(linked_object_path).is_empty():
+		return
 
-	for path in all_paths:
-		var linked := get_node_or_null(path)
-		if linked == null:
-			push_warning("PipePuzzleTerminal: linked_object_path not found: %s" % String(path))
-			continue
+	var linked := get_node_or_null(linked_object_path)
+	if linked == null:
+		push_warning("PipePuzzleTerminal: linked_object_path not found.")
+		return
 
-		if not String(linked_object_method).is_empty() and linked.has_method(String(linked_object_method)):
-			linked.call(String(linked_object_method), self)
-			continue
+	if not String(linked_object_method).is_empty() and linked.has_method(String(linked_object_method)):
+		#await get_tree().create_timer(linked_object_delay).timeout
+		linked.call(String(linked_object_method), self)
+		return
 
-		# Fallback names for convenience.
-		if linked.has_method("start_water_dispense"):
-			linked.call("start_water_dispense", self)
-		elif linked.has_method("activate"):
-			linked.call("activate", self)
-		elif linked.has_method("trigger"):
-			linked.call("trigger", self)
+	# Fallback names for convenience.
+	if linked.has_method("start_water_dispense"):
+		linked.call("start_water_dispense", self)
+	elif linked.has_method("activate"):
+		linked.call("activate", self)
+	elif linked.has_method("trigger"):
+		linked.call("trigger", self)
 
 func _start_connected_water_flow() -> void:
 	if not String(water_stream_path).is_empty():

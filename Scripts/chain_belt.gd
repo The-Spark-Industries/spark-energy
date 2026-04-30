@@ -30,19 +30,6 @@ func _ready() -> void:
 	_sprite.material = mat
 
 
-func start(_source: Node = null) -> void:
-	moving = true
-
-func activate(_source: Node = null) -> void:
-	moving = true
-
-func on_terminal_solved(_terminal: Node = null) -> void:
-	moving = true
-
-func stop(_source: Node = null) -> void:
-	moving = false
-
-
 func _process(delta: float) -> void:
 	if not moving or not _sprite.texture:
 		return

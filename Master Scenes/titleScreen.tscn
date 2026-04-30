@@ -14,8 +14,8 @@ grow_vertical = 2
 script = ExtResource("1_qcgwx")
 
 [node name="LogoOption1" type="Sprite2D" parent="." unique_id=767443607]
-position = Vector2(486.00003, 201)
-scale = Vector2(2.6197913, 1.4628906)
+position = Vector2(485, 249.5)
+scale = Vector2(5.302084, 3.140625)
 texture = ExtResource("2_pdvyb")
 
 [node name="LogoOption2" type="Label" parent="." unique_id=1502954281]

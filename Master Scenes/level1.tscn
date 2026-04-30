@@ -2764,6 +2764,7 @@ wheel_target_path = NodePath("../waterWheel3")
 lift_pixels = 64.0
 output_target_paths = Array[NodePath]([NodePath("../level3RightMiddleSmallnodes/WirePowerRelay13")])
 output_off_method = &""
+single_use = true
 
 [node name="Lever5" parent="level2container" unique_id=1178370899 instance=ExtResource("13_1yw1p")]
 position = Vector2(751, 16)
@@ -2772,6 +2773,7 @@ lift_target_path = NodePath("../RisingDoorLevel3RightMiddle2")
 wheel_target_path = NodePath("../waterWheel2")
 lift_duration = 0.5
 output_target_paths = Array[NodePath]([NodePath("../level3RightMiddleLargeNodes/WirePowerRelay21")])
+single_use = true
 
 [node name="FarBackgroundAssets" type="Node" parent="level2container" unique_id=1331203381]
 
@@ -2983,12 +2985,14 @@ position = Vector2(-704, -559)
 lift_target_path = NodePath("../risingPlatformTopLeft")
 lift_pixels = 125.0
 lift_duration = 1.8
+single_use = true
 
 [node name="LeverTopLeft2" parent="level2container" unique_id=402812583 instance=ExtResource("13_1yw1p")]
 position = Vector2(-384, -656)
 lift_target_path = NodePath("../risingPlatformTopLeft")
 lift_pixels = 100.0
 lift_duration = 1.8
+single_use = true
 
 [node name="risingPlatformTopLeft" parent="level2container" unique_id=1764095980 instance=ExtResource("26_211ka")]
 position = Vector2(-617, -480)
@@ -3148,6 +3152,7 @@ wheel_target_path = NodePath("../waterWheelFirstElectric")
 lift_pixels = -105.0
 lift_duration = 0.5
 output_off_method = &""
+single_use = true
 
 [node name="container#TileMapLayer5" type="TileMapLayer" parent="." unique_id=1673938160]
 z_index = 1
@@ -6432,6 +6437,7 @@ position = Vector2(2719, 6392)
 lift_target_path = NodePath("../level2container/risingPlatformBottomMiddle")
 lift_pixels = -150.0
 lift_duration = 1.4
+single_use = true
 
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D20" method="on_terminal_solved"]
 [connection signal="puzzle_solved" from="WirePuzzleTerminalRoom13" to="Node2D18" method="on_terminal_solved"]

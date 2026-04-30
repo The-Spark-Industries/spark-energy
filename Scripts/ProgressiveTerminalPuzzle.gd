@@ -14,9 +14,6 @@ class_name ProgressiveTerminalPuzzle
 @export var stage_two_additional_light_paths: Array[NodePath] = []
 @export var stage_three_additional_light_paths: Array[NodePath] = []
 
-@export_group("Stage Three Motion")
-@export var stage_three_motion_target_paths: Array[NodePath] = []
-
 var _stage_one_complete: bool = false
 var _stage_two_complete: bool = false
 var _stage_three_complete: bool = false
@@ -85,7 +82,6 @@ func _on_stage_three_solved(_terminal: Node) -> void:
 	_set_stage_one_lights(true)
 	_set_stage_two_extra_lights(true)
 	_set_stage_three_extra_lights(true)
-	_trigger_stage_three_motion_targets()
 
 func _set_stage_one_lights(enabled: bool) -> void:
 	for light_path in stage_one_light_paths:
@@ -98,16 +94,6 @@ func _set_stage_two_extra_lights(enabled: bool) -> void:
 func _set_stage_three_extra_lights(enabled: bool) -> void:
 	for light_path in stage_three_additional_light_paths:
 		_set_light_enabled(get_node_or_null(light_path), enabled)
-
-func _trigger_stage_three_motion_targets() -> void:
-	for target_path in stage_three_motion_target_paths:
-		var target := get_node_or_null(target_path)
-		if target == null:
-			continue
-		if target.has_method("on_terminal_solved"):
-			target.call("on_terminal_solved", _stage_three_terminal)
-		elif target.has_method("power_on"):
-			target.call("power_on", _stage_three_terminal)
 
 func _set_light_enabled(node: Node, enabled: bool) -> void:
 	if node == null:

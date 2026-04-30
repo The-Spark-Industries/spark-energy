@@ -6972,7 +6972,7 @@ target_spawn_node_name = "level2start"
 spawn_offset = Vector2(0, -24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level2RoomTrigger2" unique_id=1574165171]
-position = Vector2(48, 743)
+position = Vector2(-5.5, 32)
 scale = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_room39_to_room57")
 

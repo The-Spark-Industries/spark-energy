@@ -390,25 +390,25 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		dx = -1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		dx = 1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		dy = -1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		dy = 1
 		if _grabbed_index != -1:
-			_play_optional_sound(_sfx_move)
+			_play_optional_sound(_sfx_pipe)
 		if _grabbed_index == -1:
 			_play_optional_sound(_sfx_move)
 

@@ -86,6 +86,7 @@ func _set_pause_state(paused: bool) -> void:
 		oM.visible = false
 		visible = true
 		_set_ambience_paused_for_menu(true)
+		$VBoxContainer2/resume.grab_focus()
 	else:
 		get_tree().paused = false
 		visible = false

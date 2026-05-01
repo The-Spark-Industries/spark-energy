@@ -327,7 +327,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_joy_axis_prev[axis] = val
 
 		if axis == JOY_AXIS_LEFT_X or axis == JOY_AXIS_LEFT_Y:
-			var threshold := 0.6
+			var threshold := 0.8
 			var dx := 0
 			var dy := 0
 			if axis == JOY_AXIS_LEFT_X:

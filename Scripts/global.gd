@@ -128,7 +128,7 @@ func reset_level_to_first_checkpoint(scene_path: String = "") -> bool:
 
 	last_checkpoint_position = Vector2(
 		float(first_data.get("x", 0.0)),
-		float(first_data.get("y", 0.0))
+		float(first_data.get("y", 0.0))-100.00
 	)
 	last_checkpoint_scene_path = scene_path
 	last_checkpoint_room_id = String(first_data.get("room_id", ""))

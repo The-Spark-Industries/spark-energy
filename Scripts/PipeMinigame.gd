@@ -53,8 +53,8 @@ const CELL_FLOW := Color("2b6d8a")
 @export var powered_corner_textures: Array[Texture2D] = []
 @export var powered_tee_textures: Array[Texture2D] = []
 @export_group("Flow")
-@export var auto_flow_preview: bool = false
-@export var auto_flow_completes: bool = false
+@export var auto_flow_preview: bool = true
+@export var auto_flow_completes: bool = true
 @export var corner_connector_rot_offset: int = 0
 @export var tee_connector_rot_offset: int = 0
 @export var solved_close_delay: float = 2.7
@@ -312,13 +312,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			return
 
-		# Y button => send water (pipe puzzles)
-		if event.button_index == JOY_BUTTON_Y:
-			if not auto_flow_completes:
-				_on_send_water_pressed()
-			get_viewport().set_input_as_handled()
-			return
-
 
 	if event is InputEventJoypadMotion:
 		var axis := int(event.axis)
@@ -367,13 +360,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode == KEY_SPACE and event.pressed:
 		if _can_move_pieces():
 			_toggle_select()
-		get_viewport().set_input_as_handled()
-		return
-
-	## Check for ENTER key to send water (only for pipe puzzles, not wire which auto-flows)
-	if event is InputEventKey and event.keycode == KEY_ENTER and event.pressed:
-		if not auto_flow_completes:
-			_on_send_water_pressed()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -676,11 +662,11 @@ func _can_rotate_pieces() -> bool:
 func _controls_hint_text() -> String:
 	match _control_mode:
 		1:
-			return "WASD/Left Stick: Move  SPACE/A: Pick/Drop  ENTER/Y: Send"
+			return "WASD/Left Stick: Move  SPACE/A: Pick/Drop"
 		2:
 			return "WASD/Left Stick: Move  Q/E or Right/Left Trigger: Rotate"
 		_:
-			return "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate  ENTER: Send"
+			return "WASD: Move  SPACE: Pick/Drop  Q/E: Rotate"
 
 func _on_send_water_pressed() -> void:
 	if not _active:

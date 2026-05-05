@@ -1080,9 +1080,6 @@ sources/3 = SubResource("TileSetAtlasSource_v7bru")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_room39_to_room57"]
 size = Vector2(160, 96)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_room63_to_room50"]
-size = Vector2(160, 96)
-
 [node name="Level1" type="Node2D" unique_id=1601931134]
 
 [node name="Ladder" parent="." unique_id=1648813840 instance=ExtResource("30_es5gu")]
@@ -1976,16 +1973,6 @@ energy = 0.75
 texture = SubResource("GradientTexture2D_bmo44")
 texture_scale = 3.2
 
-[node name="Lighting#PointLight2D13" type="PointLight2D" parent="." unique_id=662202328]
-position = Vector2(984, -618.00024)
-rotation = 0.58294
-scale = Vector2(2.0490975, 0.5880383)
-color = Color(0.59178597, 0.5064385, 0.07913966, 1)
-energy = 2.46
-texture = SubResource("NoiseTexture2D_sfx35")
-offset = Vector2(-0.88, -5.44)
-texture_scale = 2.7
-
 [node name="Lighting#PointLight2D14" type="PointLight2D" parent="." unique_id=1537375615]
 position = Vector2(6869.9995, -3840.9998)
 rotation = 0.58294
@@ -2322,16 +2309,6 @@ attenuation = 1.7411016
 panning_strength = 1.63
 
 [node name="Backgrounds" type="Node" parent="." unique_id=1349633771]
-
-[node name="ColorRect" type="ColorRect" parent="Backgrounds" unique_id=1612675252]
-z_index = -3
-material = SubResource("ShaderMaterial_21p6t")
-offset_left = -126.0
-offset_top = -1114.0
-offset_right = 3825.0
-offset_bottom = 757.0
-color = Color(0.5370113, 0.5370113, 0.5370113, 1)
-metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect2" type="ColorRect" parent="Backgrounds" unique_id=360151638]
 metadata/_edit_use_anchors_ = true
@@ -3735,9 +3712,9 @@ autoplay = &"Light Movement"
 autoplay = &"Light Movement"
 
 [node name="PointLight2D7" type="PointLight2D" parent="Lighting/PointLight2D6" unique_id=1647557210]
-position = Vector2(1660.2694, 8680.091)
+position = Vector2(1570.1062, 8254.538)
 rotation = 0.58294
-scale = Vector2(2.0490975, 1.5382887)
+scale = Vector2(1.7273663, 1.7656039)
 color = Color(0.73251253, 0.6408778, 0.21132898, 1)
 energy = 3.78
 texture = SubResource("NoiseTexture2D_sfx35")
@@ -3765,15 +3742,6 @@ visible = false
 position = Vector2(2930.25, 453)
 scale = Vector2(28.507809, 1)
 texture = SubResource("GradientTexture2D_bmo44")
-
-[node name="PointLight2D7" type="PointLight2D" parent="Lighting" unique_id=1016991557]
-z_index = -4
-position = Vector2(1954, 581)
-scale = Vector2(1.4635103, 1.3034896)
-color = Color(0.8012946, 0.559923, 0, 1)
-energy = 0.08
-texture = SubResource("NoiseTexture2D_vg4o2")
-texture_scale = 5.32
 
 [node name="Light1" type="Sprite2D" parent="Lighting" unique_id=533248275]
 z_index = 1
@@ -4253,15 +4221,6 @@ texture_scale = 2.7
 position = Vector2(2930.25, 453)
 scale = Vector2(28.507809, 1)
 texture = SubResource("GradientTexture2D_bmo44")
-
-[node name="PointLight2D16" type="PointLight2D" parent="Lighting" unique_id=982509418]
-z_index = -4
-position = Vector2(1954, 581)
-scale = Vector2(1.4635103, 1.3034896)
-color = Color(0.8012946, 0.559923, 0, 1)
-energy = 0.08
-texture = SubResource("NoiseTexture2D_vg4o2")
-texture_scale = 5.32
 
 [node name="Light24" type="Sprite2D" parent="Lighting" unique_id=551274175]
 z_index = 1
@@ -6568,17 +6527,6 @@ spawn_offset = Vector2(0, -24)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level2RoomTrigger" unique_id=1296367051]
 shape = SubResource("RectangleShape2D_room39_to_room57")
 
-[node name="Level3RoomTrigger" type="Area2D" parent="." unique_id=859265690]
-position = Vector2(1144, 5366)
-collision_layer = 0
-script = ExtResource("103_room_transition")
-target_room_name = "Room_50"
-target_spawn_node_name = "level3start"
-spawn_offset = Vector2(0, -24)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3RoomTrigger" unique_id=1935246425]
-shape = SubResource("RectangleShape2D_room63_to_room50")
-
 [node name="level3start" type="Node2D" parent="." unique_id=230667100]
 position = Vector2(-4309, -456)
 
@@ -6811,3 +6759,17 @@ position = Vector2(2281.3284, 5392.0005)
 rotation = 1.5707964
 scale = Vector2(1, 1.7974799)
 texture = ExtResource("31_vv672")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=834254698]
+position = Vector2(1829, 4303)
+scale = Vector2(2.195, 2.195)
+occluder = SubResource("OccluderPolygon2D_tlgto")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="LightOccluder2D" unique_id=736871449]
+position = Vector2(154.89754, -256.9477)
+occluder = SubResource("OccluderPolygon2D_tlgto")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="." unique_id=1317227165]
+position = Vector2(2161, 3797)
+scale = Vector2(2.195, 2.195)
+occluder = SubResource("OccluderPolygon2D_f6hfn")

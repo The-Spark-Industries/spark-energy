@@ -217,7 +217,7 @@ func _get_tutorial_instruction_text() -> String:
 	if _is_wire_terminal():
 		return "WASD/Left Stick to move\nQ/E or Right/Left Trigger to rotate\nElectricity will flow automatically"
 	else:
-		return "WASD/Left Stick to move\nSPACE/A to pick up/place a piece\nENTER/Y to send water"
+		return "WASD/Left Stick to move\nSPACE/A to pick up/place a piece"
 
 func _should_show_tutorial() -> bool:
 	## Check if tutorial should be shown for this terminal

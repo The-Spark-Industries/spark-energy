@@ -137,11 +137,9 @@ func _on_check_button_pressed() -> void:
 		print (Global.turboMode)
 
 func _on_text_mode_button_item_selected(index: int) -> void:
-	print(index)
 	Global.fontChoice=index
 
-func _on_text_mode_button_item_focused(index: int) -> void:
-	print(index)
+#func _on_text_mode_button_item_focused(index: int) -> void:
 	#Global.fontChoice=index
 	#print(Global.fontChoice)
 

@@ -2,7 +2,7 @@ extends Node
 
 const SAVE_FILE_PATH := "user://savegame.json"
 ## Set to false to ignore checkpoint saves/loads and spawn from scene start.
-var checkpoints_enabled: bool = true
+var checkpoints_enabled: bool = false
 
 ## Last checkpoint position the player touched.
 var last_checkpoint_position: Vector2 = Vector2.ZERO
@@ -11,7 +11,7 @@ var last_checkpoint_scene_path: String = ""
 ## Room identifier where the last checkpoint was touched.
 var last_checkpoint_room_id: String = ""
 ## True when there is a checkpoint loaded or set
-var has_saved_checkpoint: bool = false
+var has_saved_checkpoint: bool = true
 
 ## Scene -> first checkpoint dictionary.
 ## Value format: {"x": float, "y": float, "room_id": String}

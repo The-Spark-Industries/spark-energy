@@ -123,8 +123,8 @@ func _ready() -> void:
 		_root_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 		$CenterContainer/PanelContainer/VBoxContainer/Title.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Info.visible = false
-		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = true
-		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = true
+		$CenterContainer/PanelContainer/VBoxContainer/Footer.visible = false
+		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.visible = false
 		$CenterContainer/PanelContainer/VBoxContainer/Footer/Status.modulate = Color(1, 1, 1, 0)
 		_ensure_embedded_rect_size()
 		if Engine.is_editor_hint():

@@ -62,7 +62,6 @@ func _on_sound_slider_value_changed(value: float) -> void:
 
 
 func _on_text_mode_button_item_selected(index: int) -> void:
-	print(index)
 	Global.fontChoice=index
 
 

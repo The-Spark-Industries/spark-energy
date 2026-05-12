@@ -11,7 +11,7 @@ var last_checkpoint_scene_path: String = ""
 ## Room identifier where the last checkpoint was touched.
 var last_checkpoint_room_id: String = ""
 ## True when there is a checkpoint loaded or set
-var has_saved_checkpoint: bool = false
+var has_saved_checkpoint: bool = true
 
 ## Scene -> first checkpoint dictionary.
 ## Value format: {"x": float, "y": float, "room_id": String}

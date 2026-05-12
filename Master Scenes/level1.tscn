@@ -1088,7 +1088,7 @@ position = Vector2(-394, -632)
 scale = Vector2(2, 2)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1464226249]
-position = Vector2(2694, 3895)
+position = Vector2(147, 3305)
 script = ExtResource("1_vly50")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1375035323]
@@ -1604,10 +1604,10 @@ offset_bottom = -756.0
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
-offset_left = 2266.0
-offset_top = 5384.0
-offset_right = 2297.0
-offset_bottom = 5589.0
+offset_left = 2267.0
+offset_top = 5440.0
+offset_right = 2298.0
+offset_bottom = 5645.0
 
 [node name="ColorRectFinalWaterPuzzleLevel3" type="ColorRect" parent="Water/Waterfalls" unique_id=2068934443]
 visible = false
@@ -2756,12 +2756,11 @@ anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 134.0
-offset_top = -127.0
+offset_top = -143.0
 offset_right = 486.0
-offset_bottom = 225.0
+offset_bottom = 209.0
 grow_horizontal = 1
 grow_vertical = 1
-scale = Vector2(0.78, 0.78)
 straight_texture = ExtResource("31_vv672")
 corner_texture = ExtResource("30_gnar4")
 tee_texture = ExtResource("31_wn5ge")
@@ -2797,10 +2796,10 @@ linked_object_path = NodePath("../../Level2MiniWiresCentralMiddle2/WirePowerRela
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_0xmx1")
-offset_left = 170.0
-offset_top = 136.0
-offset_right = 197.0
-offset_bottom = 425.0
+offset_left = 193.0
+offset_top = 208.0
+offset_right = 220.0
+offset_bottom = 352.0
 
 [node name="WaterPuzzleLevel2_2" type="Node2D" parent="level2container" unique_id=881181711]
 position = Vector2(300, -670)
@@ -2816,13 +2815,12 @@ z_index = 1
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = -280.0
-offset_top = -136.0
-offset_right = 72.0
-offset_bottom = 216.0
+offset_left = -304.0
+offset_top = -208.0
+offset_right = 48.0
+offset_bottom = 144.0
 grow_horizontal = 1
 grow_vertical = 1
-scale = Vector2(0.8, 0.8)
 straight_texture = ExtResource("31_vv672")
 corner_texture = ExtResource("30_gnar4")
 tee_texture = ExtResource("31_wn5ge")
@@ -2849,7 +2847,6 @@ position = Vector2(-508, -114)
 scale = Vector2(0.5, 1.5)
 
 [node name="Pipe1Dirty2" type="Sprite2D" parent="level2container/WaterPuzzleLevel2_2" unique_id=1901792882]
-z_index = 1
 position = Vector2(-331, -86)
 scale = Vector2(1.3595872, 1.3595872)
 texture = ExtResource("31_vv672")
@@ -2859,6 +2856,10 @@ z_index = 1
 position = Vector2(-395.75003, -85.75002)
 scale = Vector2(1.3645821, 1.3645821)
 texture = ExtResource("31_vv672")
+
+[node name="PipeShuteLarge3" type="Sprite2D" parent="level2container/WaterPuzzleLevel2_2" unique_id=1403388454]
+position = Vector2(-208, 116)
+texture = ExtResource("108_kxwwo")
 
 [node name="Checkpoint2)1" parent="level2container" unique_id=1240072064 instance=ExtResource("8_tiul6")]
 position = Vector2(-1133, 653)
@@ -4478,9 +4479,9 @@ z_index = 4
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = -101.0
+offset_left = -113.0
 offset_top = -300.0
-offset_right = 251.0
+offset_right = 239.0
 offset_bottom = 52.0
 grow_horizontal = 1
 grow_vertical = 1
@@ -5350,6 +5351,10 @@ offset_bottom = 341.3992
 embedded_mode = true
 metadata/_edit_use_anchors_ = true
 
+[node name="PipeShuteLarge3" type="Sprite2D" parent="waterPuzzleBoxRoom12" unique_id=2133633950]
+position = Vector2(2536, 5386)
+texture = ExtResource("108_kxwwo")
+
 [node name="WirePowerRelay11" parent="." unique_id=97662713 instance=ExtResource("50_nce0a")]
 z_index = -1
 position = Vector2(-3759, -566)
@@ -5971,7 +5976,7 @@ tile_set = SubResource("TileSet_hea5a")
 [node name="pipeTileMap4" type="TileMapLayer" parent="." unique_id=574234736]
 z_index = 1
 position = Vector2(0, 3433)
-tile_map_data = PackedByteArray("AABIACQAAAAQAAYAAABIACMAAAAQAAYAAABIACIAAAAQAAEAAABIACEAAAAQAAUAAABIACAAAAAQAAEAAABIAB8AAAAQAAYAAABIAB4AAAAQAAUAAABIAB0AAAAQAAEAAABIABwAAAAQAAUAAABIABsAAAAQAAEAAABIABoAAAAQAAMAAABIABkAAAAQAAUAAABIABgAAAAQAAIAAABIABcAAAAQAAIAAABIABYAAAAQAAUAAABIABUAAAAQAAQAAABLABUAAAAVAAIAAABLABYAAAAVAAYAAABLABcAAAAVAAEAAABLABgAAAAVAAIAAABLABkAAAAVAAIAAABLABoAAAAVAAEAAABLABsAAAAVAAUAAABLABwAAAAVAAUAAABLAB0AAAAVAAUAAABLAB4AAAAVAAEAAABLAB8AAAAVAAMAAABLACAAAAAVAAMAAABLACEAAAAVAAYAAABLACIAAAAVAAEAAABLACMAAAAVAAYAAABLACQAAAAVAAUAAAAkABwAAAANAAYAAAAoABcAAAAGAAcAAFApABcAAAAGAAgAAFAqABcAAAAGAAYAAFArABcAAAAGAAYAAFAsABcAAAAGAAUAAFAtABcAAAAGAAgAAFAuABcAAAAGAAYAAFAvABcAAAAGAAYAAFAwABcAAAAGAAYAAFAxABcAAAAGAAUAAFAyABcAAAAGAAYAAFAzABcAAAAGAAUAAFA0ABcAAAAGAAYAAFA1ABcAAAAGAAYAAFA2ABcAAAAGAAcAAFA3ABcAAAAGAAUAAFA4ABcAAAAGAAYAAFA4ABUAAAAGAAUAAHA3ABUAAAAGAAUAAHA2ABUAAAAGAAYAAHA1ABUAAAAGAAUAAHA0ABUAAAAGAAcAAHAzABUAAAAGAAYAAHAyABUAAAAGAAgAAHAxABUAAAAGAAgAAHAwABUAAAAGAAcAAHAvABUAAAAGAAUAAHAuABUAAAAGAAgAAHAtABUAAAAGAAYAAHAsABUAAAAGAAcAAHArABUAAAAGAAcAAHAqABUAAAAGAAYAAHApABUAAAAGAAgAAHAoABUAAAAGAAcAAHA5ABUAAAABAAQAAFA6ABUAAAABAAQAAFA7ABUAAAABAAcAAFA8ABUAAAABAAUAAFA9ABUAAAABAAQAAFA+ABUAAAABAAcAAFA/ABUAAAABAAUAAFBAABUAAAABAAcAAFA5ABcAAAABAAUAAHA6ABcAAAABAAUAAHA7ABcAAAABAAcAAHA8ABcAAAABAAcAAHA9ABcAAAABAAQAAHA+ABcAAAABAAQAAHA/ABcAAAABAAcAAHBAABcAAAABAAYAAHBQAAUAAAANAAYAACA=")
+tile_map_data = PackedByteArray("AABIACQAAAAQAAYAAABIACMAAAAQAAYAAABIACIAAAAQAAEAAABIACEAAAAQAAUAAABIACAAAAAQAAEAAABIAB8AAAAQAAYAAABIAB4AAAAQAAUAAABIAB0AAAAQAAEAAABIABwAAAAQAAUAAABIABsAAAAQAAEAAABIABoAAAAQAAMAAABIABkAAAAQAAUAAABIABgAAAAQAAIAAABIABcAAAAQAAIAAABIABYAAAAQAAUAAABIABUAAAAQAAQAAABLABUAAAAVAAIAAABLABYAAAAVAAYAAABLABcAAAAVAAEAAABLABgAAAAVAAIAAABLABkAAAAVAAIAAABLABoAAAAVAAEAAABLABsAAAAVAAUAAABLABwAAAAVAAUAAABLAB0AAAAVAAUAAABLAB4AAAAVAAEAAABLAB8AAAAVAAMAAABLACAAAAAVAAMAAABLACEAAAAVAAYAAABLACIAAAAVAAEAAABLACMAAAAVAAYAAABLACQAAAAVAAUAAAAoABcAAAAGAAcAAFApABcAAAAGAAgAAFAqABcAAAAGAAYAAFArABcAAAAGAAYAAFAsABcAAAAGAAUAAFAtABcAAAAGAAgAAFAuABcAAAAGAAYAAFAvABcAAAAGAAYAAFAwABcAAAAGAAYAAFAxABcAAAAGAAUAAFAyABcAAAAGAAYAAFAzABcAAAAGAAUAAFA0ABcAAAAGAAYAAFA1ABcAAAAGAAYAAFA2ABcAAAAGAAcAAFA3ABcAAAAGAAUAAFA4ABcAAAAGAAYAAFA4ABUAAAAGAAUAAHA3ABUAAAAGAAUAAHA2ABUAAAAGAAYAAHA1ABUAAAAGAAUAAHA0ABUAAAAGAAcAAHAzABUAAAAGAAYAAHAyABUAAAAGAAgAAHAxABUAAAAGAAgAAHAwABUAAAAGAAcAAHAvABUAAAAGAAUAAHAuABUAAAAGAAgAAHAtABUAAAAGAAYAAHAsABUAAAAGAAcAAHArABUAAAAGAAcAAHAqABUAAAAGAAYAAHApABUAAAAGAAgAAHAoABUAAAAGAAcAAHA5ABUAAAABAAQAAFA6ABUAAAABAAQAAFA7ABUAAAABAAcAAFA8ABUAAAABAAUAAFA9ABUAAAABAAQAAFA+ABUAAAABAAcAAFA/ABUAAAABAAUAAFBAABUAAAABAAcAAFA5ABcAAAABAAUAAHA6ABcAAAABAAUAAHA7ABcAAAABAAcAAHA8ABcAAAABAAcAAHA9ABcAAAABAAQAAHA+ABcAAAABAAQAAHA/ABcAAAABAAcAAHBAABcAAAABAAYAAHBQAAUAAAANAAYAACA=")
 tile_set = SubResource("TileSet_hea5a")
 
 [node name="PipeMinigame2" parent="." unique_id=1666045814 instance=ExtResource("22_pipe_minigame")]
@@ -6670,8 +6675,8 @@ scale = Vector2(1, 1.5)
 [node name="ChainBelt" parent="." unique_id=1407045685 instance=ExtResource("108_g7f5f")]
 modulate = Color(0.99581486, 0.91666704, 0.8766445, 1)
 z_index = -4
-position = Vector2(2456, 3383.998)
-rotation = -0.88662726
+position = Vector2(2789, 3039.0002)
+rotation = 2.2549653
 scale = Vector2(16, 0.197)
 moving = false
 tile_count = 4.0
@@ -6679,8 +6684,8 @@ tile_count = 4.0
 [node name="ChainBelt2" parent="." unique_id=880775368 instance=ExtResource("108_g7f5f")]
 modulate = Color(0.99581486, 0.91666704, 0.8766445, 1)
 z_index = -4
-position = Vector2(2863, 3105)
-rotation = 2.2130775
+position = Vector2(2580.9998, 3445)
+rotation = -0.991347
 scale = Vector2(16, 0.197)
 moving = false
 tile_count = 4.0
@@ -6750,18 +6755,7 @@ scale = Vector2(4, 1)
 z_index = 1
 position = Vector2(2903, 5814)
 rotation = 1.5707964
-scale = Vector2(1, 0.5)
-
-[node name="Pipe1Dirty1" type="Sprite2D" parent="." unique_id=104103687]
-position = Vector2(2543, 5962)
-rotation = 1.5707964
-texture = ExtResource("31_vv672")
-
-[node name="Pipe1Dirty2" type="Sprite2D" parent="." unique_id=1815806857]
-position = Vector2(2281.3284, 5392.0005)
-rotation = 1.5707964
-scale = Vector2(1, 1.7974799)
-texture = ExtResource("31_vv672")
+scale = Vector2(1, 0.4)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=834254698]
 position = Vector2(1829, 4303)
@@ -6784,4 +6778,8 @@ scale = Vector2(1, 0.8)
 
 [node name="PipeShuteLarge5" type="Sprite2D" parent="." unique_id=906106931]
 position = Vector2(2432, 3864)
+texture = ExtResource("108_kxwwo")
+
+[node name="PipeShuteLarge6" type="Sprite2D" parent="." unique_id=1446084582]
+position = Vector2(2570, 6013)
 texture = ExtResource("108_kxwwo")

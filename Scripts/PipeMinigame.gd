@@ -1056,15 +1056,15 @@ func _piece_texture(piece: Dictionary, is_powered: bool = false) -> Texture2D:
 			return sink_texture
 		"straight":
 			if is_powered:
-				return _resolve_variant_texture(powered_straight_textures, dirt_level, straight_texture)
+				return _resolve_variant_texture(powered_straight_textures, dirt_level, powered_straight_texture if powered_straight_texture else straight_texture)
 			return _resolve_variant_texture(straight_textures, dirt_level, straight_texture)
 		"corner":
 			if is_powered:
-				return _resolve_variant_texture(powered_corner_textures, dirt_level, corner_texture)
+				return _resolve_variant_texture(powered_corner_textures, dirt_level, powered_corner_texture if powered_corner_texture else corner_texture)
 			return _resolve_variant_texture(corner_textures, dirt_level, corner_texture)
 		"tee":
 			if is_powered:
-				return _resolve_variant_texture(powered_tee_textures, dirt_level, tee_texture)
+				return _resolve_variant_texture(powered_tee_textures, dirt_level, powered_tee_texture if powered_tee_texture else tee_texture)
 			return _resolve_variant_texture(tee_textures, dirt_level, tee_texture)
 		"block":
 			if is_powered and powered_block_texture:
